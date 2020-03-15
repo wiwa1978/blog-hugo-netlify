@@ -24,6 +24,7 @@
 	{{- if not .Site.IsServer }}
 		{{ template "_internal/google_analytics_async.html" . }}
 	{{- end }}
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body class="body">
 	<div class="container container--outer">
