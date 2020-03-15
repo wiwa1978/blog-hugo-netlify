@@ -1,7 +1,6 @@
 ---
-title: "My First Post"
-date: 2020-03-15T19:24:39+01:00
+title: My First Post
+date: 2020-03-15T18:24:39.000Z
 draft: true
 ---
-
-This is a test
+This is a test123
