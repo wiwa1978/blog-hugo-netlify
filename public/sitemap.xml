@@ -3,18 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/</loc>
+    <loc>/recipes/my-second-post/</loc>
     <lastmod>2020-03-16T09:37:09+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/my-second-post/</loc>
+    <loc>/recipes/</loc>
     <lastmod>2020-03-16T09:37:09+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/</loc>
-    <lastmod>2020-03-16T09:37:09+01:00</lastmod>
+    <loc>/about/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/another-test/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/category-1/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/category-2/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
   </url>
   
   <url>
@@ -23,11 +43,23 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>/posts/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/test/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-03-15T18:24:39+00:00</lastmod>
   </url>
   
 </urlset>

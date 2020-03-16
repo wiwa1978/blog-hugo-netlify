@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Wim&#39;s site</title>
-    <link>/</link>
-    <description>Recent content on Wim&#39;s site</description>
+    <title>Another test on Wim&#39;s site</title>
+    <link>/tags/another-test/</link>
+    <description>Recent content in Another test on Wim&#39;s site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 15 Mar 2020 18:24:39 +0000</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/another-test/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>My Second Post</title>
-      <link>/recipes/my-second-post/</link>
-      <pubDate>Mon, 16 Mar 2020 09:37:09 +0100</pubDate>
-      
-      <guid>/recipes/my-second-post/</guid>
-      <description>This is another test</description>
-    </item>
     
     <item>
       <title>About</title>

@@ -1,5 +1,5 @@
 ---
-title: My First Post
+title: About
 date: 2020-03-15T18:24:39.000Z
 draft: false
 
@@ -10,4 +10,4 @@ tags:
   - "Test"
   - "Another test"
 ---
-This is a test123456
+This is the about page

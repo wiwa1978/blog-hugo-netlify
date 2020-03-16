@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on My New Hugo Site</title>
+    <title>Categories on Wim&#39;s site</title>
     <link>/categories/</link>
-    <description>Recent content in Categories on My New Hugo Site</description>
+    <description>Recent content in Categories on Wim&#39;s site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sun, 15 Mar 2020 18:24:39 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Category 1</title>
+      <link>/categories/category-1/</link>
+      <pubDate>Sun, 15 Mar 2020 18:24:39 +0000</pubDate>
+      
+      <guid>/categories/category-1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Category 2</title>
+      <link>/categories/category-2/</link>
+      <pubDate>Sun, 15 Mar 2020 18:24:39 +0000</pubDate>
+      
+      <guid>/categories/category-2/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

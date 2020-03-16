@@ -2,8 +2,11 @@
 	<div class="container">
 		<div class="logo">
 			<a class="logo__link" href="{{ "" | relLangURL }}" title="{{ .Site.Title }}" rel="home">
+				<img src="{{ .Site.BaseURL }}{{ .Site.Params.logo }}" alt="Logo" />
+				<!-- 
 				<div class="logo__title">{{ .Site.Title }}</div>
 				{{ with .Site.Params.subtitle }}<div class="logo__tagline">{{ . }}</div>{{ end }}
+				-->
 			</a>
 		</div>
 		{{ partial "menu.html" . }}

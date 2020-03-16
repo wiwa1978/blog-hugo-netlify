@@ -1,22 +1,50 @@
 baseURL = "/"
 languageCode = "en-us"
 title = "Wim's site"
-
 theme = "mainroad"
+sectionPagesMenu = "main"
+
+  
 
 [Author] # Used in authorbox
   name = "Wim"
   avatar = "img/avatar.png"
 
+[menu] 
+  [[menu.main]]
+  identifier = "home"
+  name = "Home"
+  url = "/"
+  weight = 1
+
+  [[menu.main]]
+  identifier = "posts"
+  name = "Posts"
+  url = "/posts"
+  weight = 2
+
+  [[menu.main]]
+  identifier = "recipes"
+  name = "Recipe"
+  url = "/recipes"
+  weight = 3
+
+  [[menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about"
+  weight = 4
+
 [Params]
   subtitle = "Just another site" # Subtitle of your site. Used in site header
   copyright = "Wim Wauters" # Footer copyright holder, otherwise will use site title
-  mainSections = ["main"] 
+  logo = "img/logo_blog.png"
   authorbox = false
+  highlightColor = "#9f0101" # Override highlight color
 
 [Params.sidebar]
   home = "right" # Configure layout for home page
   list = "left"  # Configure layout for list pages
   single = false # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search", "recent", "categories", "taglist", "social", "languages"]
+  widgets = ["search", "recent", "categories", "taglist", "social"]
