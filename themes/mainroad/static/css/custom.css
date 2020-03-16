@@ -8,6 +8,10 @@
 }
 
 
+.menu__link:hover {
+	color: #fff;
+}
+
 /* Main menu */
 .no-js .menu__btn {
 	display: none;
@@ -72,6 +76,10 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 
 .menu__item--active {
 	background: {{ $highlightColor }};
+}
+
+.menu__item--active a{
+	color: #fff;
 }
 
 .menu__link {
