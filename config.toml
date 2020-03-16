@@ -1,5 +1,22 @@
-baseURL = "http://example.org/"
+baseURL = "/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Wim's site"
 
 theme = "mainroad"
+
+[Author] # Used in authorbox
+  name = "Wim"
+  avatar = "img/avatar.png"
+
+[Params]
+  subtitle = "Just another site" # Subtitle of your site. Used in site header
+  copyright = "Wim Wauters" # Footer copyright holder, otherwise will use site title
+  mainSections = ["main"] 
+  authorbox = false
+
+[Params.sidebar]
+  home = "right" # Configure layout for home page
+  list = "left"  # Configure layout for list pages
+  single = false # Configure layout for single pages
+  # Enable widgets in given order
+  widgets = ["search", "recent", "categories", "taglist", "social", "languages"]
