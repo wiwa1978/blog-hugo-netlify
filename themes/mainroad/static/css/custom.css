@@ -1,0 +1,28 @@
+{{- $highlightColor := .Site.Params.highlightColor | default "#e22d30" -}}
+
+.divider {
+	height: 5px;
+	margin: 0;
+	background: #6523;
+	border: 20;
+}
+
+
+.menu__list {
+	list-style: none;
+	background: #f3f3f3;
+}
+
+.menu__link {
+	display: block;
+	padding: 10px 15px;
+	padding: .625rem .9375rem;
+	font-weight: 700;
+	color: #737678;
+	text-transform: uppercase;
+}
+
+.menu__link:hover {
+	color: #fff;
+}
+

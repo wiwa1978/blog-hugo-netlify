@@ -1,0 +1,6 @@
+.divider {
+	height: 5px;
+	margin: 0;
+	background: {{ $highlightColor }};
+	border: 0;
+}

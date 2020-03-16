@@ -4,7 +4,6 @@ title = "Wim's site"
 theme = "mainroad"
 sectionPagesMenu = "main"
 
-  
 
 [Author] # Used in authorbox
   name = "Wim"
@@ -13,14 +12,14 @@ sectionPagesMenu = "main"
 [menu] 
   [[menu.main]]
   identifier = "home"
-  name = "Home"
+  name = "All blog posts"
   url = "/"
   weight = 1
 
   [[menu.main]]
-  identifier = "posts"
-  name = "Posts"
-  url = "/posts"
+  identifier = "programming"
+  name = "Programming"
+  url = "/programming"
   weight = 2
 
   [[menu.main]]
@@ -31,7 +30,7 @@ sectionPagesMenu = "main"
 
   [[menu.main]]
   identifier = "about"
-  name = "About"
+  name = "About Me"
   url = "/about"
   weight = 4
 
@@ -39,8 +38,11 @@ sectionPagesMenu = "main"
   subtitle = "Just another site" # Subtitle of your site. Used in site header
   copyright = "Wim Wauters" # Footer copyright holder, otherwise will use site title
   logo = "img/logo_blog.png"
-  authorbox = false
+  dateformat = "01-01-2006"
   highlightColor = "#9f0101" # Override highlight color
+  customCSS = ["css/custom.css"] # Include custom CSS files
+  post_navigation = true # Show post navigation at bottom of pages if true
+  post_meta = ["date"] # Order of post meta information
 
 [Params.sidebar]
   home = "right" # Configure layout for home page
