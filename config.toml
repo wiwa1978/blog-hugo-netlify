@@ -21,11 +21,7 @@ sectionPagesMenu = "main"
   url = "/programming"
   weight = 2
 
-  [[menu.main]]
-  identifier = "recipes"
-  name = "Recipe"
-  url = "/recipes"
-  weight = 3
+ 
 
   [[menu.main]]
   identifier = "about"
