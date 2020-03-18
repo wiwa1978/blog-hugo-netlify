@@ -10,31 +10,37 @@ sectionPagesMenu = "main"
 
 [menu] 
   [[menu.main]]
-  identifier = "home"
-  name = "All blog posts"
-  url = "/"
+  identifier = "development"
+  name = "Development"
+  url = "/development"
   weight = 1
 
   [[menu.main]]
-  identifier = "programming"
-  name = "Programming"
-  url = "/programming"
+  identifier = "operations"
+  name = "Operations"
+  url = "/operations"
   weight = 2
 
   [[menu.main]]
-  identifier = "recipes"
-  name = "Recipe"
-  url = "/recipes"
+  identifier = "cloud"
+  name = "Cloud"
+  url = "/cloud"
   weight = 3
 
   [[menu.main]]
+  identifier = "cloud-native"
+  name = "Cloud-Native"
+  url = "/cloud-native"
+  weight = 3
+
+[[menu.main]]
   identifier = "about"
   name = "About Me"
   url = "/about"
   weight = 4
 
 [Params]
-  subtitle = "Just another site" # Subtitle of your site. Used in site header
+  subtitle = "Blog Wim Wauters" # Subtitle of your site. Used in site header
   copyright = "Wim Wauters" # Footer copyright holder, otherwise will use site title
   logo = "img/logo_blog.png"
   dateformat = "01-01-2006"
@@ -42,6 +48,8 @@ sectionPagesMenu = "main"
   customCSS = ["css/custom.css"] # Include custom CSS files
   post_navigation = true # Show post navigation at bottom of pages if true
   post_meta = ["date"] # Order of post meta information
+  paginate = 6
+  canonifyURLs = true
 
 [Params.sidebar]
   home = "right" # Configure layout for home page

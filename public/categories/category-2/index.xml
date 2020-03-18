@@ -6,7 +6,7 @@
     <description>Recent content in Category 2 on Wim&#39;s site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Mar 2020 18:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Mar 2020 11:58:57 +0000</lastBuildDate>
     
 	<atom:link href="/categories/category-2/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,19 +14,12 @@
     <item>
       <title>About</title>
       <link>/about/</link>
-      <pubDate>Sun, 15 Mar 2020 18:24:39 +0000</pubDate>
+      <pubDate>Mon, 16 Mar 2020 11:58:57 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>This is the about page</description>
-    </item>
-    
-    <item>
-      <title>My First Post</title>
-      <link>/posts/my-first-post/</link>
-      <pubDate>Sun, 15 Mar 2020 18:24:39 +0000</pubDate>
-      
-      <guid>/posts/my-first-post/</guid>
-      <description>This is a test123456</description>
+      <description>Hi,
+Thanks for dropping by at my technology blog! My name is Wim Wauters, 38 year old guy living in Belgium, father of 2 lovely daughters and 2 lovely stepdaughters. I’m a Solutions Architect in the European datacenter/cloud team in Cisco Advanced Services.
+I love technology…a lot! Ranging from hardware based tools (e.g Raspberry Pi, ESP8266…) to networking architecture (e.g. datacenter, virtualization…)to software development (e.g. web frameworks, scripting, automation tools …) to Cloud technologies (e.</description>
     </item>
     
   </channel>
