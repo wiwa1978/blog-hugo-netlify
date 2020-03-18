@@ -13,24 +13,12 @@
     
     <item>
       <title>About</title>
-      <link>/about/about/</link>
+      <link>/about/</link>
       <pubDate>Mon, 16 Mar 2020 11:58:57 +0000</pubDate>
       
-      <guid>/about/about/</guid>
+      <guid>/about/</guid>
       <description>Hi,
-Thanks for dropping by at my technology blog! My name is Wim Wauters, 38 year old guy living in Belgium, father of 2 lovely daughters and 2 lovely stepdaughters. I’m a Solutions Architect in the European datacenter/cloud team in Cisco Advanced Services.
-I love technology…a lot! Ranging from hardware based tools (e.g Raspberry Pi, ESP8266…) to networking architecture (e.g. datacenter, virtualization…)to software development (e.g. web frameworks, scripting, automation tools …) to Cloud technologies (e.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>/operations/about/</link>
-      <pubDate>Mon, 16 Mar 2020 11:58:57 +0000</pubDate>
-      
-      <guid>/operations/about/</guid>
-      <description>Hi,
-This is easy.aaaThanks for dropping by at my technology blog! My name is Wim Wauters, 38 year old guy living in Belgium, father of 2 lovely daughters and 2 lovely stepdaughters. I’m a Solutions Architect in the European datacenter/cloud team in Cisco Advanced Services.
-I love technology…a lot! Ranging from hardware based tools (e.g Raspberry Pi, ESP8266…) to networking architecture (e.g. datacenter, virtualization…)to software development (e.g. web frameworks, scripting, automation tools …) to Cloud technologies (e.</description>
+Thanks for dropping by at my technology blog! My name is Wim Wauters, 38 year old guy living in Belgium, father of 2 lovely daughters and 2 lovely stepdaughters.</description>
     </item>
     
   </channel>

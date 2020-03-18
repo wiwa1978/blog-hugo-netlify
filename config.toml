@@ -2,7 +2,10 @@ baseURL = "/"
 languageCode = "en-us"
 title = "Wim's site"
 theme = "mainroad"
-sectionPagesMenu = "main"
+pygmentsCodefences = true
+pygmentsStyle = "pygments"
+summaryLength = 20
+
 
 [Author] # Used in authorbox
   name = "Wim"
@@ -39,16 +42,17 @@ sectionPagesMenu = "main"
   url = "/about"
   weight = 4
 
+
+
 [Params]
   subtitle = "Blog Wim Wauters" # Subtitle of your site. Used in site header
   copyright = "Wim Wauters" # Footer copyright holder, otherwise will use site title
   logo = "img/logo_blog.png"
-  dateformat = "01-01-2006"
+  readmore = true
   highlightColor = "#9f0101" # Override highlight color
   customCSS = ["css/custom.css"] # Include custom CSS files
   post_navigation = true # Show post navigation at bottom of pages if true
   post_meta = ["date"] # Order of post meta information
-  paginate = 6
   canonifyURLs = true
 
 [Params.sidebar]
