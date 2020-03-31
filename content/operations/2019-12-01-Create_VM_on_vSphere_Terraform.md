@@ -222,53 +222,30 @@ As we did with AWS resources, we will follow exactly the same pattern.
 First we will perform ‘terraform init’. This will essentially download the vSphere provider from Terraform repo.
 
 ```bash
-cisco@wauterw-ubuntu-desktop:~/software/Terraform/vSphere$ terraform init
+WAUTERW-M-65P7:Create_VM_on_vSphere_Terraform wauterw$ terraform init
 
 Initializing the backend...
-
-Initializing provider plugins...
-- Checking for available provider plugins...
-- Downloading plugin for provider "vsphere" (hashicorp/vsphere) 1.13.0...
-
-The following providers do not have any version constraints in configuration,
-so the latest version was installed.
-
-To prevent automatic upgrades to new major versions that may contain breaking
-changes, it is recommended to add version = "..." constraints to the
-corresponding provider blocks in configuration, with the constraint strings
-suggested below.
-
-* provider.vsphere: version = "~> 1.13"
+* provider.vsphere: version = "~> 1.17"
 
 Terraform has been successfully initialized!
-```
 
+***Truncated***
+```
 Then, we will perform a ‘terraform plan’:
 ```bash
-cisco@wauterw-ubuntu-desktop:~/software/Terraform/vSphere$ terraform plan
+WAUTERW-M-65P7:Create_VM_on_vSphere_Terraform wauterw$ terraform plan
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
 data.vsphere_datacenter.dc: Refreshing state...
-data.vsphere_network.vm1_net: Refreshing state...
-data.vsphere_network.vm2_net: Refreshing state...
+data.vsphere_datastore.ds: Refreshing state...
 data.vsphere_compute_cluster.cl: Refreshing state...
 data.vsphere_virtual_machine.template: Refreshing state...
-data.vsphere_datastore.ds: Refreshing state...
+data.vsphere_network.vm2_net: Refreshing state...
+data.vsphere_network.vm1_net: Refreshing state...
 
-------------------------------------------------------------------------
-
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  + create
-
-Terraform will perform the following actions:
-
-  # vsphere_virtual_machine.aci_vm1[0] will be created
-  + resource "vsphere_virtual_machine" "aci_vm1" {
-  
-  ***Truncated***
+***Truncated***
 
 Plan: 2 to add, 0 to change, 0 to destroy.
 
@@ -279,36 +256,17 @@ can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
 ```
 And finally, let's apply the configuration:
-
 ```bash
-cisco@wauterw-ubuntu-desktop:~/software/Terraform/vSphere$ terraform apply
+WAUTERW-M-65P7:Create_VM_on_vSphere_Terraform wauterw$ terraform apply
 data.vsphere_datacenter.dc: Refreshing state...
 data.vsphere_network.vm2_net: Refreshing state...
-data.vsphere_compute_cluster.cl: Refreshing state...
-data.vsphere_datastore.ds: Refreshing state...
-data.vsphere_virtual_machine.template: Refreshing state...
-data.vsphere_network.vm1_net: Refreshing state...
 
 ***Truncated***
 
-Plan: 2 to add, 0 to change, 0 to destroy.
-
-Do you want to perform these actions?
-  Terraform will perform the actions described above.
-  Only 'yes' will be accepted to approve.
-
-  Enter a value: yes
-
-vsphere_virtual_machine.aci_vm1[0]: Creating...
-vsphere_virtual_machine.aci_vm2[0]: Creating...
-vsphere_virtual_machine.aci_vm1[0]: Still creating... [10s elapsed]
-vsphere_virtual_machine.aci_vm2[0]: Still creating... [10s elapsed]
-vsphere_virtual_machine.aci_vm1[0]: Still creating... [20s elapsed]
-...
-...
-vsphere_virtual_machine.aci_vm2[0]: Still creating... [4m20s elapsed]
-vsphere_virtual_machine.aci_vm1[0]: Creation complete after 6m32s [id=423c546b-2c1a-3cf4-0360-e0d300c7684d]
-vsphere_virtual_machine.aci_vm2[0]: Creation complete after 6m33s [id=423c54c3-b2ac-d866-2ba7-3b231ddfc804]
+vsphere_virtual_machine.aci_vm1[0]: Creation complete after 5m59s [id=423c55ad-850a-d79a-bdc8-f796567f5f2d]
+vsphere_virtual_machine.aci_vm2[0]: Still creating... [6m0s elapsed]
+vsphere_virtual_machine.aci_vm2[0]: Still creating... [6m10s elapsed]
+vsphere_virtual_machine.aci_vm2[0]: Creation complete after 6m11s [id=423c2218-c832-0a79-2158-53f7dee57546]
 
 Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 ```
@@ -321,40 +279,17 @@ Let's verify on vSphere:
 Next, we will destroy the two servers as we don't immediately require them. Note that destroying goes much faster (6s) compared to creating the servers (6min). Reason is obviously the cloning step of the template during the creation.
 
 ```bash
-cisco@wauterw-ubuntu-desktop:~/software/Terraform/vSphere$ terraform destroy
+WAUTERW-M-65P7:Create_VM_on_vSphere_Terraform wauterw$ terraform destroy
 data.vsphere_datacenter.dc: Refreshing state...
-data.vsphere_virtual_machine.template: Refreshing state...
-data.vsphere_datastore.ds: Refreshing state...
-data.vsphere_network.vm1_net: Refreshing state...
 data.vsphere_network.vm2_net: Refreshing state...
+data.vsphere_network.vm1_net: Refreshing state...
+data.vsphere_datastore.ds: Refreshing state...
 data.vsphere_compute_cluster.cl: Refreshing state...
-vsphere_virtual_machine.aci_vm2[0]: Refreshing state... [id=423c54c3-b2ac-d866-2ba7-3b231ddfc804]
-vsphere_virtual_machine.aci_vm1[0]: Refreshing state... [id=423c546b-2c1a-3cf4-0360-e0d300c7684d]
 
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  - destroy
+*** Truncated ***
 
-Terraform will perform the following actions:
-
-  # vsphere_virtual_machine.aci_vm1[0] will be destroyed
-  - resource "vsphere_virtual_machine" "aci_vm1" {
-      - boot_delay                              = 0 -> null
-
-  ***Truncated***
-
-  Plan: 0 to add, 0 to change, 2 to destroy.
-
-Do you really want to destroy all resources?
-  Terraform will destroy all your managed infrastructure, as shown above.
-  There is no undo. Only 'yes' will be accepted to confirm.
-
-  Enter a value: yes
-
-vsphere_virtual_machine.aci_vm1[0]: Destroying... [id=423c546b-2c1a-3cf4-0360-e0d300c7684d]
-vsphere_virtual_machine.aci_vm2[0]: Destroying... [id=423c54c3-b2ac-d866-2ba7-3b231ddfc804]
-vsphere_virtual_machine.aci_vm2[0]: Destruction complete after 9s
-vsphere_virtual_machine.aci_vm1[0]: Destruction complete after 9s
+vsphere_virtual_machine.aci_vm1[0]: Destruction complete after 16s
+vsphere_virtual_machine.aci_vm2[0]: Destruction complete after 16s
 
 Destroy complete! Resources: 2 destroyed.
 ```

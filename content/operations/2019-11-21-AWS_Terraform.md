@@ -1,5 +1,5 @@
 ---
-title: Configure AWS instances with Terraform (introduction)
+title: Create AWS instances with Terraform 
 date: 2019-11-21T14:39:50+01:00
 draft: false
 categories:
