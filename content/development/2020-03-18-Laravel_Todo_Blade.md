@@ -1,7 +1,7 @@
 ---
 title: Laravel ToDo app with Blade
 date: 2020-03-18:19:50+01:00
-draft: false
+draft: true
 categories:
   - Programming
   - Web Development
