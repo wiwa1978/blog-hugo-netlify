@@ -1,9 +1,10 @@
 ---
-title: Configure ACI with ACI's toolkit
+title: Create Cisco ACI network with Python (ACI toolkit)
 date: 2020-03-21T22:32:50+01:00
 draft: false
 categories:
   - Programming
+  - Infrastructure As Code
 tags:
   - ACI
   - Python
@@ -135,4 +136,6 @@ To check if everything worked out, verify on the APIC. In below screenshot, you 
 
 ![ACIObjectsModel](/images/2020-03-21-3.png)
 
-The entire repo for this small project can be found at [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_ACITookit).
+The entire repo for this small project can be found at [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_ACITookit).                                    
+[![Private](/images/whitebox.png)](https://github.com/wiwa1978/blog-hugo-netlify-code-private/tree/master/ACI_Python_ACIToolkit_Complete)
+

@@ -1,9 +1,10 @@
 ---
-title: Use Python requests to configure ACI
+title: Create Cisco ACI network with Python (Requests)
 date: 2020-03-19T07:39:50+01:00
 draft: false
 categories:
   - Programming
+  - Infrastructure As Code
 tags:
   - ACI
   - Python
