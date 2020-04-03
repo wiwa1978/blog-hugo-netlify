@@ -177,11 +177,11 @@ Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 
 Log into ACI and see that the tenant is created there:
 
-![ACI](2019-11-27-1.png)
+![ACI](/images/2019-11-27-1.png)
 
 Also the VRF and the BD got created as you can see in below screenshot (see the left colum):
 
-![ACI](2019-11-27-2.png)
+![ACI](/images/2019-11-27-2.png)
 
 Pretty neat stuff.
 
