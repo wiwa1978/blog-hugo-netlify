@@ -1,13 +1,13 @@
 baseURL = "/"
 languageCode = "en-us"
-title = "Wim's site"
+title = "Technology Blog Wim"
 theme = "mainroad"
 pygmentsCodefences = true
 pygmentsStyle = "pygments"
 summaryLength = 20
 paginate = 10
 googleAnalytics="UA-83351442-2"
-disqusShortname = "blog-wimwauters.disqus.com"
+disqusShortname = "blog-wimwauters"
 
 [Author] # Used in authorbox
   name = "Wim"
