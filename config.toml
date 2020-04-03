@@ -35,13 +35,13 @@ disqusShortname = "blog-wimwauters.disqus.com"
   [[menu.main]]
   identifier = "cloud"
   name = "Cloud"
-  url = "/cloud"
+  url = "/categories/public-cloud"
   weight = 4
 
   [[menu.main]]
   identifier = "cloud-native"
   name = "Cloud-Native"
-  url = "/cloud-native"
+  url = "/categories/cloud-native/"
   weight = 5
 
 [[menu.main]]
