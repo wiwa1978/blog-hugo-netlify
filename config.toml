@@ -5,7 +5,9 @@ theme = "mainroad"
 pygmentsCodefences = true
 pygmentsStyle = "pygments"
 summaryLength = 20
-
+paginate = 10
+googleAnalytics="UA-83351442-2"
+disqusShortname = "blog-wimwauters.disqus.com"
 
 [Author] # Used in authorbox
   name = "Wim"
@@ -13,34 +15,40 @@ summaryLength = 20
 
 [menu] 
   [[menu.main]]
-  identifier = "development"
-  name = "Development"
-  url = "/development"
+  identifier = "Network Programmability"
+  name = "Network Programmability"
+  url = "/network-programming"
   weight = 1
 
   [[menu.main]]
-  identifier = "operations"
-  name = "Operations"
-  url = "/operations"
+  identifier = "DevOps"
+  name = "DevOps"
+  url = "/devops"
   weight = 2
+
+  [[menu.main]]
+  identifier = "Web Development"
+  name = "Web Development"
+  url = "/web-development"
+  weight = 3
 
   [[menu.main]]
   identifier = "cloud"
   name = "Cloud"
   url = "/cloud"
-  weight = 3
+  weight = 4
 
   [[menu.main]]
   identifier = "cloud-native"
   name = "Cloud-Native"
   url = "/cloud-native"
-  weight = 3
+  weight = 5
 
 [[menu.main]]
   identifier = "about"
   name = "About Me"
   url = "/about"
-  weight = 4
+  weight = 6
 
 
 
@@ -60,4 +68,11 @@ summaryLength = 20
   list = "right"  # Configure layout for list pages
   single = "right" # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search", "recent", "categories", "taglist", "social"]
+  widgets = ["recent", "categories", "taglist", "social"]
+
+[Params.widgets.social]
+  # Enable parts of social widget
+  twitter = "@Wauters_Wim"
+  linkedin = "https://www.linkedin.com/in/wim-wauters-92ab401"
+  github = "https://github.com/wiwa1978"
+  email = "blogwimwauters at gmail.com"
