@@ -9,12 +9,10 @@ tags:
   - Python
   - Paramiko
 ---
-###
- Introduction
+### Introduction
 In the previous post, we experimented a bit with Paramiko. The post was describing a number of use cases to read information from a Cisco IOS XE device. In this post, we will continue on what we achieved but we will focus on making configuration changes onto our Cisco IOS XE device.
 
-###
- Script 1: Read the 'Interface Description'
+### Script 1: Read the 'Interface Description'
 
 We will write a small script to read the interface description via Paramiko. I know we said in the introduction that we would focus on making configuration changes, but we will use the below script in the final script.
 
@@ -55,8 +53,7 @@ Interface                      Status         Protocol Description
  Lo1999                         up             up       Creating loopback
 ```
 
-###
- Script 2: Change the 'Interface Description'
+### Script 2: Change the 'Interface Description'
 As you surely know, changing an interface description on an IOS devices goes as follows:
 - conf t
 - (config) interface GigabitEthernet3
