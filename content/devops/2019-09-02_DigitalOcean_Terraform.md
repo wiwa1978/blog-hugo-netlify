@@ -1,5 +1,5 @@
 ---
-title: DigitalOcean - create droplets instances with Terraform
+title: DigitalOcean - Create droplets instances with Terraform
 date: 2019-09-02T14:39:50+01:00
 draft: false
 categories:
