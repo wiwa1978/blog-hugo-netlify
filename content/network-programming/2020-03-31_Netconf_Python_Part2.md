@@ -11,12 +11,10 @@ tags:
   - YANG
 ---
 
-###
- Introduction
+### Introduction
 This is a follow up post on part 1 where we mainly focused on retrieving information from our devices using NETCONF. This post will focus on how to make configuration changes to our devices configuration. It is highly recommended to first work your way through part 1.
 
-###
- Set Interface description
+### Set Interface description
 Setting the description of a particular interface is pretty straightforward. For simplicity reasons, we will read the configuration from an XML file we have stored in a templates folder.
 
 The interface.xml file in the templates folder looks as follows:
@@ -88,8 +86,7 @@ Interface IP netmask: 255.255.255.0
 ```
 As you can see, the information was set successfully (as expected from the OK message of course) in our IOS XE device.
 
-###
- Set Interface description - small variant
+### Set Interface description - small variant
 
 If you are an avid reader of my blog, you might have wondered why we are not using Jinja2 templates to manipulate the interfaces.xml file. You are right! Let's see how that would work.
 
