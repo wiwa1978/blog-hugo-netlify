@@ -1,7 +1,7 @@
 ---
 title: NAPALM Introduction
 date: 2020-04-04T12:32:50+01:00
-draft: true
+draft: True
 categories:
   - Programming
 tags:
