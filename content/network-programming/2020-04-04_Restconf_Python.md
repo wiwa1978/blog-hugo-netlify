@@ -1,7 +1,7 @@
 ---
 title: RESTCONF with Python
 date: 2020-04-04T12:32:50+01:00
-draft: false
+draft: true
 categories:
   - Programming
 tags:
