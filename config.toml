@@ -17,19 +17,19 @@ disqusShortname = "blog-wimwauters"
   [[menu.main]]
   identifier = "Network Programmability"
   name = "Network Programmability"
-  url = "/network-programming"
+  url = "/categories/network-programming"
   weight = 1
 
   [[menu.main]]
   identifier = "DevOps"
   name = "DevOps"
-  url = "/devops"
+  url = "/categories/devops"
   weight = 2
 
   [[menu.main]]
   identifier = "Web Development"
   name = "Web Development"
-  url = "/web-development"
+  url = "/categories/web-development"
   weight = 3
 
   [[menu.main]]
