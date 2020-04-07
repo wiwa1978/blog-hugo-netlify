@@ -5,7 +5,6 @@ draft: false
 categories:
   - DevOps
   - Infrastructure As Code
-  - CI/CD
   - Cloud Native
   - Public Cloud
 tags:
