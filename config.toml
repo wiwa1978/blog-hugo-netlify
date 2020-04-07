@@ -70,8 +70,8 @@ disqusShortname = "blog-wimwauters"
   widgets = ["recent", "categories", "taglist", "social"]
 
 [Params.widgets]
-  recent_num = 5 # Set the number of articles in the "Recent articles" widget
-  tags_counter = false
+  recent_num = 10 # Set the number of articles in the "Recent articles" widget
+  tags_counter = true
 
 [Params.widgets.social]
   # Enable parts of social widget

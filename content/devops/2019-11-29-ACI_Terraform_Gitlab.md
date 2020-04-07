@@ -5,7 +5,7 @@ draft: false
 categories:
   - DevOps
   - Infrastructure As Code
-  - Continuous Integration/Continuous Deployment
+  - CI & CD
   - Private Cloud
 tags:
   - Terraform
