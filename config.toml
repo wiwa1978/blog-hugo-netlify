@@ -15,21 +15,21 @@ disqusShortname = "blog-wimwauters"
 
 [menu] 
   [[menu.main]]
-  identifier = "Network Programmability"
+  identifier = "networkprogrammability"
   name = "Network Programmability"
-  url = "/categories/network-programming"
+  url = "/networkprogrammability"
   weight = 1
 
   [[menu.main]]
-  identifier = "DevOps"
+  identifier = "devops"
   name = "DevOps"
-  url = "/categories/devops"
+  url = "/devops"
   weight = 2
 
   [[menu.main]]
-  identifier = "Web Development"
+  identifier = "webdevelopment"
   name = "Web Development"
-  url = "/categories/web-development"
+  url = "/webdevelopment"
   weight = 3
 
   [[menu.main]]
@@ -50,8 +50,6 @@ disqusShortname = "blog-wimwauters"
   url = "/about"
   weight = 6
 
-
-
 [Params]
   subtitle = "Blog Wim Wauters" # Subtitle of your site. Used in site header
   copyright = "Wim Wauters" # Footer copyright holder, otherwise will use site title
@@ -62,6 +60,7 @@ disqusShortname = "blog-wimwauters"
   post_navigation = true # Show post navigation at bottom of pages if true
   post_meta = ["date"] # Order of post meta information
   canonifyURLs = true
+  mainSections = ["networkprogrammability", "devops", "webdevelopment"]
 
 [Params.sidebar]
   home = "right" # Configure layout for home page
@@ -69,6 +68,10 @@ disqusShortname = "blog-wimwauters"
   single = "right" # Configure layout for single pages
   # Enable widgets in given order
   widgets = ["recent", "categories", "taglist", "social"]
+
+[Params.widgets]
+  recent_num = 5 # Set the number of articles in the "Recent articles" widget
+  tags_counter = false
 
 [Params.widgets.social]
   # Enable parts of social widget

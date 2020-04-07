@@ -1,6 +1,6 @@
 ---
 title: REST API with Express and Mongo
-date: 2015-07-02:19:50+01:00
+date: 2015-07-02T20:19:50+01:00
 draft: false
 categories:
   - Web Development
@@ -13,7 +13,7 @@ tags:
 ---
 > Quick note: the original post dates from 02-07-2015 but got updated at 02-04-2020 with latest versions and it was essentially written from scratch again.
 
-## Introduction
+### Introduction
 
 In this post, we will create a very simple REST API for a simple todo application. Nodejs has been on my todo list for quite some time so I decided to get my hands dirty and try things out a bit. The result is a simple todo-application again in NodeJS (with the Express JS framework). Have fun following this tutorial.
 

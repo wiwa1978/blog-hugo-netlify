@@ -1,99 +1,107 @@
 ---
-title: Parse XML file with Python
-date: 2020-01-09T10:19:50+01:00
-draft: true
+title: Parse JSON file with Python
+date: 2020-01-11T10:19:50+01:00
+draft: True
 categories:
   - Network Programming
   - Programming
 tags:
   - Python
-  - XML
+  - JSON
 ---
 ### Introduction
 
-
 ### Sample file
-File downloaded [here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace)
+I downloaded [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace) XML file and converted it to JSON.
 
-<?xml version="1.0" encoding="utf-8"?>  
-<Root xmlns="http://www.adventure-works.com">  
-  <Customers>  
-    <Customer CustomerID="GREAL">  
-      <CompanyName>Great Lakes Food Market</CompanyName>  
-      <ContactName>Howard Snyder</ContactName>  
-      <ContactTitle>Marketing Manager</ContactTitle>  
-      <Phone>(503) 555-7555</Phone>  
-      <FullAddress>  
-        <Address>2732 Baker Blvd.</Address>  
-        <City>Eugene</City>  
-        <Region>OR</Region>  
-        <PostalCode>97403</PostalCode>  
-        <Country>USA</Country>  
-      </FullAddress>  
-    </Customer>  
-    <Customer CustomerID="HUNGC">   
-    </Customer>  
-    ...
-  <Orders>  
-    <Order>  
-      <CustomerID>GREAL</CustomerID>  
-      <EmployeeID>6</EmployeeID>  
-      <OrderDate>1997-05-06T00:00:00</OrderDate>  
-      <RequiredDate>1997-05-20T00:00:00</RequiredDate>  
-      <ShipInfo ShippedDate="1997-05-09T00:00:00">  
-        <ShipVia>2</ShipVia>  
-        <Freight>3.35</Freight>  
-        <ShipName>Great Lakes Food Market</ShipName>  
-        <ShipAddress>2732 Baker Blvd.</ShipAddress>  
-        <ShipCity>Eugene</ShipCity>  
-        <ShipRegion>OR</ShipRegion>  
-        <ShipPostalCode>97403</ShipPostalCode>  
-        <ShipCountry>USA</ShipCountry>  
-      </ShipInfo>  
-   </Order>
-   ...
-  <Orders> 
+```json
+{
+   "Customers": {
+      "Customer": [
+         {
+            "@CustomerID": "GREAL",
+            "CompanyName": "Great Lakes Food Market",
+            "ContactName": "Howard Snyder",
+            "ContactTitle": "Marketing Manager",
+            "Phone": "(503) 555-7555",
+            "FullAddress": {
+               "Address": "2732 Baker Blvd.",
+               "City": "Eugene",
+               "Region": "OR",
+               "PostalCode": "97403",
+               "Country": "USA"
+            }
+         },
+         ...
+   "Orders": {
+      "Order": [
+         {
+            "CustomerID": "GREAL",
+            "EmployeeID": "6",
+            "OrderDate": "1997-05-06T00:00:00",
+            "RequiredDate": "1997-05-20T00:00:00",
+            "ShipInfo": {
+               "@ShippedDate": "1997-05-09T00:00:00",
+               "ShipVia": "2",
+               "Freight": "3.35",
+               "ShipName": "Great Lakes Food Market",
+               "ShipAddress": "2732 Baker Blvd.",
+               "ShipCity": "Eugene",
+               "ShipRegion": "OR",
+               "ShipPostalCode": "97403",
+               "ShipCountry": "USA"
+            }
+         },
+
+```
+
+
 ```bash
-WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 -m venv venv
-WAUTERW-M-65P7:Parse_XML_Python wauterw$ source venv/bin/activate
-(venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ pip3 install xmltodict
+WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 -m venv venv
+WAUTERW-M-65P7:Parse_JSON_Python wauterw$ source venv/bin/activate
 ```
 
 ```python3
-import xmltodict
+import json
 
-with open('sample.xml') as f:
-   xml_content = f.read()
+with open('sample.json') as f:
+   json_content = f.read()
 
-#print(xml_content)
+print(json_content)
 ```
 
 ```python3
-import xmltodict
+import json
 
-with open('sample.xml') as f:
-   xml_content = f.read()
+with open('sample.json') as f:
+   json_content = f.read()
 
-xml_dict = xmltodict.parse(xml_content)
-print(type(xml_dict))
+#print(json_content)
+
+json_dict = json.loads(json_content)
+print(type(json_dict))
 ```
 
 ```bash
-(venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 parseXML.py 
-<class 'collections.OrderedDict'>
+(venv) WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseCustomers.py 
+<class 'dict'>
 ```
 
 
 ### Overview of customers
 ```python3
-import xmltodict
+import json
 
-with open('sample.xml') as f:
-   xml_content = f.read()
+with open('sample.json') as f:
+   json_content = f.read()
 
-xml_dict = xmltodict.parse(xml_content)
+#print(json_content)
 
-customers = xml_dict['Root']['Customers']
+json_dict = json.loads(json_content)
+#print(type(json_dict))
+
+customers = json_dict['Customers']
+#print(customers)
 
 for customer in customers['Customer']:
    print(f"Customer ID: {customer['@CustomerID']}")
@@ -101,11 +109,11 @@ for customer in customers['Customer']:
    print(f"Contact Name: {customer['ContactName']}")
    print(f"  ==>  Street: {customer['FullAddress']['Address']}")
    print(f"  ==>  City: {customer['FullAddress']['City']}")
-   print(50 * "-")
+   print(50* "-")
 ```
 
 ```bash
-(venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 parseCustomers.py 
+(venv) WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseCustomers.py  
 Customer ID: GREAL
 Company Name: Great Lakes Food Market
 Contact Name: Howard Snyder
@@ -134,29 +142,30 @@ Contact Name: Jaime Yorres
 
 ### Overview of orders per customer
 ```python3
-import xmltodict
+import json
 
-with open('sample.xml') as f:
-   xml_content = f.read()
+with open('sample.json') as f:
+   json_content = f.read()
 
-xml_dict = xmltodict.parse(xml_content)
+json_dict = json.loads(json_content)
 
-customers = xml_dict['Root']['Customers']
-orders = xml_dict['Root']['Orders']
-#print(orders)
+customers = json_dict['Customers']
+orders = json_dict['Orders']
+#print(customers)
 customer_list = []
 for customer in customers['Customer']:
    customer_list.append(customer['@CustomerID'])
-   
+
 for customer in customer_list: 
    print(f"Orders for: {customer}")
    for order in orders['Order']:
       if(customer == order['CustomerID']):
          print(f"  ==>Employee {order['EmployeeID']} placed an order on {order['OrderDate']}")
+         
 ```
 
 ```bash
-(venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 parseOrders.py 
+(venv) WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseOrders.py 
 Orders for: GREAL
   ==>Employee 6 placed an order on 1997-05-06T00:00:00
   ==>Employee 8 placed an order on 1997-07-04T00:00:00
@@ -183,6 +192,8 @@ Orders for: LETSS
   ==>Employee 8 placed an order on 1997-10-27T00:00:00
   ==>Employee 6 placed an order on 1997-11-10T00:00:00
   ==>Employee 4 placed an order on 1998-02-12T00:00:00
+WAUTERW-M-65P7:Parse_JSON_Python wauterw$ 
   ```
 
-  [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_XML_Python)
+
+  [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_JSON_Python)

@@ -1,7 +1,7 @@
 ---
 title: Consume Express API with Angular
-date: 2015-07-04:19:50+01:00
-draft: true
+date: 2015-07-04T20:19:50+01:00
+draft: True
 categories:
   - Web Development
   - Programming
