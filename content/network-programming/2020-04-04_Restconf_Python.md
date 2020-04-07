@@ -16,7 +16,7 @@ tags:
 
 ```
 WAUTERW-M-65P7:RestConf_Python wauterw$ pip3 install requests
-***Truncated***
+***Truncated ***
 
 WAUTERW-M-65P7:RestConf_Python wauterw$ pip3 install pprint
 ***Truncated***
