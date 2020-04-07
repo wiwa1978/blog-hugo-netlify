@@ -5,7 +5,7 @@ draft: false
 categories:
   - DevOps
   - Infrastructure As Code
-  - CI / CD
+  - CICD
   - Public Cloud
 tags:
   - Terraform
