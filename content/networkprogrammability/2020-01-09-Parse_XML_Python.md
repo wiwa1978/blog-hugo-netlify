@@ -1,7 +1,7 @@
 ---
 title: Parse XML file with Python
 date: 2020-01-09T10:19:50+01:00
-draft: True
+draft: false
 categories:
   - Network Programming
   - Programming
@@ -10,11 +10,12 @@ tags:
   - XML
 ---
 ### Introduction
-
+We'll focus in this post on how to parse some data structures in Python. We'll start with XML, but in next posts we will also handle JSON and YAML.
 
 ### Sample file
-File downloaded [here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace)
+I found a sample XML file [here](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace) which we will use throughout this post. It contains an overview of customers and their respective orders. See below for a small excerpt. The complete file can be found in my Github repo.
 
+```xml
 <?xml version="1.0" encoding="utf-8"?>  
 <Root xmlns="http://www.adventure-works.com">  
   <Customers>  
@@ -53,11 +54,15 @@ File downloaded [here](https://docs.microsoft.com/en-us/dotnet/csharp/programmin
    </Order>
    ...
   <Orders> 
+```
+### Code
+We'll start with creating a Python virtual environment and the installation of the `xmltodict` library.
 ```bash
 WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 -m venv venv
 WAUTERW-M-65P7:Parse_XML_Python wauterw$ source venv/bin/activate
 (venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ pip3 install xmltodict
 ```
+Next, we'll write the Python script. As a first step, we need to import the `xmltodict` library and read the XML file into a variable. Hence (in our case), the entire XML file is stored into the variable called `xml_content`.
 
 ```python3
 import xmltodict
@@ -67,6 +72,7 @@ with open('sample.xml') as f:
 
 #print(xml_content)
 ```
+Obviously that doesn't really bring us something. Therefore we conver the XML content into a Python dictionary. Luckily, the `xmltodict` library has a method for doing this, e.g. the parse method. 
 
 ```python3
 import xmltodict
@@ -77,14 +83,15 @@ with open('sample.xml') as f:
 xml_dict = xmltodict.parse(xml_content)
 print(type(xml_dict))
 ```
-
+If you print the type of this object, you will see we get returned an ordered dictionary.
 ```bash
 (venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 parseXML.py 
 <class 'collections.OrderedDict'>
 ```
-
-
 ### Overview of customers
+Let's write a small script to print an overview of all customers. If you take a look at the sample XML file, you'll see that the `Root` element contains a list of `Customers`.  Hence, in Python language, you can load all customers in a list by using `xml_dict['Root']['Customers']`.
+
+After that, it's a matter of looping through a Python dictionary and printing the values.
 ```python3
 import xmltodict
 
@@ -103,7 +110,7 @@ for customer in customers['Customer']:
    print(f"  ==>  City: {customer['FullAddress']['City']}")
    print(50 * "-")
 ```
-
+This is the result of above script:
 ```bash
 (venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 parseCustomers.py 
 Customer ID: GREAL
@@ -133,6 +140,12 @@ Contact Name: Jaime Yorres
 ```
 
 ### Overview of orders per customer
+Let's continue with something a little more complex. We want to print an overview of all orders per customers. This information is available in the sample XML file under the `Orders` attribute.
+
+First of all, we will store all customers in a list called `customer_list` by using the `append` method. Hence, the variable `customer_list` contains a list of customers which we can loop through.
+
+Next, we will loop through this list of customers (first for loop) and per customer we go over all the orders (second for loop) for that customer.
+
 ```python3
 import xmltodict
 
@@ -154,7 +167,7 @@ for customer in customer_list:
       if(customer == order['CustomerID']):
          print(f"  ==>Employee {order['EmployeeID']} placed an order on {order['OrderDate']}")
 ```
-
+This will print the following output:
 ```bash
 (venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 parseOrders.py 
 Orders for: GREAL
@@ -185,4 +198,4 @@ Orders for: LETSS
   ==>Employee 4 placed an order on 1998-02-12T00:00:00
   ```
 
-  [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_XML_Python)
+In this blog post, we demo'ed something fairly easy but it's one of those things you will use a  lot. The code can be found on my [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_XML_Python).
