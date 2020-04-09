@@ -12,7 +12,7 @@ tags:
   - YANG
 ---
 
-### What is NETCONF???
+### What is NETCONF
 From the [Tail-F](https://www.tail-f.com/what-is-netconf/) website:
 
 > NETCONF is a protocol defined by the IETF to “install, manipulate, and delete the configuration of network devices”. NETCONF operations are realized on top of a Remote Procedure Call (RPC) layer using an XML encoding and provides a basic set of operations to edit and query configuration on a network device.
