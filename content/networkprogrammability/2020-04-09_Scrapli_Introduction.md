@@ -26,9 +26,6 @@ Scrapli is a Python screenscraping library for network devices developed by Carl
 
 > Scrapli -- scrap(e c)li -- is a python library focused on connecting to devices, specifically network devices (routers/switches/firewalls/etc.) via SSH or Telnet. The name scrapli -- is just "scrape cli" (as in screen scrape) squished together! scrapli's goal is to be as fast and flexible, while providing a well typed, well documented, simple API.
 
-### Why Scrapli
-
-
 ### Virtual Environment
 As usual, we prefer to work within a virtual environment. Let's start with setting this up.
 ```bash
