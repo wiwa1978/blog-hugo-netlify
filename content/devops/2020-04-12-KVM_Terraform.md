@@ -1,7 +1,7 @@
 ---
 title: Create VMs on KVM with Terraform
 date: 2020-04-12T14:39:50+01:00
-draft: false
+draft: True
 categories:
   - DevOps
   - CI/CD
