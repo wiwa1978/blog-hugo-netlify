@@ -1,7 +1,7 @@
 ---
 title: Scrapli Introduction
 date: 2020-04-09T12:32:50+01:00
-draft: True
+draft: false
 categories:
   - Network Programming
   - Programming
