@@ -177,4 +177,115 @@ And verify if things got changed indeed:
 
 ![interface](/images/2020-03-25-5.png)  
 
-That's it for this post. Hope you liked this little introduction to Netmiko. You can check out the Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction).
+### Use case: Add Loopback interfaces
+In this use case, we will use some things we learned in previous posts. We will do the following:
+- read device information from a YML file
+- read variables (containing loopback information) from a YML file
+- Use Jinja2 template
+- Use Netmiko to configure the loopback interfaces
+
+In case some of this is new, I recommend you to have a look at the following blog posts:
+- Parsing YML file: see [here](https://blog.wimwauters.com/networkprogrammability/2020-01-14-parse_yaml_python/)
+- Working with Jinja2: see [here](https://blog.wimwauters.com/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/)
+
+Let's have a look at the YML file first:
+```yaml
+interfaces:
+  - name: Loopback2001
+    description: Description for Loopback 2000
+    ipv4_addr: 200.200.200.200
+    ipv4_mask: 255.255.255.255
+  - name:  Loopback2002
+    description: Description for Loopback 2001
+    ipv4_addr: 200.200.200.201
+    ipv4_mask: 255.255.255.255
+```
+As mentioned, this file contains the required information to configure the loopback interfaces. We will also read the host information from a file called hosts.yml.
+
+```yaml
+# Define list of hosts
+---
+hosts:
+  - name: sbx-iosxr-mgmt.cisco.com
+    username: admin
+    password: C1sco12345
+    port: 8181
+    cmd: "show running-config"
+    type: cisco_xr
+  - name: ios-xe-mgmt-latest.cisco.com
+    username: developer
+    password: C1sco12345
+    port: 8181
+    cmd: "show running-config"
+    type: cisco_xe
+```
+The Jinja2 file is relative straightforward as well. Essentially, we use a for loop to iterate over the loopback interfaces. Each time, we use the data that is passed to this template from the Python file. 
+
+```jinja
+{% for interface in data.interfaces %}
+interface {{interface.name}}
+description {{interface.description}}
+ ip address {{interface.ipv4_addr}} {{interface.ipv4_mask}}
+{% endfor %}
+```
+The Python file is first reading in the host information from the hosts.yml file. The interface information we read from the YML file. The host and interface information is now available to us in a Python dictionary.
+
+Next, we use the Jinja2 library to render the template with the variables. The end result of this is that `loopback_config` contains the completed (absolute) file with all loopback information. 
+
+Next, we simply loop over the devices (hosts) and for each host we create an SSH connection via Netmiko. And finally we use the `send_config_set` method to which we pass the loopback_config information (which contains nothing more than the commands to configure a loopback interface).
+```python
+import yaml
+from netmiko import Netmiko
+from jinja2 import Environment, FileSystemLoader
+
+hosts = yaml.load(open('hosts.yml'), Loader=yaml.SafeLoader)
+interfaces = yaml.load(open('loopback.yml'), Loader=yaml.SafeLoader)
+
+env = Environment(loader = FileSystemLoader('.'), trim_blocks=True, autoescape=True)
+template = env.get_template('loopback.j2')
+loopback_config = template.render(data=interfaces)
+
+for host in hosts["hosts"]:
+   net_connect = Netmiko(
+      host = host["name"],
+      username = host["username"],
+      password = host["password"],
+      port = host["port"],
+      device_type = host["type"]
+   )
+   print(f"Logged into {host['name']} successfully")
+   output = net_connect.send_config_set(loopback_config.split("\n"))
+```
+Let's run this example.
+
+```bash
+(base) WAUTERW-M-65P7:test wauterw$ python3 script.py 
+***Truncated***
+Logged into ios-xe-mgmt-latest.cisco.com successfully
+config term
+Enter configuration commands, one per line.  End with CNTL/Z.
+csr1000v-1(config)#interface Loopback3001
+csr1000v-1(config-if)#description Description for Loopback 3001
+csr1000v-1(config-if)# ip address 200.200.200.230 255.255.255.255
+csr1000v-1(config-if)#interface Loopback3002
+csr1000v-1(config-if)#description Description for Loopback 3002
+csr1000v-1(config-if)# ip address 200.200.200.231 255.255.255.255
+csr1000v-1(config-if)#
+csr1000v-1(config-if)#end
+```
+To see if the interfaces were correctly added, we can use a script we mentioned earlier in this blogpost, e.g [this](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netmiko_Introduction/show_ip_int_brief.py) one.
+
+```bash
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES other  up                    up      
+GigabitEthernet2       10.121.23.120   YES other  up                    up      
+GigabitEthernet2.4     unassigned      YES manual deleted               down    
+***Truncated***     
+Loopback3001           200.200.200.230 YES manual up                    up      
+Loopback3002           200.200.200.231 YES manual up                    up      
+Port-channel1          unassigned      YES unset  down                  down    
+VirtualPortGroup0      10.10.20.48     YES unset  up                    up   
+```
+This particular example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction/loopback).
+
+That's it for this post. Hope you liked this little introduction to Netmiko. To have a view on all examples discussed in this post, you can check out the Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction).
