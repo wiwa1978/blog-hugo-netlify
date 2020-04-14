@@ -23,7 +23,7 @@ print(template.render(something="World"))
 
 Let's dive into some more examples.
 
-### Vlans: template inside code
+### VLANs: template inside code
 
 In this example, we will be taking a vlans object and insert it into a template to create a vlan overview.
 
@@ -57,9 +57,10 @@ WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlan.py
 vlan 620
    name vlan-620
 ```
-### Vlans: template inside code with for-loop
+This example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlan.py).
+### VLANs: template inside code with for-loop
 
-What is we have more than one vlan. How would we address this? 
+What if we have more than one vlan. How would we address this? 
 
 Fortunately Jinja2 suppors for-loops as well. In the below snippet, we have a dictionary object where the vlan id is the key and the vlan name is the value. The template contains a for loop to iterate over the different key/value pairs from our dictionary object. Pretty neat, no?
 
@@ -91,7 +92,6 @@ The output of above script will be as below:
 
 ```bash
 WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlans_multiple.py 
-
 
 vlan 620
    name VLAN-620
@@ -131,7 +131,10 @@ vlan 622
 vlan 633
    name VLAN-623
 ```
-### Vlans: template in seperate file
+
+This example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlans_multiple.py).
+
+### VLANs: template in seperate file
 
 What if we don't want to have our template defined in our code itself but rather read it in from an external file? Jinja2 has that covered as well.
 
@@ -151,7 +154,7 @@ To pass the template file, we will use the `get_template` method. This will pass
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 
-my_template = Environment(loader=FileSystemLoader('templates'))
+my_template = Environment(loader=FileSystemLoader('../templates'))
 
 vlans = {
    "620": "VLAN-620",
@@ -178,8 +181,9 @@ vlan 622
 vlan 623
    name VLAN-623
 ```
+This file can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlans_file.py).
 
-### Vlans: template in seperate file, input from YAML file
+### VLANs: template in seperate file, input from YAML file
 
 A small improvement on the previous script could be achieved by reading the vlan information from a YML file. Let's see how that works:
 
@@ -204,7 +208,7 @@ from jinja2 import Environment
 from jinja2 import FileSystemLoader
 import yaml
 
-my_template = Environment(loader=FileSystemLoader('templates'))
+my_template = Environment(loader=FileSystemLoader('../templates'))
 
 vlans = yaml.load(open('vlans.yml'), Loader=yaml.SafeLoader)
 
@@ -212,6 +216,98 @@ template = my_template.get_template("vlans.j2")
 result = template.render(vlans=vlans)
 print(result)
 ```
+This file can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlans_file_yml_file.py). 
+
+### Loopbacks
+
+Here is an additional example, mostly re-iterating what we learned already. Have a look at below to ensure you understand what we learned previously.
+
+```yml
+interfaces:
+  Loopback2000:
+    description: Description for Loopback 2000
+    ipv4_addr: 200.200.200.200
+    ipv4_mask: 255.255.255.255
+  Loopback2001:
+    description: Description for Loopback 2001
+    ipv4_addr: 200.200.200.201
+    ipv4_mask: 255.255.255.255
+```
+
+```jinja2
+interface Loopback2000
+description {{interfaces.Loopback2000.description}}
+ ip address {{interfaces.Loopback2000.ipv4_addr}} {{interfaces.Loopback2000.ipv4_mask}}
+!
+interface Loopback2001
+description {{interfaces.Loopback2001.description}}
+ ip address {{interfaces.Loopback2001.ipv4_addr}} {{interfaces.Loopback2001.ipv4_mask}}
+end
+```
+
+```python
+import yaml
+from jinja2 import Environment, FileSystemLoader
+
+loopbacks = yaml.load(open('loopback.yml'), Loader=yaml.SafeLoader)
+
+env = Environment(loader = FileSystemLoader('../../templates'), trim_blocks=True, lstrip_blocks=True)
+template = env.get_template('loopback.j2')
+loopback_config = template.render(loopbacks)
+
+print(loopback_config)
+```
+This example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja/loopbacks/normal).
+
+### Loopbacks (variant)
+Let's look at a little variant, a little more complex. In previous example, we had multiple loopback interfaces and in the YML file we just listed them sequentially. That's doable for two interfaces but what if you have many more. This is where a for-loop (in Jinja2) comes in very handy. Let's have a look:
+
+The YML file is modified a little compared to previous example. We have basically changed it so we have a list of loopbacks that we can address via it's name.
+```YML
+interfaces:
+  - name: Loopback2001
+    description: Description for Loopback 2000
+    ipv4_addr: 200.200.200.200
+    ipv4_mask: 255.255.255.255
+  - name:  Loopback2002
+    description: Description for Loopback 2001
+    ipv4_addr: 200.200.200.201
+    ipv4_mask: 255.255.255.255
+```
+We will rewrite the Jinja2 template. As mentioned above, we want to use a for loop inside the template. This makes it much more scalable in case we need more interfaces later on.
+
+```jinja
+{%- for interface in data.interfaces %}
+interface {{interface.name}}
+description {{interface.description}}
+ ip address {{interface.ipv4_addr}} {{interface.ipv4_mask}}
+{%- endfor %}
+```
+The Python file did not change, but I've added it here for completeness:
+```python
+import yaml
+from jinja2 import Environment, FileSystemLoader
+
+interfaces = yaml.load(open('loopback_variant.yml'), Loader=yaml.SafeLoader)
+
+env = Environment(loader = FileSystemLoader('../../templates'), trim_blocks=True, lstrip_blocks=True)
+template = env.get_template('loopback_variant.j2')
+loopback_config = template.render(data=interfaces)
+
+print(loopback_config)
+```
+Running this script will render the list of loopbacks.
+
+```bash
+WAUTERW-M-65P7:loopbacks wauterw$ python3 loopback_variant.py 
+interface Loopback2001
+description Description for Loopback 2000
+ ip address 200.200.200.200 255.255.255.255interface Loopback2002
+description Description for Loopback 2001
+ ip address 200.200.200.201 255.255.255.255
+```
+This example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja/loopbacks/variant).
+
 That'll do for now. In a next post, we will look into applying these concepts to Cisco ACI.
 
-The code can be found at [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja).
+I mentioned the source files already throughout this article. The entire folder containing all examples can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja).
