@@ -1,7 +1,7 @@
 ---
 title: NetPalm Introduction
 date: 2020-04-14T09:32:50+01:00
-draft: True
+draft: false
 categories:
   - Network Programming
   - Programming
