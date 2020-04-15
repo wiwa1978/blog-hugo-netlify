@@ -4,7 +4,7 @@ date: 2020-04-12T14:39:50+01:00
 draft: True
 categories:
   - DevOps
-  - CI/CD
+  - Continuous Integration/Deployment
   - Private Cloud
 tags:
   - KVM
