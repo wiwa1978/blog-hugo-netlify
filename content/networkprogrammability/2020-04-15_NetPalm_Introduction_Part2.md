@@ -15,7 +15,7 @@ This post is a follow up on [part 1](https://blog.wimwauters.com/networkprogramm
 ### Use Case 1: change configuration via Netmiko
 So far we have only been reading configuration data from our device. What about changing some configuration data? Works easy with Netpalm.
 
-First, let's get an overview of the existing interfaces. We will be using the method we learned in use case 1 above.
+First, let's get an overview of the existing interfaces. We will be using the method we learned in use case 1 from [part 1](https://blog.wimwauters.com/networkprogrammability/2020-04-15_netpalm_introduction_part1/) above.
 
 ![netpalm](/images/2020-04-14-10.png)
 
@@ -44,7 +44,8 @@ You will notice indeed that the interface description got changed to 'Set via Ne
 
 RESTCONF in general is a bit of a tougher protocol. Let's give it a try to add an interface to our device. In the below example, we will be adding a Loopback interface.
 
-Let's first check what interfaces we currently have on our device. For this, we will be using what we learned in use case 4.
+Let's first check what interfaces we currently have on our device. For this, we will be using what we learned in use case 4 from [part 1](https://blog.wimwauters.com/networkprogrammability/2020-04-15_netpalm_introduction_part1/).
+
 First we will call the getconfig (via RESTCONF):
 
 ![netpalm](/images/2020-04-14-16.png)
@@ -104,7 +105,7 @@ Lo2000                         up             up       Added via Netpalm
 
 Let's now also remove the interface we just added. We will be using [this](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#f7c75846-aace-4bc4-ab58-2ec34054b4e6) API to achieve that.
 
-Instead of using SSH to verify the current set of interfaces, let's use the NAPALM getconfig method (see use case 2). You will get back a list of the current interfaces. Verify that Loopback 2000 is mentioned.
+Instead of using SSH to verify the current set of interfaces, let's use the NAPALM getconfig method (see use case 2 in [part 1](https://blog.wimwauters.com/networkprogrammability/2020-04-15_netpalm_introduction_part1/)). You will get back a list of the current interfaces. Verify that Loopback 2000 is mentioned.
 
 ![netpalm](/images/2020-04-14-20.png)
 
