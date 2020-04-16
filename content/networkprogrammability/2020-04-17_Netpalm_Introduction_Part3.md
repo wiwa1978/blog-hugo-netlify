@@ -6,7 +6,7 @@ categories:
   - Network Programming
   - Programming
 tags:
-  - Netpalm
+  - NetPalm
 ---
 ### Introduction
 
@@ -96,3 +96,4 @@ Loopback3001           200.200.200.230 YES manual up                    up
 Loopback3002           200.200.200.231 YES manual up                    up
 ```
 
+### Using service templates

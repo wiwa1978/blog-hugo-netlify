@@ -6,7 +6,7 @@ categories:
   - Network Programming
   - Programming
 tags:
-  - Netpalm
+  - NetPalm
 ---
 ### Introduction
 Recently I came across [this](https://www.reddit.com/r/devops/comments/fes4w1/netpalm_open_source_rest_api_broker_for_your/) article. As I'm dealing with quite some network automation tools, it triggered my interest. I decided to give it a go. Below you can find a 'Getting started' tutorial.
@@ -14,7 +14,7 @@ Recently I came across [this](https://www.reddit.com/r/devops/comments/fes4w1/ne
 ### What is NetPalm
 NetPalm essentially is a REST API broker for tools like NAPALM, Netmiko, RESTCONF or Python. It exposes a set of unified APIs (getconfig, setconfig...) to allow us to interact with a variety of devices using one of the aforementioned protocols. So no need to be intimate with the underlying tools (e.g NAPALM, Netmiko,...) as it's all abstracted away behind a simple REST API.
 
-Internally NetPalm uses a REDIS queue to process the different tasks towards our devices. In other words, if we query NetPalm's REST API, our query will end up into a REDIS queue and NetPalm will process this queue one by one. We can query the tasks in the queue to retrieve the results of our tasks. It'll all become clear in the below use cases.
+Internally NetPalm uses REDIS queues to process the different tasks towards our devices. In other words, if we query NetPalm's REST API, our query will end up in a REDIS queue for that device. NetPalm will establish a queue and process for each device to ensure parallel processing and orderly execution of tasks on each device. We can query the tasks in the queue to retrieve the results of our tasks. It'll all become clear in the below use cases.
 
 ### Installing NetPalm
 
