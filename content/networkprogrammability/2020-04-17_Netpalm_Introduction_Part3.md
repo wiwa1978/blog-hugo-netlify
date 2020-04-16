@@ -1,6 +1,6 @@
 ---
 title: NetPalm Introduction - Part 3
-date: 2020-04-15T12:32:50+01:00
+date: 2020-04-16T12:32:50+01:00
 draft: True
 categories:
   - Network Programming
@@ -96,4 +96,145 @@ Loopback3001           200.200.200.230 YES manual up                    up
 Loopback3002           200.200.200.231 YES manual up                    up
 ```
 
-### Using service templates
+### Service templates
+
+##### Why service templates
+
+
+##### Service templates: code overview
+netpalm > backend > plugins > service_templates
+```jinja
+[
+  {% for host in hosts %}
+  {
+    "supported_methods": [
+      {
+        "operation": "create",
+        "payload": {
+          "library": "napalm",
+          "connection_args": {
+            "device_type": "cisco_ios",
+            "host": "{{host}}",
+            "username": "{{username}}",
+            "password": "{{password}}",
+            "optional_args": {"port": 8181}
+          },
+        "j2config": {
+    	    "template":"loopback_create",
+    	    "args":{
+              "interfaces": [
+                {
+                  "name": "Loopback250",
+                  "description": "Description for Loopback 250",
+                  "ipv4_addr": "200.200.200.20",
+                  "ipv4_mask": "255.255.255.255"
+                },
+                {
+                  "name": "Loopback251",
+                  "description": "Description for Loopback 251",
+                  "ipv4_addr": "200.200.200.21",
+                  "ipv4_mask": "255.255.255.255"
+                }
+              ]
+            }
+    	    }
+        
+      }
+      },
+      {
+        "operation": "retrieve",
+        "payload": {
+          "library": "netmiko",
+          "connection_args": {
+            "device_type": "cisco_xe",
+            "host": "{{host}}",
+            "username": "{{username}}",
+            "password": "{{password}}",
+            "port": "8181"
+          },
+        "command": "show ip interface brief"
+        }
+      },
+      {
+        "operation": "delete",
+        "payload": {
+          "library": "napalm",
+          "connection_args": {
+            "device_type": "cisco_ios",
+            "host": "{{host}}",
+            "username": "{{username}}",
+            "password": "{{password}}",
+            "optional_args": {"port": 8181}
+          },
+        "j2config": {
+    	    "template":"loopback_remove",
+    	    "args":{
+    		    "interfaces": [
+                {
+                  "name": "Loopback250"
+                },
+                {
+                  "name": "Loopback251"
+                }
+              ]
+    	    }
+        }
+      }
+      }
+    ]
+  }{% if not loop.last %},{% endif %}{# THIS IS REQUIRED TO CONSTRUCT THE DATA CORRECTLY #}
+  {% endfor -%}
+]
+```
+netpalm > backend > plugins > jinja2_templates
+
+loopback_create.j2
+```jinja
+{% for interface in interfaces %}
+   interface {{interface.name}}
+   description {{interface.description}}
+   ip address {{interface.ipv4_addr}} {{interface.ipv4_mask}}
+{% endfor %}
+```
+
+loopback_remove.j2
+```jinja2
+{% for interface in interfaces %}
+   no interface {{interface.name}}
+{% endfor %}
+```
+##### Executing Service templates
+
+1) Retrieving information
+
+![netpalm](/images/2020-04-17-6.png)
+![netpalm](/images/2020-04-17-7.png)
+
+2) Creating interface
+
+![netpalm](/images/2020-04-17-8.png)
+![netpalm](/images/2020-04-17-9.png)
+
+```bash
+csr1000v-1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES other  up                    up
+GigabitEthernet2       10.255.255.2    YES other  administratively down down
+GigabitEthernet3       10.255.255.2    YES other  up                    up
+Loopback250            200.200.200.20  YES TFTP   up                    up
+Loopback251            200.200.200.21  YES TFTP   up                    up
+```
+3) Delete interface
+![netpalm](/images/2020-04-17-8.png)
+![netpalm](/images/2020-04-17-9.png)
+
+```bash
+csr1000v-1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES other  up                    up
+GigabitEthernet2       10.255.255.2    YES other  administratively down down
+GigabitEthernet3       10.255.255.2    YES other  up                    up
+```
+
+
+Code can be found in my Github [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netpalm_Introduction).
