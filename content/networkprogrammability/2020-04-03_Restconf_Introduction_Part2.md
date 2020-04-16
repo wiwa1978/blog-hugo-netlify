@@ -69,7 +69,7 @@ Lo10000                        up             up       Adding loopback10000 - ch
 ```
 You'll notice that indeed the description has been altered. In the example here I have only shown the PUT variant. Changing the interface description works for both PUT and PATCH. 
 
-### Use Case 4: Removing Loopback interface  (IETF YANG model)
+### Use Case 4: Removing Loopback interface (IETF YANG model)
 How about we remove this interface. Easy enough! Just use the DELETE verb and done.
 
 ![Restconf](/images/2020-04-03-4.png)
@@ -97,7 +97,7 @@ GigabitEthernet2       10.255.255.2    YES other  administratively down down
 GigabitEthernet3       10.255.255.2    YES other  up                    up
 ```
 
-### Use Case 6 : Adding interface (Cisco YANG model)
+### Use Case 6: Adding interface (Cisco YANG model)
 Adding an interface through Cisco's YANG model is just as easy. See below where we add an interface called BDI60.
 
 ![Restconf](/images/2020-04-03-6.png)
