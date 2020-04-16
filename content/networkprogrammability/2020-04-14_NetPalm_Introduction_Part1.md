@@ -29,7 +29,7 @@ NetPalm runs inside docker containers, so we'll need to build these:
 Successfully built a56e1fb19bfb
 Successfully tagged netpalm:latest
 ```
-Let's check on the docker images to got pulled:
+Let's check on the docker images that got pulled:
 ```
 (base) WAUTERW-M-65P7:netpalm wauterw$ docker images
 REPOSITORY                                  TAG                 IMAGE ID            CREATED             SIZE
@@ -39,7 +39,7 @@ python                                      3.8                 d47898c6f4b0    
 redis                                       latest              4cdbec704e47        2 weeks ago         98.2MB
 ```
 In the above output, you can clearly see NetPalm uses Redis for queue management.
-Next, we need to bring up the containers in such a way that the NetPalm containers can talk to the Redis container.
+Next, we need to bring up the containers in such a way that the NetPalm containers can talk to the Redis container. The author of the tool, Tony Nealon, decided to use `docker-compose` for that.
 ```
 (venv) WAUTERW-M-65P7:netpalm wauterw$ docker-compose up -d
 Creating network "netpalm_default" with the default driver
@@ -61,26 +61,29 @@ Let's now look into some simple use cases. Have fun!
 
 ### Use Case 1: get configuration via Netmiko
 
-Let's start with something fairly basic. We'll get an overvew of all the interfaces through Netpalm. According to the [API documentaton](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#d0352af0-41d0-414e-ac04-3a4977b045f5) we need to call the `getconfig` method.  
+Let's start with something fairly basic. We'll get an overview of all the interfaces on our device through NetPalm. According to the [API documentaton](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#d0352af0-41d0-414e-ac04-3a4977b045f5) we need to call the `getconfig` method. In this use case, I'm using the netmiko variant, in later use cases we will experiment with other tools like NAPALM and ncclient.  In case Netmiko is rather new to you, have a look at [this](https://blog.wimwauters.com/networkprogrammability/2020-03-25-netmiko_introduction/) blog post.
+
 ![netpalm](/images/2020-04-14-1.png)
 
-You'll notice we get back a `task_id` in the response. We can use this id to query the `task` API (see [here](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#3615b003-1d94-4514-a90f-4da27e107085).) As a result, you will see that we get back an overview of the interfaces on our device.
+You'll notice we get back a `task_id` in the response. We can use this id to query the `task` API (see [here](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#3615b003-1d94-4514-a90f-4da27e107085)). As a result, you will see that we get back an overview of all the interfaces on our IOS XE device.
 
 ![netpalm](/images/2020-04-14-2.png)
 
 ### Use Case 2: get configuration via NAPALM
-As mentioned above, one of the nice things about Netpalm is that it provides the same API regardless of the underlying tool it uses to retrieve (or set) the configuration. In what follows, we will do exactly the same but instead of Netmiko, we'll use Napalm.
+As mentioned above, one of the nice things about NetPalm is that it provides the same API regardless of the underlying tool it uses to retrieve (or set) the configuration. In what follows, we will do exactly the same as what we did in use case 1 above but instead of Netmiko, we'll use NAPALM. In case NAPALM is rather new to you, have a look at [this](https://blog.wimwauters.com/networkprogrammability/2020-04-06_napalm_introduction_part1/) and [this](https://blog.wimwauters.com/networkprogrammability/2020-04-07_napalm_introduction_part2/) blog post.
 
-You will see the only change we have made is in the JSON body of the `getconfig` request. It's documented [here](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#c44945e2-92a1-44cc-aee6-d151086ee9d6). One small note here is to pay attention when you are specifying an SSH port. The syntax in NAPALM to set a port is a little different from how it's done in Netmiko. 
+You will see the only change we have made is in the JSON body of the `getconfig` request. We changed the library from 'netmiko' to 'napalm'. In case you would want to explore the API further, this particular API is documented [here](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#c44945e2-92a1-44cc-aee6-d151086ee9d6). One small note here is to pay attention when you are specifying an SSH port. The syntax in NAPALM to set a port is a little different from how it's done in Netmiko. 
 
 ![netpalm](/images/2020-04-14-3.png)
 
-Next, we'll query the `task` API to retrieve the list of interfaces.
+Next, we'll query the `task` API (via the ID that was returned in the previous call) to retrieve the list of interfaces.
 
 ![netpalm](/images/2020-04-14-4.png)
 
+Here you can clearly witness the strength of a tool like NetPalm. Using the same API `getconfig` we can use different tools (depending on our needs) to retrieve some information.
+
 ### Use Case 3: get configuration via ncclient
-Let's do something similar but with ncclient. We discussed this in [this](https://blog.wimwauters.com/networkprogrammability/2020-03-30-netconf_python_part1/) and [this](https://blog.wimwauters.com/networkprogrammability/2020-03-31_netconf_python_part2/) blog posts.
+Let's do something similar but with ncclient now. In case ncclient is rather new to you, have a look at [this](https://blog.wimwauters.com/networkprogrammability/2020-03-30-netconf_python_part1/) and [this](https://blog.wimwauters.com/networkprogrammability/2020-03-31_netconf_python_part2/) blog post.
 
 Let's call the `getconfig` API (documented [here](https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#b1c5c808-bbb3-4909-acf9-f11d0d402d77)).
 ![netpalm](/images/2020-04-14-5.png)
@@ -97,15 +100,22 @@ Pay particular attention to the JSON body of the request. You'll see we are usin
 </filter>
 ```
 Query again the `task` API and you will get back the interface configuration through ncclient.
+
 ![netpalm](/images/2020-04-14-6.png)
 
+Here you can see again that we have retrieved an overview of all the network interfaces on our XE device.
+
 ### Use Case 4: get configuration via RESTCONF
-I imagine you start to get the big picture here, but I wanted to conclude this with Netpalm's RESTCONF API. Just for completeness more than anything else. If you want to learn more about RESTCONF, check out my [blog post](https://blog.wimwauters.com/networkprogrammability/2020-04-02_restconf_introduction/) on it.
+I imagine you start to get the big picture here...Yet another way to receive configurations from our device is through RESTCONF. We added this example, more for completeness than anything else. If you want to learn more about RESTCONF, check out [this](https://blog.wimwauters.com/networkprogrammability/2020-04-02_restconf_introduction_part1/) and [this] (https://blog.wimwauters.com/networkprogrammability/2020-04-02_restconf_introduction_part2/) post on the topic.
 
 Let's call the `getconfig` API (documented [here]((https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#3280e040-b27f-4609-990f-947754e6afef)). Note that we are using the RESTCONF URL `/restconf/data/ietf-interfaces:interfaces` to retrieve the interfaces on this device.
 
-![netpalm](/images/2020-04-14-8.png)
+![netpalm](/images/2020-04-14-9.png)
 
 Query again the `task` API and you will get back the interface configuration through RESTCONF.
 
-![netpalm](/images/2020-04-14-9.png)
+![netpalm](/images/2020-04-14-8.png)
+
+Above use case all focused on retrieving information via NetPalm. 
+
+In a [next](https://blog.wimwauters.com/networkprogrammability/2020-04-15_netpalm_introduction_part2/) blog post, we'll dive deeper into changing and deleting information through NetPalm. Stay tuned!
