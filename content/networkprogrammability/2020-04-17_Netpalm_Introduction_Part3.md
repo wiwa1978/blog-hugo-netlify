@@ -1,6 +1,6 @@
 ---
 title: NetPalm Introduction - Part 3
-date: 2020-04-16T12:32:50+01:00
+date: 2020-04-17T09:48:50+01:00
 draft: false
 categories:
   - Network Programming
