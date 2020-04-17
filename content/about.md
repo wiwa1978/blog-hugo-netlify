@@ -4,7 +4,7 @@ draft: false
 author: Wim Wauters
 
 ---
-![wim](/images/wim_cartoon.png#floatleft)
+![wim](/images/wim_cartoon.png#floatright)
 Thanks for dropping by at my technology blog! My name is Wim Wauters, 42 year old guy living in Belgium. I’m a Solutions Architect in the European datacenter/cloud team at Cisco. 
 
 I love technology a lot! In my day to day job I come across a wide variety of technologies such as networking, private and public cloud, automation, network programmability..and I continue to experiment in my free time. Learning nevers stops, we all need to improve ourselves continuously, certainly in today's fast pacing world. It's an ever evolving part of being an architect and I like that. Let it be said that it certainly is not always easy to keep up with all the latest and greatest technologies and the variety of tools out there. There’s a lot to learn each day if you want to keep up with current market trends.
