@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gitlab on Technology Blog Wim</title>
+    <link>/tags/gitlab/</link>
+    <description>Recent content in Gitlab on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Nov 2019 14:39:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Create Cisco ACI network with Terraform and Gitlab CICD</title>
+      <link>/devops/2019-11-29-aci_terraform_gitlab/</link>
+      <pubDate>Fri, 29 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-29-aci_terraform_gitlab/</guid>
+      <description>Introduction As promised, we’ll configure an ACI network using a CI/CD pipeline. If you understood this post, you’ll easily grasp this one as well.</description>
+    </item>
+    
+    <item>
+      <title>Configure AWS instances using Terraform and Gitlab CI/CD</title>
+      <link>/devops/2019-11-23-aws_terraform_gitlab/</link>
+      <pubDate>Sat, 23 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-23-aws_terraform_gitlab/</guid>
+      <description>Introduction In this post, we will deploy EC2 instances on AWS using a CI/CD pipeline. If you want to follow along, it’s advised you also refer to part 1 and part 2 for getting some background information.</description>
+    </item>
+    
+  </channel>
+</rss>

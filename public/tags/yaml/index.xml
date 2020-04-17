@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YAML on Technology Blog Wim</title>
+    <link>/tags/yaml/</link>
+    <description>Recent content in YAML on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Jan 2020 10:19:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/yaml/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Parse YAML file with Python</title>
+      <link>/networkprogrammability/2020-01-14-parse_yaml_python/</link>
+      <pubDate>Tue, 14 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-14-parse_yaml_python/</guid>
+      <description>Introduction In this post we&amp;rsquo;ll go over how to parse a YAML file with Python. Easy enough but I&amp;rsquo;m using at so often that it helps to have a little post on it.</description>
+    </item>
+    
+  </channel>
+</rss>

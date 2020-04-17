@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vSphere on Technology Blog Wim</title>
+    <link>/tags/vsphere/</link>
+    <description>Recent content in vSphere on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 03 Dec 2019 14:39:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/vsphere/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Create VM on vSphere and network on Cisco ACI (using Terraform)</title>
+      <link>/devops/2019-12-03-aci_vsphere_terraform/</link>
+      <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-03-aci_vsphere_terraform/</guid>
+      <description>Introduction In past couple of posts, we have been experimenting with Terraform in combination with ACI and vSphere seperately. In this post, we will combine both and we will first create network constructs on Cisco&amp;rsquo;s ACI solution and once done, we will create two VM instances on vSphere that are actually using the underlying ACI network constructs.</description>
+    </item>
+    
+    <item>
+      <title>vSphere - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-12-02_vsphere_kubernetes_ansible/</link>
+      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-02_vsphere_kubernetes_ansible/</guid>
+      <description>Introduction In this post, we created a couple of virtual instances running on vSphere using Terraform. We will use that blog post as a reference to install 3 virtual servers on our vSphere environment.</description>
+    </item>
+    
+    <item>
+      <title>vSphere - Create VMs with Terraform</title>
+      <link>/devops/2019-12-01-vsphere_terraform/</link>
+      <pubDate>Sun, 01 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-01-vsphere_terraform/</guid>
+      <description>Introduction In this post and this post, we created respectively some EC2 instances on AWS and some network contructs on Cisco’s ACI solution.</description>
+    </item>
+    
+  </channel>
+</rss>

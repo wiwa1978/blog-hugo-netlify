@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Networkprogrammabilities on Technology Blog Wim</title>
+    <link>/networkprogrammability/</link>
+    <description>Recent content in Networkprogrammabilities on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
+    
+	<atom:link href="/networkprogrammability/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NetPalm Introduction - Part 3</title>
+      <link>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</link>
+      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</guid>
+      <description>Introduction This post is a follow up on part 1 and part 2.
+In part 1, we focused on retrieving information from our devices using NetPalm.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 2</title>
+      <link>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</link>
+      <pubDate>Wed, 15 Apr 2020 09:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</guid>
+      <description>Introduction This post is a follow up on part 1 where we focused on retrieving information from our devices using NetPalm.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 1</title>
+      <link>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</link>
+      <pubDate>Tue, 14 Apr 2020 09:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</guid>
+      <description>Introduction Recently I came across this article. As I&amp;rsquo;m dealing with quite some network automation tools, it triggered my interest. I decided to give it a go.</description>
+    </item>
+    
+    <item>
+      <title>Scrapli Introduction</title>
+      <link>/networkprogrammability/2020-04-09_scrapli_introduction/</link>
+      <pubDate>Thu, 09 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-09_scrapli_introduction/</guid>
+      <description>Introduction I first came across Scrapli on Twitter.
+It spiked my interest as these days I&amp;rsquo;m going through the major network automation tools.</description>
+    </item>
+    
+    <item>
+      <title>NAPALM Introduction - Part 2</title>
+      <link>/networkprogrammability/2020-04-07_napalm_introduction_part2/</link>
+      <pubDate>Tue, 07 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-07_napalm_introduction_part2/</guid>
+      <description>Introduction Let&amp;rsquo;s continue where we left off in part 1. In this post, we will focus more on some specific use cases, like configuration validation and changing configurations onto our devices.</description>
+    </item>
+    
+    <item>
+      <title>NAPALM Introduction - Part 1</title>
+      <link>/networkprogrammability/2020-04-06_napalm_introduction_part1/</link>
+      <pubDate>Mon, 06 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-06_napalm_introduction_part1/</guid>
+      <description>Introduction Napalm stands for &amp;lsquo;Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)&amp;rsquo; and is a Python library that can be used to automate and interavt with networking devices and OSs using a unified API.</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF intro with Postman - Part 2</title>
+      <link>/networkprogrammability/2020-04-03_restconf_introduction_part2/</link>
+      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-03_restconf_introduction_part2/</guid>
+      <description>Introduction In part 1, we have introduced RESTCONF and explored it a bit using POSTMAN. I admit that post was a little dry and could leave some bad taste in your mouth :-).</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF intro with Postman - Part 1</title>
+      <link>/networkprogrammability/2020-04-02_restconf_introduction_part1/</link>
+      <pubDate>Thu, 02 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-02_restconf_introduction_part1/</guid>
+      <description>What is RESTCONF As per RFC 8040 (RESTCONF Protocol), the IETF describes RESTCONF as:
+ an HTTP-based protocol that provides a programmatic interface for accessing data defined in YANG, using the datastore concepts defined in the Network Configuration Protocol (NETCONF).</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 2</title>
+      <link>/networkprogrammability/2020-03-31_netconf_python_part2/</link>
+      <pubDate>Tue, 31 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-31_netconf_python_part2/</guid>
+      <description>Introduction This is a follow up post on part 1 where we mainly focused on retrieving information from our devices using NETCONF.</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 1</title>
+      <link>/networkprogrammability/2020-03-30-netconf_python_part1/</link>
+      <pubDate>Mon, 30 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-30-netconf_python_part1/</guid>
+      <description>What is NETCONF From the Tail-F website:
+ NETCONF is a protocol defined by the IETF to “install, manipulate, and delete the configuration of network devices”.</description>
+    </item>
+    
+    <item>
+      <title>Interacting with IOS XE and IOS XR using Netmiko</title>
+      <link>/networkprogrammability/2020-03-25-netmiko_introduction/</link>
+      <pubDate>Wed, 25 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-25-netmiko_introduction/</guid>
+      <description>What is Netmiko Netmiko is a multi-vendor SSH Python library which makes connecting to network devices via SSH really easy and straightforward.</description>
+    </item>
+    
+    <item>
+      <title>Interacting with IOS XE using Paramiko (part 2)</title>
+      <link>/networkprogrammability/2020-03-24-paramiko_introduction_part2/</link>
+      <pubDate>Tue, 24 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-24-paramiko_introduction_part2/</guid>
+      <description>Introduction In the previous post, we experimented a bit with Paramiko. The post was describing a number of use cases to read information from a Cisco IOS XE device.</description>
+    </item>
+    
+    <item>
+      <title>Interacting with IOS XE using Paramiko (part 1)</title>
+      <link>/networkprogrammability/2020-03-23-paramiko_introduction_part1/</link>
+      <pubDate>Mon, 23 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-23-paramiko_introduction_part1/</guid>
+      <description>Introduction In this blog post, we will explore Paramiko to interact with Cisco devices. We will do a couple of things:</description>
+    </item>
+    
+    <item>
+      <title>Create Cisco ACI network with Python (ACI toolkit)</title>
+      <link>/networkprogrammability/2020-03-21-aci_python_acitookit/</link>
+      <pubDate>Sat, 21 Mar 2020 22:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-21-aci_python_acitookit/</guid>
+      <description>Introduction In this post, we have seen how to create some ACI objects using Python and Jinja2. While this was relatively straightforward, it&amp;rsquo;s not always as straigthforward as it seems.</description>
+    </item>
+    
+    <item>
+      <title>Create Cisco ACI network with Python (Requests)</title>
+      <link>/networkprogrammability/2020-03-19-aci_python_requests/</link>
+      <pubDate>Thu, 19 Mar 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-19-aci_python_requests/</guid>
+      <description>Introduction In this blog post, we will address how we can use Python to work with Cisco ACI. It&amp;rsquo;ll focus on the very basics, trusting it gives you enough meat to tackle the more complex tasks on your own (e.</description>
+    </item>
+    
+    <item>
+      <title>Use Python requests and Jinja2 to configure ACI</title>
+      <link>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</link>
+      <pubDate>Wed, 11 Mar 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</guid>
+      <description>Introduction In a previous post, we introduced how we could interact with Cisco&amp;rsquo;s ACI solution using Python. This post will build on the things we learned in that blog post.</description>
+    </item>
+    
+    <item>
+      <title>Python and Jinja2 introduction</title>
+      <link>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</link>
+      <pubDate>Thu, 27 Feb 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</guid>
+      <description>What is Jinja2? Jinja is a modern and designer-friendly templating language for Python. The idea is to combine a template with data to produce documents.</description>
+    </item>
+    
+    <item>
+      <title>Parse YAML file with Python</title>
+      <link>/networkprogrammability/2020-01-14-parse_yaml_python/</link>
+      <pubDate>Tue, 14 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-14-parse_yaml_python/</guid>
+      <description>Introduction In this post we&amp;rsquo;ll go over how to parse a YAML file with Python. Easy enough but I&amp;rsquo;m using at so often that it helps to have a little post on it.</description>
+    </item>
+    
+    <item>
+      <title>Parse XML file with Python</title>
+      <link>/networkprogrammability/2020-01-09-parse_xml_python/</link>
+      <pubDate>Thu, 09 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-09-parse_xml_python/</guid>
+      <description>Introduction We&amp;rsquo;ll focus in this post on how to parse some data structures in Python. We&amp;rsquo;ll start with XML, but in next posts we will also handle JSON and YAML.</description>
+    </item>
+    
+  </channel>
+</rss>

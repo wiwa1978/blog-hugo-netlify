@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XML on Technology Blog Wim</title>
+    <link>/tags/xml/</link>
+    <description>Recent content in XML on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Jan 2020 10:19:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/xml/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Parse XML file with Python</title>
+      <link>/networkprogrammability/2020-01-09-parse_xml_python/</link>
+      <pubDate>Thu, 09 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-09-parse_xml_python/</guid>
+      <description>Introduction We&amp;rsquo;ll focus in this post on how to parse some data structures in Python. We&amp;rsquo;ll start with XML, but in next posts we will also handle JSON and YAML.</description>
+    </item>
+    
+  </channel>
+</rss>

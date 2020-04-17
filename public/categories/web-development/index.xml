@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web Development on Technology Blog Wim</title>
+    <link>/categories/web-development/</link>
+    <description>Recent content in Web Development on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 02 Jul 2015 20:19:50 +0100</lastBuildDate>
+    
+	<atom:link href="/categories/web-development/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>REST API with Express and Mongo</title>
+      <link>/webdevelopment/2015-07-02_express_mongo_rest_api/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/webdevelopment/2015-07-02_express_mongo_rest_api/</guid>
+      <description>Quick note: the original post dates from 02-07-2015 but got updated at 02-04-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+  </channel>
+</rss>

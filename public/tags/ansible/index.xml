@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ansible on Technology Blog Wim</title>
+    <link>/tags/ansible/</link>
+    <description>Recent content in Ansible on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 02 Dec 2019 14:39:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/ansible/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>vSphere - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-12-02_vsphere_kubernetes_ansible/</link>
+      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-02_vsphere_kubernetes_ansible/</guid>
+      <description>Introduction In this post, we created a couple of virtual instances running on vSphere using Terraform. We will use that blog post as a reference to install 3 virtual servers on our vSphere environment.</description>
+    </item>
+    
+    <item>
+      <title>AWS - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-11-25-aws_kubernetes_ansible/</link>
+      <pubDate>Mon, 25 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-25-aws_kubernetes_ansible/</guid>
+      <description>Quick note: the original post dates from 25-11-2019 but got updated at 01-04-2020 with latest Kubernetes version.
+ Introduction This blog post is a follow up of a post we wrote couple of days ago where we created 3 EC2 instances on AWS.</description>
+    </item>
+    
+    <item>
+      <title>DigitalOcean - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-10-17_digitalocean_kubernetes_ansible/</link>
+      <pubDate>Thu, 17 Oct 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-10-17_digitalocean_kubernetes_ansible/</guid>
+      <description>Quick note: the original post dates from 17-10-2019 but got updated at 01-04-2020 with latest Kubernetes version.
+ Introduction Couple of weeks ago, we have created a post where we created some servers on DigitalOcean.</description>
+    </item>
+    
+  </channel>
+</rss>

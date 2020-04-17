@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NETCONF on Technology Blog Wim</title>
+    <link>/tags/netconf/</link>
+    <description>Recent content in NETCONF on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Mar 2020 12:32:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/netconf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 2</title>
+      <link>/networkprogrammability/2020-03-31_netconf_python_part2/</link>
+      <pubDate>Tue, 31 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-31_netconf_python_part2/</guid>
+      <description>Introduction This is a follow up post on part 1 where we mainly focused on retrieving information from our devices using NETCONF.</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 1</title>
+      <link>/networkprogrammability/2020-03-30-netconf_python_part1/</link>
+      <pubDate>Mon, 30 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-30-netconf_python_part1/</guid>
+      <description>What is NETCONF From the Tail-F website:
+ NETCONF is a protocol defined by the IETF to “install, manipulate, and delete the configuration of network devices”.</description>
+    </item>
+    
+  </channel>
+</rss>

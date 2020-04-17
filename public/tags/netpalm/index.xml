@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NetPalm on Technology Blog Wim</title>
+    <link>/tags/netpalm/</link>
+    <description>Recent content in NetPalm on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/netpalm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NetPalm Introduction - Part 3</title>
+      <link>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</link>
+      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</guid>
+      <description>Introduction This post is a follow up on part 1 and part 2.
+In part 1, we focused on retrieving information from our devices using NetPalm.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 2</title>
+      <link>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</link>
+      <pubDate>Wed, 15 Apr 2020 09:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</guid>
+      <description>Introduction This post is a follow up on part 1 where we focused on retrieving information from our devices using NetPalm.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 1</title>
+      <link>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</link>
+      <pubDate>Tue, 14 Apr 2020 09:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</guid>
+      <description>Introduction Recently I came across this article. As I&amp;rsquo;m dealing with quite some network automation tools, it triggered my interest. I decided to give it a go.</description>
+    </item>
+    
+  </channel>
+</rss>

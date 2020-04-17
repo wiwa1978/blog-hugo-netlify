@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DigitalOcean on Technology Blog Wim</title>
+    <link>/tags/digitalocean/</link>
+    <description>Recent content in DigitalOcean on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Oct 2019 14:39:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/digitalocean/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DigitalOcean - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-10-17_digitalocean_kubernetes_ansible/</link>
+      <pubDate>Thu, 17 Oct 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-10-17_digitalocean_kubernetes_ansible/</guid>
+      <description>Quick note: the original post dates from 17-10-2019 but got updated at 01-04-2020 with latest Kubernetes version.
+ Introduction Couple of weeks ago, we have created a post where we created some servers on DigitalOcean.</description>
+    </item>
+    
+    <item>
+      <title>DigitalOcean - Create droplets instances with Terraform</title>
+      <link>/devops/2019-09-02_digitalocean_terraform/</link>
+      <pubDate>Mon, 02 Sep 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-09-02_digitalocean_terraform/</guid>
+      <description>Introduction In this post, we are going to create a server (aka droplets) on DigitalOcean. They will be running Ubuntu. There’s plenty of ways doing it but for this post I decided to give Terraform a try.</description>
+    </item>
+    
+  </channel>
+</rss>

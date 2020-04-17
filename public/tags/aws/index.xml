@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWS on Technology Blog Wim</title>
+    <link>/tags/aws/</link>
+    <description>Recent content in AWS on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Nov 2019 14:39:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AWS - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-11-25-aws_kubernetes_ansible/</link>
+      <pubDate>Mon, 25 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-25-aws_kubernetes_ansible/</guid>
+      <description>Quick note: the original post dates from 25-11-2019 but got updated at 01-04-2020 with latest Kubernetes version.
+ Introduction This blog post is a follow up of a post we wrote couple of days ago where we created 3 EC2 instances on AWS.</description>
+    </item>
+    
+    <item>
+      <title>Configure AWS instances using Terraform and Gitlab CI/CD</title>
+      <link>/devops/2019-11-23-aws_terraform_gitlab/</link>
+      <pubDate>Sat, 23 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-23-aws_terraform_gitlab/</guid>
+      <description>Introduction In this post, we will deploy EC2 instances on AWS using a CI/CD pipeline. If you want to follow along, it’s advised you also refer to part 1 and part 2 for getting some background information.</description>
+    </item>
+    
+    <item>
+      <title>Configure AWS instances with Terraform (remote state with S3)</title>
+      <link>/devops/2019-11-22-aws_terraform_remotestate/</link>
+      <pubDate>Fri, 22 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-22-aws_terraform_remotestate/</guid>
+      <description>Introduction In an earlier post, we created one EC2 instance. As explained in that post, the Terraform state file was created in your local folder.</description>
+    </item>
+    
+    <item>
+      <title>Create AWS instances with Terraform</title>
+      <link>/devops/2019-11-21-aws_terraform/</link>
+      <pubDate>Thu, 21 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-21-aws_terraform/</guid>
+      <description>Intoduction In this blogpost, we will create an AWS instance onto EC2 entirely using Terraform. Nothing too complex as such, but better to start with something fairly easy and continue to expand on it.</description>
+    </item>
+    
+  </channel>
+</rss>

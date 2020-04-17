@@ -1,14 +1,240 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Wim&#39;s site</title>
+    <title>Tags on Technology Blog Wim</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Wim&#39;s site</description>
+    <description>Recent content in Tags on Technology Blog Wim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>NetPalm</title>
+      <link>/tags/netpalm/</link>
+      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      
+      <guid>/tags/netpalm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>/tags/python/</link>
+      <pubDate>Thu, 09 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scrapli</title>
+      <link>/tags/scrapli/</link>
+      <pubDate>Thu, 09 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/scrapli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Napalm</title>
+      <link>/tags/napalm/</link>
+      <pubDate>Tue, 07 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/napalm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IOS XE</title>
+      <link>/tags/ios-xe/</link>
+      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/ios-xe/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RESTCONF</title>
+      <link>/tags/restconf/</link>
+      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/restconf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>YANG</title>
+      <link>/tags/yang/</link>
+      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/yang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NETCONF</title>
+      <link>/tags/netconf/</link>
+      <pubDate>Tue, 31 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/netconf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IOS XR</title>
+      <link>/tags/ios-xr/</link>
+      <pubDate>Wed, 25 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/ios-xr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Netmiko</title>
+      <link>/tags/netmiko/</link>
+      <pubDate>Wed, 25 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/netmiko/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Paramiko</title>
+      <link>/tags/paramiko/</link>
+      <pubDate>Tue, 24 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/tags/paramiko/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ACI</title>
+      <link>/tags/aci/</link>
+      <pubDate>Sat, 21 Mar 2020 22:32:50 +0100</pubDate>
+      
+      <guid>/tags/aci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jinja2</title>
+      <link>/tags/jinja2/</link>
+      <pubDate>Wed, 11 Mar 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/tags/jinja2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>YAML</title>
+      <link>/tags/yaml/</link>
+      <pubDate>Tue, 14 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/tags/yaml/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>XML</title>
+      <link>/tags/xml/</link>
+      <pubDate>Thu, 09 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/tags/xml/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Terraform</title>
+      <link>/tags/terraform/</link>
+      <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/terraform/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vSphere</title>
+      <link>/tags/vsphere/</link>
+      <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/vsphere/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ansible</title>
+      <link>/tags/ansible/</link>
+      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/ansible/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>/tags/kubernetes/</link>
+      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gitlab</title>
+      <link>/tags/gitlab/</link>
+      <pubDate>Fri, 29 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/gitlab/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AWS</title>
+      <link>/tags/aws/</link>
+      <pubDate>Mon, 25 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DigitalOcean</title>
+      <link>/tags/digitalocean/</link>
+      <pubDate>Thu, 17 Oct 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/tags/digitalocean/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Express</title>
+      <link>/tags/express/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/tags/express/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MEAN</title>
+      <link>/tags/mean/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/tags/mean/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mongo</title>
+      <link>/tags/mongo/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/tags/mongo/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

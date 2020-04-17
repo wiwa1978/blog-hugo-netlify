@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YANG on Technology Blog Wim</title>
+    <link>/tags/yang/</link>
+    <description>Recent content in YANG on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Apr 2020 12:32:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/yang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>RESTCONF intro with Postman - Part 2</title>
+      <link>/networkprogrammability/2020-04-03_restconf_introduction_part2/</link>
+      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-03_restconf_introduction_part2/</guid>
+      <description>Introduction In part 1, we have introduced RESTCONF and explored it a bit using POSTMAN. I admit that post was a little dry and could leave some bad taste in your mouth :-).</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF intro with Postman - Part 1</title>
+      <link>/networkprogrammability/2020-04-02_restconf_introduction_part1/</link>
+      <pubDate>Thu, 02 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-02_restconf_introduction_part1/</guid>
+      <description>What is RESTCONF As per RFC 8040 (RESTCONF Protocol), the IETF describes RESTCONF as:
+ an HTTP-based protocol that provides a programmatic interface for accessing data defined in YANG, using the datastore concepts defined in the Network Configuration Protocol (NETCONF).</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 2</title>
+      <link>/networkprogrammability/2020-03-31_netconf_python_part2/</link>
+      <pubDate>Tue, 31 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-31_netconf_python_part2/</guid>
+      <description>Introduction This is a follow up post on part 1 where we mainly focused on retrieving information from our devices using NETCONF.</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 1</title>
+      <link>/networkprogrammability/2020-03-30-netconf_python_part1/</link>
+      <pubDate>Mon, 30 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-30-netconf_python_part1/</guid>
+      <description>What is NETCONF From the Tail-F website:
+ NETCONF is a protocol defined by the IETF to “install, manipulate, and delete the configuration of network devices”.</description>
+    </item>
+    
+  </channel>
+</rss>

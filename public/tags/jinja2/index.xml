@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jinja2 on Technology Blog Wim</title>
+    <link>/tags/jinja2/</link>
+    <description>Recent content in Jinja2 on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Mar 2020 07:39:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/jinja2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Use Python requests and Jinja2 to configure ACI</title>
+      <link>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</link>
+      <pubDate>Wed, 11 Mar 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</guid>
+      <description>Introduction In a previous post, we introduced how we could interact with Cisco&amp;rsquo;s ACI solution using Python. This post will build on the things we learned in that blog post.</description>
+    </item>
+    
+    <item>
+      <title>Python and Jinja2 introduction</title>
+      <link>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</link>
+      <pubDate>Thu, 27 Feb 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</guid>
+      <description>What is Jinja2? Jinja is a modern and designer-friendly templating language for Python. The idea is to combine a template with data to produce documents.</description>
+    </item>
+    
+  </channel>
+</rss>

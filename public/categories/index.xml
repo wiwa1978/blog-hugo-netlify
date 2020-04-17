@@ -1,14 +1,105 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on Wim&#39;s site</title>
+    <title>Categories on Technology Blog Wim</title>
     <link>/categories/</link>
-    <description>Recent content in Categories on Wim&#39;s site</description>
+    <description>Recent content in Categories on Technology Blog Wim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Network Programming</title>
+      <link>/categories/network-programming/</link>
+      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      
+      <guid>/categories/network-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming</title>
+      <link>/categories/programming/</link>
+      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      
+      <guid>/categories/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Infrastructure As Code</title>
+      <link>/categories/infrastructure-as-code/</link>
+      <pubDate>Sat, 21 Mar 2020 22:32:50 +0100</pubDate>
+      
+      <guid>/categories/infrastructure-as-code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DevOps</title>
+      <link>/categories/devops/</link>
+      <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/categories/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Private Cloud</title>
+      <link>/categories/private-cloud/</link>
+      <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/categories/private-cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cloud Native</title>
+      <link>/categories/cloud-native/</link>
+      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/categories/cloud-native/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Public Cloud</title>
+      <link>/categories/public-cloud/</link>
+      <pubDate>Mon, 25 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/categories/public-cloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Backend</title>
+      <link>/categories/backend/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/categories/backend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web Development</title>
+      <link>/categories/web-development/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/categories/web-development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Continuous Integration/Deployment</title>
+      <link>/categories/continuous-integration/deployment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/continuous-integration/deployment/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

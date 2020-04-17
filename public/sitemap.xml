@@ -3,21 +3,366 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/about/</loc>
-    <lastmod>2020-03-16T11:58:57+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2020-03-16T11:58:57+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/netpalm/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/network-programming/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/programming/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</loc>
+    <lastmod>2020-04-15T09:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</loc>
+    <lastmod>2020-04-14T09:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/python/</loc>
+    <lastmod>2020-04-09T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/scrapli/</loc>
+    <lastmod>2020-04-09T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-09_scrapli_introduction/</loc>
+    <lastmod>2020-04-09T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/napalm/</loc>
+    <lastmod>2020-04-07T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-07_napalm_introduction_part2/</loc>
+    <lastmod>2020-04-07T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-06_napalm_introduction_part1/</loc>
+    <lastmod>2020-04-06T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ios-xe/</loc>
+    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/restconf/</loc>
+    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-03_restconf_introduction_part2/</loc>
+    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/yang/</loc>
+    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-02_restconf_introduction_part1/</loc>
+    <lastmod>2020-04-02T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/netconf/</loc>
+    <lastmod>2020-03-31T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-31_netconf_python_part2/</loc>
+    <lastmod>2020-03-31T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-30-netconf_python_part1/</loc>
+    <lastmod>2020-03-30T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-25-netmiko_introduction/</loc>
+    <lastmod>2020-03-25T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ios-xr/</loc>
+    <lastmod>2020-03-25T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/netmiko/</loc>
+    <lastmod>2020-03-25T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-24-paramiko_introduction_part2/</loc>
+    <lastmod>2020-03-24T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/paramiko/</loc>
+    <lastmod>2020-03-24T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-23-paramiko_introduction_part1/</loc>
+    <lastmod>2020-03-23T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/aci/</loc>
+    <lastmod>2020-03-21T22:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-21-aci_python_acitookit/</loc>
+    <lastmod>2020-03-21T22:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/infrastructure-as-code/</loc>
+    <lastmod>2020-03-21T22:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-19-aci_python_requests/</loc>
+    <lastmod>2020-03-19T07:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/jinja2/</loc>
+    <lastmod>2020-03-11T07:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</loc>
+    <lastmod>2020-03-11T07:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</loc>
+    <lastmod>2020-02-27T07:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-01-14-parse_yaml_python/</loc>
+    <lastmod>2020-01-14T10:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/yaml/</loc>
+    <lastmod>2020-01-14T10:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-01-09-parse_xml_python/</loc>
+    <lastmod>2020-01-09T10:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/xml/</loc>
+    <lastmod>2020-01-09T10:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-12-03-aci_vsphere_terraform/</loc>
+    <lastmod>2019-12-03T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/devops/</loc>
+    <lastmod>2019-12-03T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/</loc>
+    <lastmod>2019-12-03T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/private-cloud/</loc>
+    <lastmod>2019-12-03T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/terraform/</loc>
+    <lastmod>2019-12-03T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/vsphere/</loc>
+    <lastmod>2019-12-03T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ansible/</loc>
+    <lastmod>2019-12-02T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/cloud-native/</loc>
+    <lastmod>2019-12-02T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/kubernetes/</loc>
+    <lastmod>2019-12-02T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-12-02_vsphere_kubernetes_ansible/</loc>
+    <lastmod>2019-12-02T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-12-01-vsphere_terraform/</loc>
+    <lastmod>2019-12-01T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-11-29-aci_terraform_gitlab/</loc>
+    <lastmod>2019-11-29T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/gitlab/</loc>
+    <lastmod>2019-11-29T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-11-27-aci_terraform/</loc>
+    <lastmod>2019-11-27T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/aws/</loc>
+    <lastmod>2019-11-25T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-11-25-aws_kubernetes_ansible/</loc>
+    <lastmod>2019-11-25T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/public-cloud/</loc>
+    <lastmod>2019-11-25T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-11-23-aws_terraform_gitlab/</loc>
+    <lastmod>2019-11-23T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-11-22-aws_terraform_remotestate/</loc>
+    <lastmod>2019-11-22T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-11-21-aws_terraform/</loc>
+    <lastmod>2019-11-21T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/digitalocean/</loc>
+    <lastmod>2019-10-17T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-10-17_digitalocean_kubernetes_ansible/</loc>
+    <lastmod>2019-10-17T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2019-09-02_digitalocean_terraform/</loc>
+    <lastmod>2019-09-02T14:39:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/backend/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/express/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/mean/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/mongo/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/webdevelopment/2015-07-02_express_mongo_rest_api/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/web-development/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/webdevelopment/</loc>
+    <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/continuous-integration/deployment/</loc>
   </url>
   
 </urlset>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Create VM on vSphere and network on Cisco ACI (using Terraform) - Technology Blog Wim</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-83351442-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Technology Blog Wim" rel="home">
+				<img src="/img/logo_blog.png" alt="Logo" />
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/networkprogrammability">
+				
+				<span class="menu__text">Network Programmability</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/devops">
+				
+				<span class="menu__text">DevOps</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/webdevelopment">
+				
+				<span class="menu__text">Web Development</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/public-cloud">
+				
+				<span class="menu__text">Cloud</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/cloud-native/">
+				
+				<span class="menu__text">Cloud-Native</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Create VM on vSphere and network on Cisco ACI (using Terraform)</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2019-12-03T14:39:50&#43;01:00">December 03, 2019</time>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			<h3 id="introduction">Introduction</h3>
+<p>In past couple of posts, we have been experimenting with Terraform in combination with ACI and vSphere seperately. In this post, we will combine both and we will first create network constructs on Cisco&rsquo;s ACI solution and once done, we will create two VM instances on vSphere that are actually using the underlying ACI network constructs.</p>
+<h3 id="aci-configuration">ACI configuration</h3>
+<p>A lot has already been discussed in this post here, so I won&rsquo;t re-iterate all of that here and instead focus on the new items in the Terraform file.</p>
+<p>In below snippet, you can see we create a tenant, VRF and BD. The BD will use a subnet of &lsquo;10.16.100.1/24&rsquo;. The VMs we sill create in a later phase will hence be using an IP address from that subnet.</p>
+<p>Furthermore, we will create an Application Profile and two EPGs into that Application Profile. Each EPG will contain a VM. For demonstration purposes, we have also defined a contract between those EPGs. The contracts will allow HTTPS and ICMP traffic (refer to the aci_filter_entry resources in the below snippet). You will see in the &lsquo;aci_application_epg&rsquo; resources that we link the contract (aci_contract.Contract_EPG1_EPG2.name) to the application EPGs (resource aci_application_epg).</p>
+<p>The full content of the main_aci.tf file is:</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">provider</span> <span style="color:#ba2121">&#34;aci&#34;</span> {
+<span style="color:#7d9029">  username</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">apic_username</span>
+<span style="color:#7d9029">  password</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">apic_password</span>
+<span style="color:#7d9029">  url</span>      <span style="color:#666">=</span> <span style="">var</span>.<span style="">apic_server</span>
+<span style="color:#7d9029">  insecure</span> <span style="color:#666">=</span> <span style="color:#b00040">true</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_tenant&#34; &#34;Tenant_TF&#34;</span> {
+<span style="color:#7d9029">  name</span>        <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_tenant</span>
+<span style="color:#7d9029">  description</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Tenant created by TF&#34;</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_vrf&#34; &#34;VRF_TF&#34;</span> {
+<span style="color:#7d9029">  tenant_dn</span>          <span style="color:#666">=</span> <span style="">aci_tenant</span>.<span style="">Tenant_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>               <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_vrf</span>
+<span style="color:#7d9029">  description</span>        <span style="color:#666">=</span> <span style="color:#ba2121">&#34;VRF created by TF&#34;</span>
+<span style="color:#7d9029">  bd_enforced_enable</span> <span style="color:#666">=</span> <span style="color:#b00040">false</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_bridge_domain&#34; &#34;BD_TF&#34;</span> {
+<span style="color:#7d9029">  tenant_dn</span>          <span style="color:#666">=</span> <span style="">aci_tenant</span>.<span style="">Tenant_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>               <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_bd</span>
+<span style="color:#7d9029">  description</span>        <span style="color:#666">=</span> <span style="color:#ba2121">&#34;BD created by TF&#34;</span>
+<span style="color:#7d9029">  relation_fv_rs_ctx</span> <span style="color:#666">=</span> <span style="">aci_vrf</span>.<span style="">VRF_TF</span>.<span style="">name</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_subnet&#34; &#34;Subnet_BD&#34;</span> {
+<span style="color:#7d9029">  bridge_domain_dn</span> <span style="color:#666">=</span> <span style="">aci_bridge_domain</span>.<span style="">BD_TF</span>.<span style="">id</span><span style="color:#408080;font-style:italic">
+</span><span style="color:#408080;font-style:italic">
+</span><span style="color:#408080;font-style:italic">  #name             = &#34;Subnet&#34;
+</span><span style="color:#408080;font-style:italic"></span><span style="color:#7d9029">  ip</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_bd_subnet</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_application_profile&#34; &#34;AppProfile_TF&#34;</span> {
+<span style="color:#7d9029">  tenant_dn</span>   <span style="color:#666">=</span> <span style="">aci_tenant</span>.<span style="">Tenant_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>        <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_app_profile</span>
+<span style="color:#7d9029">  description</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;App profile created by TF&#34;</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_application_epg&#34; &#34;EPG_TF_1&#34;</span> {
+<span style="color:#7d9029">  application_profile_dn</span> <span style="color:#666">=</span> <span style="">aci_application_profile</span>.<span style="">AppProfile_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>                   <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_epg_</span><span style="color:#666">1</span>
+<span style="color:#7d9029">  description</span>            <span style="color:#666">=</span> <span style="color:#ba2121">&#34;EPG created by TF&#34;</span>
+<span style="color:#7d9029">  relation_fv_rs_bd</span>      <span style="color:#666">=</span> <span style="">aci_bridge_domain</span>.<span style="">BD_TF</span>.<span style="">name</span>
+<span style="color:#7d9029">  relation_fv_rs_dom_att</span> <span style="color:#666">=</span> [<span style="">var</span>.<span style="">vmm_domain</span>]
+<span style="color:#7d9029">  relation_fv_rs_cons</span>    <span style="color:#666">=</span> [<span style="">aci_contract</span>.<span style="">Contract_EPG</span><span style="color:#666">1</span><span style="">_EPG</span><span style="color:#666">2</span>.<span style="">name</span>]
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_application_epg&#34; &#34;EPG_TF_2&#34;</span> {
+<span style="color:#7d9029">  application_profile_dn</span> <span style="color:#666">=</span> <span style="">aci_application_profile</span>.<span style="">AppProfile_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>                   <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_epg_</span><span style="color:#666">2</span>
+<span style="color:#7d9029">  description</span>            <span style="color:#666">=</span> <span style="color:#ba2121">&#34;EPG created by TF&#34;</span>
+<span style="color:#7d9029">  relation_fv_rs_bd</span>      <span style="color:#666">=</span> <span style="">aci_bridge_domain</span>.<span style="">BD_TF</span>.<span style="">name</span>
+<span style="color:#7d9029">  relation_fv_rs_dom_att</span> <span style="color:#666">=</span> [<span style="">var</span>.<span style="">vmm_domain</span>]
+<span style="color:#7d9029">  relation_fv_rs_prov</span>    <span style="color:#666">=</span> [<span style="">aci_contract</span>.<span style="">Contract_EPG</span><span style="color:#666">1</span><span style="">_EPG</span><span style="color:#666">2</span>.<span style="">name</span>]
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;null_resource&#34; &#34;delay&#34;</span> {
+  <span style="color:#008000;font-weight:bold">provisioner</span> <span style="color:#ba2121">&#34;local-exec&#34;</span> {
+<span style="color:#7d9029">    command</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;sleep 5&#34;</span>
+  }
+
+<span style="color:#7d9029">  triggers</span> <span style="color:#666">=</span> {
+<span style="color:#7d9029">    &#34;epg1&#34;</span> <span style="color:#666">=</span> <span style="">aci_application_epg</span>.<span style="">EPG_TF_</span><span style="color:#666">1</span>.<span style="">id</span>
+<span style="color:#7d9029">    &#34;epg2&#34;</span> <span style="color:#666">=</span> <span style="">aci_application_epg</span>.<span style="">EPG_TF_</span><span style="color:#666">2</span>.<span style="">id</span>
+  }
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_contract&#34; &#34;Contract_EPG1_EPG2&#34;</span> {
+<span style="color:#7d9029">  tenant_dn</span>   <span style="color:#666">=</span> <span style="">aci_tenant</span>.<span style="">Tenant_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>        <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Contract_EPG1_EPG2&#34;</span>
+<span style="color:#7d9029">  description</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Contract created by TF&#34;</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_contract_subject&#34; &#34;Contract_Subject&#34;</span> {
+<span style="color:#7d9029">  contract_dn</span>                  <span style="color:#666">=</span> <span style="">aci_contract</span>.<span style="">Contract_EPG</span><span style="color:#666">1</span><span style="">_EPG</span><span style="color:#666">2</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>                         <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_contract_subject</span>
+<span style="color:#7d9029">  relation_vz_rs_subj_filt_att</span> <span style="color:#666">=</span> [<span style="">aci_filter</span>.<span style="">Filter_Allow_HTTPS</span>.<span style="">name</span>, <span style="">aci_filter</span>.<span style="">Filter_Allow_ICMP</span>.<span style="">name</span>]
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_filter&#34; &#34;Filter_Allow_HTTPS&#34;</span> {
+<span style="color:#7d9029">  tenant_dn</span> <span style="color:#666">=</span> <span style="">aci_tenant</span>.<span style="">Tenant_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>      <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_filter_allow_https</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_filter&#34; &#34;Filter_Allow_ICMP&#34;</span> {
+<span style="color:#7d9029">  tenant_dn</span> <span style="color:#666">=</span> <span style="">aci_tenant</span>.<span style="">Tenant_TF</span>.<span style="">id</span>
+<span style="color:#7d9029">  name</span>      <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_filter_allow_icmp</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_filter_entry&#34; &#34;Filter_Entry_HTTPS&#34;</span> {
+<span style="color:#7d9029">  name</span>        <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_filter_entry_https</span>
+<span style="color:#7d9029">  filter_dn</span>   <span style="color:#666">=</span> <span style="">aci_filter</span>.<span style="">Filter_Allow_HTTPS</span>.<span style="">id</span>
+<span style="color:#7d9029">  ether_t</span>     <span style="color:#666">=</span> <span style="color:#ba2121">&#34;ip&#34;</span>
+<span style="color:#7d9029">  prot</span>        <span style="color:#666">=</span> <span style="color:#ba2121">&#34;tcp&#34;</span>
+<span style="color:#7d9029">  d_from_port</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https&#34;</span>
+<span style="color:#7d9029">  d_to_port</span>   <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https&#34;</span>
+<span style="color:#7d9029">  stateful</span>    <span style="color:#666">=</span> <span style="color:#ba2121">&#34;yes&#34;</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aci_filter_entry&#34; &#34;Filter_Entry_ICMP&#34;</span> {
+<span style="color:#7d9029">  name</span>      <span style="color:#666">=</span> <span style="">var</span>.<span style="">aci_filter_entry_icmp</span>
+<span style="color:#7d9029">  filter_dn</span> <span style="color:#666">=</span> <span style="">aci_filter</span>.<span style="">Filter_Allow_ICMP</span>.<span style="">id</span>
+<span style="color:#7d9029">  ether_t</span>   <span style="color:#666">=</span> <span style="color:#ba2121">&#34;ip&#34;</span>
+<span style="color:#7d9029">  prot</span>      <span style="color:#666">=</span> <span style="color:#ba2121">&#34;icmp&#34;</span>
+<span style="color:#7d9029">  stateful</span>  <span style="color:#666">=</span> <span style="color:#ba2121">&#34;yes&#34;</span>
+}
+</code></pre></div><p>We also have to define the following variables in the variables_aci.tf file.</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;apic_server&#34;</span> {
+<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://10.16.2.1&#34;</span>
+}
+
+<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;apic_username&#34;</span> {
+<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;admin&#34;</span>
+}
+
+<span style="">***</span> <span style="">Note:</span> <span style="">truncated</span> <span style="">***</span>
+</code></pre></div><p>The entire ACI variables file can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_vSphere_Terraform/variables_aci.tf">here</a></p>
+<h3 id="vsphere-configuration">vSphere configuration</h3>
+<p>Next, we will focus on the vSphere portion and more in particular, how we can link the VM instances to the ACI network.</p>
+<p>You will notice in below snippet that we are using quite some Terraform data sources. Data sources allow data to be fetched from your system to be used elsewhere in the Terraform code. For vSphere, we will read information from our system such as the datacenter, the datastore, the cluster, the template to be used. All this because we will use it elsewhere to tell Terraform where it needs to create these resources.</p>
+<p>One thing to point out, and potentially a little more complicated, is the data source for the network. ACI uses the concept of a VMM domain (Virtual Machine Manager). It is a constuct to bind the ACI network constructs to the VMware network constructs. Upon creation, ACI will create a port group on VMWare&rsquo;s DVS and it will call this portgroup according to the following name format: tenant|applicationprofile|EPGname. In the datasource &lsquo;data vsphere_network&rsquo;, you will see that we are retrieving the network from VMWare using that name format.</p>
+<p>For the rest, it&rsquo;s business as usual, we will just create two instances on vSphere and tell it to use that portgroup ( network_id = data.vsphere_network.vm1_net.id)</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#008000;font-weight:bold">provider</span> <span style="color:#ba2121">&#34;vsphere&#34;</span> {
+  user                 <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_user</span>
+  password             <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_password</span>
+  vsphere_server       <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_server</span>
+  allow_unverified_ssl <span style="color:#666">=</span> <span style="color:#b00040">true</span>
+}
+
+<span style="color:#008000;font-weight:bold">data</span> <span style="color:#ba2121">&#34;vsphere_datacenter&#34; &#34;dc&#34;</span> {
+  name <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_datacenter</span>
+}
+
+<span style="color:#008000;font-weight:bold">data</span> <span style="color:#ba2121">&#34;vsphere_network&#34; &#34;vm1_net&#34;</span> {
+  depends_on <span style="color:#666">=</span> [<span style="color:#008000;font-weight:bold">null_resource</span>.<span style="color:#008000;font-weight:bold">delay</span>]
+  name <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">format</span>(
+    <span style="color:#ba2121">&#34;%v|%v|%v&#34;</span>,
+    <span style="color:#008000;font-weight:bold">aci_tenant</span>.<span style="color:#008000;font-weight:bold">Tenant_TF</span>.<span style="color:#008000;font-weight:bold">name</span>,
+    <span style="color:#008000;font-weight:bold">aci_application_profile</span>.<span style="color:#008000;font-weight:bold">AppProfile_TF</span>.<span style="color:#008000;font-weight:bold">name</span>,
+    <span style="color:#008000;font-weight:bold">aci_application_epg</span>.<span style="color:#008000;font-weight:bold">EPG_TF_1</span>.<span style="color:#008000;font-weight:bold">name</span>,
+  )
+  datacenter_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datacenter</span>.<span style="color:#008000;font-weight:bold">dc</span>.<span style="color:#008000;font-weight:bold">id</span>
+}
+
+<span style="color:#008000;font-weight:bold">data</span> <span style="color:#ba2121">&#34;vsphere_network&#34; &#34;vm2_net&#34;</span> {
+  depends_on <span style="color:#666">=</span> [<span style="color:#008000;font-weight:bold">null_resource</span>.<span style="color:#008000;font-weight:bold">delay</span>]
+  name <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">format</span>(
+    <span style="color:#ba2121">&#34;%v|%v|%v&#34;</span>,
+    <span style="color:#008000;font-weight:bold">aci_tenant</span>.<span style="color:#008000;font-weight:bold">Tenant_TF</span>.<span style="color:#008000;font-weight:bold">name</span>,
+    <span style="color:#008000;font-weight:bold">aci_application_profile</span>.<span style="color:#008000;font-weight:bold">AppProfile_TF</span>.<span style="color:#008000;font-weight:bold">name</span>,
+    <span style="color:#008000;font-weight:bold">aci_application_epg</span>.<span style="color:#008000;font-weight:bold">EPG_TF_2</span>.<span style="color:#008000;font-weight:bold">name</span>,
+  )
+  datacenter_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datacenter</span>.<span style="color:#008000;font-weight:bold">dc</span>.<span style="color:#008000;font-weight:bold">id</span>
+}
+
+<span style="color:#008000;font-weight:bold">data</span> <span style="color:#ba2121">&#34;vsphere_datastore&#34; &#34;ds&#34;</span> {
+  name          <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_datastore</span>
+  datacenter_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datacenter</span>.<span style="color:#008000;font-weight:bold">dc</span>.<span style="color:#008000;font-weight:bold">id</span>
+}
+
+<span style="color:#008000;font-weight:bold">data</span> <span style="color:#ba2121">&#34;vsphere_compute_cluster&#34; &#34;cl&#34;</span> {
+  name          <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_compute_cluster</span>
+  datacenter_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datacenter</span>.<span style="color:#008000;font-weight:bold">dc</span>.<span style="color:#008000;font-weight:bold">id</span>
+}
+
+<span style="color:#008000;font-weight:bold">data</span> <span style="color:#ba2121">&#34;vsphere_virtual_machine&#34; &#34;template&#34;</span> {
+  name          <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">vsphere_template</span>
+  datacenter_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datacenter</span>.<span style="color:#008000;font-weight:bold">dc</span>.<span style="color:#008000;font-weight:bold">id</span>
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;vsphere_virtual_machine&#34; &#34;aci_vm1&#34;</span> {
+  count            <span style="color:#666">=</span> <span style="color:#666">1</span>
+  name             <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">aci_vm1_name</span>
+  resource_pool_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_compute_cluster</span>.<span style="color:#008000;font-weight:bold">cl</span>.<span style="color:#008000;font-weight:bold">resource_pool_id</span>
+  datastore_id     <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datastore</span>.<span style="color:#008000;font-weight:bold">ds</span>.<span style="color:#008000;font-weight:bold">id</span>
+
+  num_cpus  <span style="color:#666">=</span> <span style="color:#666">2</span>
+  memory    <span style="color:#666">=</span> <span style="color:#666">4096</span>
+  guest_id  <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">guest_id</span>
+  scsi_type <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">scsi_type</span>
+
+  <span style="color:#008000;font-weight:bold">disk</span> {
+    label            <span style="color:#666">=</span> <span style="color:#ba2121">&#34;disk0&#34;</span>
+    size             <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">disks</span>[<span style="color:#666">0</span>].<span style="color:#008000;font-weight:bold">size</span>
+    thin_provisioned <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">disks</span>[<span style="color:#666">0</span>].<span style="color:#008000;font-weight:bold">thin_provisioned</span>
+  }
+
+  folder <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">folder</span>
+
+  <span style="color:#008000;font-weight:bold">network_interface</span> {
+    network_id   <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_network</span>.<span style="color:#008000;font-weight:bold">vm1_net</span>.<span style="color:#008000;font-weight:bold">id</span>
+    adapter_type <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">network_interface_types</span>[<span style="color:#666">0</span>]
+  }
+
+  <span style="color:#008000;font-weight:bold">clone</span> {
+    linked_clone  <span style="color:#666">=</span> <span style="color:#ba2121">&#34;false&#34;</span>
+    template_uuid <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">id</span>
+
+    <span style="color:#008000;font-weight:bold">customize</span> {
+      <span style="color:#008000;font-weight:bold">linux_options</span> {
+        host_name <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">aci_vm1_name</span>
+        domain    <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">domain_name</span>
+      }
+
+      <span style="color:#008000;font-weight:bold">network_interface</span> {
+        ipv4_address <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">aci_vm1_address</span>
+        ipv4_netmask <span style="color:#666">=</span> <span style="color:#ba2121">&#34;24&#34;</span>
+      }
+
+      ipv4_gateway    <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">gateway</span>
+      dns_server_list <span style="color:#666">=</span> [<span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">dns_list</span>]
+      dns_suffix_list <span style="color:#666">=</span> [<span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">dns_search</span>]
+    }
+  }
+}
+
+<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;vsphere_virtual_machine&#34; &#34;aci_vm2&#34;</span> {
+  count            <span style="color:#666">=</span> <span style="color:#666">1</span>
+  name             <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">aci_vm2_name</span>
+  resource_pool_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_compute_cluster</span>.<span style="color:#008000;font-weight:bold">cl</span>.<span style="color:#008000;font-weight:bold">resource_pool_id</span>
+  datastore_id     <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_datastore</span>.<span style="color:#008000;font-weight:bold">ds</span>.<span style="color:#008000;font-weight:bold">id</span>
+
+  num_cpus <span style="color:#666">=</span> <span style="color:#666">2</span>
+  memory   <span style="color:#666">=</span> <span style="color:#666">4096</span>
+  guest_id <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">guest_id</span>
+
+  scsi_type <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">scsi_type</span>
+
+  <span style="color:#008000;font-weight:bold">disk</span> {
+    label            <span style="color:#666">=</span> <span style="color:#ba2121">&#34;disk0&#34;</span>
+    size             <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">disks</span>[<span style="color:#666">0</span>].<span style="color:#008000;font-weight:bold">size</span>
+    thin_provisioned <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">disks</span>[<span style="color:#666">0</span>].<span style="color:#008000;font-weight:bold">thin_provisioned</span>
+  }
+
+  folder <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">folder</span>
+
+  <span style="color:#008000;font-weight:bold">network_interface</span> {
+    network_id   <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_network</span>.<span style="color:#008000;font-weight:bold">vm2_net</span>.<span style="color:#008000;font-weight:bold">id</span>
+    adapter_type <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">network_interface_types</span>[<span style="color:#666">0</span>]
+  }
+
+  <span style="color:#008000;font-weight:bold">clone</span> {
+    linked_clone  <span style="color:#666">=</span> <span style="color:#ba2121">&#34;false&#34;</span>
+    template_uuid <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">data</span>.<span style="color:#008000;font-weight:bold">vsphere_virtual_machine</span>.<span style="color:#008000;font-weight:bold">template</span>.<span style="color:#008000;font-weight:bold">id</span>
+
+    <span style="color:#008000;font-weight:bold">customize</span> {
+      <span style="color:#008000;font-weight:bold">linux_options</span> {
+        host_name <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">aci_vm2_name</span>
+        domain    <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">domain_name</span>
+      }
+
+      <span style="color:#008000;font-weight:bold">network_interface</span> {
+        ipv4_address <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">aci_vm2_address</span>
+        ipv4_netmask <span style="color:#666">=</span> <span style="color:#ba2121">&#34;24&#34;</span>
+      }
+
+      ipv4_gateway    <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">gateway</span>
+      dns_server_list <span style="color:#666">=</span> [<span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">dns_list</span>]
+      dns_suffix_list <span style="color:#666">=</span> [<span style="color:#008000;font-weight:bold">var</span>.<span style="color:#008000;font-weight:bold">dns_search</span>]
+    }
+  }
+}
+</code></pre></div><p>In order for everything to work, you will of course need to specify some variables. These variables will be used in the vSphere Terrafrom file.</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;vsphere_server&#34;</span> {
+  default <span style="color:#666">=</span> <span style="color:#ba2121">&#34;10.16.2.99&#34;</span>
+}
+
+<span style="">***</span> <span style="color:#008000;font-weight:bold">Note</span><span style="">:</span> <span style="color:#008000;font-weight:bold">truncated</span> <span style="">***</span>
+
+</code></pre></div><p>The entire vSphere variable file can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_vSphere_Terraform/variables_vsphere.tf">here</a></p>
+<h3 id="deploying-aci-and-vsphere">Deploying ACI and vSphere</h3>
+<p>Let&rsquo;s run the &lsquo;terraform init&rsquo; command. You will see that we are downloading the required providers.</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cisco@wauterw-ubuntu-desktop:~/software/Terraform/ACI-vSphere$ terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+
+The following providers <span style="color:#008000;font-weight:bold">do</span> not have any version constraints in configuration,
+so the latest version was installed.
+
+To prevent automatic upgrades to new major versions that may contain breaking
+changes, it is recommended to add <span style="color:#19177c">version</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;...&#34;</span> constraints to the
+corresponding provider blocks in configuration, with the constraint strings
+suggested below.
+
+* provider.aci: <span style="color:#19177c">version</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;~&gt; 0.1&#34;</span>
+* provider.null: <span style="color:#19177c">version</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;~&gt; 2.1&#34;</span>
+* provider.vsphere: <span style="color:#19177c">version</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;~&gt; 1.13&#34;</span>
+
+*** Note: truncated output ***
+</code></pre></div><p>Next, let&rsquo;s take a look at the plan. You will see that 16 resources will be created (both for VMware as for ACI).</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cisco@wauterw-ubuntu-desktop:~/software/Terraform/ACI-vSphere$ terraform plan
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to <span style="color:#008000">local</span> or remote state storage.
+
+data.vsphere_datacenter.dc: Refreshing state...
+data.vsphere_virtual_machine.template: Refreshing state...
+data.vsphere_compute_cluster.cl: Refreshing state...
+data.vsphere_datastore.ds: Refreshing state...
+
+------------------------------------------------------------------------
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+ 
+ *** Note: truncated output ***
+         
+Plan: <span style="color:#666">16</span> to add, <span style="color:#666">0</span> to change, <span style="color:#666">0</span> to destroy.
+
+------------------------------------------------------------------------
+
+Note: You didn<span style="color:#ba2121">&#39;t specify an &#34;-out&#34; parameter to save this plan, so Terraform
+</span><span style="color:#ba2121">can&#39;</span>t guarantee that exactly these actions will be performed <span style="color:#008000;font-weight:bold">if</span>
+<span style="color:#ba2121">&#34;terraform apply&#34;</span> is subsequently run.
+</code></pre></div><p>And finally, let&rsquo;s apply the configurations</p>
+<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cisco@wauterw-ubuntu-desktop:~/software/Terraform/ACI-vSphere$ terraform apply
+data.vsphere_datacenter.dc: Refreshing state...
+data.vsphere_datastore.ds: Refreshing state...
+data.vsphere_compute_cluster.cl: Refreshing state...
+data.vsphere_virtual_machine.template: Refreshing state...
+
+*** Note: truncated output ***
+
+aci_tenant.Tenant_TF: Creating...
+aci_tenant.Tenant_TF: Creation <span style="color:#008000">complete</span> after 1s <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>uni/tn-Tenant_Terraform_ACI_Vsphere_demo<span style="color:#666">]</span>
+aci_contract.Contract_EPG1_EPG2: Creating...
+
+*** Note: truncated output ***
+
+vsphere_virtual_machine.aci_vm2<span style="color:#666">[</span>0<span style="color:#666">]</span>: Creation <span style="color:#008000">complete</span> after 6m25s <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>423c297e-9f95-6f53-6c49-2f4fc41e3e16<span style="color:#666">]</span>
+
+Apply complete! Resources: <span style="color:#666">16</span> added, <span style="color:#666">0</span> changed, <span style="color:#666">0</span> destroyed.
+</code></pre></div><p>You will notice now that some objects are created on ACI and on vSphere. Below, I have added some screenshots.</p>
+<p>First, you will see that the ACI tenant got created and that it has a VRF, a BD and 2 EPG&rsquo;s.</p>
+<p><img src="/images/2019-12-03-1.png" alt="Tenat"></p>
+<p>And you will also notice that it has a VRF, a BD and 2 EPG&rsquo;s.</p>
+<p><img src="/images/2019-12-03-2.png" alt="VRF and BD"></p>
+<p>Drilling into the Tenant, you will see the two EPGS:</p>
+<p><img src="/images/2019-12-03-3.png" alt="EPGs"></p>
+<p>And here you will see the two EPGs with the contracts in between.</p>
+<p><img src="/images/2019-12-03-4.png" alt="EPGs"></p>
+<p>On vSphere, you will see our two VM instances:</p>
+<p><img src="/images/2019-12-03-5.png" alt="EPGs"></p>
+<p>And on vSphere you will see the following network configuration.</p>
+<p><img src="/images/2019-12-03-6.png" alt="vSphere network"></p>
+<p>And because we have an ICMP contract between both EPGs, we can also verify if the ping works.</p>
+<p><img src="/images/2019-12-03-7.png" alt="vSphere network"></p>
+<p>The source code for this example can be found at <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_vSphere_Terraform">Github</a></p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/aci/" rel="tag">ACI</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/terraform/" rel="tag">Terraform</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/vsphere/" rel="tag">vSphere</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/devops/2019-12-02_vsphere_kubernetes_ansible/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">vSphere - Install Kubernetes using Ansible</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "blog-wimwauters" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/backend/">Backend</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/cloud-native/">Cloud Native</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/devops/">DevOps</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/infrastructure-as-code/">Infrastructure As Code</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/network-programming/">Network Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/private-cloud/">Private Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/programming/">Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/public-cloud/">Public Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/web-development/">Web Development</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/napalm/" title="Napalm">Napalm (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netconf/" title="NETCONF">NETCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@Wauters_Wim" target="_blank">
+				<svg class="widget-social__link-icon icon icon-twitter" width="24" height="24" viewBox="0 0 384 312"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/https://www.linkedin.com/in/wim-wauters-92ab401" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/https://github.com/wiwa1978" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:blogwimwauters%20at%20gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>blogwimwauters at gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Wim Wauters.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
