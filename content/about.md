@@ -17,7 +17,7 @@ I noticed that every now and then, I revert back to my posts to remember the exa
 
 I hope you will find it useful and you come back every now and then to learn a thing or two.
 
-If you wish to contact me, don’t hesitate to contact me through this blog’s contact page…
+If you wish to contact me, don’t hesitate to contact me.
 
 Regards,
 
