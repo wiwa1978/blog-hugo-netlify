@@ -98,9 +98,9 @@ Loopback3002           200.200.200.231 YES manual up                    up
 
 ### Service templates
 
-NetPalm supports a feature called `Service Templates`. The value from service templates comes from the fact they allow you to create things at a service level rather then the individual device level. Sounds pretty abstract right? Let's
+NetPalm supports a feature called `Service Templates`. The value from service templates comes from the fact they allow you to create things at a service level rather then the individual device level. Sounds pretty abstract right? 
 
-Imagine you have dozens of devices onto which you want to add additional interfaces (or add interfactes to certain VLANs, or create trunk ports or...). In the first and second post, we have seen how this could be achieved through calling NetPalm's getconfig/setconfig API and pass the commands for each device. These could be a daunting and error-prone tasks if you need to repeat this for multiple dozens of devices, possible devices having different operating systems or coming from multiple vendors.
+Imagine you have dozens of devices onto which you want to add additional interfaces (or add interfactes to certain VLANs, or create trunk ports or...). In the first and second post, we have seen how this could be achieved through calling NetPalm's getconfig/setconfig API and pass the commands for each device. These could be daunting and error-prone tasks if you need to repeat this for multiple dozens of devices, possibly devices having different operating systems or coming from multiple vendors.
 
 Service templates will allow you to define a single service template that can be used across multiple devices. The service template supports all of the Jinja logic. In other words, it allows you to run IF/ELSE statements inside an individual operation (retrieve, create, delete). The benefit here is that we only need to define such service template once and it will work against all the underlying devices. If we were to do the same withouth service templates, it would require us to call NetPalm's getconfig/setconfig API but each time specifying different JSON payloads (per vendor, per device and per operation system).
 
