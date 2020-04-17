@@ -4,14 +4,12 @@ draft: false
 author: Wim Wauters
 
 ---
-
+![wim](/images/wim_cartoon.png#floatright)
 Thanks for dropping by at my technology blog! My name is Wim Wauters, 42 year old guy living in Belgium, father of 2 lovely daughters and 2 lovely stepdaughters. I’m a Solutions Architect in the European datacenter/cloud team in Cisco Advanced Services.
 
 I love technology … a lot! Ranging from hardware based tools (e.g Raspberry Pi, ESP8266…) to networking architecture (e.g. datacenter, virtualization…) to software development (e.g. web frameworks, scripting, automation tools …) to Cloud technologies (e.g. AWS, Azure, Openstack, Docker, Kubernetes…). 
 
 Although I love technology a lot, I have to admit that it’s difficult to keep up with all the latest and greatest technologies and the variety of tools out there. There’s a lot to learn each day if you want to keep up with current market trends!
-
-![wim](/images/wim_cartoon.png#floatright)
 
 To that extend, I’m a firm believer that maintaining a generalist approach is often better than a specialist approach. I find that it is definitely an asset to know quite a bit about a lot of different technologies and tools. Therefore, I always try to maintain a general knowledge on what I consider the most relevant stuff for my day to day work.
 
