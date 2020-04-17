@@ -4,7 +4,11 @@ draft: false
 author: Wim Wauters
 
 ---
-Hi,
+
+  
+
+ ![wim](/images/wim_cartoon.png) {:style="float: right;margin-right: 7px;margin-top: 7px;"}
+
 
 Thanks for dropping by at my technology blog! My name is Wim Wauters, 42 year old guy living in Belgium, father of 2 lovely daughters and 2 lovely stepdaughters. I’m a Solutions Architect in the European datacenter/cloud team in Cisco Advanced Services.
 
