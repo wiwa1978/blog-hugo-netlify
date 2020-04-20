@@ -28,7 +28,7 @@ disqusShortname = "blog-wimwauters"
 
   [[menu.main]]
   identifier = "webdevelopment"
-  name = "Web Development"
+  name = "(Web)Development"
   url = "/webdevelopment"
   weight = 3
 

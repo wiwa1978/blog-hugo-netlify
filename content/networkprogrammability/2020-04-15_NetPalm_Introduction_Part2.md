@@ -158,12 +158,12 @@ Next, we will issue once again the `getconfig` Netmiko method to verify our list
 
 ![netpalm](/images/2020-04-15-15.png)
 
-And as we expected, the interface `BNI100` is deleted from our device and hence is not showing up in the interface list.
+And as we expected, the interface `BDI100` is deleted from our device and hence is not showing up in the interface list.
 
 ![netpalm](/images/2020-04-15-16.png)
 
 Hope you enjoyed this part 2 of the introduction to NetPalm and you start to see the benefits of the tool 
 
-In a [next](https://blog.wimwauters.com/networkprogrammability/2020-04-15_netpalm_introduction_part3/) blog post, we'll dive deeper into some more advanced topics. Hope to see you back!
+In a [next](https://blog.wimwauters.com/networkprogrammability/2020-04-17_netpalm_introduction_part3/) blog post, we'll dive deeper into some more advanced topics. Hope to see you back!
 
 
