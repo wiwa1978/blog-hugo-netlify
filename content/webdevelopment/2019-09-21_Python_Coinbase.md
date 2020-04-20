@@ -1,4 +1,13 @@
-
+---
+title: Python Webscraping with BeautifulSoup
+date: 2014-04-12T20:19:50+01:00
+draft: true
+categories:
+  - Development
+  - Programming
+tags:
+  - Python
+---
 
 WAUTERW-M-65P7:Python_Coinbase_DCA wauterw$ python3 -m venv venv
 WAUTERW-M-65P7:Python_Coinbase_DCA wauterw$ source venv/bin/activate
