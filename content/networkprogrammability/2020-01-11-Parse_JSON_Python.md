@@ -10,9 +10,10 @@ tags:
   - JSON
 ---
 ### Introduction
+In this post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant. 
 
 ### Sample file
-I downloaded [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace) XML file and converted it to JSON.
+I downloaded [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace) XML file and converted it to JSON. There's plenty of tools om the web to do this. I did it already for you, in case you want to follow along. Here it is:
 
 ```json
 {
@@ -54,12 +55,15 @@ I downloaded [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-g
          },
 
 ```
+### Code 
 
+We’ll start with creating a Python virtual environment and the installation of the xmltodict library.
 
 ```bash
 WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 -m venv venv
 WAUTERW-M-65P7:Parse_JSON_Python wauterw$ source venv/bin/activate
 ```
+Next, we’ll write the Python script. We'll first need to import the json package and read the JSON file into a variable.
 
 ```python3
 import json
@@ -69,6 +73,7 @@ with open('sample.json') as f:
 
 print(json_content)
 ```
+Next, we will convert the file content into a dictionary, which is very easy with Python. See below. I'm printing also the type so you can see effectively it's a dict object.
 
 ```python3
 import json
@@ -76,32 +81,31 @@ import json
 with open('sample.json') as f:
    json_content = f.read()
 
-#print(json_content)
-
 json_dict = json.loads(json_content)
 print(type(json_dict))
 ```
+Below is the output:
 
 ```bash
 (venv) WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseCustomers.py 
 <class 'dict'>
 ```
 
-
 ### Overview of customers
+
+Then let's make a small script to print an overview of all customers. Hence, in Python language, you can load all customers in a list by using json_dict['Customers'].
+
+After that, it’s a matter of looping through a Python dictionary and printing the values
+
 ```python3
 import json
 
 with open('sample.json') as f:
    json_content = f.read()
 
-#print(json_content)
-
 json_dict = json.loads(json_content)
-#print(type(json_dict))
 
 customers = json_dict['Customers']
-#print(customers)
 
 for customer in customers['Customer']:
    print(f"Customer ID: {customer['@CustomerID']}")
@@ -111,7 +115,7 @@ for customer in customers['Customer']:
    print(f"  ==>  City: {customer['FullAddress']['City']}")
    print(50* "-")
 ```
-
+Here is the output:
 ```bash
 (venv) WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseCustomers.py  
 Customer ID: GREAL
@@ -141,6 +145,12 @@ Contact Name: Jaime Yorres
 ```
 
 ### Overview of orders per customer
+Next, let's print an overview of all orders per customers. This information is available in the sample JSON file under the Orders attribute.
+
+First of all, we will store all customers in a list called customer_list by using the append method. Hence, the variable customer_list contains a list of customers which we can loop through.
+
+Next, we will loop through this list of customers (first for loop) and per customer we go over all the orders (second for loop) for that customer.
+
 ```python3
 import json
 
@@ -151,7 +161,7 @@ json_dict = json.loads(json_content)
 
 customers = json_dict['Customers']
 orders = json_dict['Orders']
-#print(customers)
+
 customer_list = []
 for customer in customers['Customer']:
    customer_list.append(customer['@CustomerID'])
@@ -163,6 +173,7 @@ for customer in customer_list:
          print(f"  ==>Employee {order['EmployeeID']} placed an order on {order['OrderDate']}")
          
 ```
+Here is the output of this script:
 
 ```bash
 (venv) WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseOrders.py 
@@ -196,4 +207,4 @@ WAUTERW-M-65P7:Parse_JSON_Python wauterw$
   ```
 
 
-  [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_JSON_Python)
+You can find the code in my repo on [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_JSON_Python).
