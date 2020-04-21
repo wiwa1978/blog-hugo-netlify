@@ -1,7 +1,7 @@
 ---
 title: Parse JSON file with Python
 date: 2020-01-11T10:19:50+01:00
-draft: True
+draft: false
 categories:
   - Network Programming
   - Programming
