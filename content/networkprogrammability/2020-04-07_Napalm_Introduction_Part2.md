@@ -13,6 +13,8 @@ tags:
 
 Let's continue where we left off in part 1. In this post, we will focus more on some specific use cases, like configuration validation and changing configurations onto our devices.
 
+>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ### Use Case: retrieve all interfaces
 The below script shows the real power of NAPALM. We will be querying two device types, one of which is an IOSXR device and one of which is a IOSXE device.
 
@@ -93,8 +95,8 @@ driver_xr = get_network_driver("iosxr")
 device = {
     "device_type": "cisco_xr",
     "ip": "sbx-iosxr-mgmt.cisco.com",
-    "username": "admin",
-    "password": "C1sco12345",
+    "username": "***",
+    "password": "***",
     "port": "8181",
 }
 

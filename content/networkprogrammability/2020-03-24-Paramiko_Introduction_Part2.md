@@ -17,14 +17,16 @@ In the previous post, we experimented a bit with Paramiko. The post was describi
 
 We will write a small script to read the interface description via Paramiko. I know we said in the introduction that we would focus on making configuration changes, but we will use the below script in the final script.
 
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ```python
 import paramiko
 from connection import get_connection
 
 def get_description(devices):
    host = 'ios-xe-mgmt-latest.cisco.com'
-   username = 'developer'
-   password = 'C1sco12345'
+   username = '***'
+   password = '***'
    port = 8181
 
    command = 'show interface description \n'
@@ -75,8 +77,8 @@ max_buffer = 65535
 devices = {
    'iosxe1': {
       'ip': 'ios-xe-mgmt-latest.cisco.com',
-      'username': 'developer',
-      'password': 'C1sco12345',
+      'username': '***',
+      'password': '***',
       'port': '8181'
       }
    }

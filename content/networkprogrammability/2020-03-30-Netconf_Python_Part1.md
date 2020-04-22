@@ -64,11 +64,13 @@ Let's check if everything works. We will use the ncclient library to connect to 
 
 Below script speaks for itself. If all works well you will see that you successfully created a connection between your SSH client (ncclient) and the IOS XE NETCONF agent.
 
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ```python
 from ncclient import manager
 
-m = manager.connect(host='ios-xe-mgmt-latest.cisco.com', port='10000', username='developer',
-                    password='C1sco12345', device_params={'name':'iosxe'}, hostkey_verify=False)
+m = manager.connect(host='ios-xe-mgmt-latest.cisco.com', port='10000', username='***',
+                    password='***', device_params={'name':'iosxe'}, hostkey_verify=False)
 
 print(m.connected)
 ```
@@ -85,8 +87,8 @@ Basic NETCONF functionality can be extended by the definition of NETCONF capabil
 ```python
 from ncclient import manager
 
-m = manager.connect(host='ios-xe-mgmt-latest.cisco.com', port='10000', username='developer',
-                    password='C1sco12345', device_params={'name':'iosxe'}, hostkey_verify=False)
+m = manager.connect(host='ios-xe-mgmt-latest.cisco.com', port='10000', username='***',
+                    password='***', device_params={'name':'iosxe'}, hostkey_verify=False)
 
 for capability in m.server_capabilities:
    print('*'* 50)
@@ -110,7 +112,7 @@ urn:ietf:params:xml:ns:yang:ietf-netconf-with-defaults?module=ietf-netconf-with-
 Using NETCONF, we can also retrieve the 'running-config' from our device. Below is the Python script for that. We again make a connection to our device and then we issue the `get_config` method. Refer to the [documentation](https://ncclient.readthedocs.io/en/latest/manager.html?highlight=get_config#ncclient.manager.Manager.get_config) for more context.
 
 
-```python3
+```python
 from ncclient import manager
 from pprint import pprint
 import xmltodict
@@ -119,8 +121,8 @@ import xml.dom.minidom
 router = {
    'ip': 'ios-xe-mgmt-latest.cisco.com',
    'port': '10000',
-   'username': 'developer',
-   'password': 'C1sco12345'
+   'username': '***',
+   'password': '***'
 }
 
 m = manager.connect(host=router['ip'], port=router['port'], username=router['username'],
@@ -158,8 +160,8 @@ from ncclient import manager
 router = {
    'ip': 'ios-xe-mgmt-latest.cisco.com',
    'port': '10000',
-   'username': 'developer',
-   'password': 'C1sco12345'
+   'username': '***',
+   'password': '***'
 }
 
 m = manager.connect(host=router['ip'], port=router['port'], username=router['username'],
@@ -185,8 +187,8 @@ import xml.dom.minidom
 router = {
    'ip': 'ios-xe-mgmt-latest.cisco.com',
    'port': '10000',
-   'username': 'developer',
-   'password': 'C1sco12345'
+   'username': '***',
+   'password': '***'
 }
 
 m = manager.connect(host=router['ip'], port=router['port'], username=router['username'],

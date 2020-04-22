@@ -1,6 +1,6 @@
 ---
 title: DNA Center Introduction - Python
-date: 2020-04-20T12:32:50+01:00
+date: 2020-04-24T12:32:50+01:00
 draft: True
 categories:
   - Network Programming

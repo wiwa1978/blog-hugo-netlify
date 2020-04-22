@@ -27,6 +27,7 @@ In [this](https://blog.wimwauters.com/networkprogrammability/2020-04-03_restconf
 
 In this post, we will just create a simple Python script for each of these use cases. It's dead easy once you understand the REST API through POSTMAN. Mostly, whenever I come across a new REST API, I would experiment a bit with POSTMAN before I write Python scripts. This post will show you it's very easy once you have gone through the POSTMAN examples.
 
+>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
 
 ## Use Case 1: Retrieve information (IETF YANG model)
 The URL to use is: `https://{device['ip']}:{device['port']}/restconf/data/ietf-interfaces:interfaces`
@@ -40,8 +41,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -90,8 +91,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -160,8 +161,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -228,8 +229,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -274,8 +275,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -324,8 +325,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -384,8 +385,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 
@@ -442,8 +443,8 @@ from pprint import pprint
 
 device = {
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "9443",
 }
 

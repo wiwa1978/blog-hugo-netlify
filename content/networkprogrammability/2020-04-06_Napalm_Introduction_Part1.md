@@ -12,6 +12,8 @@ tags:
 ### Introduction
 Napalm stands for 'Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)' and is a Python library that can be used to automate and interavt with networking devices and OSs using a unified API. So if you have multiple vendors in your network and don't want to write a dedicated automation script per vendor device, then NAPALM is exactly what you are looking for.
 
+>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ### Installing the library
 Installing NAPALM is very straightforward and is described very well in the online [documentation](https://napalm.readthedocs.io/en/latest/installation/). 
 ```bash
@@ -22,6 +24,7 @@ Collecting napalm
 **Truncated**
 Successfully installed ciscoconfparse-1.5.1 colorama-0.4.3 dnspython-1.16.0 junos-eznc-2.2.1 napalm-2.5.0 netaddr-0.7.19 netmiko-2.4.2 nxapi-plumbing-0.5.2 passlib-1.7.2 pyIOSXR-0.53 pyYAML-5.3.1 pyeapi-0.8.3
 ```
+
 
 ### Getting to know NAPALM
 In this first use case, we will give some examples for you to build an understanding on how NAPALM works. First of course, we will load the NAPALM library, more in particular the `get_network_driver` method. This immmediately triggers the question what network devices (or drivers) are supported. This can be found back in the documentation, see here the [support matrix](https://napalm.readthedocs.io/en/latest/support/index.html).
@@ -41,8 +44,8 @@ driver_xr = get_network_driver("iosxr")
 device = {
     "device_type": "cisco_xr",
     "ip": "sbx-iosxr-mgmt.cisco.com",
-    "username": "admin",
-    "password": "C1sco12345",
+    "username": "***",
+    "password": "***",
     "port": "8181",
 }
 

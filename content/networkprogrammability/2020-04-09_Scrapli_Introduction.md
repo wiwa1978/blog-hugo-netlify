@@ -33,6 +33,8 @@ WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 -m venv venv
 WAUTERW-M-65P7:Scrapli Introduction wauterw$ source venv/bin/activate
 ```
 
+>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ### Installing Scrapli
 Installation is dead simple. It's just installed through PIP.
 ```bash
@@ -68,8 +70,8 @@ from scrapli.driver.core import IOSXEDriver
 
 device = {
     "host": "ios-xe-mgmt-latest.cisco.com",
-    "auth_username": "developer",
-    "auth_password": "C1sco12345",
+    "auth_username": "***",
+    "auth_password": "***",
     "port": 8181,
     "auth_strict_key": False,
 }
@@ -110,14 +112,14 @@ from scrapli.driver.core import IOSXRDriver
 
 devices = [{
     "host": "ios-xe-mgmt-latest.cisco.com",
-    "auth_username": "developer",
-    "auth_password": "C1sco12345",
+    "auth_username": "***",
+    "auth_password": "***",
     "port": 8181,
     "auth_strict_key": False,
 }, {
     "host": "sbx-iosxr-mgmt.cisco.com",
-    "auth_username": "admin",
-    "auth_password": "C1sco12345",
+    "auth_username": "***",
+    "auth_password": "***",
     "port": 8181,
     "auth_strict_key": False,
 }]
@@ -173,8 +175,8 @@ from scrapli.driver.core import IOSXEDriver
 
 device = {
     "host": "ios-xe-mgmt-latest.cisco.com",
-    "auth_username": "developer",
-    "auth_password": "C1sco12345",
+    "auth_username": "***",
+    "auth_password": "***",
     "port": 8181,
     "auth_strict_key": False,
 }

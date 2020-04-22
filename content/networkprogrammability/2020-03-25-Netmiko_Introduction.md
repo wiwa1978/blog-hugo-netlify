@@ -67,20 +67,22 @@ Important note: The ConnectHandler class is identical to the Netmiko class. This
 
 In the below example, we will simply use the Netmiko method.
 
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ```python
 from netmiko import Netmiko
 
 devices = [{
     "device_type": "cisco_xr",
     "ip": "sbx-iosxr-mgmt.cisco.com",
-    "username": "admin",
-    "password": "C1sco12345",
+    "username": "***",
+    "password": "***",
     "port": "8181",
 }, {
     "device_type": "cisco_xe",
     "ip": "ios-xe-mgmt-latest.cisco.com",
-    "username": "developer",
-    "password": "C1sco12345",
+    "username": "***",
+    "password": "***",
     "port": "8181",
 }]
 
@@ -111,8 +113,8 @@ from netmiko import ConnectHandler
 devices = [{
    "device_type": "cisco_xe",
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "8181",
 }]
 
@@ -152,8 +154,8 @@ import logging
 devices = [{
    "device_type": "cisco_xe",
    "ip": "ios-xe-mgmt-latest.cisco.com",
-   "username": "developer",
-   "password": "C1sco12345",
+   "username": "***",
+   "password": "***",
    "port": "8181",
 }]
 
@@ -207,14 +209,14 @@ As mentioned, this file contains the required information to configure the loopb
 ---
 hosts:
   - name: sbx-iosxr-mgmt.cisco.com
-    username: admin
-    password: C1sco12345
+    username: ***
+    password: ***
     port: 8181
     cmd: "show running-config"
     type: cisco_xr
   - name: ios-xe-mgmt-latest.cisco.com
-    username: developer
-    password: C1sco12345
+    username: ***
+    password: ***
     port: 8181
     cmd: "show running-config"
     type: cisco_xe

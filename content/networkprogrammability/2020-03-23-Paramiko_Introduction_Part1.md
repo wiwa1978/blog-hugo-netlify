@@ -45,15 +45,17 @@ Below script will execute the `show ip interface brief` against a Cisco IOS XE d
 
 The main part of this script is the instantiation of the ssh client object. We will first create the ssh client and then make a connection (via the `connect` method) to our Cisco IOS XE device.
 
-Next, we will execute the specified command using the `ssh.exec_command` command. Our SSH client will now send this command to the IOS XE device which will execute the command and return the output via stdout. All we have to do is print the output, using the `stdout.readlines()` method.
+Next, we will execute the specified command using the `ssh.exec_command` command. Our SSH client will now send this command to the IOS XE device which will execute the
+
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
 
 ```python
 import paramiko
 import time
 
 host = 'ios-xe-mgmt-latest.cisco.com'
-username = 'developer'
-password = 'C1sco12345'
+username = '*****'
+password = '*****'
 port = 8181
 
 command = 'show ip interface brief \n'
@@ -106,6 +108,8 @@ With that out of the way, we can continue. As we created this seperate `connecti
 
 Rest of the script is pretty self explanatory. We will loop over the devices dictionary and for each create a SSH client and make a connection. Next we will run the command against the device.
 
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ```python
 import paramiko
 from connection import get_connection
@@ -114,14 +118,14 @@ import time
 devices = {
    'iosxe1': {
       'ip': 'ios-xe-mgmt-latest.cisco.com',
-      'username': 'developer',
-      'password': 'C1sco12345',
+      'username': '***',
+      'password': '***',
       'port': '8181'
       },
    'iosxe2': {
       'ip': 'ios-xe-mgmt-latest.cisco.com',
-      'username': 'developer',
-      'password': 'C1sco12345',
+      'username': '***',
+      'password': '***',
       'port': '8181'
       }
    }
@@ -153,8 +157,8 @@ import time
 devices = {
    'iosxe1': {
       'ip': 'ios-xe-mgmt-latest.cisco.com',
-      'username': 'developer',
-      'password': 'C1sco12345',
+      'username': '***',
+      'password': '***',
       'port': '8181'
       }
    }
@@ -216,14 +220,14 @@ max_buffer = 65535
 devices = {
    'iosxe1': {
       'ip': 'ios-xe-mgmt-latest.cisco.com',
-      'username': 'developer',
-      'password': 'C1sco12345',
+      'username': '***',
+      'password': '***',
       'port': '8181'
       },
    'iosxe2': {
       'ip': 'ios-xe-mgmt-latest.cisco.com',
-      'username': 'developer',
-      'password': 'C1sco12345',
+      'username': '***',
+      'password': '***',
       'port': '8181'
       }
    }

@@ -42,6 +42,7 @@ This file contains the configuration for the interface in XML format. Note the `
 
 Also note that we are using the `edit_config` method (see [documentation](https://ncclient.readthedocs.io/en/latest/manager.html?highlight=edit_config#ncclient.manager.Manager.edit_config)). The `edit_config` needs a target and a config which must be rooted in a config element (which is also the reason why the interface XML file is wrapped in a <config></config> block).
 
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
 
 ```python
 from ncclient import manager
@@ -50,8 +51,8 @@ from pprint import pprint
 router = {
    'ip': 'ios-xe-mgmt-latest.cisco.com',
    'port': '10000',
-   'username': 'developer',
-   'password': 'C1sco12345'
+   'username': '***',
+   'password': '***'
 }
 
 netconf_template = open('templates/interface.xml').read()
@@ -122,8 +123,8 @@ from jinja2 import FileSystemLoader
 router = {
    'ip': 'ios-xe-mgmt-latest.cisco.com',
    'port': '10000',
-   'username': 'developer',
-   'password': 'C1sco12345'
+   'username': '***',
+   'password': '***'
 }
 
 my_template = Environment(loader=FileSystemLoader('templates'))
