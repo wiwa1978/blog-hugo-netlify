@@ -58,21 +58,21 @@ Cisco DNAC comes with an intend API, which is a Northbound API that exposes spec
 
 ### Getting started example (POSTMAN)
 
-Enough intro...let's dive into some basic programming. 
+Enough intro...let's dive into some basic programming. Let's try this with POSTMAN first. 
 
 > Note about equipment: For all the examples that involve retrieving information, we will use a Cisco sandbox environment delivered by Cisco Devnet. Go check out Devnet, really brilliant. In this tutorial, I'm using the DNAC Always On sandbox. For later tutorials, we will use a different DNAC as the always-on variant does not allow us to create/update information on the DNAC.
 
 ##### A) Preparing POSTMAN
 
-As a first step, we need to authenticate to the DNAC. Below is a screenshot from the API documentation. We need to issue a REST call towards the endpoint `/dna/system/api/v1/auth/token` and we will get back a `Token`.
-
-![DNAC](/images/2020-04-22-1.png)
-
-Let's try this with POSTMAN first. Let's first configure our POSTMAN client a bit. As we are using the DEVNET DNAC Always-On sandbox, we need to set the credentials in POSTMAN. This allows us to use placeholders in our calls, so we can write things like `https://{dnac}` instead of `https://sandboxdnac2.cisco.com` which makes it much more flexible to work with other DNAC instances later on.
+Let's first configure our POSTMAN client a bit. As we are using the DEVNET DNAC Always-On sandbox, we need to set the credentials in POSTMAN. This allows us to use placeholders in our calls, so we can write things like `https://{dnac}` instead of `https://sandboxdnac2.cisco.com` which makes it much more flexible to work with other DNAC instances later on.
 
 ![DNAC](/images/2020-04-22-5.png)
 
 ##### B) Authentication
+
+As a first step, we need to authenticate to the DNAC. Below is a screenshot from the API documentation. We need to issue a REST call towards the endpoint `/dna/system/api/v1/auth/token` and we will get back a `Token`.
+
+![DNAC](/images/2020-04-22-1.png)
 
 In the below screenshot, you'll see the endpoint set to `/dna/system/api/v1/auth/token`. For the Authorization, we need to use Basic Auth Base64 encoding according the the documentation. This is easy with POSTMAN, as we set the `Type` to Basic Auth and it'll work.
 
