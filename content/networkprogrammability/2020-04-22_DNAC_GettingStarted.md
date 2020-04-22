@@ -10,13 +10,13 @@ tags:
 ---
 ### What is Cisco DNA
 
-Cisco DNA is Cisco’s architecture for enterprise networks – across the campus, branch, WAN, and extended enterprise. It provides an open, extensible, and software-driven approach that makes the network simpler to manage and more agile and responsive to business needs. Cisco DNA is an intelligent system that encompasses policy, automation, analytics, and open platform capabilities to deliver on all required aspects of an intent-based network.
+Cisco DNA is Cisco’s architecture for enterprise networks. It provides an open, extensible, and software-driven approach that makes the network simpler to manage and more agile and responsive to business needs. Cisco DNA is an intelligent system that encompasses policy, automation, analytics, and open platform capabilities to deliver on all required aspects of an intent-based network.
 
 That's a mouth full of marketing terms but in my own words it boils down to: Cisco DNA allows you to provision and configure all your network devices in minutes while it uses advanced analytics to proactively monitor and optimize your network. Read more info on DNA [here](https://www.cisco.com/c/en/us/solutions/collateral/enterprise-networks/cisco-digital-network-architecture/nb-06-cisco-dna-soln-ovw-cte-en.html) and [this](https://www.cisco.com/c/dam/global/ru_kz/solutions/enterprise-networks/digital-network-architecture/pdf/white-paper-c11-736842.pdf) whitepaper.
 
 As this is a blog about (network programmabily) more than anything else we'll focus more on its API.
 
-### DNA API
+### DNAC and its API
 
 Cisco DNA architecture comes with a controller, which is called DNAC (Digital Network Architecture Center). Not only does it allow us to design and provision our network, it also allows for monitoring and analytics. And above all, it is an open and extensible platform to allow integration via its API (documentation [here](https://developer.cisco.com/docs/dna-center/api/1-3-3-x/)).
 
