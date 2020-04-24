@@ -1,7 +1,7 @@
 ---
-title: DNA Center Introduction - Python
+title: Cisco DNA Center - Python part 1
 date: 2020-04-24T12:32:50+01:00
-draft: True
+draft: false
 categories:
   - Network Programming
   - Programming
@@ -9,10 +9,12 @@ tags:
   - DNAC
 ---
 ### Introduction
+
 In this [post](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/), we introduced DNAC at a fairly high level and we have shown some POSTMAN samples to get a basic understanding of some of the APIs like authentication and devices). In this post, we will continue that journey as we will show some  Python samples.
 
 >Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
 
+### Authentication through Python
 
 ```python
 import requests
@@ -95,3 +97,75 @@ Cisco 1140 Unified Access Point with serial number 1140K0008
 Cisco 1140 Unified Access Point with serial number 1140K0009
 ```
 
+### Retrieve interfaces from device using Python
+
+In the above output, you see we get a list of both wired as well as wireless devices Next, we'll write a script to retrieve the interfaces from a specific device category. This requires us to work with two different APIs. Let's look into it.
+
+In the `Devices`, you will see the following API. As you look into it, you'll see we can use it to retrieve a list of interfaces if we pass the device ID.
+
+![DNAC](/images/2020-04-24-1.png)
+
+In the below Python script, you notice we do the following actions:
+- Query the network-device API with a family query set to "Switches and Hubs". Look at the API to verify this, you'll see the possibility to pass some query parameters, of which `family` is one example. We will get back a list of wired devices but not the access points. 
+- Next, we iterate over that list of devices and store their ID into a list.
+- Next, we loop through the list of device id's and for each one, we call the `interface/network-device/{device-id}` API (see screenshot above).
+- The result of the previous call is a list of interfaces belonging to that device(-id)
+- We just loop over the interfaces and print out the name and the IP address.
+
+```python
+import requests
+from authenticate import get_token
+from pprint import pprint
+
+def main():
+   token = get_token()
+
+   dnac = "sandboxdnac2.cisco.com"
+   url = f"https://{dnac}/dna/intent/api/v1/"
+   family = "Switches and Hubs"
+
+   headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "X-auth-Token": token 
+   }
+
+   device_url = url + "network-device?family=" +  family
+   response =  requests.get(device_url, headers=headers, verify=False ).json()
+   devices = response["response"]
+
+   device_list = []
+
+   for device in devices:
+      print(f"{device['type']} with ID {device['id']}")
+      device_list.append(device['id'])
+ 
+   for device_id in device_list:
+      print("Investigating device: " + device_id)
+      new_interface_url = url + "interface/network-device/" + device_id
+      response =  requests.get(new_interface_url, headers=headers, verify=False ).json()
+      interfaces = response["response"]
+      for interface in interfaces:
+         if interface['ipv4Address'] is not None:
+            print(f"    {interface['portName']} with IP address {interface['ipv4Address']}")
+      
+if __name__ == "__main__":
+   main() 
+```
+Below you can see the output of this script. As you expect, we simply get back a list of devices with its related interfaces.
+
+```
+wauterw@WAUTERW-M-65P7 Devices % python3 get_interfaces.py
+Investigating device: cda508ff-bca4-4b96-8e17-9d3c603cb628
+    Loopback0 with IP address 10.2.2.3
+    Vlan823 with IP address 10.10.20.81
+Investigating device: 5bc5b967-3f83-4195-891c-788f3e9048f3
+    Loopback0 with IP address 10.2.2.4
+    Vlan823 with IP address 10.10.20.82
+Investigating device: 2f0b7d3b-c9e1-491e-a584-f272b5403719
+    Loopback0 with IP address 10.2.2.2
+    Loopback1 with IP address 11.11.11.11
+    Vlan823 with IP address 10.10.20.80
+```
+
+The code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DNAC_PythonRequests/Devices).
