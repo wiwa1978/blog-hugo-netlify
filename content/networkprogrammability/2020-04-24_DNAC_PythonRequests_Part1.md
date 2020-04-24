@@ -1,5 +1,5 @@
 ---
-title: Cisco DNA Center - Python part 1
+title: Cisco DNA Center - Devices
 date: 2020-04-24T12:32:50+01:00
 draft: false
 categories:

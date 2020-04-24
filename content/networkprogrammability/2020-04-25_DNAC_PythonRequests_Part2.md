@@ -1,5 +1,5 @@
 ---
-title: Cisco DNA Center - Python part 2
+title: Cisco DNA Center - Assurance
 date: 2020-04-25T10:32:50+01:00
 draft: false
 categories:
