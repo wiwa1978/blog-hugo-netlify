@@ -5,6 +5,7 @@ draft: false
 categories:
   - Network Programming
   - Programming
+  - All
 tags:
   - IOS XE
   - Python

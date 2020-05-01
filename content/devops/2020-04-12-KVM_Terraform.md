@@ -6,6 +6,7 @@ categories:
   - DevOps
   - Continuous Integration/Deployment
   - Private Cloud
+  - All
 tags:
   - KVM
   - Terraform

@@ -7,6 +7,7 @@ categories:
   - Infrastructure As Code
   - Continuous Integration/Deployment
   - Private Cloud
+  - All
 tags:
   - Terraform
   - ACI

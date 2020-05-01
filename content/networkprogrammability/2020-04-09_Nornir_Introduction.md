@@ -5,6 +5,7 @@ draft: True
 categories:
   - Network Programming
   - Programming
+  - All
 tags:
   - Python
   - Nornir

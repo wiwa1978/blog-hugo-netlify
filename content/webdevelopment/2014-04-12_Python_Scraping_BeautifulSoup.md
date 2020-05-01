@@ -5,6 +5,7 @@ draft: false
 categories:
   - Development
   - Programming
+  - All
 tags:
   - Python
 ---

@@ -7,6 +7,7 @@ categories:
   - Infrastructure As Code
   - Cloud Native
   - Private Cloud
+  - All
 tags:
   - Terraform
   - vSphere

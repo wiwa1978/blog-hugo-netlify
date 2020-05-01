@@ -44,6 +44,12 @@ disqusShortname = "blog-wimwauters"
   url = "/categories/cloud-native/"
   weight = 5
 
+  [[menu.main]]
+  identifier = "all"
+  name = "All Posts"
+  url = "/categories/all/"
+  weight = 5
+
 [[menu.main]]
   identifier = "about"
   name = "About Me"

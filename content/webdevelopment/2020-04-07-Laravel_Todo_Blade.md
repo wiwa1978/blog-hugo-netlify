@@ -7,6 +7,7 @@ categories:
   - Programming
   - Backend
   - Frontend
+  - All
 tags:
   - Laravel
 ---

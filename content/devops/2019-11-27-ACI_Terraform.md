@@ -6,6 +6,7 @@ categories:
   - DevOps
   - Infrastructure As Code
   - Private Cloud
+  - All
 tags:
   - Terraform
   - ACI

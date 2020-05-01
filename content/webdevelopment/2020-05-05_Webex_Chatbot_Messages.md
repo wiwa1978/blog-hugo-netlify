@@ -1,0 +1,109 @@
+---
+title: Webex Teams Chatbot with Python
+date: 2020-04-28T17:19:50+01:00
+draft: false
+categories:
+  - Web Development
+  - Programming
+tags:
+  - Webex Teams
+  - Python
+  - All
+---
+### Introduction
+In this post, we will create a very simple chatbot with Webex Teams API using Python. This is a basic example, just to show you the principles a bit.
+
+### Setting up Webex Teams
+
+To start off, go to `https://developer.webex.com/`.
+
+![webex](/images/2020-05-05-1.png)
+
+Next, create a new App (select `Create a Bot`).
+
+![webex](/images/2020-05-05-2.png)
+
+In the details page, add the requested information:
+
+![webex](/images/2020-05-05-3.png)
+
+As a result, you will get back some information which you will need in future so take a note of it. 
+
+![webex](/images/2020-05-05-4.png)
+
+Next, go to Webex Teams and search for your bot based on the bot username. I called my bot blog-wim, so the username will be blogwim@webex.bot.
+You will see the bot is listed now in your Webex Teams.
+
+![webex](/images/2020-05-05-5.png)
+
+Next, we need to find out what the room ID is. Therefore, the easiest is to go to https://developer.webex.com/docs/api/v1/rooms/list-rooms to retrieve a list of all the rooms available in your Webex Teams application.
+
+![webex](/images/2020-05-05-6.png)
+
+The first one you will see is the room ID of the chatbot you just added. Also note down the roomID as you will need it later.
+
+### Python code: add message
+The following Python script is pretty basic and essentially implements a POST API call to send a message to our Webex Teams bot.
+
+```python
+import requests
+
+url = "https://api.ciscospark.com/v1/messages"
+
+room_id = "Y2l***ZDU5"
+bearer = "Yzg***10f"
+
+message = "This is a test message from the Python application"
+
+payload = {
+    "roomId": room_id, 
+    "text": message
+    }
+
+headers = {
+    "Authorization": "Bearer %s " % bearer
+    }
+
+response = requests.post(url, headers=headers, data = payload).json()
+print(response)
+   
+```
+
+Let's execute the Python script:
+
+```
+wauterw@WAUTERW-M-65P7 Webex_Chatbot_Messages % python3 webex.py
+{'id': 'Y2lzY29zcGFyazovL3VzL01FU1NBR0UvNWMzOWI3NDAtOGEyOS0xMWVhLTlhYTktYjdhZjhmOWE5ZmRl', 'roomId': 'Y2lzY29zcGFyazovL3VzL1JPT00vOGE1YzcyNmItNTU2ZC0zMzlkLWEyZGMtNzQxMDhkMGRiZDU5', 'roomType': 'direct', 'text': 'This is a test message from the Python application', 'personId': 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS82NjlkYjQ0YS1iY2JjLTRlNzEtOTM4Mi1hMzMxODhlMGVlYmE', 'personEmail': 'blogwim@webex.bot', 'created': '2020-04-29T14:54:43.380Z'}
+```
+Next, check your Webex Teams application and you will see the message appears there.
+
+![webex](/images/2020-05-05-6.png)
+
+### Python code: delete messages
+```python
+import requests
+
+url = "https://api.ciscospark.com/v1/messages"
+
+room_id = "Y2lzY29zcGFyazovL3VzL1JPT00vOGE1YzcyNmItNTU2ZC0zMzlkLWEyZGMtNzQxMDhkMGRiZDU5"
+bearer = "Yzg2ZjE4NjAtYWI1MC00NmExLWEzMDUtOGFkYjQxMGRjZDJiMDc0MTkxZjYtOGQ1_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f"
+
+message_url = f"?roomId={room_id}"
+
+headers = {
+    "Authorization": "Bearer %s " % bearer
+    }
+
+response = requests.get(url + message_url, headers=headers).json()
+messages = response['items']
+   
+for message in messages:
+    delete_url = f"/{message['id']}"
+    response = requests.delete(url + delete_url, headers=headers)
+    if response.status_code == "403":
+        print("Message could not be deleted")
+        continue
+    else:
+        print(f"Deleted message with id {message['id']}")
+```
+That's how easy it is to implement a basic chatbot.

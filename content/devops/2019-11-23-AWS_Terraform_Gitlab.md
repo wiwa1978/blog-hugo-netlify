@@ -7,6 +7,7 @@ categories:
   - Infrastructure As Code
   - Continuous Integration/Deployment
   - Public Cloud
+  - All
 tags:
   - Terraform
   - AWS

@@ -5,6 +5,7 @@ draft: True
 categories:
   - DevOps
   - Private Cloud
+  - All
 tags:
   - KVM
   - Centos

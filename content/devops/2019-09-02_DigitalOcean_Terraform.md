@@ -6,6 +6,7 @@ categories:
   - DevOps
   - Infrastructure As Code
   - Public Cloud
+  - All
 tags:
   - Terraform
   - DigitalOcean

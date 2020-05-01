@@ -6,6 +6,7 @@ categories:
   - Web Development
   - Programming
   - Backend
+  - All
 tags:
   - MEAN
   - Express

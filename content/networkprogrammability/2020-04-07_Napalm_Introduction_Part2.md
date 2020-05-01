@@ -5,6 +5,7 @@ draft: false
 categories:
   - Network Programming
   - Programming
+  - All
 tags:
   - Python
   - Napalm

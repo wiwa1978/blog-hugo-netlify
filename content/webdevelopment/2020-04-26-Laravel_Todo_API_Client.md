@@ -9,6 +9,7 @@ categories:
   - Frontend
 tags:
   - Laravel
+  - All
 ---
 
 ### Introduction

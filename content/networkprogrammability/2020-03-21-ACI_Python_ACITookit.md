@@ -6,6 +6,7 @@ categories:
   - Network Programming
   - Programming
   - Infrastructure As Code
+  - All
 tags:
   - ACI
   - Python

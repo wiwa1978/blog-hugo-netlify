@@ -7,6 +7,7 @@ categories:
   - Infrastructure As Code
   - Cloud Native
   - Public Cloud
+  - All
 tags:
   - Terraform
   - AWS

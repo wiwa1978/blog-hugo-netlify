@@ -5,6 +5,7 @@ draft: True
 categories:
   - DevOps
   - Infrastructure As Code
+  - All
 tags:
   - Private Cloud
   - Ansible
