@@ -15,46 +15,46 @@ disqusShortname = "blog-wimwauters"
 
 [menu] 
   [[menu.main]]
+  identifier = "all"
+  name = "All Posts"
+  url = "/categories/all/"
+  weight = 1
+
+  [[menu.main]]
   identifier = "networkprogrammability"
   name = "Network Programmability"
   url = "/networkprogrammability"
-  weight = 1
+  weight = 2
 
   [[menu.main]]
   identifier = "devops"
   name = "DevOps"
   url = "/devops"
-  weight = 2
+  weight = 3
 
   [[menu.main]]
   identifier = "webdevelopment"
   name = "(Web)Development"
   url = "/webdevelopment"
-  weight = 3
+  weight = 4
 
   [[menu.main]]
   identifier = "cloud"
   name = "Cloud"
   url = "/categories/public-cloud"
-  weight = 4
+  weight = 5
 
   [[menu.main]]
   identifier = "cloud-native"
   name = "Cloud-Native"
   url = "/categories/cloud-native/"
-  weight = 5
-
-  [[menu.main]]
-  identifier = "all"
-  name = "All Posts"
-  url = "/categories/all/"
-  weight = 5
+  weight = 6
 
 [[menu.main]]
   identifier = "about"
   name = "About Me"
   url = "/about"
-  weight = 6
+  weight = 7
 
 [Params]
   subtitle = "Blog Wim Wauters" # Subtitle of your site. Used in site header
