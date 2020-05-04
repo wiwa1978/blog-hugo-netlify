@@ -23,13 +23,13 @@ Let's start with a simple use case, which is showing the version and a list of i
 
 Let's start with defining a `hosts` file. For this example, it will just include a single entry, which points to the FQDN of the sandbox IOSXE device.
 
-```
+```yaml
 [iosxe]
 ios-xe-mgmt-latest.cisco.com
 ```
 Next, let's define the variables in a `group_vars` file called `iosxe.yaml`
 
-```yml
+```yaml
 ansible_connection : local
 ansible_python_interpreter : /usr/bin/python3
 host_key_checking : False
@@ -39,7 +39,7 @@ ansible_port: 8181
 ```
 Next, let's create the script. You will see that we issue the `show version` and `show ip interface brief` commands one by one and we capture the response in a variable through Ansible `register` method. We then use the `debug` method to visualize the response.
 
-```yml
+```yaml
 ---
 - name: Show examples
   hosts: iosxe
@@ -69,6 +69,7 @@ Next, let's create the script. You will see that we issue the `show version` and
       var: interfaces["stdout_lines"][0]
 ```
 The above script can be run as follows. As expected, we will get back the output of both commands.
+
 ```bash
 wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook command_show.yaml -i hosts
 
@@ -184,7 +185,7 @@ Loopback100            10.10.10.10     YES manual up                    up
 ###### B) Delete interface
 Next, let's delete the interface we just created through an Ansible script. It's easy as we will use the `ios_interface` module again and put the state to absent. Ansible will take care of the removal of the interface.
 
-``` yaml
+```yaml
 ---
 - name: Delete interfaces
   hosts: iosxe
@@ -210,6 +211,7 @@ PLAY RECAP *********************************************************************
 ios-xe-mgmt-latest.cisco.com : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
 And indeed, when we login through SSH, you will see the interface got successfully deleted.
+
 ```bash
 csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
