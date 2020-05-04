@@ -29,7 +29,7 @@ ios-xe-mgmt-latest.cisco.com
 ```
 Next, let's define the variables in a `group_vars` file called `iosxe.yaml`
 
-```yaml
+```yml
 ansible_connection : local
 ansible_python_interpreter : /usr/bin/python3
 host_key_checking : False
@@ -39,7 +39,7 @@ ansible_port: 8181
 ```
 Next, let's create the script. You will see that we issue the `show version` and `show ip interface brief` commands one by one and we capture the response in a variable through Ansible `register` method. We then use the `debug` method to visualize the response.
 
-```yaml
+```yml
 ---
 - name: Show examples
   hosts: iosxe
