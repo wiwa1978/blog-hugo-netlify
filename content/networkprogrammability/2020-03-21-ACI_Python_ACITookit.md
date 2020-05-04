@@ -23,6 +23,10 @@ The painpoint of the approach we have been using so far is to construct the prop
 
 As mentioned before, while this works, it certainly is not the easiest way. Luckily, Cisco is also providing a Python toolkit to make it easier to interact with Cisco ACI. The toolkit can be found on [Github](https://github.com/datacenter/acitoolkit)
 
+### Note about equipment
+
+> For all the examples, I will use my own APIC in my lab. However, if you want to follow along with this blog post, checkout the Cisco sandbox environment delivered by [Cisco Devnet](https://developer.cisco.com). To get a list of all sandboxes, check out [this](https://devnetsandbox.cisco.com/) link. For this tutorial, you could use the always on ACI sandbox as well (see [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/5a229a7c-95d5-4cfd-a651-5ee9bc1b30e2?diagramType=Topology)).
+
 ### Use a virtual environment
 
 I would suggest you to work with a Python virtual environment. If you don't know how to do that, please refer to [this](http://localhost:1313/development/2020-03-01/) post, where some sections explain how to achieve this.
@@ -62,6 +66,37 @@ Refer to the first line in below script. The part after `Read YAML configuration
 
 ##### Making use of Session object
 Note that to work with the acitoolkit we need to use a `Session`. The Session object is described [here](https://github.com/datacenter/acitoolkit/blob/master/acitoolkit/acisession.py) but a Session object is essentially under the hood dealing with the ACI login process (and token). 
+
+##### Read ACI objects
+In below snippet, we will document how we can use acitoolkit to read all the configured tenants from our APIC.
+
+```python
+from acitoolkit.acitoolkit import *
+
+url = "https://10.48.109.10/"
+
+user = "admin"
+pwd = "---"
+
+session = Session(url, user, pwd)
+session.login()
+
+tenants = Tenant.get(session)
+for tenant in tenants:
+    print(tenant.name)
+```
+When we execute this script, you'll see we indeed get back a list of all configured tenants.
+```bash
+wauterw@WAUTERW-M-65P7 aci_toolkit % python3 get_tenants_toolkit.py
+tn-bjorn
+dvs-demo-dynamic
+mgmt
+common
+infra
+tn-qinq
+tn-automation
+Tenant_Wim
+```
 
 ##### Create ACI objects
 In below snippet there is a section behind the comment `# Create ACI objects`. This part is effectively creating the ACI objects. We are first creating the tenant via the `Tenant` object. This object is describeded [here](https://github.com/datacenter/acitoolkit/blob/master/acitoolkit/acitoolkit.py). As you can see, we need to pass a String variable, which in our case will be the tenant name we retrieved from parsing the YAML variables file. Exactly the same process for the other objects, VRF and BD.
