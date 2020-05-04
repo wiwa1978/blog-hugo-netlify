@@ -29,7 +29,7 @@ ios-xe-mgmt-latest.cisco.com
 ```
 Next, let's define the variables in a `group_vars` file called `iosxe.yaml`
 
-```
+```yaml
 ansible_connection : local
 ansible_python_interpreter : /usr/bin/python3
 host_key_checking : False
@@ -108,7 +108,7 @@ ios-xe-mgmt-latest.cisco.com : ok=5    changed=0    unreachable=0    failed=0   
 ```
 In previous example, we issues both commands seperately (in a seperate tasks that is). We can also write it as follows, which is a little shorter.
 
-``` yaml
+```yaml
 ---
 - name: Getting started
   hosts: iosxe
@@ -137,6 +137,7 @@ Next, we will add and delete some interfaces (instead of just reading them from 
 
 ###### A) Add single interface
 In the below Ansible script, we will create a loopback interface on our IOS XE device. We will use the `ios_interface` module for that. Information can be found [here](https://docs.ansible.com/ansible/latest/modules/ios_interface_module.html#ios-interface-module). As you can see, it allows you to specify the MTU size, the duplex mode and many other things. There is no option to specify an IP address. There is another module for that, called `ios_l3_interface` (see [documentation](https://docs.ansible.com/ansible/latest/modules/ios_l3_interface_module.html#ios-l3-interface-module)). This one takes care of all layer 3 configuration on your interfaces. Hence we are using that one to set the IP address of our interface.
+
 ```yaml
 ---
 - name: Configure loopback using ios_interface
@@ -155,6 +156,7 @@ In the below Ansible script, we will create a loopback interface on our IOS XE d
         ipv4: 10.10.10.10/32
 ```
 Let's execute this playbook:
+
 ```bash
 wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_create_single.yaml 
 
@@ -180,8 +182,9 @@ Loopback100            10.10.10.10     YES manual up                    up
 ```
 
 ###### B) Delete interface
-Next, let's delete the interface we just created through an Ansible script. It's easy as we will use the `ios_interface` module again and put the state to absent. Ansible will take csare of the removal of the interface.
-``` 
+Next, let's delete the interface we just created through an Ansible script. It's easy as we will use the `ios_interface` module again and put the state to absent. Ansible will take care of the removal of the interface.
+
+``` yaml
 ---
 - name: Delete interfaces
   hosts: iosxe
@@ -194,6 +197,7 @@ Next, let's delete the interface we just created through an Ansible script. It's
       state: absent
 ```
 Let's execute this playbook:
+
 ```bash
 wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_remove_single.yaml 
 
@@ -215,6 +219,7 @@ GigabitEthernet3       unassigned      YES NVRAM  administratively down down
 ```
 
 ### Add/Delete multiple interfaces
+
 Next, let's make it a bit more complex. Let's add multiple interfaces to our IOSXE device. We will do so through iterating over some interfaces we list in a variables file.
 
 If you want to follow along, create a file called `vars/loopback.yaml` with the following content:
@@ -238,6 +243,7 @@ loopbacks:
 
 ###### A) Add multiple interfaces
 In order to add the interfaces from the above variable file, we will loop over them. We start by specifying the `vars_files`. Next, we create the loopback interfaces by looping over the `loopbacks` defined in the variables file with the `with_items` method. We repeat the same method for assigning IP addresses to the interfaces.
+
 ```yaml
 ---
 - name: Configure loopback using ios_interface
@@ -267,6 +273,7 @@ In order to add the interfaces from the above variable file, we will loop over t
       with_items: "{{ loopbacks }}"
 ```
 Let's execute the Ansible script:
+
 ```bash
 wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_create_multiple.yaml 
 
@@ -293,7 +300,9 @@ changed: [ios-xe-mgmt-latest.cisco.com] => (item={'loopbackname': 'Loopback103',
 PLAY RECAP ****************************************************************************************************************************************************************
 ios-xe-mgmt-latest.cisco.com : ok=3    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
 ```
+
 And let's verify on the device itself. You will see indeed our interfaces got added successfully and the correct IP addresses were configured on them.
+
 ```bash
 csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
@@ -308,6 +317,7 @@ Loopback103            10.16.100.103   YES manual administratively down down
 
 ###### B) Remove multiple interfaces
 Next, let's quickly remove these interface as well. Pretty straightforward, we loop again over the interfaces defined in the variables file and we delete them (cfr state: absent).
+
 ```yaml
 ---
 - name: Delete interfaces
@@ -340,6 +350,7 @@ PLAY RECAP *********************************************************************
 ios-xe-mgmt-latest.cisco.com : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 ```
 And let's verify that the interfaces are really removed.
+
 ```bash
 csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
@@ -352,6 +363,7 @@ GigabitEthernet3       unassigned      YES NVRAM  administratively down down
 Next, let's change the description of an interface. I'm merely showing this example to get familiar with the `ios_config` module for which you can find the information [here](https://docs.ansible.com/ansible/latest/modules/ios_config_module.html#ios-config-module).
 
 In below script, we will change the description of an existing interface.
+
 ```yaml
 ---
 - name: Change interface description
@@ -367,6 +379,7 @@ In below script, we will change the description of an existing interface.
         parents: interface GigabitEthernet3
 ```
 Let's execute the playbook:
+
 ```bash
 wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts change_description.yaml
 
@@ -379,6 +392,7 @@ PLAY RECAP *********************************************************************
 ios-xe-mgmt-latest.cisco.com : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
 And indeed, you will see the interface got changed.
+
 ```bash
 csr1000v-1#show inter descr
 Interface                      Status         Protocol Description
@@ -389,7 +403,9 @@ Gi3                            admin down     down     Changed through Ansible
 ```
 
 ### Change multiple interface descriptions
+
 Lastly, let's change multiple interfaces simultaneously. We first create the interfaces by defining them in a variable file (see use case above where this has been covered already) and next, we will change the description. To achieve that, we define a list of interface commands under the `with_items` section and we use that information in the `parents` attribute.
+
 ```yaml
 ---
 - name: Configure loopback using ios_interface
@@ -418,10 +434,13 @@ Lastly, let's change multiple interfaces simultaneously. We first create the int
         - interface Loopback103
 ```
 Execute the playbook:
+
 ```bash
 wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts change_description_multipleinterfaces.yaml
+
 ```
 And look on the device through SSH. The interface description got changed indeed.
+
 ```
 csr1000v-1#show interface description
 Interface                      Status         Protocol Description
@@ -435,7 +454,9 @@ Lo103                          up             up       Loopback interface change
 ```
 
 ### Change multiple interface descriptions -- variant
+
 The above example listed all the interfaces individually under the `with_items` section. That was a bit clumsy. So I created also a small variant which handles this a bit more elegant. I won't go over the script as with the information you learned above it should be pretty straigthforward.
+
 ```yaml
 ---
 - name: Configure loopback using ios_interface
@@ -460,4 +481,5 @@ The above example listed all the interfaces individually under the `with_items` 
         parents: "{{item.loopbackinterface}}"
       with_items: "{{ loopbacks_interfaces }}"
 ```
+
 Hope you enjoyed working with Ansible. The scripts I have used in this post, can be found on my Github [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Ansible_IOSXE/ios_modules).
