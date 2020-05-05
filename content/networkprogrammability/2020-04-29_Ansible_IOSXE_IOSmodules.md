@@ -30,17 +30,16 @@ ios-xe-mgmt-latest.cisco.com
 Next, let's define the variables in a `group_vars` file called `iosxe.yaml`
 
 ```yaml
-ansible_connection : local
-ansible_python_interpreter : /usr/bin/python3
-host_key_checking : False
-ansible_ssh_user : developer
-ansible_ssh_pass : ***
+ansible_connection: local
+ansible_python_interpreter: /usr/bin/python3
+host_key_checking: False
+ansible_ssh_user: developer
+ansible_ssh_pass: ***
 ansible_port: 8181
 ```
 Next, let's create the script. You will see that we issue the `show version` and `show ip interface brief` commands one by one and we capture the response in a variable through Ansible `register` method. We then use the `debug` method to visualize the response.
 
 ```yaml
----
 - name: Show examples
   hosts: iosxe
   gather_facts: no
@@ -110,7 +109,6 @@ ios-xe-mgmt-latest.cisco.com : ok=5    changed=0    unreachable=0    failed=0   
 In previous example, we issues both commands seperately (in a seperate tasks that is). We can also write it as follows, which is a little shorter.
 
 ```yaml
----
 - name: Getting started
   hosts: iosxe
   gather_facts: no
