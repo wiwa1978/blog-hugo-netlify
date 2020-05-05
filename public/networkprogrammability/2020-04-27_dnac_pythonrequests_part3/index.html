@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Cisco DNA Center - Sites - Technology Blog Wim</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-83351442-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Technology Blog Wim" rel="home">
+				<img src="/img/logo_blog.png" alt="Logo" />
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/networkprogrammability">
+				
+				<span class="menu__text">Network Programmability</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/devops">
+				
+				<span class="menu__text">DevOps</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/webdevelopment">
+				
+				<span class="menu__text">(Web)Development</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/public-cloud">
+				
+				<span class="menu__text">Cloud</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/cloud-native/">
+				
+				<span class="menu__text">Cloud-Native</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Cisco DNA Center - Sites</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2020-04-27T10:32:50&#43;01:00">April 27, 2020</time>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			<h3 id="introduction">Introduction</h3>
+<p>In previous posts, we already looked at how to retrieve information from the <a href="https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">devices</a> or from the <a href="https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part2/">client</a> API. We&rsquo;ll now look a bit into the <code>Sites</code> API.</p>
+<p><img src="/images/2020-04-27-1.png" alt="DNAC"></p>
+<h3 id="retrieve-all-sites">Retrieve all sites</h3>
+<p>We will start of with implementing the <code>get sites</code> API call (third one in above screenshot). Before we do so, let&rsquo;s login to the DNAC Controller and see an overview of all the sites (and buildings/floors) currently configured.
+<img src="/images/2020-04-27-2.png" alt="DNAC"></p>
+<p>The below script achieves exactly that. As a result we want to have an indented list of all sites (and children).</p>
+<p>First, we will perform a REST call to the correct API endpoint. We will get back a list of sites, which we store into the <code>sites</code> variable. Next, we iterate over this list and we will add each site to a list called <code>sitelist</code>. In sitelist, we have the following information:</p>
+<pre><code>['Global/GERMANY', 'Global/GERMANY/MUNICH', 'Global/GERMANY/MUNICH/GARCHING', 'Global/GERMANY/MUNICH/GARCHING/Garching-Floor', 'Global/BELGIUM/DIEGEM/PEG2', 'Global/BELGIUM', 'Global/UK', 'Global/UK/READING', 'Global/UK/READING/GP300', 'Global/UK/READING/GP300/Reading-Floor', 'Global/Vatican City/aedicula Sixtina', 'Global/BELGIUM/DIEGEM/PEG3', 'Global/BELGIUM/DIEGEM/PEG3/LAB-Floor', 'Global/BELGIUM/DIEGEM', 'Global/Vatican City', 'Global/Vatican City/Archive']
+</code></pre><p>Next, we iterate over this list. We walk over each line and we count the number of <code>/</code>. We do this just to understand how much we need to indent the line.</p>
+<p>On that line, we will also split the line based on the <code>/</code>, so we have entries like <code>['Global', 'BELGIUM']</code>, <code>['Global', 'BELGIUM', 'DIEGEM']</code>, <code>['Global', 'BELGIUM', 'DIEGEM', 'PEG2']</code>. We each time will only print the last item (and put it on the next line with the correct indentation).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">requests</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">authenticate</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_token</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">pprint</span> <span style="color:#728e00">import</span> <span style="color:#434f54">pprint</span>
+
+<span style="color:#728e00">def</span> <span style="color:#d35400">main</span>():
+   <span style="color:#434f54">dnac</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;10.48.82.183&#34;</span>
+
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_token</span>(<span style="color:#434f54">dnac</span>)
+
+   <span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;https://{dnac}/dna/intent/api/v1/site&#34;</span>
+
+   <span style="color:#434f54">headers</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;Content-Type&#34;</span>: <span style="color:#7f8c8d">&#34;application/json&#34;</span>,
+      <span style="color:#7f8c8d">&#34;Accept&#34;</span>: <span style="color:#7f8c8d">&#34;application/json&#34;</span>,
+      <span style="color:#7f8c8d">&#34;X-auth-Token&#34;</span>: <span style="color:#434f54">token</span> 
+   }
+
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+
+   <span style="color:#434f54">sites</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#34;response&#34;</span>]
+   
+   <span style="color:#434f54">sitelist</span> <span style="color:#728e00">=</span> []
+   <span style="color:#728e00">for</span> <span style="color:#434f54">site</span> <span style="color:#728e00">in</span> <span style="color:#434f54">sites</span>:
+      <span style="color:#728e00">if</span> <span style="color:#7f8c8d">&#39;parentId&#39;</span> <span style="color:#728e00">in</span> <span style="color:#434f54">site</span><span style="color:#728e00">.</span><span style="color:#434f54">keys</span>():
+         <span style="color:#434f54">sitelist</span><span style="color:#728e00">.</span><span style="color:#434f54">append</span>(<span style="color:#434f54">site</span>[<span style="color:#7f8c8d">&#39;siteNameHierarchy&#39;</span>])
+   
+   <span style="color:#434f54">sitelist</span><span style="color:#728e00">.</span><span style="color:#434f54">sort</span>()
+
+   <span style="color:#728e00">for</span> <span style="color:#434f54">line</span> <span style="color:#728e00">in</span> <span style="color:#434f54">sitelist</span>:
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#39;   &#39;</span><span style="color:#728e00">*</span><span style="color:#434f54">line</span><span style="color:#728e00">.</span><span style="color:#434f54">count</span>(<span style="color:#7f8c8d">&#39;/&#39;</span>) <span style="color:#728e00">+</span> <span style="color:#434f54">line</span><span style="color:#728e00">.</span><span style="color:#434f54">split</span>(<span style="color:#7f8c8d">&#39;/&#39;</span>)[<span style="color:#728e00">-</span><span style="color:#8a7b52">1</span>])
+
+<span style="color:#728e00">if</span> <span style="color:#434f54">__name__</span> <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;__main__&#34;</span>:
+   <span style="color:#434f54">main</span>()
+</code></pre></div><p>If we run the script, we get our indented list:</p>
+<pre><code>wauterw@WAUTERW-M-65P7 Sites % python3 get_sites.py
+BELGIUM
+      DIEGEM
+         PEG2
+         PEG3
+            LAB-Floor
+   GERMANY
+      MUNICH
+         GARCHING
+            Garching-Floor
+   UK
+      READING
+         GP300
+            Reading-Floor
+   Vatican City
+      Archive
+      aedicula Sixtina
+</code></pre><h3 id="add-sites-buildings-floor">Add sites, buildings, floor</h3>
+<p>In this section, we will add some sites to the existing list of sites. We will also give an example of how to add a building under a site and how to add a floor under a building.</p>
+<h5 id="a-add-sites">A) Add sites</h5>
+<p>In order to add sites, we will use some Jinja2 templates. See below:</p>
+<pre><code>{
+      &quot;type&quot;: &quot;area&quot;,
+      &quot;site&quot;: {
+         &quot;area&quot;: {
+               &quot;name&quot;: &quot;{{site_name}}&quot;,
+               &quot;parentName&quot;: &quot;Global&quot;
+         }
+      }
+   }
+</code></pre><p>In our Python code, we will read the template and pass in the required data (in our case, we have only 1 variable called <code>site_name</code>)</p>
+<pre><code>   jinja_templates = Environment(loader=FileSystemLoader('templates'), trim_blocks=True)
+   template = jinja_templates.get_template(&quot;site.j2.json&quot;)
+   payload = template.render(site_name=site_name)
+</code></pre><p>Next, let&rsquo;s call the sites API:</p>
+<pre><code>   site_url = &quot;/dna/intent/api/v1/site&quot;
+   response =  requests.post(url + site_url, headers=headers, data=payload, verify=False ).json()
+</code></pre><p>With DNAC, we will get back the following response:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#434f54">&#34;executionId&#34;</span>: <span style="color:#7f8c8d">&#34;2fca5727-3ae1-4e41-96d8-aa9ff228afd9&#34;</span>,
+  <span style="color:#434f54">&#34;executionStatusUrl&#34;</span>: <span style="color:#7f8c8d">&#34;/dna/platform/management/business-api/v1/execution-status/2fca5727-3ae1-4e41-96d8-aa9ff228afd9&#34;</span>,
+  <span style="color:#434f54">&#34;message&#34;</span>: <span style="color:#7f8c8d">&#34;The request has been accepted for execution&#34;</span>
+}
+</code></pre></div><p>So, in our Python script we will capture the <code>executionStatusUrl</code> as follows:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">   <span style="color:#a61717">executionStatusUrl</span> <span style="color:#a61717">=</span> <span style="color:#a61717">response</span>[<span style="color:#a61717">&#39;executionStatusUrl&#39;</span>]
+</code></pre></div><p>The idea is that we check regularly the execution status API endpoint <code>https://{{dnac}}/&lt;executionStatusUrl&gt;</code>. This will return us something like:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#434f54">&#34;bapiKey&#34;</span>: <span style="color:#7f8c8d">&#34;50b5-89fd-4c7a-930a&#34;</span>,
+  <span style="color:#434f54">&#34;bapiName&#34;</span>: <span style="color:#7f8c8d">&#34;Create Site&#34;</span>,
+  <span style="color:#434f54">&#34;bapiExecutionId&#34;</span>: <span style="color:#7f8c8d">&#34;2fca5727-3ae1-4e41-96d8-aa9ff228afd9&#34;</span>,
+  <span style="color:#434f54">&#34;startTime&#34;</span>: <span style="color:#7f8c8d">&#34;Mon Apr 27 14:08:14 UTC 2020&#34;</span>,
+  <span style="color:#434f54">&#34;startTimeEpoch&#34;</span>: <span style="color:#8a7b52">1587996494784</span>,
+  <span style="color:#434f54">&#34;endTime&#34;</span>: <span style="color:#7f8c8d">&#34;Mon Apr 27 14:08:23 UTC 2020&#34;</span>,
+  <span style="color:#434f54">&#34;endTimeEpoch&#34;</span>: <span style="color:#8a7b52">1587996503578</span>,
+  <span style="color:#434f54">&#34;timeDuration&#34;</span>: <span style="color:#8a7b52">8794</span>,
+  <span style="color:#434f54">&#34;status&#34;</span>: <span style="color:#7f8c8d">&#34;SUCCESS&#34;</span>,
+  <span style="color:#434f54">&#34;runtimeInstanceId&#34;</span>: <span style="color:#7f8c8d">&#34;DNACP_Runtime_44568ee2-62da-42b4-b54a-2c28ccbf0dd8&#34;</span>
+}
+</code></pre></div><p>So, in our Python code, we will define a loop that checks every second whether the sites was created successfully. We do this by initiating a call to the above API and to parse the <code>status</code> field.</p>
+<pre><code>   while True:
+      response =  requests.get(url+executionStatusUrl, headers=headers, data=payload, verify=False ).json()
+      if response['status'] == &quot;SUCCESS&quot;:
+         print(&quot;Site was successfully added&quot;)
+         break
+      else:
+         print(&quot;Still in progress&quot;)
+      time.sleep(1)
+</code></pre><p>The full Python script to add sites can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/DNAC_PythonRequests/Sites/add_site.py">here</a>.</p>
+<h5 id="b-add-buildings">B) Add buildings</h5>
+<p>Adding buildings is done in exactly the same way.</p>
+<ul>
+<li>use Jinja2 template to create the JSON payload</li>
+<li>call the <code>https://{{dnac}}/dna/intent/api/v1/site</code> API and pass the JSON template</li>
+<li>monitor the <code>https://{{dnac}}/&lt;executionStatusUrl&gt;</code> URL</li>
+</ul>
+<p>The Jinja2 template for buildings could be the following:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">{
+   &#34;type&#34;: &#34;building&#34;,
+   &#34;site&#34;: {
+      &#34;building&#34;: {
+            &#34;name&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">building_name</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;address&#34;: &#34;123 Main Street&#34;,
+            &#34;parentName&#34;: &#34;Global/<span style="color:#728e00">{{</span><span style="color:#434f54">site_name</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;latitude&#34;: &#34;51.0458&#34;,
+            &#34;longitude&#34;: &#34;5.6413&#34;
+      }
+   }
+}
+</code></pre></div><p>We won&rsquo;t provide the full script here as it&rsquo;s almost literally the same as for adding sites. In case you are interested, check <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/DNAC_PythonRequests/Sites/add_building.py">here</a> for the full script.</p>
+<p>Executing this script will result in:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 Sites % 
+wauterw@WAUTERW-M-65P7 Sites % python3 add_building.py 
+Still in progress
+Still in progress
+Building was successfully added
+</code></pre></div><h5 id="c-add-floors">C) Add floors</h5>
+<p>To add floors, the Jinja2 template could look as follows</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">{
+   &#34;type&#34;: &#34;floor&#34;,
+   &#34;site&#34;: {
+      &#34;floor&#34;: {
+            &#34;name&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">floor_name</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;parentName&#34;: &#34;Global/<span style="color:#728e00">{{</span><span style="color:#434f54">site_name</span><span style="color:#728e00">}}</span>/<span style="color:#728e00">{{</span><span style="color:#434f54">building_name</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;rfModel&#34;: &#34;Cubes and Walled Offices&#34;,
+            &#34;width&#34;: &#34;20&#34;,
+            &#34;length&#34;: &#34;30&#34;,
+            &#34;height&#34;: &#34;10&#34;
+      }
+   }
+}
+</code></pre></div><p>The rest is again similar to the &lsquo;Add site&rsquo; Python script. We won&rsquo;t go in detail here as this was covered already earlier. The entire script to add a floor is available <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/DNAC_PythonRequests/Sites/add_floor.py">here</a>.</p>
+<p>Executing this script will give:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Building was successfully added
+wauterw@WAUTERW-M-65P7 Sites % python3 add_floor.py   
+Still in progress
+Still in progress
+Still in progress
+Still in progress
+Still in progress
+Floor was successfully added
+</code></pre></div><p>In the DNAC UI, you will see we successfully added the site called <code>TESTSITE</code>, the building called <code>TESTBUILDING</code> and the floor called <code>TESTFLOOR-1</code>.</p>
+<p><img src="/images/2020-04-27-3.png" alt="DNAC"></p>
+<h3 id="add-device">Add device</h3>
+<p>In this section, we will discuss how to add devices to sites. We will do this through a JSON file. Here&rsquo;s the file:</p>
+<pre><code>{
+   &quot;ipAddress&quot;: [
+       &quot;192.80.2.1&quot;
+   ],
+   &quot;snmpVersion&quot;: &quot;v2&quot;,
+   &quot;snmpROCommunity&quot;: &quot;readonly&quot;,
+   &quot;snmpRWCommunity&quot;: &quot;readwrite&quot;,
+   &quot;snmpRetry&quot;: &quot;1&quot;,
+   &quot;snmpTimeout&quot;: &quot;60&quot;,
+   &quot;cliTransport&quot;: &quot;ssh&quot;,
+   &quot;userName&quot;: &quot;wim&quot;,
+   &quot;password&quot;: &quot;cisco123&quot;,
+   &quot;enablePassword&quot;: &quot;cisco1234!&quot;
+}
+</code></pre><p>In our Python script, we will read in the json file into a variable called payload:</p>
+<pre><code> with open(&quot;templates/dummy_device.json&quot;, &quot;r&quot;) as file:
+      payload = json.load(file)
+</code></pre><p>Next, we will add the device as follows. Note that we extract the IP address from the response and we will store it in variable called <code>deviceip</code>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">   <span style="color:#434f54">device_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;{url}/api/v1/network-device&#34;</span>
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">device_url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">payload</span>), <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">response</span>)
+</code></pre></div><p>This piece of code will add a device to our DNAC but it will end up in the <code>Unassigned Devices</code> section. Reason is that we have not assigned it to a site/building/floor.</p>
+<p><img src="/images/2020-04-27-4.png" alt="DNAC"></p>
+<p>The code for this script can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/DNAC_PythonRequests/Sites/add_device.py">here</a></p>
+<h3 id="assign-a-device">Assign a device</h3>
+<p>Once we have added a device, we can assign it to a site, a building or a floor. There is an API for this which looks like <code>https://{{dnac}}/dna/system/api/v1/site/&lt;siteid&gt;/device</code>. In order to retrieve the siteid, we can call another API. In our case, we would like to assign the device to a particular floor, so we will call <code>https://{{dnac}}/dna/intent/api/v1/site?name=Global/TESTSITE/TESTBUILDING/TESTFLOOR-1</code>.</p>
+<p>First, we will retrieve the ID for the floor. We can do this as follows:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#95a5a6"># Retrieve the ID of the floor with the provided name</span>
+   <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Retrieving the floor ID&#34;</span>)
+   <span style="color:#434f54">floor_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;/dna/intent/api/v1/site?name=Global/{site_name}/{building_name}/{floor_name}&#34;</span>
+   <span style="color:#434f54">response_floor</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span> <span style="color:#728e00">+</span> <span style="color:#434f54">floor_url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">floor_id</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response_floor</span>[<span style="color:#7f8c8d">&#39;response&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;id&#39;</span>]
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Floor ID: {floor_id} &#34;</span>)
+</code></pre></div><p>Next, we call the API endpoint to assgin the device to the floor with the ID we retrieved earlier. The payload is a JSON body in which we provide the IP address of the device.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#95a5a6"># Call the API to assign the device to the floor with ID floor_id</span>
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Assign the device to the floor with id {floor_ID}&#34;</span>)  
+   <span style="color:#434f54">site_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;{url}/dna/system/api/v1/site/{floor_id}/device&#34;</span> 
+   <span style="color:#434f54">payload</span> <span style="color:#728e00">=</span> {<span style="color:#7f8c8d">&#34;device&#34;</span>: [{ <span style="color:#7f8c8d">&#34;ip&#34;</span> : <span style="color:#434f54">deviceip</span> }]}
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">site_url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">payload</span>), <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">executionStatusUrl</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;executionStatusUrl&#39;</span>]
+</code></pre></div><p>This API will return an executionStatusURL so therefore we define a for-loop which runs until we get back a SUCCESS status.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">   <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Checking the execution status&#34;</span>)
+   <span style="color:#728e00">while</span> <span style="color:#434f54">True</span>:
+      <span style="color:#434f54">response</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span><span style="color:#728e00">+</span><span style="color:#434f54">executionStatusUrl</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">payload</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+      <span style="color:#728e00">if</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;status&#39;</span>] <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;SUCCESS&#34;</span>:
+         <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Device was successfully assigned&#34;</span>)
+         <span style="color:#728e00">break</span>
+      <span style="color:#728e00">else</span>:
+         <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Device assignment still in progress&#34;</span>)
+      <span style="color:#434f54">time</span><span style="color:#728e00">.</span><span style="color:#434f54">sleep</span>(<span style="color:#8a7b52">1</span>)
+</code></pre></div><p>Once the entire script has finished executing, we can verify the DNAC UI.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 Sites % python3 add_dummy_device.py
+Adding the device
+Retrieving the floor ID
+Assign the device to the floor with id b0412843-54a2-4ea8-9d68-64303d54ab2f
+Checking the execution status
+Device assignment still in progress
+Device was successfully assigned
+</code></pre></div><p><img src="/images/2020-04-27-5.png" alt="DNAC"></p>
+<p>You can verify that a device is now available in the TESTFLOOR-1 site. The entire script can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/DNAC_PythonRequests/Sites/add_assign_device.py">here</a>.</p>
+<h3 id="delete-device">Delete device</h3>
+<p>Next, let&rsquo;s delete a device. In DNAC, you cannot delete a site if it still has child sites.</p>
+<p><img src="/images/2020-04-27-6.png" alt="DNAC"></p>
+<p>This means we need to delete the sites in a particular order. The delete API endpoint is very straigthforward:</p>
+<p><img src="/images/2020-04-27-7.png" alt="DNAC"></p>
+<p>In terms of our Python script, we first will find all the IDs for the various sites and we will add them to a dictionary:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">   <span style="color:#434f54">floor_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;/dna/intent/api/v1/site?name=Global/{site_name}/{building_name}/{floor_name}&#34;</span>
+   <span style="color:#434f54">response_floor</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span> <span style="color:#728e00">+</span> <span style="color:#434f54">floor_url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">mydict</span>[<span style="color:#7f8c8d">&#39;floor&#39;</span>] <span style="color:#728e00">=</span> <span style="color:#434f54">response_floor</span>[<span style="color:#7f8c8d">&#39;response&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;id&#39;</span>]
+
+   <span style="color:#434f54">building_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;/dna/intent/api/v1/site?name=Global/{site_name}/{building_name}&#34;</span>
+   <span style="color:#434f54">response_building</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span> <span style="color:#728e00">+</span> <span style="color:#434f54">building_url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">mydict</span>[<span style="color:#7f8c8d">&#39;building&#39;</span>] <span style="color:#728e00">=</span> <span style="color:#434f54">response_building</span>[<span style="color:#7f8c8d">&#39;response&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;id&#39;</span>]
+
+   <span style="color:#434f54">site_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;/dna/intent/api/v1/site?name=Global/{site_name}&#34;</span>
+   <span style="color:#434f54">response_site</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span> <span style="color:#728e00">+</span> <span style="color:#434f54">site_url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">mydict</span>[<span style="color:#7f8c8d">&#39;site&#39;</span>] <span style="color:#728e00">=</span> <span style="color:#434f54">response_site</span>[<span style="color:#7f8c8d">&#39;response&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;id&#39;</span>]
+</code></pre></div><p>The dict looks as follows: <code>{'floor': '703900d8-f3f8-451c-b4ab-3657234b0708', 'building': '00fc2869-a51a-4942-99c7-4f6693800ea6', 'site': '5b4f5797-1f40-45a6-9227-0a058c208170'}</code></p>
+<p>Next, we iterate over this dictionary, each time calling the DELETE endpoint we mentioned above.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">   <span style="color:#434f54">site_url</span> <span style="color:#728e00">=</span> <span style="color:#434f54">url</span> <span style="color:#728e00">+</span> <span style="color:#7f8c8d">&#34;/dna/intent/api/v1/site/&#34;</span>
+   <span style="color:#728e00">for</span> <span style="color:#434f54">k</span>, <span style="color:#434f54">v</span> <span style="color:#728e00">in</span> <span style="color:#434f54">mydict</span><span style="color:#728e00">.</span><span style="color:#434f54">items</span>():
+      <span style="color:#434f54">response</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">delete</span>(<span style="color:#434f54">site_url</span> <span style="color:#728e00">+</span> <span style="color:#434f54">v</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+      <span style="color:#434f54">executionStatusUrl</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;executionStatusUrl&#39;</span>]
+</code></pre></div><p>We capture also the <code>executionStatusUrl</code> as we need to use it in order to determine whether the previous site was already deleted. If so, we continue to the next site.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> <span style="color:#728e00">while</span> <span style="color:#434f54">True</span>:
+         <span style="color:#434f54">response</span> <span style="color:#728e00">=</span>  <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span><span style="color:#728e00">+</span><span style="color:#434f54">executionStatusUrl</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span> )<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+         <span style="color:#728e00">if</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;status&#39;</span>] <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;SUCCESS&#34;</span>:
+            <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Delete action was successfully&#34;</span>)
+            <span style="color:#728e00">break</span>
+         <span style="color:#728e00">else</span>:
+            <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Delete action still in progress&#34;</span>)
+         <span style="color:#434f54">time</span><span style="color:#728e00">.</span><span style="color:#434f54">sleep</span>(<span style="color:#8a7b52">1</span>)
+</code></pre></div><p>The entire Python script can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/DNAC_PythonRequests/Sites/delete_site.py">here</a>. Note that the above script is not really failure proof, e.g. it only works when there are no devices in a particular site, it only works if we execute the delete action in the correct order (first the floor, then the building, then the site).</p>
+<p>The entire set of scripts can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DNAC_PythonRequests">here</a>.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/dnac/" rel="tag">DNAC</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Cisco DNA Center - Assurance</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Ansible and IOSXE - IOS modules</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "blog-wimwauters" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/backend/">Backend</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/cloud-native/">Cloud Native</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/devops/">DevOps</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/infrastructure-as-code/">Infrastructure As Code</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/network-programming/">Network Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/private-cloud/">Private Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/programming/">Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/public-cloud/">Public Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/web-development/">Web Development</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/napalm/" title="Napalm">Napalm (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netconf/" title="NETCONF">NETCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@Wauters_Wim" target="_blank">
+				<svg class="widget-social__link-icon icon icon-twitter" width="24" height="24" viewBox="0 0 384 312"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/https://www.linkedin.com/in/wim-wauters-92ab401" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/https://github.com/wiwa1978" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:blogwimwauters%20at%20gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>blogwimwauters at gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Wim Wauters.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

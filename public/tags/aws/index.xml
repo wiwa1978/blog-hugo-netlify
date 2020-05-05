@@ -48,5 +48,14 @@
       <description>Intoduction In this blogpost, we will create an AWS instance onto EC2 entirely using Terraform. Nothing too complex as such, but better to start with something fairly easy and continue to expand on it.</description>
     </item>
     
+    <item>
+      <title>Docker-Machine and AWS</title>
+      <link>/devops/2016-04-12-docker-machine_aws/</link>
+      <pubDate>Tue, 12 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-12-docker-machine_aws/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
   </channel>
 </rss>

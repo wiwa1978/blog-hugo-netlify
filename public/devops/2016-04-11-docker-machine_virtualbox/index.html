@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Docker-Machine and Virtualbox - Technology Blog Wim</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-83351442-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Technology Blog Wim" rel="home">
+				<img src="/img/logo_blog.png" alt="Logo" />
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/networkprogrammability">
+				
+				<span class="menu__text">Network Programmability</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/devops">
+				
+				<span class="menu__text">DevOps</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/webdevelopment">
+				
+				<span class="menu__text">(Web)Development</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/public-cloud">
+				
+				<span class="menu__text">Cloud</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/cloud-native/">
+				
+				<span class="menu__text">Cloud-Native</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Docker-Machine and Virtualbox</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2016-04-11T20:19:50&#43;01:00">April 11, 2016</time>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			<blockquote>
+<p>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</p>
+</blockquote>
+<h3 id="introduction">Introduction</h3>
+<p>Wanted to learn a bit more on Docker Machine. The idea of Docker Machine is to provision Docker hosts on remote systems. The definition on the Docker site is as follows:</p>
+<blockquote>
+<p>Docker Machine is a tool that lets you install Docker Engine on virtual hosts, and manage the hosts with docker-machine commands. You can use Machine to create Docker hosts on your local Mac or Windows box, on your company network, in your data center, or on cloud providers like AWS or Digital Ocean. Using docker-machine commands, you can start, inspect, stop, and restart a managed host, upgrade the Docker client and daemon, and configure a Docker client to talk to your host.</p>
+</blockquote>
+<p>So the idea of this post is to have Docker Machine running on my MAC and use it to launch docker hosts on Virtualbox. This is actually quite nice. If you remember from all my previous Docker related posts, I was working on an Ubuntu machine I manually created on Openstack, I had to connect via SSH to this machine. Then I had to install and update the docker engine, and I had to run all commands from that host. If I wanted to provision an additional host, I had to repeat the same process over again. This is manageable for 1 or 2 hosts, but imaging you have 1000s of them. Seems like Docker machine could be a solution to that. In later posts, we will also try with cloud provider drivers such as AWS, DigitalOcean and Openstack</p>
+<p>Let’s give it a try with Virtualbox first…</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ~ % docker-machine create --driver virtualbox docker-host-virtualbox
+Running pre-create checks...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Image cache directory does not exist, creating it at /Users/wauterw/.docker/machine/cache...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> No default Boot2Docker ISO found locally, downloading the latest release...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Latest release <span style="color:#728e00">for</span> github.com/boot2docker/boot2docker is v19.03.5
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Downloading /Users/wauterw/.docker/machine/cache/boot2docker.iso from https://github.com/boot2docker/boot2docker/releases/download/v19.03.5/boot2docker.iso...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> 0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100%
+Creating machine...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Copying /Users/wauterw/.docker/machine/cache/boot2docker.iso to /Users/wauterw/.docker/machine/machines/docker-host-virtualbox/boot2docker.iso...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Creating VirtualBox VM...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Creating SSH key...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Starting the VM...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Check network to re-create <span style="color:#728e00">if</span> needed...
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Found a new host-only adapter: <span style="color:#7f8c8d">&#34;vboxnet0&#34;</span>
+<span style="color:#728e00">(</span>docker-host-virtualbox<span style="color:#728e00">)</span> Waiting <span style="color:#728e00">for</span> an IP...
+Waiting <span style="color:#728e00">for</span> machine to be running, this may take a few minutes...
+Detecting operating system of created instance...
+Waiting <span style="color:#728e00">for</span> SSH to be available...
+Detecting the provisioner...
+Provisioning with boot2docker...
+Copying certs to the <span style="color:#728e00">local</span> machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: docker-machine env docker-host-virtualbox
+</code></pre></div><p>Here is the docker host running on Virtualbox:</p>
+<p><img src="/images/2016-04-11-1.png" alt="docker-machine"></p>
+<h3 id="login-to-docker-host">Login to docker host</h3>
+<p>To test things a bit out, let&rsquo;s login to the docker host on Virtualbox:</p>
+<pre><code>wauterw@WAUTERW-M-65P7 ~ % docker-machine env docker-host-virtualbox
+export DOCKER_TLS_VERIFY=&quot;1&quot;
+export DOCKER_HOST=&quot;tcp://192.168.99.100:2376&quot;
+export DOCKER_CERT_PATH=&quot;/Users/wauterw/.docker/machine/machines/docker-host-virtualbox&quot;
+export DOCKER_MACHINE_NAME=&quot;docker-host-virtualbox&quot;
+# Run this command to configure your shell:
+# eval $(docker-machine env docker-host-virtualbox)
+</code></pre><p>Run the command to configure the shell. Whatever you do now in your shell will effectively run on the docker host.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ~ % <span style="color:#728e00">eval</span> <span style="color:#728e00">$(</span>docker-machine env docker-host-virtualbox<span style="color:#728e00">)</span>
+wauterw@WAUTERW-M-65P7 ~ % docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+wauterw@WAUTERW-M-65P7 ~ % docker images
+REPOSITORY          TAG
+</code></pre></div>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/docker-machine/" rel="tag">docker-machine</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/virtualbox/" rel="tag">Virtualbox</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/devops/2016-04-10-docker_remove_containers/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Remove all Docker images and containers</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/devops/2016-04-12-docker-machine_aws/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Docker-Machine and AWS</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "blog-wimwauters" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/backend/">Backend</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/cloud-native/">Cloud Native</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/devops/">DevOps</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/infrastructure-as-code/">Infrastructure As Code</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/network-programming/">Network Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/private-cloud/">Private Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/programming/">Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/public-cloud/">Public Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/web-development/">Web Development</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/napalm/" title="Napalm">Napalm (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netconf/" title="NETCONF">NETCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@Wauters_Wim" target="_blank">
+				<svg class="widget-social__link-icon icon icon-twitter" width="24" height="24" viewBox="0 0 384 312"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/https://www.linkedin.com/in/wim-wauters-92ab401" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/https://github.com/wiwa1978" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:blogwimwauters%20at%20gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>blogwimwauters at gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Wim Wauters.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

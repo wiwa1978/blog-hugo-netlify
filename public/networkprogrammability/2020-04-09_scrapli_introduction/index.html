@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -118,11 +125,14 @@ if (!doNotTrack) {
 </blockquote>
 <h3 id="virtual-environment">Virtual Environment</h3>
 <p>As usual, we prefer to work within a virtual environment. Let&rsquo;s start with setting this up.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 -m venv venv
-WAUTERW-M-65P7:Scrapli Introduction wauterw$ <span style="color:#008000">source</span> venv/bin/activate
-</code></pre></div><h3 id="installing-scrapli">Installing Scrapli</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 -m venv venv
+WAUTERW-M-65P7:Scrapli Introduction wauterw$ <span style="color:#728e00">source</span> venv/bin/activate
+</code></pre></div><blockquote>
+<p>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
+<h3 id="installing-scrapli">Installing Scrapli</h3>
 <p>Installation is dead simple. It&rsquo;s just installed through PIP.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ pip3 install scrapli
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ pip3 install scrapli
 </code></pre></div><h3 id="note-about-equipment">Note about equipment</h3>
 <p>For all the examples, we will use a Cisco sandbox environment delivered by <a href="https://developer.cisco.com">Cisco Devnet</a>. Go check out Devnet, really brilliant. To get a list of all sandboxes, check out <a href="https://devnetsandbox.cisco.com/">this</a> link. For this tutorial, I&rsquo;m using the IOS XE sandbox (see <a href="https://devnetsandbox.cisco.com/RM/Diagram/Index/38ded1f0-16ce-43f2-8df5-43a40ebf752e?diagramType=Topology">here</a>) and the IOS XR sandbox (see <a href="https://devnetsandbox.cisco.com/RM/Diagram/Index/e83cfd31-ade3-4e15-91d6-3118b867a0dd?diagramType=Topology">here</a>).</p>
 <h3 id="device-support">Device support</h3>
@@ -162,32 +172,32 @@ WAUTERW-M-65P7:Scrapli Introduction wauterw$ <span style="color:#008000">source<
 We will be using an IOS XE device, so we&rsquo;ll start off with importing the correct driver <code>IOSXEDriver</code> from the <code>scrapli.driver.core</code> package. Next, we will create a device object that contains all the required arguments (full list <a href="https://carlmontanari.github.io/scrapli/#basic-driver-arguments">here</a>) for Scrapli to be able to make a connection to our device.</p>
 <p>Next, explicitly open the connection using the <code>open()</code> method. Scrapli will not do this for us. Opening the connection is required in order to sending commands to your device.</p>
 <p>The most &lsquo;important&rsquo; part in the below script is the <code>send_commands</code> method. Speaks for itself but it allows us to send some commands to our device. In the below snippet, we are sending a <code>show version</code> and <code>show ip int brief</code> command and we capture the output in the responses object.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">scrapli.driver.core</span> <span style="color:#008000;font-weight:bold">import</span> IOSXEDriver
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">scrapli.driver.core</span> <span style="color:#728e00">import</span> <span style="color:#434f54">IOSXEDriver</span>
 
-device <span style="color:#666">=</span> {
-    <span style="color:#ba2121">&#34;host&#34;</span>: <span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_username&#34;</span>: <span style="color:#ba2121">&#34;developer&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#666">8181</span>,
-    <span style="color:#ba2121">&#34;auth_strict_key&#34;</span>: False,
+<span style="color:#434f54">device</span> <span style="color:#728e00">=</span> {
+    <span style="color:#7f8c8d">&#34;host&#34;</span>: <span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#8a7b52">8181</span>,
+    <span style="color:#7f8c8d">&#34;auth_strict_key&#34;</span>: <span style="color:#434f54">False</span>,
 }
 
-conn <span style="color:#666">=</span> IOSXEDriver(<span style="color:#666">**</span>device)
-conn<span style="color:#666">.</span>open()
-responses <span style="color:#666">=</span> conn<span style="color:#666">.</span>send_commands([<span style="color:#ba2121">&#34;show version&#34;</span>, <span style="color:#ba2121">&#34;show ip int brief&#34;</span>])
+<span style="color:#434f54">conn</span> <span style="color:#728e00">=</span> <span style="color:#434f54">IOSXEDriver</span>(<span style="color:#728e00">**</span><span style="color:#434f54">device</span>)
+<span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">responses</span> <span style="color:#728e00">=</span> <span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">send_commands</span>([<span style="color:#7f8c8d">&#34;show version&#34;</span>, <span style="color:#7f8c8d">&#34;show ip int brief&#34;</span>])
 
-<span style="color:#008000;font-weight:bold">for</span> response <span style="color:#a2f;font-weight:bold">in</span> responses:
-   <span style="color:#008000;font-weight:bold">print</span>(response<span style="color:#666">.</span>result)
-conn<span style="color:#666">.</span>close()
+<span style="color:#728e00">for</span> <span style="color:#434f54">response</span> <span style="color:#728e00">in</span> <span style="color:#434f54">responses</span>:
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">result</span>)
+<span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
 </code></pre></div><p>In below output you can verify indeed that the script returned the output for the <code>show version</code> and the <code>show ip int brief</code> respectively.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example1.py 
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example1.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example1.py 
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example1.py 
 RESPONSE
 ****************************************************************************************************
 Cisco IOS XE Software, Version 16.11.01a
 ***Truncated***
-csr1000v-1 uptime is <span style="color:#666">5</span> days, <span style="color:#666">2</span> minutes
-Uptime <span style="color:#008000;font-weight:bold">for</span> this control processor is <span style="color:#666">5</span> days, <span style="color:#666">4</span> minutes
+csr1000v-1 uptime is <span style="color:#8a7b52">5</span> days, <span style="color:#8a7b52">2</span> minutes
+Uptime <span style="color:#728e00">for</span> this control processor is <span style="color:#8a7b52">5</span> days, <span style="color:#8a7b52">4</span> minutes
 ***Truncated***
 Configuration register is 0x2102
 RESPONSE
@@ -198,42 +208,42 @@ GigabitEthernet2       10.20.221.100   YES other  up                    up
 ***Truncated***
 </code></pre></div><h3 id="use-case-show-interfaces-for-iosxe-and-iosxr-device">Use Case: Show interfaces for IOSXE and IOSXR device</h3>
 <p>In case you wonder how good Scrapli works with network devices running different OS&rsquo;s, check out the below script. It&rsquo;s very similar to the one we discussed above, but it handles two different network devices. Note: we are only sending a single command to our device, so we have opted for the <code>send_command</code> method (not the <code>send_commands</code> method as we did in previous example).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">scrapli.driver.core</span> <span style="color:#008000;font-weight:bold">import</span> IOSXEDriver
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">scrapli.driver.core</span> <span style="color:#008000;font-weight:bold">import</span> IOSXRDriver
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">scrapli.driver.core</span> <span style="color:#728e00">import</span> <span style="color:#434f54">IOSXEDriver</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">scrapli.driver.core</span> <span style="color:#728e00">import</span> <span style="color:#434f54">IOSXRDriver</span>
 
-devices <span style="color:#666">=</span> [{
-    <span style="color:#ba2121">&#34;host&#34;</span>: <span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_username&#34;</span>: <span style="color:#ba2121">&#34;developer&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#666">8181</span>,
-    <span style="color:#ba2121">&#34;auth_strict_key&#34;</span>: False,
+<span style="color:#434f54">devices</span> <span style="color:#728e00">=</span> [{
+    <span style="color:#7f8c8d">&#34;host&#34;</span>: <span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#8a7b52">8181</span>,
+    <span style="color:#7f8c8d">&#34;auth_strict_key&#34;</span>: <span style="color:#434f54">False</span>,
 }, {
-    <span style="color:#ba2121">&#34;host&#34;</span>: <span style="color:#ba2121">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_username&#34;</span>: <span style="color:#ba2121">&#34;admin&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#666">8181</span>,
-    <span style="color:#ba2121">&#34;auth_strict_key&#34;</span>: False,
+    <span style="color:#7f8c8d">&#34;host&#34;</span>: <span style="color:#7f8c8d">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#8a7b52">8181</span>,
+    <span style="color:#7f8c8d">&#34;auth_strict_key&#34;</span>: <span style="color:#434f54">False</span>,
 }]
 
-conn_XE <span style="color:#666">=</span> IOSXEDriver(<span style="color:#666">**</span>devices[<span style="color:#666">0</span>])
-conn_XE<span style="color:#666">.</span>open()
-response <span style="color:#666">=</span> conn_XE<span style="color:#666">.</span>send_command(<span style="color:#ba2121">&#34;show ip int brief&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;RESPONSE&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;*&#34;</span> <span style="color:#666">*</span> <span style="color:#666">100</span>)
-<span style="color:#008000;font-weight:bold">print</span>(response<span style="color:#666">.</span>result)
-conn_XE<span style="color:#666">.</span>close()
+<span style="color:#434f54">conn_XE</span> <span style="color:#728e00">=</span> <span style="color:#434f54">IOSXEDriver</span>(<span style="color:#728e00">**</span><span style="color:#434f54">devices</span>[<span style="color:#8a7b52">0</span>])
+<span style="color:#434f54">conn_XE</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">conn_XE</span><span style="color:#728e00">.</span><span style="color:#434f54">send_command</span>(<span style="color:#7f8c8d">&#34;show ip int brief&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;RESPONSE&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;*&#34;</span> <span style="color:#728e00">*</span> <span style="color:#8a7b52">100</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">result</span>)
+<span style="color:#434f54">conn_XE</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
 
 
-conn_XR <span style="color:#666">=</span> IOSXRDriver(<span style="color:#666">**</span>devices[<span style="color:#666">1</span>])
-conn_XR<span style="color:#666">.</span>open()
-response <span style="color:#666">=</span> conn_XR<span style="color:#666">.</span>send_command(<span style="color:#ba2121">&#34;show ip int brief&#34;</span>)
+<span style="color:#434f54">conn_XR</span> <span style="color:#728e00">=</span> <span style="color:#434f54">IOSXRDriver</span>(<span style="color:#728e00">**</span><span style="color:#434f54">devices</span>[<span style="color:#8a7b52">1</span>])
+<span style="color:#434f54">conn_XR</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">conn_XR</span><span style="color:#728e00">.</span><span style="color:#434f54">send_command</span>(<span style="color:#7f8c8d">&#34;show ip int brief&#34;</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;RESPONSE&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;*&#34;</span> <span style="color:#666">*</span> <span style="color:#666">100</span>)
-<span style="color:#008000;font-weight:bold">print</span>(response<span style="color:#666">.</span>result)
-conn_XR<span style="color:#666">.</span>close()
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;RESPONSE&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;*&#34;</span> <span style="color:#728e00">*</span> <span style="color:#8a7b52">100</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">result</span>)
+<span style="color:#434f54">conn_XR</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
 </code></pre></div><p>In the output below, you can verify indeed that we get back a list of interfaces for both the IOSXE and IOSXR device, all with the same <code>send_commands</code> method.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example2.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example2.py 
 RESPONSE
 ****************************************************************************************************
 Interface              IP-Address      OK? Method Status                Protocol
@@ -243,7 +253,7 @@ GigabitEthernet2.4     unassigned      YES manual deleted               down
 ***Truncated***
 RESPONSE
 ****************************************************************************************************
-Fri Apr <span style="color:#666">09</span> 18:57:07.499 UTC
+Fri Apr <span style="color:#8a7b52">09</span> 18:57:07.499 UTC
 
 Interface                      IP-Address      Status          Protocol Vrf-Name
 Loopback100                    4.4.4.101       Up              Up       default
@@ -254,27 +264,27 @@ MgmtEth0/RP0/CPU0/0            10.10.20.175    Up              Up       default
 <p>In the previous two use cases, we have essentially retrieved information from a variety of network devices. How about making configuration changes?</p>
 <p>Also this is pretty straightforward using Scrapli. Let&rsquo;s check it out.</p>
 <p>In below snippet, we first use the <code>send_command</code> method to retrieve the description for one of our devices&rsquo; interfaces. Next, we will use the <code>send_configs</code> method to change the interface description and finally we will check if everything worked nicely.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">scrapli.driver.core</span> <span style="color:#008000;font-weight:bold">import</span> IOSXEDriver
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">scrapli.driver.core</span> <span style="color:#728e00">import</span> <span style="color:#434f54">IOSXEDriver</span>
 
-device <span style="color:#666">=</span> {
-    <span style="color:#ba2121">&#34;host&#34;</span>: <span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_username&#34;</span>: <span style="color:#ba2121">&#34;developer&#34;</span>,
-    <span style="color:#ba2121">&#34;auth_password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#666">8181</span>,
-    <span style="color:#ba2121">&#34;auth_strict_key&#34;</span>: False,
+<span style="color:#434f54">device</span> <span style="color:#728e00">=</span> {
+    <span style="color:#7f8c8d">&#34;host&#34;</span>: <span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;auth_password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#8a7b52">8181</span>,
+    <span style="color:#7f8c8d">&#34;auth_strict_key&#34;</span>: <span style="color:#434f54">False</span>,
 }
 
-conn <span style="color:#666">=</span> IOSXEDriver(<span style="color:#666">**</span>device)
-conn<span style="color:#666">.</span>open()
-response <span style="color:#666">=</span> conn<span style="color:#666">.</span>send_command(<span style="color:#ba2121">&#34;show interface Gi3 description&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;*&#34;</span><span style="color:#666">*</span> <span style="color:#666">100</span>)
-<span style="color:#008000;font-weight:bold">print</span>(response<span style="color:#666">.</span>result)
+<span style="color:#434f54">conn</span> <span style="color:#728e00">=</span> <span style="color:#434f54">IOSXEDriver</span>(<span style="color:#728e00">**</span><span style="color:#434f54">device</span>)
+<span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">send_command</span>(<span style="color:#7f8c8d">&#34;show interface Gi3 description&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;*&#34;</span><span style="color:#728e00">*</span> <span style="color:#8a7b52">100</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">result</span>)
 
-conn<span style="color:#666">.</span>send_configs([<span style="color:#ba2121">&#34;interface GigabitEthernet3&#34;</span>, <span style="color:#ba2121">&#34;description Configured by Scrapli&#34;</span>])
+<span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">send_configs</span>([<span style="color:#7f8c8d">&#34;interface GigabitEthernet3&#34;</span>, <span style="color:#7f8c8d">&#34;description Configured by Scrapli&#34;</span>])
 
-response <span style="color:#666">=</span> conn<span style="color:#666">.</span>send_command(<span style="color:#ba2121">&#34;show interface Gi3 description&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;*&#34;</span><span style="color:#666">*</span> <span style="color:#666">100</span>)
-<span style="color:#008000;font-weight:bold">print</span>(response<span style="color:#666">.</span>result)
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">conn</span><span style="color:#728e00">.</span><span style="color:#434f54">send_command</span>(<span style="color:#7f8c8d">&#34;show interface Gi3 description&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;*&#34;</span><span style="color:#728e00">*</span> <span style="color:#8a7b52">100</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">result</span>)
 </code></pre></div><p>Below you&rsquo;ll find the output. And indeed, as you can witness, the interface description was set correctly.</p>
 <pre><code>(venv) WAUTERW-M-65P7:Scrapli Introduction wauterw$ python3 example3.py 
 ****************************************************************************************************
@@ -340,16 +350,16 @@ Gi3                            up             up       Configured by Scrapli
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -358,6 +368,9 @@ Gi3                            up             up       Configured by Scrapli
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -365,6 +378,9 @@ Gi3                            up             up       Configured by Scrapli
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -394,14 +410,19 @@ Gi3                            up             up       Configured by Scrapli
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -410,14 +431,15 @@ Gi3                            up             up       Configured by Scrapli
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

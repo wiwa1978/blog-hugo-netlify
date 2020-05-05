@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -116,41 +123,41 @@ if (!doNotTrack) {
 </ul>
 <h3 id="code-for-login-functionality">Code for login functionality</h3>
 <p>In our case, we will create a template for the login function. The template (Jinja2) file looks as follows:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">{
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">{
    &#34;aaaUser&#34;: {
      &#34;attributes&#34;: {
-       &#34;name&#34;: &#34;<span style="color:#bc7a00">{{</span> <span style="color:#19177c">username</span> <span style="color:#bc7a00">}}</span>&#34;,
-       &#34;pwd&#34;: &#34;<span style="color:#bc7a00">{{</span> <span style="color:#19177c">password</span> <span style="color:#bc7a00">}}</span>&#34;
+       &#34;name&#34;: &#34;<span style="color:#728e00">{{</span> <span style="color:#434f54">username</span> <span style="color:#728e00">}}</span>&#34;,
+       &#34;pwd&#34;: &#34;<span style="color:#728e00">{{</span> <span style="color:#434f54">password</span> <span style="color:#728e00">}}</span>&#34;
      }
    }
  }
 </code></pre></div><p>As we learned in the Jinja2 introduction post, the items in curly braces will get replaced with the data that we pass to the template. The result will be a static document that contains all the information. That document will then be used further in our Python script.</p>
 <p>As we will be using these Jinja templates in our Python script, we need to import the required Jinja libraries (line 3 and 4 in the below script).</p>
 <p>The variable <code>JSON_TEMPLATES</code> contains the location where we store our template files. In the <code>get_token</code> function we will specify which template we are interested in using the <code>get_template(&quot;login.j2.json&quot;)</code> call. The <code>render</code> function will replace the dynamic variables in the template (the ones in curly braces) with the proper values that are passed via the render function.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">requests</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">json</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> FileSystemLoader
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">requests</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">FileSystemLoader</span>
 
-JSON_TEMPLATES <span style="color:#666">=</span> Environment(loader<span style="color:#666">=</span>FileSystemLoader(<span style="color:#ba2121">&#39;templates&#39;</span>), trim_blocks<span style="color:#666">=</span>True)
-url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://10.48.109.10/&#34;</span>
+<span style="color:#434f54">JSON_TEMPLATES</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span><span style="color:#728e00">=</span><span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;templates&#39;</span>), <span style="color:#434f54">trim_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>)
+<span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/&#34;</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">get_token</span>(username, password):
-   partial_url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;api/aaaLogin.json&#34;</span>
-   template <span style="color:#666">=</span> JSON_TEMPLATES<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#34;login.j2.json&#34;</span>)
-   payload <span style="color:#666">=</span> template<span style="color:#666">.</span>render(username<span style="color:#666">=</span>username, password<span style="color:#666">=</span>password)
-   new_url<span style="color:#666">=</span>url<span style="color:#666">+</span>partial_url
-   requests<span style="color:#666">.</span>packages<span style="color:#666">.</span>urllib3<span style="color:#666">.</span>disable_warnings()
-   response <span style="color:#666">=</span> requests<span style="color:#666">.</span>post(new_url, data<span style="color:#666">=</span>payload, verify<span style="color:#666">=</span>False)<span style="color:#666">.</span>json()
-   token <span style="color:#666">=</span> response[<span style="color:#ba2121">&#39;imdata&#39;</span>][<span style="color:#666">0</span>][<span style="color:#ba2121">&#39;aaaLogin&#39;</span>][<span style="color:#ba2121">&#39;attributes&#39;</span>][<span style="color:#ba2121">&#39;token&#39;</span>]
-   <span style="color:#008000;font-weight:bold">print</span>(token)
-   <span style="color:#008000;font-weight:bold">return</span> token
+<span style="color:#728e00">def</span> <span style="color:#d35400">get_token</span>(<span style="color:#434f54">username</span>, <span style="color:#434f54">password</span>):
+   <span style="color:#434f54">partial_url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;api/aaaLogin.json&#34;</span>
+   <span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">JSON_TEMPLATES</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#34;login.j2.json&#34;</span>)
+   <span style="color:#434f54">payload</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">username</span>, <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">password</span>)
+   <span style="color:#434f54">new_url</span><span style="color:#728e00">=</span><span style="color:#434f54">url</span><span style="color:#728e00">+</span><span style="color:#434f54">partial_url</span>
+   <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">packages</span><span style="color:#728e00">.</span><span style="color:#434f54">urllib3</span><span style="color:#728e00">.</span><span style="color:#434f54">disable_warnings</span>()
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">new_url</span>, <span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">payload</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;imdata&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;aaaLogin&#39;</span>][<span style="color:#7f8c8d">&#39;attributes&#39;</span>][<span style="color:#7f8c8d">&#39;token&#39;</span>]
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">token</span>)
+   <span style="color:#728e00">return</span> <span style="color:#434f54">token</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">main</span>():
-   token <span style="color:#666">=</span> get_token(<span style="color:#ba2121">&#34;admin&#34;</span>, <span style="color:#ba2121">&#34;---&#34;</span>)
+<span style="color:#728e00">def</span> <span style="color:#d35400">main</span>():
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_token</span>(<span style="color:#7f8c8d">&#34;admin&#34;</span>, <span style="color:#7f8c8d">&#34;---&#34;</span>)
 
-<span style="color:#008000;font-weight:bold">if</span> __name__ <span style="color:#666">==</span> <span style="color:#ba2121">&#34;__main__&#34;</span>:
-   main()
+<span style="color:#728e00">if</span> <span style="color:#434f54">__name__</span> <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;__main__&#34;</span>:
+   <span style="color:#434f54">main</span>()
 </code></pre></div><p>The rest is business as usual (already explained in the <a href="http://localhost:1313/development/2020-03-19/">previous</a> post:</p>
 <ul>
 <li>send a request via REST POST method, specifying the payload</li>
@@ -158,12 +165,12 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 </ul>
 <h3 id="code-for-tenant-functionality">Code for tenant functionality</h3>
 <p>To add a tenant, we will use the same methodology. The Jinja template is specified below.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">{
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">{
    &#34;fvTenant&#34;: {
      &#34;attributes&#34;: {
-       &#34;dn&#34;: &#34;uni/tn-<span style="color:#bc7a00">{{</span><span style="color:#19177c">name</span><span style="color:#bc7a00">}}</span>&#34;,
-       &#34;name&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">name</span><span style="color:#bc7a00">}}</span>&#34;,
-       &#34;rn&#34;: &#34;tn-<span style="color:#bc7a00">{{</span><span style="color:#19177c">name</span><span style="color:#bc7a00">}}</span>&#34;,
+       &#34;dn&#34;: &#34;uni/tn-<span style="color:#728e00">{{</span><span style="color:#434f54">name</span><span style="color:#728e00">}}</span>&#34;,
+       &#34;name&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">name</span><span style="color:#728e00">}}</span>&#34;,
+       &#34;rn&#34;: &#34;tn-<span style="color:#728e00">{{</span><span style="color:#434f54">name</span><span style="color:#728e00">}}</span>&#34;,
        &#34;status&#34;: &#34;created&#34;
      },
      &#34;children&#34;: []
@@ -177,19 +184,19 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 <li>send the REST request (POST method as we are creating a tenant)</li>
 <li>interpret the response values</li>
 </ul>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">create_tenant</span>(tenant_name, token):
-   partial_url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;api/mo/uni.json&#34;</span>
-   template <span style="color:#666">=</span> JSON_TEMPLATES<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#34;tenant.j2.json&#34;</span>)
-   payload <span style="color:#666">=</span> template<span style="color:#666">.</span>render(name<span style="color:#666">=</span>tenant_name)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">def</span> <span style="color:#d35400">create_tenant</span>(<span style="color:#434f54">tenant_name</span>, <span style="color:#434f54">token</span>):
+   <span style="color:#434f54">partial_url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;api/mo/uni.json&#34;</span>
+   <span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">JSON_TEMPLATES</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#34;tenant.j2.json&#34;</span>)
+   <span style="color:#434f54">payload</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">name</span><span style="color:#728e00">=</span><span style="color:#434f54">tenant_name</span>)
 
-   cookies <span style="color:#666">=</span> {<span style="color:#ba2121">&#39;APIC-Cookie&#39;</span>: token }
-   new_url<span style="color:#666">=</span>url<span style="color:#666">+</span>partial_url
-   response <span style="color:#666">=</span> requests<span style="color:#666">.</span>post(new_url, data<span style="color:#666">=</span>payload, cookies<span style="color:#666">=</span>cookies, verify<span style="color:#666">=</span>False)
+   <span style="color:#434f54">cookies</span> <span style="color:#728e00">=</span> {<span style="color:#7f8c8d">&#39;APIC-Cookie&#39;</span>: <span style="color:#434f54">token</span> }
+   <span style="color:#434f54">new_url</span><span style="color:#728e00">=</span><span style="color:#434f54">url</span><span style="color:#728e00">+</span><span style="color:#434f54">partial_url</span>
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">new_url</span>, <span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">payload</span>, <span style="color:#434f54">cookies</span><span style="color:#728e00">=</span><span style="color:#434f54">cookies</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-   <span style="color:#008000;font-weight:bold">if</span> (response<span style="color:#666">.</span>status_code <span style="color:#666">==</span> <span style="color:#666">200</span>):
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;Successfully created tenant&#34;</span>)
-   <span style="color:#008000;font-weight:bold">else</span>:
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;Issue with creating tenant&#34;</span>)
+   <span style="color:#728e00">if</span> (<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">status_code</span> <span style="color:#728e00">==</span> <span style="color:#8a7b52">200</span>):
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Successfully created tenant&#34;</span>)
+   <span style="color:#728e00">else</span>:
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Issue with creating tenant&#34;</span>)
 </code></pre></div><p>The entire script can be found at <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja">Github</a>.</p>
 <p>Note: while the above looks relatively easy, it&rsquo;s not always as straigthforward as it seems. As the scenarios we are trying the achieve are becoming more complex we might need to explore other solutions. Stay tuned for that as we will address this in a future blog post.</p>
 
@@ -214,7 +221,7 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 		<a class="post-nav__link" href="/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Python and Jinja2 introduction</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/networkprogrammability/2020-03-19-aci_python_requests/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Create Cisco ACI network with Python (Requests)</p></a>
+		<a class="post-nav__link" href="/networkprogrammability/2020-03-19-aci_python_requests/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Interact with Cisco ACI network through Python (Requests)</p></a>
 	</div>
 </nav>
 
@@ -248,16 +255,16 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -266,6 +273,9 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -273,6 +283,9 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -302,14 +315,19 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -318,14 +336,15 @@ url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://1
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -146,7 +153,7 @@ if (!doNotTrack) {
 <p>Using the <code>task</code> method, we can see the output of the <code>show interface description</code> and the <code>show ip interface brief</code> commands.</p>
 <p><img src="/images/2020-04-15-8.png" alt="netpalm"></p>
 <p>Alternatively, we can also verify the current list of interfaces using the good old CLI. I&rsquo;ve logged in to the device via SSH to retrieve the list.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -165,15 +172,15 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 <p><img src="/images/2020-04-15-10.png" alt="netpalm"></p>
 <h6 id="3-query-the-interface-to-see-if-the-create-worked">3. Query the interface to see if the create worked</h6>
 <p>Let&rsquo;s see if the interface was added successfully. To safe some cycles here, we will just login to the device via SSH. You can see in below snippet that the interface <code>BDI100</code> got successfully added to the device.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
 GigabitEthernet3       10.255.255.2    YES other  up                    up
-BDI100                 unassigned      YES <span style="color:#008000">unset</span>  down                  down
+BDI100                 unassigned      YES <span style="color:#728e00">unset</span>  down                  down
 csr1000v-1#show interface description
 Interface                      Status         Protocol Description
-Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="">&#39;</span>T TOUCH ME
+Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="color:#a61717">&#39;</span>T TOUCH ME
 Gi2                            admin down     down     Configured by RESTCONF
 Gi3                            up             up       Configured by RESTCONF
 BD100                          down           down     Interface added through NetPalm
@@ -184,9 +191,9 @@ BD100                          down           down     Interface added through N
 <p>Again we get back a <code>&quot;status&quot;: &quot;success&quot;</code> message indicating everything worked successfully.</p>
 <p><img src="/images/2020-04-15-12.png" alt="netpalm"></p>
 <p>Again, let&rsquo;s have a look at our device through SSH.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show interface description
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show interface description
 Interface                      Status         Protocol Description
-Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="">&#39;</span>T TOUCH ME
+Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="color:#a61717">&#39;</span>T TOUCH ME
 Gi2                            admin down     down     Configured by RESTCONF
 Gi3                            up             up       Configured by RESTCONF
 BD100                          down           down     Interface changed through NetPalm
@@ -199,10 +206,10 @@ BD100                          down           down     Interface changed through
 <p><img src="/images/2020-04-15-14.png" alt="netpalm"></p>
 <p>Next, we will issue once again the <code>getconfig</code> Netmiko method to verify our list of interfaces. Again, as mentioned already couple of times, we could have just used SSH to verify this, or NAPALM, or Netmiko or RESTCONF directly&hellip;</p>
 <p><img src="/images/2020-04-15-15.png" alt="netpalm"></p>
-<p>And as we expected, the interface <code>BNI100</code> is deleted from our device and hence is not showing up in the interface list.</p>
+<p>And as we expected, the interface <code>BDI100</code> is deleted from our device and hence is not showing up in the interface list.</p>
 <p><img src="/images/2020-04-15-16.png" alt="netpalm"></p>
 <p>Hope you enjoyed this part 2 of the introduction to NetPalm and you start to see the benefits of the tool</p>
-<p>In a <a href="https://blog.wimwauters.com/networkprogrammability/2020-04-15_netpalm_introduction_part3/">next</a> blog post, we&rsquo;ll dive deeper into some more advanced topics. Hope to see you back!</p>
+<p>In a <a href="https://blog.wimwauters.com/networkprogrammability/2020-04-17_netpalm_introduction_part3/">next</a> blog post, we&rsquo;ll dive deeper into some more advanced topics. Hope to see you back!</p>
 
 		</div>
 		<footer class="post__footer">
@@ -257,16 +264,16 @@ BD100                          down           down     Interface changed through
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -275,6 +282,9 @@ BD100                          down           down     Interface changed through
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -282,6 +292,9 @@ BD100                          down           down     Interface changed through
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -311,14 +324,19 @@ BD100                          down           down     Interface changed through
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -327,14 +345,15 @@ BD100                          down           down     Interface changed through
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

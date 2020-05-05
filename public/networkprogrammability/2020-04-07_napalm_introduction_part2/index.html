@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -108,6 +115,9 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<h3 id="introduction">Introduction</h3>
 <p>Let&rsquo;s continue where we left off in part 1. In this post, we will focus more on some specific use cases, like configuration validation and changing configurations onto our devices.</p>
+<blockquote>
+<p>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
 <h3 id="use-case-retrieve-all-interfaces">Use Case: retrieve all interfaces</h3>
 <p>The below script shows the real power of NAPALM. We will be querying two device types, one of which is an IOSXR device and one of which is a IOSXE device.</p>
 <p>The script will retrieve all network interfaces for both devices. It&rsquo;s pretty straightforward. In essence, we are looping over both devices, and for each we:</p>
@@ -118,37 +128,37 @@ if (!doNotTrack) {
 <li>loop over the items in the result (of the <code>get_interfaces()</code> function)</li>
 <li>close the connection</li>
 </ul>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">napalm</span> <span style="color:#008000;font-weight:bold">import</span> get_network_driver
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">json</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">napalm</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_network_driver</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
 
-driver_xe <span style="color:#666">=</span> get_network_driver(<span style="color:#ba2121">&#34;ios&#34;</span>)
-driver_xr <span style="color:#666">=</span> get_network_driver(<span style="color:#ba2121">&#34;iosxr&#34;</span>)
+<span style="color:#434f54">driver_xe</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_network_driver</span>(<span style="color:#7f8c8d">&#34;ios&#34;</span>)
+<span style="color:#434f54">driver_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_network_driver</span>(<span style="color:#7f8c8d">&#34;iosxr&#34;</span>)
 
-devices <span style="color:#666">=</span> [{
-    <span style="color:#666">&lt;</span>device1 parameters<span style="color:#666">&gt;</span>
+<span style="color:#434f54">devices</span> <span style="color:#728e00">=</span> [{
+    <span style="color:#728e00">&lt;</span><span style="color:#434f54">device1</span> <span style="color:#434f54">parameters</span><span style="color:#728e00">&gt;</span>
    },{
-    <span style="color:#666">&lt;</span>device2 parameters<span style="color:#666">&gt;</span>
+    <span style="color:#728e00">&lt;</span><span style="color:#434f54">device2</span> <span style="color:#434f54">parameters</span><span style="color:#728e00">&gt;</span>
 }]
 
-<span style="color:#008000;font-weight:bold">for</span> device <span style="color:#a2f;font-weight:bold">in</span> devices:
-   <span style="color:#008000;font-weight:bold">if</span>(device[<span style="color:#ba2121">&#39;device_type&#39;</span>] <span style="color:#666">==</span> <span style="color:#ba2121">&#34;cisco_xe&#34;</span> ): 
-      device_xe <span style="color:#666">=</span> driver_xe(hostname<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;password&#39;</span>], optional_args<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;port&#39;</span>:device[<span style="color:#ba2121">&#39;port&#39;</span>]})
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;Connected to XE&#34;</span>)
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;---------------&#34;</span>)
-      device_xe<span style="color:#666">.</span>open()
-      <span style="color:#008000;font-weight:bold">for</span> key, value <span style="color:#a2f;font-weight:bold">in</span> device_xe<span style="color:#666">.</span>get_interfaces()<span style="color:#666">.</span>items() :
-         <span style="color:#008000;font-weight:bold">print</span>(key)
-      device_xe<span style="color:#666">.</span>close()
-   <span style="color:#008000;font-weight:bold">if</span>(device[<span style="color:#ba2121">&#39;device_type&#39;</span>] <span style="color:#666">==</span> <span style="color:#ba2121">&#34;cisco_xr&#34;</span> ): 
-      device_xr <span style="color:#666">=</span> driver_xr(hostname<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;password&#39;</span>], optional_args<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;port&#39;</span>:device[<span style="color:#ba2121">&#39;port&#39;</span>]})
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;Connected to XR&#34;</span>)
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;---------------&#34;</span>)
-      device_xr<span style="color:#666">.</span>open()
-      <span style="color:#008000;font-weight:bold">for</span> key, value <span style="color:#a2f;font-weight:bold">in</span> device_xr<span style="color:#666">.</span>get_interfaces()<span style="color:#666">.</span>items() :
-         <span style="color:#008000;font-weight:bold">print</span>(key)
-      device_xr<span style="color:#666">.</span>close()
+<span style="color:#728e00">for</span> <span style="color:#434f54">device</span> <span style="color:#728e00">in</span> <span style="color:#434f54">devices</span>:
+   <span style="color:#728e00">if</span>(<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;device_type&#39;</span>] <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;cisco_xe&#34;</span> ): 
+      <span style="color:#434f54">device_xe</span> <span style="color:#728e00">=</span> <span style="color:#434f54">driver_xe</span>(<span style="color:#434f54">hostname</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">optional_args</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;port&#39;</span>:<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>]})
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Connected to XE&#34;</span>)
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;---------------&#34;</span>)
+      <span style="color:#434f54">device_xe</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+      <span style="color:#728e00">for</span> <span style="color:#434f54">key</span>, <span style="color:#434f54">value</span> <span style="color:#728e00">in</span> <span style="color:#434f54">device_xe</span><span style="color:#728e00">.</span><span style="color:#434f54">get_interfaces</span>()<span style="color:#728e00">.</span><span style="color:#434f54">items</span>() :
+         <span style="color:#728e00">print</span>(<span style="color:#434f54">key</span>)
+      <span style="color:#434f54">device_xe</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
+   <span style="color:#728e00">if</span>(<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;device_type&#39;</span>] <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;cisco_xr&#34;</span> ): 
+      <span style="color:#434f54">device_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">driver_xr</span>(<span style="color:#434f54">hostname</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">optional_args</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;port&#39;</span>:<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>]})
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Connected to XR&#34;</span>)
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;---------------&#34;</span>)
+      <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+      <span style="color:#728e00">for</span> <span style="color:#434f54">key</span>, <span style="color:#434f54">value</span> <span style="color:#728e00">in</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">get_interfaces</span>()<span style="color:#728e00">.</span><span style="color:#434f54">items</span>() :
+         <span style="color:#728e00">print</span>(<span style="color:#434f54">key</span>)
+      <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
 </code></pre></div><p>Output is as follows:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 get_interfaces.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 get_interfaces.py 
 Connected to XE
 ---------------
 GigabitEthernet1
@@ -174,80 +184,80 @@ Loopback200
 MgmtEth0/RP0/CPU0/0
 </code></pre></div><h3 id="use-case-execute-simple-commands">Use Case: Execute simple commands</h3>
 <p>In this use case, we will execute some simple commands. Nothing complicated but just wanted to add it here for your information. In essence, we create a list of the commands we would like to execute which we then pass to the <code>cli</code> method (see <a href="https://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver.cli">here</a> for more information).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">napalm</span> <span style="color:#008000;font-weight:bold">import</span> get_network_driver
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">json</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">napalm</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_network_driver</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
 
-driver_xr <span style="color:#666">=</span> get_network_driver(<span style="color:#ba2121">&#34;iosxr&#34;</span>)
+<span style="color:#434f54">driver_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_network_driver</span>(<span style="color:#7f8c8d">&#34;iosxr&#34;</span>)
 
-device <span style="color:#666">=</span> {
-    <span style="color:#ba2121">&#34;device_type&#34;</span>: <span style="color:#ba2121">&#34;cisco_xr&#34;</span>,
-    <span style="color:#ba2121">&#34;ip&#34;</span>: <span style="color:#ba2121">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;username&#34;</span>: <span style="color:#ba2121">&#34;admin&#34;</span>,
-    <span style="color:#ba2121">&#34;password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#ba2121">&#34;8181&#34;</span>,
+<span style="color:#434f54">device</span> <span style="color:#728e00">=</span> {
+    <span style="color:#7f8c8d">&#34;device_type&#34;</span>: <span style="color:#7f8c8d">&#34;cisco_xr&#34;</span>,
+    <span style="color:#7f8c8d">&#34;ip&#34;</span>: <span style="color:#7f8c8d">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#7f8c8d">&#34;8181&#34;</span>,
 }
 
-device_xr <span style="color:#666">=</span> driver_xr(hostname<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;password&#39;</span>], optional_args<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;port&#39;</span>:device[<span style="color:#ba2121">&#39;port&#39;</span>]})
-device_xr<span style="color:#666">.</span>open()
-cmds <span style="color:#666">=</span> [<span style="color:#ba2121">&#39;show version&#39;</span>, <span style="color:#ba2121">&#39;show ip int brief&#39;</span>]
+<span style="color:#434f54">device_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">driver_xr</span>(<span style="color:#434f54">hostname</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">optional_args</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;port&#39;</span>:<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>]})
+<span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">cmds</span> <span style="color:#728e00">=</span> [<span style="color:#7f8c8d">&#39;show version&#39;</span>, <span style="color:#7f8c8d">&#39;show ip int brief&#39;</span>]
 
-<span style="color:#008000">input</span> <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>cli(cmds)
+<span style="color:#728e00">input</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">cli</span>(<span style="color:#434f54">cmds</span>)
 
-<span style="color:#008000;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#008000">input</span><span style="color:#666">.</span>keys():
-   <span style="color:#008000">input</span>[i] <span style="color:#666">=</span> <span style="color:#008000">input</span>[i]<span style="color:#666">.</span>split(<span style="color:#ba2121">&#39;</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">&#39;</span>)
+<span style="color:#728e00">for</span> <span style="color:#434f54">i</span> <span style="color:#728e00">in</span> <span style="color:#728e00">input</span><span style="color:#728e00">.</span><span style="color:#434f54">keys</span>():
+   <span style="color:#728e00">input</span>[<span style="color:#434f54">i</span>] <span style="color:#728e00">=</span> <span style="color:#728e00">input</span>[<span style="color:#434f54">i</span>]<span style="color:#728e00">.</span><span style="color:#434f54">split</span>(<span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">&#39;</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(json<span style="color:#666">.</span>dumps(<span style="color:#008000">input</span>, sort_keys<span style="color:#666">=</span>True, indent<span style="color:#666">=</span><span style="color:#666">4</span>))
+<span style="color:#728e00">print</span>(<span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#728e00">input</span>, <span style="color:#434f54">sort_keys</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">indent</span><span style="color:#728e00">=</span><span style="color:#8a7b52">4</span>))
 
-device_xr<span style="color:#666">.</span>close()
+<span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
 </code></pre></div><p>Running this script will give you the following output.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 execute_commands.py 
-<span style="color:#666">{</span>
-    <span style="color:#ba2121">&#34;show ip int brief&#34;</span>: <span style="color:#666">[</span>
-        <span style="color:#ba2121">&#34;Interface                      IP-Address      Status          Protocol Vrf-Name&#34;</span>,
-        <span style="color:#ba2121">&#34;Loopback100                    1.1.1.100       Up              Up       default &#34;</span>,
-        <span style="color:#ba2121">&#34;Loopback200                    1.1.1.200       Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;MgmtEth0/RP0/CPU0/0            10.10.20.175    Up              Up       default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/0         unassigned      Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/0.144     10.10.20.20     Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/1         unassigned      Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/2         unassigned      Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/3         unassigned      Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/4         unassigned      Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/5         unassigned      Shutdown        Down     default &#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/6         unassigned      Up              Up       default&#34;</span>
-    <span style="color:#666">]</span>,
-    <span style="color:#ba2121">&#34;show version&#34;</span>: <span style="color:#666">[</span>
-        <span style="color:#ba2121">&#34;Cisco IOS XR Software, Version 6.5.3&#34;</span>,
-        <span style="color:#ba2121">&#34;Copyright (c) 2013-2019 by Cisco Systems, Inc.&#34;</span>,
-        <span style="color:#ba2121">&#34;&#34;</span>,
-        <span style="color:#ba2121">&#34;Build Information:&#34;</span>,
-        <span style="color:#ba2121">&#34; Built By     : ahoang&#34;</span>,
-        <span style="color:#ba2121">&#34; Built On     : Tue Mar 26 06:52:25 PDT 2019&#34;</span>,
-        <span style="color:#ba2121">&#34; Built Host   : iox-ucs-019&#34;</span>,
-        <span style="color:#ba2121">&#34; Workspace    : /auto/srcarchive13/prod/6.5.3/xrv9k/ws&#34;</span>,
-        <span style="color:#ba2121">&#34; Version      : 6.5.3&#34;</span>,
-        <span style="color:#ba2121">&#34; Location     : /opt/cisco/XR/packages/&#34;</span>,
-        <span style="color:#ba2121">&#34;&#34;</span>,
-        <span style="color:#ba2121">&#34;cisco IOS-XRv 9000 () processor&#34;</span>,
-        <span style="color:#ba2121">&#34;System uptime is 22 hours 55 minutes&#34;</span>
-    <span style="color:#666">]</span>
-<span style="color:#666">}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 execute_commands.py 
+<span style="color:#728e00">{</span>
+    <span style="color:#7f8c8d">&#34;show ip int brief&#34;</span>: <span style="color:#728e00">[</span>
+        <span style="color:#7f8c8d">&#34;Interface                      IP-Address      Status          Protocol Vrf-Name&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback100                    1.1.1.100       Up              Up       default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback200                    1.1.1.200       Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;MgmtEth0/RP0/CPU0/0            10.10.20.175    Up              Up       default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/0         unassigned      Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/0.144     10.10.20.20     Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/1         unassigned      Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/2         unassigned      Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/3         unassigned      Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/4         unassigned      Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/5         unassigned      Shutdown        Down     default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/6         unassigned      Up              Up       default&#34;</span>
+    <span style="color:#728e00">]</span>,
+    <span style="color:#7f8c8d">&#34;show version&#34;</span>: <span style="color:#728e00">[</span>
+        <span style="color:#7f8c8d">&#34;Cisco IOS XR Software, Version 6.5.3&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Copyright (c) 2013-2019 by Cisco Systems, Inc.&#34;</span>,
+        <span style="color:#7f8c8d">&#34;&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Build Information:&#34;</span>,
+        <span style="color:#7f8c8d">&#34; Built By     : ahoang&#34;</span>,
+        <span style="color:#7f8c8d">&#34; Built On     : Tue Mar 26 06:52:25 PDT 2019&#34;</span>,
+        <span style="color:#7f8c8d">&#34; Built Host   : iox-ucs-019&#34;</span>,
+        <span style="color:#7f8c8d">&#34; Workspace    : /auto/srcarchive13/prod/6.5.3/xrv9k/ws&#34;</span>,
+        <span style="color:#7f8c8d">&#34; Version      : 6.5.3&#34;</span>,
+        <span style="color:#7f8c8d">&#34; Location     : /opt/cisco/XR/packages/&#34;</span>,
+        <span style="color:#7f8c8d">&#34;&#34;</span>,
+        <span style="color:#7f8c8d">&#34;cisco IOS-XRv 9000 () processor&#34;</span>,
+        <span style="color:#7f8c8d">&#34;System uptime is 22 hours 55 minutes&#34;</span>
+    <span style="color:#728e00">]</span>
+<span style="color:#728e00">}</span>
 </code></pre></div><h3 id="use-case-change-configuration-add-loopback-interface">Use Case: Change configuration (add loopback interface)</h3>
 <p>This use case will be a little more complicated. We want to add a loopback interface to our device. We will be reading the configuration from a Jinja2 template but also use a NAPALM feature to compare the configuration before committing it to our device. Let&rsquo;s get started.</p>
 <p>I will only show the most relevant parts, refer to <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/change_config.py">here</a> for the entire script.</p>
 <p>First, we will read the <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/change_config.yml">YML file</a> which contains an overview of the configuration change we want to push through. Next, we will use the Jinja2 library to retrieve the <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/change_config.j2">Jinja2</a> template and change the placeholder values with the values from our YML file. If this is kind of new to you, I invite you to check out my post on Jinja2 templates <a href="https://blog.wimwauters.com/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1">here</a>.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">config_data <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(<span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;change_config.yml&#39;</span>), Loader<span style="color:#666">=</span>yaml<span style="color:#666">.</span>SafeLoader)
-env <span style="color:#666">=</span> Environment(loader <span style="color:#666">=</span> FileSystemLoader(<span style="color:#ba2121">&#39;.&#39;</span>), trim_blocks<span style="color:#666">=</span>True, lstrip_blocks<span style="color:#666">=</span>True)
-template <span style="color:#666">=</span> env<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#39;change_config.j2&#39;</span>)
-response <span style="color:#666">=</span> template<span style="color:#666">.</span>render(config_data)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">config_data</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;change_config.yml&#39;</span>), <span style="color:#434f54">Loader</span><span style="color:#728e00">=</span><span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
+<span style="color:#434f54">env</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span> <span style="color:#728e00">=</span> <span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;.&#39;</span>), <span style="color:#434f54">trim_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">lstrip_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">env</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#39;change_config.j2&#39;</span>)
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">config_data</span>)
 </code></pre></div><p>Next, we will use the <code>load_merge_candidate</code> function (see <a href="https://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver.load_merge_candidate">here</a> for more info). As the documentation tells us, it will merge the existing configuration with the new &lsquo;candidate&rsquo; configuration (but it will NOT make the changes yet). Let&rsquo;s tackle this in below snippet:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">facts <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>load_merge_candidate(config<span style="color:#666">=</span>response)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">facts</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">load_merge_candidate</span>(<span style="color:#434f54">config</span><span style="color:#728e00">=</span><span style="color:#434f54">response</span>)
 </code></pre></div><p>Next, we will also use the <code>compare_config()</code> method (see <a href="https://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver.compare_config">here</a>) to show the difference between the &lsquo;running&rsquo; configuration and the &lsquo;candidate&rsquo; configuration.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#39;</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">Diff:&#39;</span>)
-diff <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>compare_config()
-<span style="color:#008000;font-weight:bold">print</span>(diff)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">Diff:&#39;</span>)
+<span style="color:#434f54">diff</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">compare_config</span>()
+<span style="color:#728e00">print</span>(<span style="color:#434f54">diff</span>)
 </code></pre></div><p>This will print the following:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Diff:
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Diff:
 --- 
 +++ 
 @@ -34,12 +34,12 @@
@@ -266,29 +276,29 @@ diff <span style="color:#666">=</span> device_xr<span style="color:#666">.</span
 + ipv4 address 4.4.4.201 255.255.255.255
 </code></pre></div><p>You can see there is already a Loopback100 and Loopback200 configuration, but it uses different IP addresses.</p>
 <p>As mentioned before, up till this point, we have only looked at how the configuration &lsquo;would&rsquo; change but the change itself did not happen yet. Therefore we have to use the <code>commit_config</code> (see <a href="https://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver.commit_config">here</a>) method which will push/commit the changes to the running configuration.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">device_xr<span style="color:#666">.</span>commit_config()
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">commit_config</span>()
 </code></pre></div><p>In order to test whether our script works, we can use a previous script (<a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/execute_commands.py">this</a> one). You will notice that the Loopback100 and Loopback200 interfaces are indeed configured with the IP addresses we provided in our YML file.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 execute_commands.py 
-<span style="color:#666">{</span>
-    <span style="color:#ba2121">&#34;show ip int brief&#34;</span>: <span style="color:#666">[</span>
-        <span style="color:#ba2121">&#34;Interface                      IP-Address      Status          Protocol Vrf-Name&#34;</span>,
-        <span style="color:#ba2121">&#34;Loopback100                    4.4.4.101       Up              Up       default &#34;</span>,
-        <span style="color:#ba2121">&#34;Loopback200                    4.4.4.201       Shutdown        Down     default &#34;</span>,
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 execute_commands.py 
+<span style="color:#728e00">{</span>
+    <span style="color:#7f8c8d">&#34;show ip int brief&#34;</span>: <span style="color:#728e00">[</span>
+        <span style="color:#7f8c8d">&#34;Interface                      IP-Address      Status          Protocol Vrf-Name&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback100                    4.4.4.101       Up              Up       default &#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback200                    4.4.4.201       Shutdown        Down     default &#34;</span>,
         ***Truncated***
 </code></pre></div><h3 id="use-case-validation">Use Case: Validation</h3>
 <p>Last use case for NAPALM will be to validate the configuration of our device. Say we want to check whether our device is running a specific software version&hellip;or we want to verify if our device has a loopback interface with a given IP address. Let&rsquo;s do that in the following example.</p>
 <p>We will create a <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/validation.yml">YML</a> file which contains the data to be validated. In our example, we will check that the SW version of our network device is running a particular version and we&rsquo;ll also check the IP address of Loopback200.</p>
 <p>The key method here is NAPALM&rsquo;s <code>compliance_report()</code> (see <a href="https://napalm.readthedocs.io/en/latest/base.html#napalm.base.base.NetworkDriver.compliance_report">here</a> for more info). As you can read in the documentation, it will verify of the device configuration complies with a particular validation file (our YML file).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">device_xr <span style="color:#666">=</span> driver_xr(hostname<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;password&#39;</span>], optional_args<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;port&#39;</span>:device[<span style="color:#ba2121">&#39;port&#39;</span>]})
-device_xr<span style="color:#666">.</span>open()
-response <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>compliance_report(<span style="color:#ba2121">&#34;validation.yml&#34;</span>)
-compliance_status <span style="color:#666">=</span> response[<span style="color:#ba2121">&#39;complies&#39;</span>]
-<span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;Overall compliance status: {compliance_status}&#34;</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">device_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">driver_xr</span>(<span style="color:#434f54">hostname</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">optional_args</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;port&#39;</span>:<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>]})
+<span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">compliance_report</span>(<span style="color:#7f8c8d">&#34;validation.yml&#34;</span>)
+<span style="color:#434f54">compliance_status</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;complies&#39;</span>]
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Overall compliance status: {compliance_status}&#34;</span>)
 </code></pre></div><p>The output of this script will be:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 validate.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 validate.py 
 Overall compliance status: False
 </code></pre></div><p>Hmmm, it&rsquo;s false which means either the router is running a wrong software version or the Loopback200 is configured differently. Let&rsquo;s digg a little deeper by adding the following statement to our Python script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">print</span>(json<span style="color:#666">.</span>dumps(response, sort_keys<span style="color:#666">=</span>True, indent<span style="color:#666">=</span><span style="color:#666">4</span>))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">print</span>(<span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">response</span>, <span style="color:#434f54">sort_keys</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">indent</span><span style="color:#728e00">=</span><span style="color:#8a7b52">4</span>))
 </code></pre></div><p>Running this script (see below) reveals there is an issue with the Loopback200 interface. To understand why I&rsquo;m saying this, check both these values:</p>
 <ul>
 <li>
@@ -356,15 +366,15 @@ Overall compliance status: False
 </code></pre><p>Note that this is entirely within expectations as we wanted to check (in our validation YML file) that the Loopback200 is configured to have IP address 1.1.1.200 and we have in fact changed the Loopback200 configuration in the previous use case (we configured it to be 4.4.4.201 if you remember). Hence this validation will indeed fail.</p>
 <p>Let&rsquo;s now use <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/change_config.py">this</a> script to reconfigure the Loopback200 interface to 1.1.1.200. To do so, ensure you change the values in the YML file (<a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Napalm_Introduction/change_config.yml">this</a> one).</p>
 <p>Use the following information</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">Loopback200</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_addr</span>:<span style="color:#bbb"> </span><span style="color:#666">1.1.1.200</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_mask</span>:<span style="color:#bbb"> </span><span style="color:#666">255.255.255.255</span><span style="color:#bbb">
-</span></code></pre></div><p>Let&rsquo;s first change this configuration:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 change_config.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">  <span style="color:#728e00">Loopback200</span>:
+    <span style="color:#728e00">ipv4_addr</span>: <span style="color:#8a7b52">1.1.1.200</span>
+    <span style="color:#728e00">ipv4_mask</span>: <span style="color:#8a7b52">255.255.255.255</span>
+</code></pre></div><p>Let&rsquo;s first change this configuration:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 change_config.py 
 ***Truncated***
 Committing ...
 </code></pre></div><p>And let&rsquo;s finally re-run the validation script. If all went well, we are expecting no errors any longer as we reconfigured the Loopback200 interface to the correct IP address.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 validate.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 validate.py 
 Overall compliance status: True
 </code></pre></div><p>All went well as it seems.</p>
 <p>That&rsquo;s it. Pretty neat! No? Really love NAPALM as it has some really cool features that make it a breeze to work with all kinds of network devices.</p>
@@ -424,16 +434,16 @@ Overall compliance status: True
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -442,6 +452,9 @@ Overall compliance status: True
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -449,6 +462,9 @@ Overall compliance status: True
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -478,14 +494,19 @@ Overall compliance status: True
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -494,14 +515,15 @@ Overall compliance status: True
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

@@ -6,10 +6,19 @@
     <description>Recent content in IOS XE on Technology Blog Wim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Apr 2020 12:32:50 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 04 Apr 2020 12:32:50 +0100</lastBuildDate>
     
 	<atom:link href="/tags/ios-xe/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RESTCONF with Python</title>
+      <link>/networkprogrammability/2020-04-04_restconf_python/</link>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-04_restconf_python/</guid>
+      <description>Installation In this post, we went over a number of use cases. We used POSTMAN to understand the details. Here is the list of use cases for your convenience.</description>
+    </item>
     
     <item>
       <title>RESTCONF intro with Postman - Part 2</title>

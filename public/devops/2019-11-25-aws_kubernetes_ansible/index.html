@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -114,18 +121,18 @@ if (!doNotTrack) {
 <p>Executing the code from that post, will result in three EC2 instances on AWS:</p>
 <p><img src="/images/2019-11-25-1.png" alt="AWS"></p>
 <p>The output of the Terraform script gives me back the following IP addresses to be used in our Ansible hosts file.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Outputs:
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Outputs:
 
-<span style="color:#19177c">instance_ip_addr</span> <span style="color:#666">=</span> <span style="color:#666">[</span>
-  <span style="color:#ba2121">&#34;172.31.13.140&#34;</span>,
-  <span style="color:#ba2121">&#34;172.31.5.24&#34;</span>,
-  <span style="color:#ba2121">&#34;172.31.14.2&#34;</span>,
-<span style="color:#666">]</span>
-<span style="color:#19177c">instance_ips</span> <span style="color:#666">=</span> <span style="color:#666">[</span>
-  <span style="color:#ba2121">&#34;18.203.68.253&#34;</span>,
-  <span style="color:#ba2121">&#34;3.249.4.142&#34;</span>,
-  <span style="color:#ba2121">&#34;3.249.141.242&#34;</span>,
-<span style="color:#666">]</span>
+<span style="color:#434f54">instance_ip_addr</span> <span style="color:#728e00">=</span> <span style="color:#728e00">[</span>
+  <span style="color:#7f8c8d">&#34;172.31.13.140&#34;</span>,
+  <span style="color:#7f8c8d">&#34;172.31.5.24&#34;</span>,
+  <span style="color:#7f8c8d">&#34;172.31.14.2&#34;</span>,
+<span style="color:#728e00">]</span>
+<span style="color:#434f54">instance_ips</span> <span style="color:#728e00">=</span> <span style="color:#728e00">[</span>
+  <span style="color:#7f8c8d">&#34;18.203.68.253&#34;</span>,
+  <span style="color:#7f8c8d">&#34;3.249.4.142&#34;</span>,
+  <span style="color:#7f8c8d">&#34;3.249.141.242&#34;</span>,
+<span style="color:#728e00">]</span>
 </code></pre></div><p>Note: ensure to select instance types with 2CPU&rsquo;s or more (t2.medium as a minimim in AWS), otherwise you will get an error message later:</p>
 <blockquote>
 <p>The number of available CPUs 1 is less than the required 2</p>
@@ -133,147 +140,147 @@ if (!doNotTrack) {
 <h3 id="using-ansible-to-install-kubernetes">Using Ansible to install Kubernetes</h3>
 <p>In this post, we will focus on using Ansible to install Kubernetes. We will base ourselves on an excellent <a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-18-04">post</a> written by the DigitalOcean community but finetune it for our AWS endeavour. Also, what we do here with Ansible are essentially the same steps as I did in this post where I configured Kubernetes manually.</p>
 <p>First of all, let’s create a hosts file for our Ansible scripts. We will define 1 master and 2 workers. The IP addresses are the same as the ones in the DigitalOcean screenshot (obviously).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#408080;font-style:italic">#hosts</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>[masters]<span style="color:#bbb">
-</span><span style="color:#bbb"></span>master<span style="color:#bbb"> </span>ansible_host=<span style="color:#666">18.203.68.253</span><span style="color:#bbb"> </span>ansible_user=ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>[workers]<span style="color:#bbb">
-</span><span style="color:#bbb"></span>worker1<span style="color:#bbb"> </span>ansible_host=<span style="color:#666">3.249.4.142</span><span style="color:#bbb"> </span>ansible_user=ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb"></span>worker2<span style="color:#bbb"> </span>ansible_host=<span style="color:#666">3.249.141.242</span><span style="color:#bbb"> </span>ansible_user=ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>[all:vars]<span style="color:#bbb">
-</span><span style="color:#bbb"></span>ansible_python_interpreter=/usr/bin/python3<span style="color:#bbb">
-</span><span style="color:#bbb"></span>ansible_ssh_private_key_file=~/.ssh/AWS-Cisco.pem<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span></code></pre></div><p>Next, we will define create a file to install all the updates, to create the ubuntu user and ensure the ubuntu user has sudo rights.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb"> </span>all<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">tasks</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>create<span style="color:#bbb"> </span>the<span style="color:#bbb"> </span><span style="color:#ba2121">&#39;ubuntu&#39;</span><span style="color:#bbb"> </span>user<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">user</span>:<span style="color:#bbb"> </span>name=ubuntu<span style="color:#bbb"> </span>append=yes<span style="color:#bbb"> </span>state=present<span style="color:#bbb"> </span>createhome=yes<span style="color:#bbb"> </span>shell=/bin/bash<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>allow<span style="color:#bbb"> </span><span style="color:#ba2121">&#39;ubuntu&#39;</span><span style="color:#bbb"> </span>to<span style="color:#bbb"> </span>have<span style="color:#bbb"> </span>passwordless<span style="color:#bbb"> </span>sudo<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">lineinfile</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">dest</span>:<span style="color:#bbb"> </span>/etc/sudoers<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">line: &#39;ubuntu ALL=(ALL) NOPASSWD</span>:<span style="color:#bbb"> </span>ALL<span style="color:#ba2121">&#39;
-</span><span style="color:#ba2121">        validate: &#39;</span>visudo<span style="color:#bbb"> </span>-cf<span style="color:#bbb"> </span>%s&#39;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>set<span style="color:#bbb"> </span>up<span style="color:#bbb"> </span>authorized<span style="color:#bbb"> </span>keys<span style="color:#bbb"> </span>for<span style="color:#bbb"> </span>the<span style="color:#bbb"> </span>ubuntu<span style="color:#bbb"> </span>user<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">authorized_key</span>:<span style="color:#bbb"> </span>user=ubuntu<span style="color:#bbb"> </span>key=<span style="color:#ba2121">&#34;{{item}}&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">with_file</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>- ~/.ssh/id_rsa.pub<span style="color:#bbb">
-</span></code></pre></div><p>Next up, we will create a different file that installs the Kubernetes specific dependencies on the 3 nodes. First of all, we start with the installation of Docker, then we add Kubernetes as well as the kubelet and kubeadm toolset.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#408080;font-style:italic">#kube-dependencies.yml</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>- <span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb"> </span>all<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">tasks</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>Docker<span style="color:#bbb">
-</span><span style="color:#bbb">     </span><span style="color:#008000;font-weight:bold">apt</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>docker.io<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>present<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">update_cache</span>:<span style="color:#bbb"> </span><span style="color:#008000;font-weight:bold">true</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>APT<span style="color:#bbb"> </span>Transport<span style="color:#bbb"> </span>HTTPS<span style="color:#bbb">
-</span><span style="color:#bbb">     </span><span style="color:#008000;font-weight:bold">apt</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>apt-transport-https<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>present<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb"> </span>Kubernetes<span style="color:#bbb"> </span>apt-key<span style="color:#bbb">
-</span><span style="color:#bbb">     </span><span style="color:#008000;font-weight:bold">apt_key</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">url</span>:<span style="color:#bbb"> </span>https://packages.cloud.google.com/apt/doc/apt-key.gpg<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>present<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>add<span style="color:#bbb"> </span>Kubernetes<span style="color:#ba2121">&#39; APT repository
-</span><span style="color:#ba2121">     apt_repository:
-</span><span style="color:#ba2121">      repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
-</span><span style="color:#ba2121">      state: present
-</span><span style="color:#ba2121">      filename: &#39;</span>kubernetes&#39;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>kubelet<span style="color:#bbb">
-</span><span style="color:#bbb">     </span><span style="color:#008000;font-weight:bold">apt</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>kubelet<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>present<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">update_cache</span>:<span style="color:#bbb"> </span><span style="color:#008000;font-weight:bold">true</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>kubeadm<span style="color:#bbb">
-</span><span style="color:#bbb">     </span><span style="color:#008000;font-weight:bold">apt</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>kubeadm<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>present<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>- <span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb"> </span>master<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">tasks</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>kubectl<span style="color:#bbb">
-</span><span style="color:#bbb">     </span><span style="color:#008000;font-weight:bold">apt</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>kubectl<span style="color:#bbb">
-</span><span style="color:#bbb">       </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>present<span style="color:#bbb">
-</span></code></pre></div><p>When the above is finished, we will create a specific file for the master node. This file will take care of the initialization of the Kubernetes cluster, will create the .kube directory and will copy the admin.conf file to the user’s kube.config file and also install the Calico network. Just similar as what we did in the manual process.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#408080;font-style:italic">#master.yml</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>- <span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb"> </span>master<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">tasks</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>initialize<span style="color:#bbb"> </span>the<span style="color:#bbb"> </span>cluster<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">shell</span>:<span style="color:#bbb"> </span>kubeadm<span style="color:#bbb"> </span>init<span style="color:#bbb"> </span>--pod-network-cidr=<span style="color:#666">10.244.0.0</span>/<span style="color:#666">16</span><span style="color:#bbb"> </span>&gt;&gt;<span style="color:#bbb"> </span>cluster_initialized.txt<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">args</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">chdir</span>:<span style="color:#bbb"> </span>$HOME<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">creates</span>:<span style="color:#bbb"> </span>cluster_initialized.txt<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>create<span style="color:#bbb"> </span>.kube<span style="color:#bbb"> </span>directory<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">become_user</span>:<span style="color:#bbb"> </span>ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">file</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">path</span>:<span style="color:#bbb"> </span>$HOME/.kube<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">state</span>:<span style="color:#bbb"> </span>directory<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">mode</span>:<span style="color:#bbb"> </span><span style="color:#666">0755</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>copy<span style="color:#bbb"> </span>admin.conf<span style="color:#bbb"> </span>to<span style="color:#bbb"> </span>user&#39;s<span style="color:#bbb"> </span>kube<span style="color:#bbb"> </span>config<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">copy</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">src</span>:<span style="color:#bbb"> </span>/etc/kubernetes/admin.conf<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">dest</span>:<span style="color:#bbb"> </span>/home/ubuntu/.kube/config<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">remote_src</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">owner</span>:<span style="color:#bbb"> </span>ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>Pod<span style="color:#bbb"> </span>network<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">become_user</span>:<span style="color:#bbb"> </span>ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">shell</span>:<span style="color:#bbb"> </span>kubectl<span style="color:#bbb"> </span>apply<span style="color:#bbb"> </span>-f<span style="color:#bbb"> </span>https://docs.projectcalico.org/v3<span style="color:#666">.9</span>/manifests/calico.yaml<span style="color:#bbb"> </span>&gt;&gt;<span style="color:#bbb"> </span>pod_network_setup.txt<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">args</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">chdir</span>:<span style="color:#bbb"> </span>$HOME<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">creates</span>:<span style="color:#bbb"> </span>pod_network_setup.txt<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span></code></pre></div><p>Note: if you prefer to use Flannel CNI plugin instead of Calico, it suffices to replace that part with:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#bbb">   </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>install<span style="color:#bbb"> </span>Pod<span style="color:#bbb"> </span>network<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">become_user</span>:<span style="color:#bbb"> </span>ubuntu<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">shell</span>:<span style="color:#bbb"> </span>kubectl<span style="color:#bbb"> </span>apply<span style="color:#bbb"> </span>-f<span style="color:#bbb"> </span>https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml<span style="color:#bbb"> </span>&gt;&gt;<span style="color:#bbb"> </span>pod_network_setup.txt<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">args</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">chdir</span>:<span style="color:#bbb"> </span>$HOME<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">creates</span>:<span style="color:#bbb"> </span>pod_network_setup.txt<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span></code></pre></div><p>Last file we create is the workers.yml file. In that file, we will first retrieve the join command from the master node and then we will join worker nodes to the cluster.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb"> </span>master<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">gather_facts</span>:<span style="color:#bbb"> </span><span style="color:#008000;font-weight:bold">false</span><span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">tasks</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>get<span style="color:#bbb"> </span>join<span style="color:#bbb"> </span>command<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">shell</span>:<span style="color:#bbb"> </span>kubeadm<span style="color:#bbb"> </span>token<span style="color:#bbb"> </span>create<span style="color:#bbb"> </span>--print-join-command<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">register</span>:<span style="color:#bbb"> </span>join_command_raw<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>set<span style="color:#bbb"> </span>join<span style="color:#bbb"> </span>command<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">set_fact</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">join_command</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;{{ join_command_raw.stdout_lines[0] }}&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>- <span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb"> </span>workers<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">become</span>:<span style="color:#bbb"> </span>yes<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">tasks</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>join<span style="color:#bbb"> </span>cluster<span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">shell</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;{{ hostvars[&#39;master&#39;].join_command }} &gt;&gt; node_joined.txt&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">      </span><span style="color:#008000;font-weight:bold">args</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">chdir</span>:<span style="color:#bbb"> </span>$HOME<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#008000;font-weight:bold">creates</span>:<span style="color:#bbb"> </span>node_joined.txt<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span></code></pre></div><h3 id="executing-the-ansible-playbooks">Executing the Ansible playbooks</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#95a5a6">#hosts</span>
+[masters]
+master ansible_host=<span style="color:#8a7b52">18.203.68.253</span> ansible_user=ubuntu
+
+[workers]
+worker1 ansible_host=<span style="color:#8a7b52">3.249.4.142</span> ansible_user=ubuntu
+worker2 ansible_host=<span style="color:#8a7b52">3.249.141.242</span> ansible_user=ubuntu
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_private_key_file=~/.ssh/AWS-Cisco.pem
+
+</code></pre></div><p>Next, we will define create a file to install all the updates, to create the ubuntu user and ensure the ubuntu user has sudo rights.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#728e00">hosts</span>: all
+  <span style="color:#728e00">become</span>: yes
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: create the <span style="color:#7f8c8d">&#39;ubuntu&#39;</span> user
+      <span style="color:#728e00">user</span>: name=ubuntu append=yes state=present createhome=yes shell=/bin/bash
+
+    - <span style="color:#728e00">name</span>: allow <span style="color:#7f8c8d">&#39;ubuntu&#39;</span> to have passwordless sudo
+      <span style="color:#728e00">lineinfile</span>:
+        <span style="color:#728e00">dest</span>: /etc/sudoers
+        <span style="color:#728e00">line: &#39;ubuntu ALL=(ALL) NOPASSWD</span>: ALL<span style="color:#7f8c8d">&#39;
+</span><span style="color:#7f8c8d">        validate: &#39;</span>visudo -cf %s&#39;
+
+    - <span style="color:#728e00">name</span>: set up authorized keys for the ubuntu user
+      <span style="color:#728e00">authorized_key</span>: user=ubuntu key=<span style="color:#7f8c8d">&#34;{{item}}&#34;</span>
+      <span style="color:#728e00">with_file</span>:
+        - ~/.ssh/id_rsa.pub
+</code></pre></div><p>Next up, we will create a different file that installs the Kubernetes specific dependencies on the 3 nodes. First of all, we start with the installation of Docker, then we add Kubernetes as well as the kubelet and kubeadm toolset.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#95a5a6">#kube-dependencies.yml</span>
+- <span style="color:#728e00">hosts</span>: all
+  <span style="color:#728e00">become</span>: yes
+  <span style="color:#728e00">tasks</span>:
+   - <span style="color:#728e00">name</span>: install Docker
+     <span style="color:#728e00">apt</span>:
+       <span style="color:#728e00">name</span>: docker.io
+       <span style="color:#728e00">state</span>: present
+       <span style="color:#728e00">update_cache</span>: <span style="color:#00979d">true</span>
+
+   - <span style="color:#728e00">name</span>: install APT Transport HTTPS
+     <span style="color:#728e00">apt</span>:
+       <span style="color:#728e00">name</span>: apt-transport-https
+       <span style="color:#728e00">state</span>: present
+
+   - <span style="color:#728e00">name</span>: add Kubernetes apt-key
+     <span style="color:#728e00">apt_key</span>:
+       <span style="color:#728e00">url</span>: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+       <span style="color:#728e00">state</span>: present
+
+   - <span style="color:#728e00">name</span>: add Kubernetes<span style="color:#7f8c8d">&#39; APT repository
+</span><span style="color:#7f8c8d">     apt_repository:
+</span><span style="color:#7f8c8d">      repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+</span><span style="color:#7f8c8d">      state: present
+</span><span style="color:#7f8c8d">      filename: &#39;</span>kubernetes&#39;
+
+   - <span style="color:#728e00">name</span>: install kubelet
+     <span style="color:#728e00">apt</span>:
+       <span style="color:#728e00">name</span>: kubelet
+       <span style="color:#728e00">state</span>: present
+       <span style="color:#728e00">update_cache</span>: <span style="color:#00979d">true</span>
+
+   - <span style="color:#728e00">name</span>: install kubeadm
+     <span style="color:#728e00">apt</span>:
+       <span style="color:#728e00">name</span>: kubeadm
+       <span style="color:#728e00">state</span>: present
+
+- <span style="color:#728e00">hosts</span>: master
+  <span style="color:#728e00">become</span>: yes
+  <span style="color:#728e00">tasks</span>:
+   - <span style="color:#728e00">name</span>: install kubectl
+     <span style="color:#728e00">apt</span>:
+       <span style="color:#728e00">name</span>: kubectl
+       <span style="color:#728e00">state</span>: present
+</code></pre></div><p>When the above is finished, we will create a specific file for the master node. This file will take care of the initialization of the Kubernetes cluster, will create the .kube directory and will copy the admin.conf file to the user’s kube.config file and also install the Calico network. Just similar as what we did in the manual process.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#95a5a6">#master.yml</span>
+- <span style="color:#728e00">hosts</span>: master
+  <span style="color:#728e00">become</span>: yes
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: initialize the cluster
+      <span style="color:#728e00">shell</span>: kubeadm init --pod-network-cidr=<span style="color:#8a7b52">10.244.0.0</span>/<span style="color:#8a7b52">16</span> &gt;&gt; cluster_initialized.txt
+      <span style="color:#728e00">args</span>:
+        <span style="color:#728e00">chdir</span>: $HOME
+        <span style="color:#728e00">creates</span>: cluster_initialized.txt
+
+    - <span style="color:#728e00">name</span>: create .kube directory
+      <span style="color:#728e00">become</span>: yes
+      <span style="color:#728e00">become_user</span>: ubuntu
+      <span style="color:#728e00">file</span>:
+        <span style="color:#728e00">path</span>: $HOME/.kube
+        <span style="color:#728e00">state</span>: directory
+        <span style="color:#728e00">mode</span>: <span style="color:#8a7b52">0755</span>
+
+    - <span style="color:#728e00">name</span>: copy admin.conf to user&#39;s kube config
+      <span style="color:#728e00">copy</span>:
+        <span style="color:#728e00">src</span>: /etc/kubernetes/admin.conf
+        <span style="color:#728e00">dest</span>: /home/ubuntu/.kube/config
+        <span style="color:#728e00">remote_src</span>: yes
+        <span style="color:#728e00">owner</span>: ubuntu
+
+    - <span style="color:#728e00">name</span>: install Pod network
+      <span style="color:#728e00">become</span>: yes
+      <span style="color:#728e00">become_user</span>: ubuntu
+      <span style="color:#728e00">shell</span>: kubectl apply -f https://docs.projectcalico.org/v3<span style="color:#8a7b52">.9</span>/manifests/calico.yaml &gt;&gt; pod_network_setup.txt
+      <span style="color:#728e00">args</span>:
+        <span style="color:#728e00">chdir</span>: $HOME
+        <span style="color:#728e00">creates</span>: pod_network_setup.txt
+
+</code></pre></div><p>Note: if you prefer to use Flannel CNI plugin instead of Calico, it suffices to replace that part with:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   - <span style="color:#728e00">name</span>: install Pod network
+      <span style="color:#728e00">become</span>: yes
+      <span style="color:#728e00">become_user</span>: ubuntu
+      <span style="color:#728e00">shell</span>: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml &gt;&gt; pod_network_setup.txt
+      <span style="color:#728e00">args</span>:
+        <span style="color:#728e00">chdir</span>: $HOME
+        <span style="color:#728e00">creates</span>: pod_network_setup.txt
+
+</code></pre></div><p>Last file we create is the workers.yml file. In that file, we will first retrieve the join command from the master node and then we will join worker nodes to the cluster.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#728e00">hosts</span>: master
+  <span style="color:#728e00">become</span>: yes
+  <span style="color:#728e00">gather_facts</span>: <span style="color:#00979d">false</span>
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: get join command
+      <span style="color:#728e00">shell</span>: kubeadm token create --print-join-command
+      <span style="color:#728e00">register</span>: join_command_raw
+
+    - <span style="color:#728e00">name</span>: set join command
+      <span style="color:#728e00">set_fact</span>:
+        <span style="color:#728e00">join_command</span>: <span style="color:#7f8c8d">&#34;{{ join_command_raw.stdout_lines[0] }}&#34;</span>
+
+
+- <span style="color:#728e00">hosts</span>: workers
+  <span style="color:#728e00">become</span>: yes
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: join cluster
+      <span style="color:#728e00">shell</span>: <span style="color:#7f8c8d">&#34;{{ hostvars[&#39;master&#39;].join_command }} &gt;&gt; node_joined.txt&#34;</span>
+      <span style="color:#728e00">args</span>:
+        <span style="color:#728e00">chdir</span>: $HOME
+        <span style="color:#728e00">creates</span>: node_joined.txt
+
+</code></pre></div><h3 id="executing-the-ansible-playbooks">Executing the Ansible playbooks</h3>
 <p>First, we will perform the initial configuration as described above.</p>
 <pre><code>WAUTERW-M-65P7:Ansible wauterw$ ansible-playbook -i hosts initial.yml
 
@@ -411,13 +418,13 @@ worker2                    : ok=2    changed=1    unreachable=0    failed=0    s
 </code></pre><p>This works, since we have configured the EC2 instances with our public key that is stored in our ~/.ssh directory (id_rsa,pub). Since we are also using our security key from AWS, we can also login as follows.</p>
 <pre><code>ssh -i AWS.pem ubuntu@18.203.68.253
 </code></pre><p>Next, let’s see if our nodes are up:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ubuntu@ip-172-31-13-140:~$ kubectl get nodes -o  wide
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ubuntu@ip-172-31-13-140:~$ kubectl get nodes -o  wide
 NAME               STATUS   ROLES    AGE     VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION    CONTAINER-RUNTIME
 ip-172-31-13-140   Ready    master   11m     v1.18.0   172.31.13.140   &lt;none&gt;        Ubuntu 18.04.1 LTS   4.15.0-1021-aws   docker://19.3.6
 ip-172-31-14-2     Ready    &lt;none&gt;   4m29s   v1.18.0   172.31.14.2     &lt;none&gt;        Ubuntu 18.04.1 LTS   4.15.0-1021-aws   docker://19.3.6
 ip-172-31-5-24     Ready    &lt;none&gt;   4m29s   v1.18.0   172.31.5.24     &lt;none&gt;        Ubuntu 18.04.1 LTS   4.15.0-1021-aws   docker://19.3.6
 </code></pre></div><p>And our namespaces:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ubuntu@ip-172-31-13-140:~$ kubectl get namespaces
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ubuntu@ip-172-31-13-140:~$ kubectl get namespaces
 NAME              STATUS   AGE
 default           Active   12m
 kube-node-lease   Active   12m
@@ -482,16 +489,16 @@ kube-system       Active   12m
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -500,6 +507,9 @@ kube-system       Active   12m
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -507,6 +517,9 @@ kube-system       Active   12m
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -536,14 +549,19 @@ kube-system       Active   12m
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -552,14 +570,15 @@ kube-system       Active   12m
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

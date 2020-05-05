@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Ansible and IOSXE - IOS modules - Technology Blog Wim</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-83351442-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Technology Blog Wim" rel="home">
+				<img src="/img/logo_blog.png" alt="Logo" />
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/networkprogrammability">
+				
+				<span class="menu__text">Network Programmability</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/devops">
+				
+				<span class="menu__text">DevOps</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/webdevelopment">
+				
+				<span class="menu__text">(Web)Development</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/public-cloud">
+				
+				<span class="menu__text">Cloud</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/cloud-native/">
+				
+				<span class="menu__text">Cloud-Native</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Ansible and IOSXE - IOS modules</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2020-04-29T10:32:50&#43;01:00">April 29, 2020</time>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			<h3 id="introduction">Introduction</h3>
+<p>In this blog post, we will use Ansible to interact with our IOS XE devices. Ansible has a very extensive set of Network Modules for various devices and vendors. To interact with IOS XE devices, one could use the IOS module. You can find the documentation <a href="https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#ios">here</a>.</p>
+<p>We will go through a small number of use cases to see how this module works.</p>
+<blockquote>
+<p>For all the examples, we will use a Cisco sandbox environment delivered by <a href="https://developer.cisco.com">Cisco Devnet</a>. Go check out Devnet, really brilliant. To get a list of all sandboxes, check out <a href="https://devnetsandbox.cisco.com/RM/Topology">this</a> link. For this blog post, we will use the IOS XE sandbox.</p>
+</blockquote>
+<h3 id="show-version-and-show-interfaces">Show version and show interfaces</h3>
+<p>Let&rsquo;s start with a simple use case, which is showing the version and a list of interfaces on our IOS XE device. To do so, we will be using the <code>ios-command</code> network module which allows us to run arbitrary commands on IOS devices and display the response from the device. This module is documented <a href="https://docs.ansible.com/ansible/latest/modules/ios_command_module.html#ios-command-module">here</a>.</p>
+<p>Let&rsquo;s start with defining a <code>hosts</code> file. For this example, it will just include a single entry, which points to the FQDN of the sandbox IOSXE device.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[iosxe]
+ios-xe-mgmt-latest.cisco.com
+</code></pre></div><p>Next, let&rsquo;s define the variables in a <code>group_vars</code> file called <code>iosxe.yaml</code></p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#728e00">ansible_connection </span>: local
+<span style="color:#728e00">ansible_python_interpreter </span>: /usr/bin/python3
+<span style="color:#728e00">host_key_checking </span>: False
+<span style="color:#728e00">ansible_ssh_user </span>: developer
+<span style="color:#728e00">ansible_ssh_pass </span>: <span style="color:#728e00">***</span>
+<span style="color:#728e00">ansible_port</span>: <span style="color:#8a7b52">8181</span>
+</code></pre></div><p>Next, let&rsquo;s create the script. You will see that we issue the <code>show version</code> and <code>show ip interface brief</code> commands one by one and we capture the response in a variable through Ansible <code>register</code> method. We then use the <code>debug</code> method to visualize the response.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Show examples
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+
+  <span style="color:#728e00">tasks</span>:
+  - <span style="color:#728e00">name</span>: GATHERING FACTS
+    <span style="color:#728e00">ios_facts</span>:
+      <span style="color:#728e00">gather_subset</span>: hardware
+
+  - <span style="color:#728e00">name</span>: run show version
+    <span style="color:#728e00">ios_command</span>:
+      <span style="color:#728e00">commands</span>: show version
+    <span style="color:#728e00">register</span>: version
+  
+  - <span style="color:#728e00">name</span>: display version
+    <span style="color:#728e00">debug</span>:
+      <span style="color:#728e00">var</span>: version[<span style="color:#7f8c8d">&#34;stdout_lines&#34;</span>][<span style="color:#8a7b52">0</span>]
+
+  - <span style="color:#728e00">name</span>: run show ip int brief
+    <span style="color:#728e00">ios_command</span>:
+      <span style="color:#728e00">commands</span>: show ip interface brief
+    <span style="color:#728e00">register</span>: interfaces
+
+  - <span style="color:#728e00">name</span>: display interfaces
+    <span style="color:#728e00">debug</span>:
+      <span style="color:#728e00">var</span>: interfaces[<span style="color:#7f8c8d">&#34;stdout_lines&#34;</span>][<span style="color:#8a7b52">0</span>]
+</code></pre></div><p>The above script can be run as follows. As expected, we will get back the output of both commands.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook command_show.yaml -i hosts
+
+PLAY <span style="color:#728e00">[</span>Show examples<span style="color:#728e00">]</span> ******************************************************************************************************************************************************
+
+TASK <span style="color:#728e00">[</span>GATHERING FACTS<span style="color:#728e00">]</span> ****************************************************************************************************************************************************
+ok: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+TASK <span style="color:#728e00">[</span>run show version<span style="color:#728e00">]</span> ***************************************************************************************************************************************************
+ok: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+TASK <span style="color:#728e00">[</span>display version<span style="color:#728e00">]</span> ****************************************************************************************************************************************************
+ok: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">{</span>
+    <span style="color:#7f8c8d">&#34;version[\&#34;stdout_lines\&#34;][0]&#34;</span>: <span style="color:#728e00">[</span>
+        <span style="color:#7f8c8d">&#34;Cisco IOS XE Software, Version 16.11.01a&#34;</span>,
+        ***Truncated***
+        <span style="color:#7f8c8d">&#34;Configuration register is 0x2102&#34;</span>
+    <span style="color:#728e00">]</span>
+<span style="color:#728e00">}</span>
+
+TASK <span style="color:#728e00">[</span>run show ip int brief<span style="color:#728e00">]</span> **********************************************************************************************************************************************
+ok: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+TASK <span style="color:#728e00">[</span>display interfaces<span style="color:#728e00">]</span> *************************************************************************************************************************************************
+ok: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">{</span>
+    <span style="color:#7f8c8d">&#34;interfaces[\&#34;stdout_lines\&#34;][0]&#34;</span>: <span style="color:#728e00">[</span>
+        <span style="color:#7f8c8d">&#34;Interface              IP-Address      OK? Method Status                Protocol&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet2       unassigned      YES NVRAM  administratively down down    &#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet3       unassigned      YES NVRAM  administratively down down    &#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback192            192.0.1.2       YES manual up                    up&#34;</span>
+    <span style="color:#728e00">]</span>
+<span style="color:#728e00">}</span>
+
+PLAY RECAP ****************************************************************************************************************************************************************
+ios-xe-mgmt-latest.cisco.com : <span style="color:#434f54">ok</span><span style="color:#728e00">=</span><span style="color:#8a7b52">5</span>    <span style="color:#434f54">changed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">unreachable</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">failed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">skipped</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">rescued</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">ignored</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>   
+</code></pre></div><p>In previous example, we issues both commands seperately (in a seperate tasks that is). We can also write it as follows, which is a little shorter.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Getting started
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+
+  <span style="color:#728e00">tasks</span>:
+  - <span style="color:#728e00">name</span>: GATHERING FACTS
+    <span style="color:#728e00">ios_facts</span>:
+      <span style="color:#728e00">gather_subset</span>: hardware
+
+  - <span style="color:#728e00">name</span>: run multiple commands
+    <span style="color:#728e00">ios_command</span>:
+      <span style="color:#728e00">commands</span>: 
+        - show version
+        - show ip interface brief
+    <span style="color:#728e00">register</span>: output
+
+  - <span style="color:#728e00">name</span>: display all
+    <span style="color:#728e00">debug</span>:
+      <span style="color:#728e00">var</span>: output[<span style="color:#7f8c8d">&#34;stdout_lines&#34;</span>]
+</code></pre></div><p>With the above script, you will get back a list of responses. If you would only be interested to see the output of the <code>show ip interface brief</code>, you could do this by looking at the <code>output[&quot;stdout_lines&quot;][1]</code> output.</p>
+<h3 id="adddelete-single-interface">Add/Delete single interface</h3>
+<p>Next, we will add and delete some interfaces (instead of just reading them from our device as we did in the use case above). Let&rsquo;s start with adding some interfaces.</p>
+<h6 id="a-add-single-interface">A) Add single interface</h6>
+<p>In the below Ansible script, we will create a loopback interface on our IOS XE device. We will use the <code>ios_interface</code> module for that. Information can be found <a href="https://docs.ansible.com/ansible/latest/modules/ios_interface_module.html#ios-interface-module">here</a>. As you can see, it allows you to specify the MTU size, the duplex mode and many other things. There is no option to specify an IP address. There is another module for that, called <code>ios_l3_interface</code> (see <a href="https://docs.ansible.com/ansible/latest/modules/ios_l3_interface_module.html#ios-l3-interface-module">documentation</a>). This one takes care of all layer 3 configuration on your interfaces. Hence we are using that one to set the IP address of our interface.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Configure loopback using ios_interface
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: Creating loopback 
+      <span style="color:#728e00">ios_interface</span>:
+        <span style="color:#728e00">name</span>: Loopback100
+        <span style="color:#728e00">enabled</span>: True
+        <span style="color:#728e00">description</span>: Loopback interface <span style="color:#8a7b52">100</span> created with Ansible
+    - <span style="color:#728e00">name</span>: Assign IP to loopback
+      <span style="color:#728e00">ios_l3_interface</span>:
+        <span style="color:#728e00">name</span>: Loopback100
+        <span style="color:#728e00">ipv4</span>: <span style="color:#8a7b52">10.10.10.10</span>/<span style="color:#8a7b52">32</span>
+</code></pre></div><p>Let&rsquo;s execute this playbook:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_create_single.yaml 
+
+PLAY <span style="color:#728e00">[</span>Configure loopback using ios_interface<span style="color:#728e00">]</span> *****************************************************************************************************************************
+
+TASK <span style="color:#728e00">[</span>Creating loopback<span style="color:#728e00">]</span> **************************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+TASK <span style="color:#728e00">[</span>Assign IP to loopback<span style="color:#728e00">]</span> **********************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+PLAY RECAP ****************************************************************************************************************************************************************
+ios-xe-mgmt-latest.cisco.com : <span style="color:#434f54">ok</span><span style="color:#728e00">=</span><span style="color:#8a7b52">2</span>    <span style="color:#434f54">changed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">2</span>    <span style="color:#434f54">unreachable</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">failed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">skipped</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">rescued</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">ignored</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>   
+</code></pre></div><p>When logging into the device using SSH, you can verify that the interfaces was added successfully.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up
+GigabitEthernet2       unassigned      YES NVRAM  administratively down down
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down
+Loopback100            10.10.10.10     YES manual up                    up
+</code></pre></div><h6 id="b-delete-interface">B) Delete interface</h6>
+<p>Next, let&rsquo;s delete the interface we just created through an Ansible script. It&rsquo;s easy as we will use the <code>ios_interface</code> module again and put the state to absent. Ansible will take care of the removal of the interface.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Delete interfaces
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+
+  <span style="color:#728e00">tasks</span>:
+  - <span style="color:#728e00">name</span>: Delete loopback <span style="color:#8a7b52">100</span>
+    <span style="color:#728e00">ios_interface</span>:
+      <span style="color:#728e00">name</span>: Loopback100
+      <span style="color:#728e00">state</span>: absent
+</code></pre></div><p>Let&rsquo;s execute this playbook:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_remove_single.yaml 
+
+PLAY <span style="color:#728e00">[</span>Delete interfaces<span style="color:#728e00">]</span> **************************************************************************************************************************************************
+
+TASK <span style="color:#728e00">[</span>Delete loopback 100<span style="color:#728e00">]</span> ************************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+PLAY RECAP ****************************************************************************************************************************************************************
+ios-xe-mgmt-latest.cisco.com : <span style="color:#434f54">ok</span><span style="color:#728e00">=</span><span style="color:#8a7b52">1</span>    <span style="color:#434f54">changed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">1</span>    <span style="color:#434f54">unreachable</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">failed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">skipped</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">rescued</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">ignored</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>   
+</code></pre></div><p>And indeed, when we login through SSH, you will see the interface got successfully deleted.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up
+GigabitEthernet2       unassigned      YES NVRAM  administratively down down
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down
+</code></pre></div><h3 id="adddelete-multiple-interfaces">Add/Delete multiple interfaces</h3>
+<p>Next, let&rsquo;s make it a bit more complex. Let&rsquo;s add multiple interfaces to our IOSXE device. We will do so through iterating over some interfaces we list in a variables file.</p>
+<p>If you want to follow along, create a file called <code>vars/loopback.yaml</code> with the following content:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+<span style="color:#728e00">loopbacks</span>: 
+  - <span style="color:#728e00">loopbackname</span>: <span style="color:#7f8c8d">&#34;Loopback100&#34;</span>
+    <span style="color:#728e00">ip</span>: <span style="color:#7f8c8d">&#34;10.16.100.100&#34;</span>
+    <span style="color:#728e00">mask</span>: <span style="color:#7f8c8d">&#34;32&#34;</span>
+  - <span style="color:#728e00">loopbackname</span>: <span style="color:#7f8c8d">&#34;Loopback101&#34;</span>
+    <span style="color:#728e00">ip</span>: <span style="color:#7f8c8d">&#34;10.16.100.101&#34;</span>
+    <span style="color:#728e00">mask</span>: <span style="color:#7f8c8d">&#34;32&#34;</span>
+  - <span style="color:#728e00">loopbackname</span>: <span style="color:#7f8c8d">&#34;Loopback102&#34;</span>
+    <span style="color:#728e00">ip</span>: <span style="color:#7f8c8d">&#34;10.16.100.102&#34;</span>
+    <span style="color:#728e00">mask</span>: <span style="color:#7f8c8d">&#34;32&#34;</span>
+  - <span style="color:#728e00">loopbackname</span>: <span style="color:#7f8c8d">&#34;Loopback103&#34;</span>
+    <span style="color:#728e00">ip</span>: <span style="color:#7f8c8d">&#34;10.16.100.103&#34;</span>
+    <span style="color:#728e00">mask</span>: <span style="color:#7f8c8d">&#34;32&#34;</span>
+</code></pre></div><h6 id="a-add-multiple-interfaces">A) Add multiple interfaces</h6>
+<p>In order to add the interfaces from the above variable file, we will loop over them. We start by specifying the <code>vars_files</code>. Next, we create the loopback interfaces by looping over the <code>loopbacks</code> defined in the variables file with the <code>with_items</code> method. We repeat the same method for assigning IP addresses to the interfaces.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Configure loopback using ios_interface
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+  <span style="color:#728e00">vars_files</span>:
+    - vars/loopbacks.yaml
+
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: Creating loopback 
+      <span style="color:#728e00">ios_interface</span>:
+        <span style="color:#728e00">name</span>: <span style="color:#7f8c8d">&#34;{{ item.loopbackname }}&#34;</span>
+        <span style="color:#728e00">enabled</span>: True
+        <span style="color:#728e00">description</span>: Loopback interface <span style="color:#8a7b52">100</span> created with Ansible
+      <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks }}&#34;</span>
+
+    - <span style="color:#728e00">name</span>: Assign IP to loopback
+      <span style="color:#728e00">ios_l3_interface</span>:
+        <span style="color:#728e00">name</span>: <span style="color:#7f8c8d">&#34;{{ item.loopbackname }}&#34;</span>
+        <span style="color:#728e00">ipv4</span>: <span style="color:#7f8c8d">&#34;{{ item.ip }}/{{ item.mask }}&#34;</span>
+      <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks }}&#34;</span>
+
+    - <span style="color:#728e00">name</span>: Make interface down
+      <span style="color:#728e00">ios_interface</span>:
+        <span style="color:#728e00">name</span>: <span style="color:#7f8c8d">&#34;{{ item.loopbackname }}&#34;</span>
+        <span style="color:#728e00">enabled</span>: False
+      <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks }}&#34;</span>
+</code></pre></div><p>Let&rsquo;s execute the Ansible script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_create_multiple.yaml 
+
+PLAY <span style="color:#728e00">[</span>Configure loopback using ios_interface<span style="color:#728e00">]</span> *****************************************************************************************************************************
+
+TASK <span style="color:#728e00">[</span>Creating loopback<span style="color:#728e00">]</span> **************************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback100&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.100&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback101&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.101&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback102&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.102&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback103&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.103&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+
+TASK <span style="color:#728e00">[</span>Assign IP to loopback<span style="color:#728e00">]</span> **********************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback100&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.100&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback101&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.101&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback102&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.102&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback103&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.103&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+
+TASK <span style="color:#728e00">[</span>Make interface down<span style="color:#728e00">]</span> ************************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback100&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.100&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback101&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.101&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback102&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.102&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback103&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.103&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+
+PLAY RECAP ****************************************************************************************************************************************************************
+ios-xe-mgmt-latest.cisco.com : <span style="color:#434f54">ok</span><span style="color:#728e00">=</span><span style="color:#8a7b52">3</span>    <span style="color:#434f54">changed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">3</span>    <span style="color:#434f54">unreachable</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">failed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">skipped</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">rescued</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">ignored</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>  
+</code></pre></div><p>And let&rsquo;s verify on the device itself. You will see indeed our interfaces got added successfully and the correct IP addresses were configured on them.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up
+GigabitEthernet2       unassigned      YES NVRAM  administratively down down
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down
+Loopback100            10.16.100.100   YES manual administratively down down
+Loopback101            10.16.100.101   YES manual administratively down down
+Loopback102            10.16.100.102   YES manual administratively down down
+Loopback103            10.16.100.103   YES manual administratively down down
+</code></pre></div><h6 id="b-remove-multiple-interfaces">B) Remove multiple interfaces</h6>
+<p>Next, let&rsquo;s quickly remove these interface as well. Pretty straightforward, we loop again over the interfaces defined in the variables file and we delete them (cfr state: absent).</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Delete interfaces
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+  <span style="color:#728e00">vars_files</span>:
+    - vars/loopbacks.yaml
+  
+  <span style="color:#728e00">tasks</span>:
+  - <span style="color:#728e00">name</span>: Delete loopback interfaces
+    <span style="color:#728e00">ios_interface</span>:
+      <span style="color:#728e00">name</span>: <span style="color:#7f8c8d">&#34;{{ item.loopbackname }}&#34;</span>
+      <span style="color:#728e00">state</span>: absent
+    <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks }}&#34;</span>
+</code></pre></div><p>Let&rsquo;s execute the playbook:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts loopback_remove_multiple.yaml
+
+PLAY <span style="color:#728e00">[</span>Delete interfaces<span style="color:#728e00">]</span> **************************************************************************************************************************************************
+
+TASK <span style="color:#728e00">[</span>Delete loopback interfaces<span style="color:#728e00">]</span> *****************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback100&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.100&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback101&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.101&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback102&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.102&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span> <span style="color:#728e00">=</span>&gt; <span style="color:#728e00">(</span><span style="color:#434f54">item</span><span style="color:#728e00">={</span><span style="color:#7f8c8d">&#39;loopbackname&#39;</span>: <span style="color:#7f8c8d">&#39;Loopback103&#39;</span>, <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;10.16.100.103&#39;</span>, <span style="color:#7f8c8d">&#39;mask&#39;</span>: <span style="color:#7f8c8d">&#39;32&#39;</span><span style="color:#728e00">})</span>
+
+PLAY RECAP ****************************************************************************************************************************************************************
+ios-xe-mgmt-latest.cisco.com : <span style="color:#434f54">ok</span><span style="color:#728e00">=</span><span style="color:#8a7b52">1</span>    <span style="color:#434f54">changed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">1</span>    <span style="color:#434f54">unreachable</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">failed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">skipped</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">rescued</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">ignored</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span> 
+</code></pre></div><p>And let&rsquo;s verify that the interfaces are really removed.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up
+GigabitEthernet2       unassigned      YES NVRAM  administratively down down
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down
+</code></pre></div><h3 id="change-interface-description">Change interface description</h3>
+<p>Next, let&rsquo;s change the description of an interface. I&rsquo;m merely showing this example to get familiar with the <code>ios_config</code> module for which you can find the information <a href="https://docs.ansible.com/ansible/latest/modules/ios_config_module.html#ios-config-module">here</a>.</p>
+<p>In below script, we will change the description of an existing interface.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Change interface description
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: configure interface settings
+      <span style="color:#728e00">ios_config</span>:
+        <span style="color:#728e00">lines</span>:
+          - description Changed through Ansible
+          - ip address <span style="color:#8a7b52">172.31.1.1</span> <span style="color:#8a7b52">255.255.255.0</span>
+        <span style="color:#728e00">parents</span>: interface GigabitEthernet3
+</code></pre></div><p>Let&rsquo;s execute the playbook:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts change_description.yaml
+
+PLAY <span style="color:#728e00">[</span>Change interface description<span style="color:#728e00">]</span> ***************************************************************************************************************************************
+
+TASK <span style="color:#728e00">[</span>configure interface settings<span style="color:#728e00">]</span> ***************************************************************************************************************************************
+changed: <span style="color:#728e00">[</span>ios-xe-mgmt-latest.cisco.com<span style="color:#728e00">]</span>
+
+PLAY RECAP ****************************************************************************************************************************************************************
+ios-xe-mgmt-latest.cisco.com : <span style="color:#434f54">ok</span><span style="color:#728e00">=</span><span style="color:#8a7b52">1</span>    <span style="color:#434f54">changed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">1</span>    <span style="color:#434f54">unreachable</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">failed</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">skipped</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">rescued</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>    <span style="color:#434f54">ignored</span><span style="color:#728e00">=</span><span style="color:#8a7b52">0</span>   
+</code></pre></div><p>And indeed, you will see the interface got changed.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show inter descr
+Interface                      Status         Protocol Description
+Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="color:#a61717">&#39;</span>T TOUCH ME
+Gi2                            admin down     down     Network Interface
+Gi3                            admin down     down     Changed through Ansible
+
+</code></pre></div><h3 id="change-multiple-interface-descriptions">Change multiple interface descriptions</h3>
+<p>Lastly, let&rsquo;s change multiple interfaces simultaneously. We first create the interfaces by defining them in a variable file (see use case above where this has been covered already) and next, we will change the description. To achieve that, we define a list of interface commands under the <code>with_items</code> section and we use that information in the <code>parents</code> attribute.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Configure loopback using ios_interface
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+  <span style="color:#728e00">vars_files</span>:
+    - vars/loopbacks.yaml
+
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: Creating loopback 
+      <span style="color:#728e00">ios_interface</span>:
+        <span style="color:#728e00">name</span>: <span style="color:#7f8c8d">&#34;{{ item.loopbackname }}&#34;</span>
+        <span style="color:#728e00">enabled</span>: True
+        <span style="color:#728e00">description</span>: Loopback interface created with Ansible
+      <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks }}&#34;</span>
+
+    - <span style="color:#728e00">name</span>: Change description
+      <span style="color:#728e00">ios_config</span>:
+        <span style="color:#728e00">lines</span>:
+          - description Loopback interface changed through Ansible
+        <span style="color:#728e00">parents</span>: <span style="color:#7f8c8d">&#34;{{item}}&#34;</span>
+      <span style="color:#728e00">with_items</span>:
+        - interface Loopback100
+        - interface Loopback101
+        - interface Loopback102
+        - interface Loopback103
+</code></pre></div><p>Execute the playbook:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ios_modules % ansible-playbook -i hosts change_description_multipleinterfaces.yaml
+
+</code></pre></div><p>And look on the device through SSH. The interface description got changed indeed.</p>
+<pre><code>csr1000v-1#show interface description
+Interface                      Status         Protocol Description
+Gi1                            up             up       MANAGEMENT INTERFACE - DON'T TOUCH ME
+Gi2                            admin down     down     Network Interface
+Gi3                            admin down     down     Network Interface
+Lo100                          up             up       Loopback interface changed through Ansible
+Lo101                          up             up       Loopback interface changed through Ansible
+Lo102                          up             up       Loopback interface changed through Ansible
+Lo103                          up             up       Loopback interface changed through Ansible
+</code></pre><h3 id="change-multiple-interface-descriptions----variant">Change multiple interface descriptions &ndash; variant</h3>
+<p>The above example listed all the interfaces individually under the <code>with_items</code> section. That was a bit clumsy. So I created also a small variant which handles this a bit more elegant. I won&rsquo;t go over the script as with the information you learned above it should be pretty straigthforward.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#728e00">name</span>: Configure loopback using ios_interface
+  <span style="color:#728e00">hosts</span>: iosxe
+  <span style="color:#728e00">gather_facts</span>: no
+  <span style="color:#728e00">vars_files</span>:
+    - vars/loopbacks.yaml
+    - vars/loopbacks_interfaces.yaml
+
+  <span style="color:#728e00">tasks</span>:
+    - <span style="color:#728e00">name</span>: Creating loopback 
+      <span style="color:#728e00">ios_interface</span>:
+        <span style="color:#728e00">name</span>: <span style="color:#7f8c8d">&#34;{{ item.loopbackname }}&#34;</span>
+        <span style="color:#728e00">enabled</span>: True
+        <span style="color:#728e00">description</span>: Loopback interface created with Ansible
+      <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks }}&#34;</span>
+
+    - <span style="color:#728e00">name</span>: Change description
+      <span style="color:#728e00">ios_config</span>:
+        <span style="color:#728e00">lines</span>:
+          - description Loopback interface changed through Ansible
+        <span style="color:#728e00">parents</span>: <span style="color:#7f8c8d">&#34;{{item.loopbackinterface}}&#34;</span>
+      <span style="color:#728e00">with_items</span>: <span style="color:#7f8c8d">&#34;{{ loopbacks_interfaces }}&#34;</span>
+</code></pre></div><p>Hope you enjoyed working with Ansible. The scripts I have used in this post, can be found on my Github <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Ansible_IOSXE/ios_modules">repo</a>.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/ansible/" rel="tag">Ansible</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/iosxe/" rel="tag">IOSXE</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Cisco DNA Center - Sites</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "blog-wimwauters" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/backend/">Backend</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/cloud-native/">Cloud Native</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/devops/">DevOps</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/infrastructure-as-code/">Infrastructure As Code</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/network-programming/">Network Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/private-cloud/">Private Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/programming/">Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/public-cloud/">Public Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/web-development/">Web Development</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/napalm/" title="Napalm">Napalm (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netconf/" title="NETCONF">NETCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@Wauters_Wim" target="_blank">
+				<svg class="widget-social__link-icon icon icon-twitter" width="24" height="24" viewBox="0 0 384 312"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/https://www.linkedin.com/in/wim-wauters-92ab401" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/https://github.com/wiwa1978" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:blogwimwauters%20at%20gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>blogwimwauters at gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Wim Wauters.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

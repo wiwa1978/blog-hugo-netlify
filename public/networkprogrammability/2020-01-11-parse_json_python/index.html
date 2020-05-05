@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Parse JSON file with Python - Technology Blog Wim</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-83351442-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+	<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Technology Blog Wim" rel="home">
+				<img src="/img/logo_blog.png" alt="Logo" />
+				
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/networkprogrammability">
+				
+				<span class="menu__text">Network Programmability</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/devops">
+				
+				<span class="menu__text">DevOps</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/webdevelopment">
+				
+				<span class="menu__text">(Web)Development</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/public-cloud">
+				
+				<span class="menu__text">Cloud</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/categories/cloud-native/">
+				
+				<span class="menu__text">Cloud-Native</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about">
+				
+				<span class="menu__text">About Me</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Parse JSON file with Python</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2020-01-11T10:19:50&#43;01:00">January 11, 2020</time>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			<h3 id="introduction">Introduction</h3>
+<p>In this post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant.</p>
+<h3 id="sample-file">Sample file</h3>
+<p>I downloaded <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace">this</a> XML file and converted it to JSON. There&rsquo;s plenty of tools om the web to do this. I did it already for you, in case you want to follow along. Here it is:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+   <span style="color:#434f54">&#34;Customers&#34;</span>: {
+      <span style="color:#434f54">&#34;Customer&#34;</span>: [
+         {
+            <span style="color:#434f54">&#34;@CustomerID&#34;</span>: <span style="color:#7f8c8d">&#34;GREAL&#34;</span>,
+            <span style="color:#434f54">&#34;CompanyName&#34;</span>: <span style="color:#7f8c8d">&#34;Great Lakes Food Market&#34;</span>,
+            <span style="color:#434f54">&#34;ContactName&#34;</span>: <span style="color:#7f8c8d">&#34;Howard Snyder&#34;</span>,
+            <span style="color:#434f54">&#34;ContactTitle&#34;</span>: <span style="color:#7f8c8d">&#34;Marketing Manager&#34;</span>,
+            <span style="color:#434f54">&#34;Phone&#34;</span>: <span style="color:#7f8c8d">&#34;(503) 555-7555&#34;</span>,
+            <span style="color:#434f54">&#34;FullAddress&#34;</span>: {
+               <span style="color:#434f54">&#34;Address&#34;</span>: <span style="color:#7f8c8d">&#34;2732 Baker Blvd.&#34;</span>,
+               <span style="color:#434f54">&#34;City&#34;</span>: <span style="color:#7f8c8d">&#34;Eugene&#34;</span>,
+               <span style="color:#434f54">&#34;Region&#34;</span>: <span style="color:#7f8c8d">&#34;OR&#34;</span>,
+               <span style="color:#434f54">&#34;PostalCode&#34;</span>: <span style="color:#7f8c8d">&#34;97403&#34;</span>,
+               <span style="color:#434f54">&#34;Country&#34;</span>: <span style="color:#7f8c8d">&#34;USA&#34;</span>
+            }
+         },
+         <span style="color:#a61717">...</span>
+   <span style="color:#7f8c8d">&#34;Orders&#34;</span><span style="color:#a61717">:</span> {
+      <span style="color:#434f54">&#34;Order&#34;</span>: [
+         {
+            <span style="color:#434f54">&#34;CustomerID&#34;</span>: <span style="color:#7f8c8d">&#34;GREAL&#34;</span>,
+            <span style="color:#434f54">&#34;EmployeeID&#34;</span>: <span style="color:#7f8c8d">&#34;6&#34;</span>,
+            <span style="color:#434f54">&#34;OrderDate&#34;</span>: <span style="color:#7f8c8d">&#34;1997-05-06T00:00:00&#34;</span>,
+            <span style="color:#434f54">&#34;RequiredDate&#34;</span>: <span style="color:#7f8c8d">&#34;1997-05-20T00:00:00&#34;</span>,
+            <span style="color:#434f54">&#34;ShipInfo&#34;</span>: {
+               <span style="color:#434f54">&#34;@ShippedDate&#34;</span>: <span style="color:#7f8c8d">&#34;1997-05-09T00:00:00&#34;</span>,
+               <span style="color:#434f54">&#34;ShipVia&#34;</span>: <span style="color:#7f8c8d">&#34;2&#34;</span>,
+               <span style="color:#434f54">&#34;Freight&#34;</span>: <span style="color:#7f8c8d">&#34;3.35&#34;</span>,
+               <span style="color:#434f54">&#34;ShipName&#34;</span>: <span style="color:#7f8c8d">&#34;Great Lakes Food Market&#34;</span>,
+               <span style="color:#434f54">&#34;ShipAddress&#34;</span>: <span style="color:#7f8c8d">&#34;2732 Baker Blvd.&#34;</span>,
+               <span style="color:#434f54">&#34;ShipCity&#34;</span>: <span style="color:#7f8c8d">&#34;Eugene&#34;</span>,
+               <span style="color:#434f54">&#34;ShipRegion&#34;</span>: <span style="color:#7f8c8d">&#34;OR&#34;</span>,
+               <span style="color:#434f54">&#34;ShipPostalCode&#34;</span>: <span style="color:#7f8c8d">&#34;97403&#34;</span>,
+               <span style="color:#434f54">&#34;ShipCountry&#34;</span>: <span style="color:#7f8c8d">&#34;USA&#34;</span>
+            }
+         },
+
+</code></pre></div><h3 id="code">Code</h3>
+<p>We’ll start with creating a Python virtual environment and the installation of the xmltodict library.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 -m venv venv
+WAUTERW-M-65P7:Parse_JSON_Python wauterw$ <span style="color:#728e00">source</span> venv/bin/activate
+</code></pre></div><p>Next, we’ll write the Python script. We&rsquo;ll first need to import the json package and read the JSON file into a variable.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+
+<span style="color:#728e00">with</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;sample.json&#39;</span>) <span style="color:#728e00">as</span> <span style="color:#434f54">f</span>:
+   <span style="color:#434f54">json_content</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+
+<span style="color:#728e00">print</span>(<span style="color:#434f54">json_content</span>)
+</code></pre></div><p>Next, we will convert the file content into a dictionary, which is very easy with Python. See below. I&rsquo;m printing also the type so you can see effectively it&rsquo;s a dict object.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+
+<span style="color:#728e00">with</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;sample.json&#39;</span>) <span style="color:#728e00">as</span> <span style="color:#434f54">f</span>:
+   <span style="color:#434f54">json_content</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+
+<span style="color:#434f54">json_dict</span> <span style="color:#728e00">=</span> <span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">loads</span>(<span style="color:#434f54">json_content</span>)
+<span style="color:#728e00">print</span>(<span style="color:#728e00">type</span>(<span style="color:#434f54">json_dict</span>))
+</code></pre></div><p>Below is the output:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseCustomers.py 
+&lt;class <span style="color:#7f8c8d">&#39;dict&#39;</span>&gt;
+</code></pre></div><h3 id="overview-of-customers">Overview of customers</h3>
+<p>Then let&rsquo;s make a small script to print an overview of all customers. Hence, in Python language, you can load all customers in a list by using json_dict[&lsquo;Customers&rsquo;].</p>
+<p>After that, it’s a matter of looping through a Python dictionary and printing the values</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+
+<span style="color:#728e00">with</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;sample.json&#39;</span>) <span style="color:#728e00">as</span> <span style="color:#434f54">f</span>:
+   <span style="color:#434f54">json_content</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+
+<span style="color:#434f54">json_dict</span> <span style="color:#728e00">=</span> <span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">loads</span>(<span style="color:#434f54">json_content</span>)
+
+<span style="color:#434f54">customers</span> <span style="color:#728e00">=</span> <span style="color:#434f54">json_dict</span>[<span style="color:#7f8c8d">&#39;Customers&#39;</span>]
+
+<span style="color:#728e00">for</span> <span style="color:#434f54">customer</span> <span style="color:#728e00">in</span> <span style="color:#434f54">customers</span>[<span style="color:#7f8c8d">&#39;Customer&#39;</span>]:
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Customer ID: </span><span style="color:#7f8c8d">{customer[&#39;@CustomerID&#39;]}</span><span style="color:#7f8c8d">&#34;</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Company Name: </span><span style="color:#7f8c8d">{customer[&#39;CompanyName&#39;]}</span><span style="color:#7f8c8d">&#34;</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Contact Name: </span><span style="color:#7f8c8d">{customer[&#39;ContactName&#39;]}</span><span style="color:#7f8c8d">&#34;</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;  ==&gt;  Street: </span><span style="color:#7f8c8d">{customer[&#39;FullAddress&#39;][&#39;Address&#39;]}</span><span style="color:#7f8c8d">&#34;</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;  ==&gt;  City: </span><span style="color:#7f8c8d">{customer[&#39;FullAddress&#39;][&#39;City&#39;]}</span><span style="color:#7f8c8d">&#34;</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#8a7b52">50</span><span style="color:#728e00">*</span> <span style="color:#7f8c8d">&#34;-&#34;</span>)
+</code></pre></div><p>Here is the output:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseCustomers.py  
+Customer ID: GREAL
+Company Name: Great Lakes Food Market
+Contact Name: Howard <span style="color:#434f54">Snyder</span>
+  <span style="color:#728e00">==</span>&gt;  Street: <span style="color:#8a7b52">2732</span> Baker Blvd.
+  <span style="color:#728e00">==</span>&gt;  City: Eugene
+--------------------------------------------------
+Customer ID: HUNGC
+Company Name: Hungry Coyote Import Store
+Contact Name: Yoshi <span style="color:#434f54">Latimer</span>
+  <span style="color:#728e00">==</span>&gt;  Street: City Center Plaza <span style="color:#8a7b52">516</span> Main St.
+  <span style="color:#728e00">==</span>&gt;  City: Elgin
+--------------------------------------------------
+Customer ID: LAZYK
+Company Name: Lazy K Kountry Store
+Contact Name: John <span style="color:#434f54">Steel</span>
+  <span style="color:#728e00">==</span>&gt;  Street: <span style="color:#8a7b52">12</span> Orchestra <span style="color:#434f54">Terrace</span>
+  <span style="color:#728e00">==</span>&gt;  City: Walla Walla
+--------------------------------------------------
+Customer ID: LETSS
+Company Name: Let<span style="color:#a61717">&#39;</span>s Stop N Shop
+Contact Name: Jaime <span style="color:#434f54">Yorres</span>
+  <span style="color:#728e00">==</span>&gt;  Street: <span style="color:#8a7b52">87</span> Polk St. Suite <span style="color:#434f54">5</span>
+  <span style="color:#728e00">==</span>&gt;  City: San Francisco
+--------------------------------------------------
+</code></pre></div><h3 id="overview-of-orders-per-customer">Overview of orders per customer</h3>
+<p>Next, let&rsquo;s print an overview of all orders per customers. This information is available in the sample JSON file under the Orders attribute.</p>
+<p>First of all, we will store all customers in a list called customer_list by using the append method. Hence, the variable customer_list contains a list of customers which we can loop through.</p>
+<p>Next, we will loop through this list of customers (first for loop) and per customer we go over all the orders (second for loop) for that customer.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+
+<span style="color:#728e00">with</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;sample.json&#39;</span>) <span style="color:#728e00">as</span> <span style="color:#434f54">f</span>:
+   <span style="color:#434f54">json_content</span> <span style="color:#728e00">=</span> <span style="color:#434f54">f</span><span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+
+<span style="color:#434f54">json_dict</span> <span style="color:#728e00">=</span> <span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">loads</span>(<span style="color:#434f54">json_content</span>)
+
+<span style="color:#434f54">customers</span> <span style="color:#728e00">=</span> <span style="color:#434f54">json_dict</span>[<span style="color:#7f8c8d">&#39;Customers&#39;</span>]
+<span style="color:#434f54">orders</span> <span style="color:#728e00">=</span> <span style="color:#434f54">json_dict</span>[<span style="color:#7f8c8d">&#39;Orders&#39;</span>]
+
+<span style="color:#434f54">customer_list</span> <span style="color:#728e00">=</span> []
+<span style="color:#728e00">for</span> <span style="color:#434f54">customer</span> <span style="color:#728e00">in</span> <span style="color:#434f54">customers</span>[<span style="color:#7f8c8d">&#39;Customer&#39;</span>]:
+   <span style="color:#434f54">customer_list</span><span style="color:#728e00">.</span><span style="color:#434f54">append</span>(<span style="color:#434f54">customer</span>[<span style="color:#7f8c8d">&#39;@CustomerID&#39;</span>])
+
+<span style="color:#728e00">for</span> <span style="color:#434f54">customer</span> <span style="color:#728e00">in</span> <span style="color:#434f54">customer_list</span>: 
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Orders for: </span><span style="color:#7f8c8d">{customer}</span><span style="color:#7f8c8d">&#34;</span>)
+   <span style="color:#728e00">for</span> <span style="color:#434f54">order</span> <span style="color:#728e00">in</span> <span style="color:#434f54">orders</span>[<span style="color:#7f8c8d">&#39;Order&#39;</span>]:
+      <span style="color:#728e00">if</span>(<span style="color:#434f54">customer</span> <span style="color:#728e00">==</span> <span style="color:#434f54">order</span>[<span style="color:#7f8c8d">&#39;CustomerID&#39;</span>]):
+         <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;  ==&gt;Employee </span><span style="color:#7f8c8d">{order[&#39;EmployeeID&#39;]}</span><span style="color:#7f8c8d"> placed an order on </span><span style="color:#7f8c8d">{order[&#39;OrderDate&#39;]}</span><span style="color:#7f8c8d">&#34;</span>)
+         
+</code></pre></div><p>Here is the output of this script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 parseOrders.py 
+Orders <span style="color:#728e00">for</span>: <span style="color:#434f54">GREAL</span>
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">6</span> placed an order on 1997-05-06T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">8</span> placed an order on 1997-07-04T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">1</span> placed an order on 1997-07-31T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">4</span> placed an order on 1997-07-31T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">6</span> placed an order on 1997-09-04T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">3</span> placed an order on 1997-09-25T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">4</span> placed an order on 1998-01-06T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">3</span> placed an order on 1998-03-09T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">3</span> placed an order on 1998-04-07T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">4</span> placed an order on 1998-04-22T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">4</span> placed an order on 1998-04-30T00:00:00
+Orders <span style="color:#728e00">for</span>: <span style="color:#434f54">HUNGC</span>
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">3</span> placed an order on 1996-12-06T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">1</span> placed an order on 1996-12-25T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">3</span> placed an order on 1997-01-15T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">4</span> placed an order on 1997-07-16T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">8</span> placed an order on 1997-09-08T00:00:00
+Orders <span style="color:#728e00">for</span>: <span style="color:#434f54">LAZYK</span>
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">1</span> placed an order on 1997-03-21T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">8</span> placed an order on 1997-05-22T00:00:00
+Orders <span style="color:#728e00">for</span>: <span style="color:#434f54">LETSS</span>
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">1</span> placed an order on 1997-06-25T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">8</span> placed an order on 1997-10-27T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">6</span> placed an order on 1997-11-10T00:00:00
+  <span style="color:#728e00">==</span>&gt;Employee <span style="color:#8a7b52">4</span> placed an order on 1998-02-12T00:00:00
+WAUTERW-M-65P7:Parse_JSON_Python wauterw$ 
+</code></pre></div><p>You can find the code in my repo on <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_JSON_Python">Github</a>.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/python/" rel="tag">Python</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/json/" rel="tag">JSON</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/networkprogrammability/2020-01-09-parse_xml_python/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Parse XML file with Python</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/networkprogrammability/2020-01-14-parse_yaml_python/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Parse YAML file with Python</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "blog-wimwauters" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/backend/">Backend</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/cloud-native/">Cloud Native</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/devops/">DevOps</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/infrastructure-as-code/">Infrastructure As Code</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/network-programming/">Network Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/private-cloud/">Private Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/programming/">Programming</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/public-cloud/">Public Cloud</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/web-development/">Web Development</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/napalm/" title="Napalm">Napalm (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netconf/" title="NETCONF">NETCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@Wauters_Wim" target="_blank">
+				<svg class="widget-social__link-icon icon icon-twitter" width="24" height="24" viewBox="0 0 384 312"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/https://www.linkedin.com/in/wim-wauters-92ab401" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/https://github.com/wiwa1978" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:blogwimwauters%20at%20gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>blogwimwauters at gmail.com</span>
+			</a>
+		</div>
+
+		
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Wim Wauters.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

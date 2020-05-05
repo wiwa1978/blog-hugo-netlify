@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -116,7 +123,7 @@ if (!doNotTrack) {
 <p>In this use case, we&rsquo;ll be retrieving a list of device interfaces through the IETF interfaces YANG model.</p>
 <p><img src="/images/2020-04-03-1.png" alt="Restconf"></p>
 <p>The response in POSTMAN is quite lengthy, so let&rsquo;s also do the same through SSH (directly to the device).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -126,7 +133,7 @@ Loopback6000           192.0.2.44      YES other  up                    up
 <p>Next, let&rsquo;s add an interface through the IETF YANG interface model. In order to achieve that, ensure you define a POST action and provide the required JSON body. An example is indicated in below screenshot.</p>
 <p><img src="/images/2020-04-03-2.png" alt="Restconf"></p>
 <p>For simplicity, let&rsquo;s login via SSH to our device and show the interfaces. Note: we could have used also the method from use case 1 of course.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -137,9 +144,9 @@ Loopback10000          192.0.2.60      YES other  up                    up
 <p>What if we wanted to update the interface configuration on our device. Again, let&rsquo;s use the IETS YANG model for that. In below screenshot, pay particular attention to the PUT verb and the URL which specifies the exact interface we want to update.</p>
 <p><img src="/images/2020-04-03-3.png" alt="Restconf"></p>
 <p>And let&rsquo;s verify again using SSH:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show interface desc
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show interface desc
 Interface                      Status         Protocol Description
-Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="">&#39;</span>T TOUCH ME
+Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="color:#a61717">&#39;</span>T TOUCH ME
 Gi2                            admin down     down     Configured by RESTCONF
 Gi3                            up             up       Configured by RESTCONF
 Lo10000                        up             up       Adding loopback10000 - changed description a bit
@@ -148,7 +155,7 @@ Lo10000                        up             up       Adding loopback10000 - ch
 <p>How about we remove this interface. Easy enough! Just use the DELETE verb and done.</p>
 <p><img src="/images/2020-04-03-4.png" alt="Restconf"></p>
 <p>Let&rsquo;s check it out:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -158,7 +165,7 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 <p>In this use case, we&rsquo;ll retrieve the interface overview through another YANG model. This use case is very similar to use case 1 above but instead of using the IETF interface YANG model, we will be using Cisco&rsquo;s YANG model.</p>
 <p><img src="/images/2020-04-03-5.png" alt="Restconf">
 Let&rsquo;s verify through SSH:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -167,20 +174,20 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 <p>Adding an interface through Cisco&rsquo;s YANG model is just as easy. See below where we add an interface called BDI60.</p>
 <p><img src="/images/2020-04-03-6.png" alt="Restconf"></p>
 <p>Let&rsquo;s check things out via SSH again:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
 GigabitEthernet3       10.255.255.2    YES other  up                    up
-BDI60                  unassigned      YES <span style="color:#008000">unset</span>  down                  down
+BDI60                  unassigned      YES <span style="color:#728e00">unset</span>  down                  down
 </code></pre></div><p>And indeed, you&rsquo;ll see that the interface got added successfully.</p>
 <h3 id="use-case-7-changing-interface-description-cisco-yang-model">Use Case 7: Changing interface description (Cisco YANG model)</h3>
 <p>Next, we&rsquo;ll be updating the interface through Cisco&rsquo;s interface YANG model. Pay particular attention to the PUT verb here.</p>
 <p><img src="/images/2020-04-03-7.png" alt="Restconf"></p>
 <p>Let&rsquo;s check things out:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show inter descr
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show inter descr
 Interface                      Status         Protocol Description
-Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="">&#39;</span>T TOUCH ME
+Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="color:#a61717">&#39;</span>T TOUCH ME
 Gi2                            admin down     down     Configured by RESTCONF
 Gi3                            up             up       Configured by RESTCONF
 BD60                           down           down     Changed via RestCONF
@@ -188,7 +195,7 @@ BD60                           down           down     Changed via RestCONF
 <p>And lastly, let&rsquo;s again remove the interface. Pay attention to the DELETE verb in below screenshot.</p>
 <p><img src="/images/2020-04-03-8.png" alt="Restconf"></p>
 <p>Let&rsquo;s check it out once more:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -218,7 +225,7 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 		<a class="post-nav__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">RESTCONF intro with Postman - Part 1</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">NAPALM Introduction - Part 1</p></a>
+		<a class="post-nav__link" href="/networkprogrammability/2020-04-04_restconf_python/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">RESTCONF with Python</p></a>
 	</div>
 </nav>
 
@@ -252,16 +259,16 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -270,6 +277,9 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -277,6 +287,9 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -306,14 +319,19 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -322,14 +340,15 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -115,25 +122,29 @@ if (!doNotTrack) {
 </ul>
 <p>The painpoint of the approach we have been using so far is to construct the proper payload templates. These are not always one on one available in the documentation and it requires you to be familiar with the ACI object model. You can read everything about the ACI policy model <a href="https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/1-x/aci-fundamentals/b_ACI-Fundamentals/b_ACI-Fundamentals_chapter_010001.html">here</a>. You&rsquo;ll soon notice that many of the ACI objects are interlinked with one another. As an example, a Bridge Domain links to a Tenant, but also to a VRF (often called Context as well). The fact that objects can be interlinked to one another makes it sometimes pretty hard to create the proper Jinja2 template. It&rsquo;s not impossible, as ACI helps you quite a bit with providing an &lsquo;API Inspector&rsquo;. This tool can be found by logging into the APIC and go to &lsquo;Help and Tools&rsquo; (upper right corner) and then select &lsquo;Show API inspector&rsquo;. The tool essentially logs all REST calls that are made through the UI. Hence, in order to find a particular REST API call, execute the function via the user interface. As an example: create a tenant using the user interface and look at the API inspector for an HTTP Post call. That will contain also the JSON body that was used. You can now use this REST call to use in your Python script.</p>
 <p>As mentioned before, while this works, it certainly is not the easiest way. Luckily, Cisco is also providing a Python toolkit to make it easier to interact with Cisco ACI. The toolkit can be found on <a href="https://github.com/datacenter/acitoolkit">Github</a></p>
+<h3 id="note-about-equipment">Note about equipment</h3>
+<blockquote>
+<p>For all the examples, I will use my own APIC in my lab. However, if you want to follow along with this blog post, checkout the Cisco sandbox environment delivered by <a href="https://developer.cisco.com">Cisco Devnet</a>. To get a list of all sandboxes, check out <a href="https://devnetsandbox.cisco.com/">this</a> link. For this tutorial, you could use the always on ACI sandbox as well (see <a href="https://devnetsandbox.cisco.com/RM/Diagram/Index/5a229a7c-95d5-4cfd-a651-5ee9bc1b30e2?diagramType=Topology">here</a>).</p>
+</blockquote>
 <h3 id="use-a-virtual-environment">Use a virtual environment</h3>
 <p>I would suggest you to work with a Python virtual environment. If you don&rsquo;t know how to do that, please refer to <a href="http://localhost:1313/development/2020-03-01/">this</a> post, where some sections explain how to achieve this.</p>
 <p>Once inside the virtual environment, continue with the rest of this tutorial.</p>
 <h3 id="installing-the-aci-toolkit">Installing the ACI toolkit</h3>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:ACI_Python_ACITookit wauterw$ git clone https://github.com/datacenter/acitoolkit.git
-Cloning into <span style="color:#ba2121">&#39;acitoolkit&#39;</span>...
-remote: Enumerating objects: 276, <span style="color:#008000;font-weight:bold">done</span>.
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:ACI_Python_ACITookit wauterw$ git clone https://github.com/datacenter/acitoolkit.git
+Cloning into <span style="color:#7f8c8d">&#39;acitoolkit&#39;</span>...
+remote: Enumerating objects: 276, <span style="color:#728e00">done</span>.
 ***Truncated***
 </code></pre></div><p>Next step is to install the toolkit:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:ACI_Python_ACITookit wauterw$ <span style="color:#008000">cd</span> acitoolkit/
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:acitoolkit wauterw$ python3 setup.py install
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:ACI_Python_ACITookit wauterw$ <span style="color:#728e00">cd</span> acitoolkit/
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:acitoolkit wauterw$ python3 setup.py install
 /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/distutils/dist.py:274: UserWarning: Unknown distri
-bution option: <span style="color:#ba2121">&#39;tests_requires&#39;</span>
-  warnings.warn<span style="color:#666">(</span>msg<span style="color:#666">)</span>
+bution option: <span style="color:#7f8c8d">&#39;tests_requires&#39;</span>
+  warnings.warn<span style="color:#728e00">(</span>msg<span style="color:#728e00">)</span>
 running install
 running bdist_egg
 ***Truncated***
-Finished processing dependencies <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">acitoolkit</span><span style="color:#666">==</span>0.4
+Finished processing dependencies <span style="color:#728e00">for</span> <span style="color:#434f54">acitoolkit</span><span style="color:#728e00">==</span>0.4
 </code></pre></div><p>Don&rsquo;t forget to also install the <code>pyyaml</code> and <code>pprint</code> packages in your virtual environment. The installation of both these packages in covered in that same blog post.</p>
 <h3 id="parsing-yaml-files">Parsing YAML files</h3>
 <p>We will use a YAML file to pass the variables to our script. We have discussed that in <a href="http://localhost:1313/development/2020-03-01/">this</a> blog post. A big part of our code will be to deal with YAML files, so make sure you understand that blog post before you continue.</p>
@@ -142,37 +153,62 @@ Finished processing dependencies <span style="color:#008000;font-weight:bold">fo
 <p>Refer to the first line in below script. The part after <code>Read YAML configuration</code> is explained quite well in the blogpost we referred to already (<a href="http://localhost:1313/development/2020-03-01/">this</a> one). Nothing different here.</p>
 <h5 id="making-use-of-session-object">Making use of Session object</h5>
 <p>Note that to work with the acitoolkit we need to use a <code>Session</code>. The Session object is described <a href="https://github.com/datacenter/acitoolkit/blob/master/acitoolkit/acisession.py">here</a> but a Session object is essentially under the hood dealing with the ACI login process (and token).</p>
-<h5 id="create-aci-objects">Create ACI objects</h5>
+<h5 id="read-aci-objects">Read ACI objects</h5>
+<p>In below snippet, we will document how we can use acitoolkit to read all the configured tenants from our APIC.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">acitoolkit.acitoolkit</span> <span style="color:#728e00">import</span> <span style="color:#728e00">*</span>
+
+<span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/&#34;</span>
+
+<span style="color:#434f54">user</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;admin&#34;</span>
+<span style="color:#434f54">pwd</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;---&#34;</span>
+
+<span style="color:#434f54">session</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Session</span>(<span style="color:#434f54">url</span>, <span style="color:#434f54">user</span>, <span style="color:#434f54">pwd</span>)
+<span style="color:#434f54">session</span><span style="color:#728e00">.</span><span style="color:#434f54">login</span>()
+
+<span style="color:#434f54">tenants</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Tenant</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">session</span>)
+<span style="color:#728e00">for</span> <span style="color:#434f54">tenant</span> <span style="color:#728e00">in</span> <span style="color:#434f54">tenants</span>:
+    <span style="color:#728e00">print</span>(<span style="color:#434f54">tenant</span><span style="color:#728e00">.</span><span style="color:#434f54">name</span>)
+</code></pre></div><p>When we execute this script, you&rsquo;ll see we indeed get back a list of all configured tenants.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 aci_toolkit % python3 get_tenants_toolkit.py
+tn-bjorn
+dvs-demo-dynamic
+mgmt
+common
+infra
+tn-qinq
+tn-automation
+Tenant_Wim
+</code></pre></div><h5 id="create-aci-objects">Create ACI objects</h5>
 <p>In below snippet there is a section behind the comment <code># Create ACI objects</code>. This part is effectively creating the ACI objects. We are first creating the tenant via the <code>Tenant</code> object. This object is describeded <a href="https://github.com/datacenter/acitoolkit/blob/master/acitoolkit/acitoolkit.py">here</a>. As you can see, we need to pass a String variable, which in our case will be the tenant name we retrieved from parsing the YAML variables file. Exactly the same process for the other objects, VRF and BD.</p>
 <p>As a last step, we will call the <code>push_to_apic</code> function to effectively push the objects to the APIC. Note, that we simply use the entire <code>Tenant</code> tree. As an exercise to the reader, it&rsquo;s helpfull to print the content of the two variables <code>tenant.get_url()</code> and <code>tenant.get_json()</code>. It will help you to understand how this <code>push_to_apic</code> function works.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">acitoolkit.acitoolkit</span> <span style="color:#008000;font-weight:bold">import</span> <span style="color:#666">*</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">yaml</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pprint</span> <span style="color:#008000;font-weight:bold">import</span> pprint
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">acitoolkit.acitoolkit</span> <span style="color:#728e00">import</span> <span style="color:#728e00">*</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">yaml</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">pprint</span> <span style="color:#728e00">import</span> <span style="color:#434f54">pprint</span>
 
-url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://10.48.109.10/&#34;</span>
+<span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/&#34;</span>
 
-user <span style="color:#666">=</span> <span style="color:#ba2121">&#34;admin&#34;</span>
-pwd <span style="color:#666">=</span> <span style="color:#ba2121">&#34;---&#34;</span>
+<span style="color:#434f54">user</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;admin&#34;</span>
+<span style="color:#434f54">pwd</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;---&#34;</span>
 
-session <span style="color:#666">=</span> Session(url, user, pwd)
-session<span style="color:#666">.</span>login()
+<span style="color:#434f54">session</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Session</span>(<span style="color:#434f54">url</span>, <span style="color:#434f54">user</span>, <span style="color:#434f54">pwd</span>)
+<span style="color:#434f54">session</span><span style="color:#728e00">.</span><span style="color:#434f54">login</span>()
 
-<span style="color:#408080;font-style:italic"># Read YAML configuration</span>
-yml_file <span style="color:#666">=</span> <span style="color:#008000">open</span>(<span style="color:#ba2121">&#34;variables.yml&#34;</span>)<span style="color:#666">.</span>read()
-yml_dict <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(yml_file, yaml<span style="color:#666">.</span>SafeLoader)
+<span style="color:#95a5a6"># Read YAML configuration</span>
+<span style="color:#434f54">yml_file</span> <span style="color:#728e00">=</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#34;variables.yml&#34;</span>)<span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+<span style="color:#434f54">yml_dict</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#434f54">yml_file</span>, <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
 
-tenant_name <span style="color:#666">=</span> yml_dict[<span style="color:#ba2121">&#39;tenant&#39;</span>]
-vrf_name <span style="color:#666">=</span> yml_dict[<span style="color:#ba2121">&#39;vrf&#39;</span>]
-bd_name <span style="color:#666">=</span> yml_dict[<span style="color:#ba2121">&#39;bridge_domains&#39;</span>][<span style="color:#666">0</span>][<span style="color:#ba2121">&#39;bd&#39;</span>]
+<span style="color:#434f54">tenant_name</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yml_dict</span>[<span style="color:#7f8c8d">&#39;tenant&#39;</span>]
+<span style="color:#434f54">vrf_name</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yml_dict</span>[<span style="color:#7f8c8d">&#39;vrf&#39;</span>]
+<span style="color:#434f54">bd_name</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yml_dict</span>[<span style="color:#7f8c8d">&#39;bridge_domains&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;bd&#39;</span>]
 
-<span style="color:#408080;font-style:italic"># Create ACI objects</span>
-tenant <span style="color:#666">=</span> Tenant(tenant_name)
-vrf <span style="color:#666">=</span> Context(vrf_name, tenant)
-bd <span style="color:#666">=</span> BridgeDomain(bd_name, tenant)
+<span style="color:#95a5a6"># Create ACI objects</span>
+<span style="color:#434f54">tenant</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Tenant</span>(<span style="color:#434f54">tenant_name</span>)
+<span style="color:#434f54">vrf</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Context</span>(<span style="color:#434f54">vrf_name</span>, <span style="color:#434f54">tenant</span>)
+<span style="color:#434f54">bd</span> <span style="color:#728e00">=</span> <span style="color:#434f54">BridgeDomain</span>(<span style="color:#434f54">bd_name</span>, <span style="color:#434f54">tenant</span>)
 
-response <span style="color:#666">=</span> session<span style="color:#666">.</span>push_to_apic(tenant<span style="color:#666">.</span>get_url(), data<span style="color:#666">=</span>tenant<span style="color:#666">.</span>get_json())
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">session</span><span style="color:#728e00">.</span><span style="color:#434f54">push_to_apic</span>(<span style="color:#434f54">tenant</span><span style="color:#728e00">.</span><span style="color:#434f54">get_url</span>(), <span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">tenant</span><span style="color:#728e00">.</span><span style="color:#434f54">get_json</span>())
 
-<span style="color:#008000;font-weight:bold">print</span>(response)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span>)
 </code></pre></div><p>Note: the source code can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_ACITookit/create_tenant_vrf_bd.py">here</a>.</p>
 <p>Login to your APIC and verify if the tenant, VRF and BD were created. Of course they were..haha. See below. Pay particul attention to the number 1 in the VRF and BD column.</p>
 <p><img src="/images/2020-03-21-1.png" alt="ACIObjectsCreated"></p>
@@ -185,16 +221,16 @@ response <span style="color:#666">=</span> session<span style="color:#666">.</sp
 <p>Next, again as per the ACI object model, the <code>BD</code> object is linked to a <code>VRF</code> object. Hence, we are calling the <code>add_context</code> method. This will assign the <code>BD</code> to the <code>VRD</code> object.</p>
 <p>Lastly, in this example, we will also assign an <code>L3Out</code> to the <code>BD</code>.</p>
 <p>The snippet below only shows the relevant difference to the previous script we already explored.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Create ACI objects</span>
-tenant <span style="color:#666">=</span> Tenant(tenant_name)
-vrf <span style="color:#666">=</span> Context(vrf_name, tenant)
-bd <span style="color:#666">=</span> BridgeDomain(bd_name, tenant)
-subnet <span style="color:#666">=</span> Subnet(<span style="color:#ba2121">&#39;&#39;</span>, bd)
-subnet<span style="color:#666">.</span>addr <span style="color:#666">=</span> bd_subnet
-bd<span style="color:#666">.</span>add_context(vrf)
-l3out <span style="color:#666">=</span> OutsideL3(bd_l3out, tenant)
-bd<span style="color:#666">.</span>add_l3out(l3out)
-bd<span style="color:#666">.</span>add_subnet(subnet)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#95a5a6"># Create ACI objects</span>
+<span style="color:#434f54">tenant</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Tenant</span>(<span style="color:#434f54">tenant_name</span>)
+<span style="color:#434f54">vrf</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Context</span>(<span style="color:#434f54">vrf_name</span>, <span style="color:#434f54">tenant</span>)
+<span style="color:#434f54">bd</span> <span style="color:#728e00">=</span> <span style="color:#434f54">BridgeDomain</span>(<span style="color:#434f54">bd_name</span>, <span style="color:#434f54">tenant</span>)
+<span style="color:#434f54">subnet</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Subnet</span>(<span style="color:#7f8c8d">&#39;&#39;</span>, <span style="color:#434f54">bd</span>)
+<span style="color:#434f54">subnet</span><span style="color:#728e00">.</span><span style="color:#434f54">addr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">bd_subnet</span>
+<span style="color:#434f54">bd</span><span style="color:#728e00">.</span><span style="color:#434f54">add_context</span>(<span style="color:#434f54">vrf</span>)
+<span style="color:#434f54">l3out</span> <span style="color:#728e00">=</span> <span style="color:#434f54">OutsideL3</span>(<span style="color:#434f54">bd_l3out</span>, <span style="color:#434f54">tenant</span>)
+<span style="color:#434f54">bd</span><span style="color:#728e00">.</span><span style="color:#434f54">add_l3out</span>(<span style="color:#434f54">l3out</span>)
+<span style="color:#434f54">bd</span><span style="color:#728e00">.</span><span style="color:#434f54">add_subnet</span>(<span style="color:#434f54">subnet</span>)
 </code></pre></div><p>The rest of the script remains similar to what we saw earlier. The full source code can be found on <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_ACITookit/create_tenant_vrf_bd_subnet.py">here</a>.</p>
 <p>To check if everything worked out, verify on the APIC. In below screenshot, you will see that <code>Tenant_Blog</code> has been created with a BD called <code>BD_Blog</code> and under that BD, you&rsquo;ll see a subnet <code>10.16.100.1/24</code>.</p>
 <p><img src="/images/2020-03-21-3.png" alt="ACIObjectsModel"></p>
@@ -218,7 +254,7 @@ bd<span style="color:#666">.</span>add_subnet(subnet)
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/networkprogrammability/2020-03-19-aci_python_requests/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Create Cisco ACI network with Python (Requests)</p></a>
+		<a class="post-nav__link" href="/networkprogrammability/2020-03-19-aci_python_requests/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Interact with Cisco ACI network through Python (Requests)</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
 		<a class="post-nav__link" href="/networkprogrammability/2020-03-23-paramiko_introduction_part1/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Interacting with IOS XE using Paramiko (part 1)</p></a>
@@ -255,16 +291,16 @@ bd<span style="color:#666">.</span>add_subnet(subnet)
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -273,6 +309,9 @@ bd<span style="color:#666">.</span>add_subnet(subnet)
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -280,6 +319,9 @@ bd<span style="color:#666">.</span>add_subnet(subnet)
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -309,14 +351,19 @@ bd<span style="color:#666">.</span>add_subnet(subnet)
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -325,14 +372,15 @@ bd<span style="color:#666">.</span>add_subnet(subnet)
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

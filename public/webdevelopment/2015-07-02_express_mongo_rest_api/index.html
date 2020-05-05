@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -112,11 +119,11 @@ if (!doNotTrack) {
 <h3 id="introduction">Introduction</h3>
 <p>In this post, we will create a very simple REST API for a simple todo application. Nodejs has been on my todo list for quite some time so I decided to get my hands dirty and try things out a bit. The result is a simple todo-application again in NodeJS (with the Express JS framework). Have fun following this tutorial.</p>
 <p>Luckily, the Express framework allows us to use an Express generator, which basically will create a working Express application. Use the following command:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ npm install -g express-generator
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ npm install -g express-generator
 /usr/local/bin/express -&gt; /usr/local/lib/node_modules/express-generator/bin/express-cli.js
 + express-generator@4.16.1
-updated <span style="color:#666">1</span> package in 5.793s
-WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ express --view<span style="color:#666">=</span>pug
+updated <span style="color:#8a7b52">1</span> package in 5.793s
+WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ express --view<span style="color:#728e00">=</span>pug
 
    create : public/
    create : public/javascripts/
@@ -139,9 +146,9 @@ WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ express --view<span style="color:#
      $ npm install
 
    run the app:
-     $ <span style="color:#19177c">DEBUG</span><span style="color:#666">=</span>mean-todo-application:* npm start
+     $ <span style="color:#434f54">DEBUG</span><span style="color:#728e00">=</span>mean-todo-application:* npm start
 WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ npm install
-WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ <span style="color:#19177c">DEBUG</span><span style="color:#666">=</span>mean-todo-application:* npm start
+WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ <span style="color:#434f54">DEBUG</span><span style="color:#728e00">=</span>mean-todo-application:* npm start
 </code></pre></div><p>Going to <code>http://localhost:3000</code> will show you a welcome message from the Express installer. Perfect, we have generated an Express application upon which we can continue to build further.</p>
 <p><img src="/images/2015-07-02-1.png" alt="MEAN"></p>
 <h3 id="install-mongodb-on-mac-osx-catalina-and-onwards">Install Mongodb on MAC OSX (Catalina and onwards)</h3>
@@ -153,63 +160,63 @@ WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ brew install <a href="mailto:mongo
 Password:
 mkdir: /data/db: Read-only file system
 </code></pre><p>Therefor you need to create this data directory elsewhere which is what I do in below snippet.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ sudo mkdir -p ~/mongo/data/db
-WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ sudo chown -R <span style="color:#ba2121">`</span>id -un<span style="color:#ba2121">`</span> ~/mongo/data/db
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ sudo mkdir -p ~/mongo/data/db
+WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ sudo chown -R <span style="color:#7f8c8d">`</span>id -un<span style="color:#7f8c8d">`</span> ~/mongo/data/db
 </code></pre></div><p>As a result, you need to run Mongo by specifying the data directory:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ mongod --dbpath ~/mongo/data/db
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ mongod --dbpath ~/mongo/data/db
 </code></pre></div><h3 id="install-mongoose">Install Mongoose</h3>
 <p>We also need to install a package to be able to work with Mongo. My preference goes to Mongoose, which is an object modeling tool which allows us to easily interact with Mongo from our Express code. Let’s install this package:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ npm install mongoose
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:MEAN-Todo-Application wauterw$ npm install mongoose
 </code></pre></div><p>After doing this, you will see that the mongoose package got added to the package.json file.</p>
 <h3 id="modifying-the-appjs-file">Modifying the app.js file</h3>
 <h5 id="1-adding-the-routes">1) Adding the routes</h5>
 <p>You will see the following two routes in the app.js file.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">app.use<span style="color:#666">(</span><span style="color:#ba2121">&#39;/&#39;</span>, indexRouter<span style="color:#666">)</span>;
-app.use<span style="color:#666">(</span><span style="color:#ba2121">&#39;/users&#39;</span>, usersRouter<span style="color:#666">)</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">app.use<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;/&#39;</span>, indexRouter<span style="color:#728e00">)</span>;
+app.use<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;/users&#39;</span>, usersRouter<span style="color:#728e00">)</span>;
 </code></pre></div><p>In order to have our application respond to /todos routes, we will need to add the following line:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">app.use<span style="color:#666">(</span><span style="color:#ba2121">&#39;/todos&#39;</span>, todoRouter<span style="color:#666">)</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">app.use<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;/todos&#39;</span>, todoRouter<span style="color:#728e00">)</span>;
 </code></pre></div><p>Also make sure we import it by adding the following line to our app.js file:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">var <span style="color:#19177c">todoRouter</span> <span style="color:#666">=</span> require<span style="color:#666">(</span><span style="color:#ba2121">&#39;./routes/todo&#39;</span><span style="color:#666">)</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">var <span style="color:#434f54">todoRouter</span> <span style="color:#728e00">=</span> require<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;./routes/todo&#39;</span><span style="color:#728e00">)</span>;
 </code></pre></div><h5 id="2-adding-mongoose">2) Adding mongoose</h5>
 <p>We also need to tell our app where to find the mongoose library and make a connection to our database.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">var <span style="color:#19177c">database</span> <span style="color:#666">=</span> require<span style="color:#666">(</span><span style="color:#ba2121">&#39;./config/database&#39;</span><span style="color:#666">)</span>; 
-var <span style="color:#19177c">mongoose</span> <span style="color:#666">=</span> require<span style="color:#666">(</span><span style="color:#ba2121">&#39;mongoose&#39;</span><span style="color:#666">)</span>;
-mongoose.connect<span style="color:#666">(</span>database.url, <span style="color:#666">{</span> useNewUrlParser: true, useUnifiedTopology: true<span style="color:#666">})</span>;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">var <span style="color:#434f54">database</span> <span style="color:#728e00">=</span> require<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;./config/database&#39;</span><span style="color:#728e00">)</span>; 
+var <span style="color:#434f54">mongoose</span> <span style="color:#728e00">=</span> require<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;mongoose&#39;</span><span style="color:#728e00">)</span>;
+mongoose.connect<span style="color:#728e00">(</span>database.url, <span style="color:#728e00">{</span> useNewUrlParser: true, useUnifiedTopology: true<span style="color:#728e00">})</span>;
 </code></pre></div><h3 id="defining-the-database-model">Defining the database model</h3>
 <p>The first thing to do is to define the Schema that we will be using. Our app basically needs to be told what the fields are to be used in the Mongo database. To achieve that, create a folder called <code>models</code> in the root of your application and make a file called <code>todo.js</code> in that folder.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#008000;font-weight:bold">var</span> mongoose <span style="color:#666">=</span> require(<span style="color:#ba2121">&#39;mongoose&#39;</span>);
-<span style="color:#008000;font-weight:bold">var</span> Schema <span style="color:#666">=</span> mongoose.Schema;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#728e00">var</span> <span style="color:#728e00">mongoose</span> <span style="color:#728e00">=</span> <span style="color:#728e00">require</span>(<span style="color:#7f8c8d">&#39;mongoose&#39;</span>);
+<span style="color:#728e00">var</span> <span style="color:#728e00">Schema</span> <span style="color:#728e00">=</span> <span style="color:#728e00">mongoose</span>.<span style="color:#728e00">Schema</span>;
 
-<span style="color:#408080;font-style:italic">// todo model
-</span><span style="color:#408080;font-style:italic"></span><span style="color:#008000;font-weight:bold">var</span> todoSchema <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">new</span> Schema({
-    content<span style="color:#666">:</span> <span style="color:#008000">String</span>,
-    description<span style="color:#666">:</span><span style="color:#008000">String</span>,
-    completed<span style="color:#666">:</span> { type<span style="color:#666">:</span> <span style="color:#008000">Boolean</span>, <span style="color:#008000;font-weight:bold">default</span><span style="color:#666">:</span> <span style="color:#008000;font-weight:bold">false</span> },
-    created_at<span style="color:#666">:</span> { type<span style="color:#666">:</span> <span style="color:#008000">Date</span>, <span style="color:#008000;font-weight:bold">default</span><span style="color:#666">:</span> <span style="color:#008000">Date</span>.now },
-    updated_at<span style="color:#666">:</span> { type<span style="color:#666">:</span> <span style="color:#008000">Date</span>, <span style="color:#008000;font-weight:bold">default</span><span style="color:#666">:</span> <span style="color:#008000">Date</span>.now }
+<span style="color:#95a5a6">// todo model
+</span><span style="color:#95a5a6"></span><span style="color:#728e00">var</span> <span style="color:#728e00">todoSchema</span> <span style="color:#728e00">=</span> <span style="color:#728e00">new</span> <span style="color:#728e00">Schema</span>({
+    <span style="color:#728e00">content</span><span style="color:#728e00">:</span> <span style="color:#728e00">String</span>,
+    <span style="color:#728e00">description</span><span style="color:#728e00">:</span><span style="color:#728e00">String</span>,
+    <span style="color:#728e00">completed</span><span style="color:#728e00">:</span> { <span style="color:#728e00">type</span><span style="color:#728e00">:</span> <span style="color:#728e00">Boolean</span>, <span style="color:#728e00">default</span><span style="color:#728e00">:</span> <span style="color:#00979d">false</span> },
+    <span style="color:#728e00">created_at</span><span style="color:#728e00">:</span> { <span style="color:#728e00">type</span><span style="color:#728e00">:</span> <span style="color:#728e00">Date</span>, <span style="color:#728e00">default</span><span style="color:#728e00">:</span> <span style="color:#728e00">Date</span>.<span style="color:#728e00">now</span> },
+    <span style="color:#728e00">updated_at</span><span style="color:#728e00">:</span> { <span style="color:#728e00">type</span><span style="color:#728e00">:</span> <span style="color:#728e00">Date</span>, <span style="color:#728e00">default</span><span style="color:#728e00">:</span> <span style="color:#728e00">Date</span>.<span style="color:#728e00">now</span> }
 });
 
-module.exports <span style="color:#666">=</span> mongoose.model(<span style="color:#ba2121">&#39;Todo&#39;</span>, todoSchema);
+<span style="color:#728e00">module</span>.<span style="color:#728e00">exports</span> <span style="color:#728e00">=</span> <span style="color:#728e00">mongoose</span>.<span style="color:#728e00">model</span>(<span style="color:#7f8c8d">&#39;Todo&#39;</span>, <span style="color:#728e00">todoSchema</span>);
 </code></pre></div><h3 id="routes-and-endpoints">Routes and Endpoints</h3>
 <p>In the boilerplate code generated by the Express generator, you will find a routes directory. There will be an <code>index.js</code> file and a <code>user.js</code> file. Let&rsquo;s create a <code>todo.js</code> file here. This file will contain all the routes for our todo endpoint. In below snippet, we limit ourselves to the index route which allows us to receive all todo items from our database.</p>
 <p>In below snippet you can see that we define an HTTP GET function that will retrieve all todo items from the Mongo database. We also return an HTML section and a JSON section. Strictly speaking, given the fact we are only developing the REST API server, we don’t need to return the HTML section. Having said that, we’ll leave it in for future use.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">router.route(<span style="color:#ba2121">&#39;/&#39;</span>)
-    <span style="color:#408080;font-style:italic">//GET all todos
-</span><span style="color:#408080;font-style:italic"></span>    .get(<span style="color:#008000;font-weight:bold">function</span>(req, res, next) {
-      Todo.find({}, <span style="color:#008000;font-weight:bold">function</span> (err, todos) {
-         <span style="color:#008000;font-weight:bold">if</span> (err) {
-            <span style="color:#008000;font-weight:bold">return</span> console.error(err);
-         <span style="color:#008000;font-weight:bold">else</span> {
-            console.log(<span style="color:#ba2121">&#34;Showing all todo items&#34;</span>);
-            res.format({
-               html<span style="color:#666">:</span> <span style="color:#008000;font-weight:bold">function</span>(){
-                  res.render(<span style="color:#ba2121">&#39;todos/index&#39;</span>, {
-                     title<span style="color:#666">:</span> <span style="color:#ba2121">&#39;All my todos&#39;</span>, 
-                     <span style="color:#ba2121">&#34;todos&#34;</span> <span style="color:#666">:</span> todos
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#728e00">router</span>.<span style="color:#728e00">route</span>(<span style="color:#7f8c8d">&#39;/&#39;</span>)
+    <span style="color:#95a5a6">//GET all todos
+</span><span style="color:#95a5a6"></span>    .<span style="color:#728e00">get</span>(<span style="color:#728e00">function</span>(<span style="color:#728e00">req</span>, <span style="color:#728e00">res</span>, <span style="color:#728e00">next</span>) {
+      <span style="color:#728e00">Todo</span>.<span style="color:#728e00">find</span>({}, <span style="color:#728e00">function</span> (<span style="color:#728e00">err</span>, <span style="color:#728e00">todos</span>) {
+         <span style="color:#728e00">if</span> (<span style="color:#728e00">err</span>) {
+            <span style="color:#728e00">return</span> <span style="color:#728e00">console</span>.<span style="color:#728e00">error</span>(<span style="color:#728e00">err</span>);
+         <span style="color:#728e00">else</span> {
+            <span style="color:#728e00">console</span>.<span style="color:#728e00">log</span>(<span style="color:#7f8c8d">&#34;Showing all todo items&#34;</span>);
+            <span style="color:#728e00">res</span>.<span style="color:#728e00">format</span>({
+               <span style="color:#728e00">html</span><span style="color:#728e00">:</span> <span style="color:#728e00">function</span>(){
+                  <span style="color:#728e00">res</span>.<span style="color:#728e00">render</span>(<span style="color:#7f8c8d">&#39;todos/index&#39;</span>, {
+                     <span style="color:#728e00">title</span><span style="color:#728e00">:</span> <span style="color:#7f8c8d">&#39;All my todos&#39;</span>, 
+                     <span style="color:#7f8c8d">&#34;todos&#34;</span> <span style="color:#728e00">:</span> <span style="color:#728e00">todos</span>
                });
             },
-            json<span style="color:#666">:</span> <span style="color:#008000;font-weight:bold">function</span>(){
-               res.json(todos);
+            <span style="color:#728e00">json</span><span style="color:#728e00">:</span> <span style="color:#728e00">function</span>(){
+               <span style="color:#728e00">res</span>.<span style="color:#728e00">json</span>(<span style="color:#728e00">todos</span>);
             }
          });
         }     
@@ -251,6 +258,11 @@ module.exports <span style="color:#666">=</span> mongoose.model(<span style="col
 </main>
 
 
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/webdevelopment/2014-04-12_python_scraping_beautifulsoup/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Python Webscraping with BeautifulSoup</p></a>
+	</div>
+</nav>
 
 <section class="comments">
 	<div id="disqus_thread"></div>
@@ -282,16 +294,16 @@ module.exports <span style="color:#666">=</span> mongoose.model(<span style="col
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -300,6 +312,9 @@ module.exports <span style="color:#666">=</span> mongoose.model(<span style="col
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -307,6 +322,9 @@ module.exports <span style="color:#666">=</span> mongoose.model(<span style="col
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -336,14 +354,19 @@ module.exports <span style="color:#666">=</span> mongoose.model(<span style="col
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -352,14 +375,15 @@ module.exports <span style="color:#666">=</span> mongoose.model(<span style="col
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

@@ -6,10 +6,55 @@
     <description>Recent content in Network Programming on Technology Blog Wim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2020 10:32:50 +0100</lastBuildDate>
     
 	<atom:link href="/categories/network-programming/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ansible and IOSXE - IOS modules</title>
+      <link>/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/</link>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/</guid>
+      <description>Introduction In this blog post, we will use Ansible to interact with our IOS XE devices. Ansible has a very extensive set of Network Modules for various devices and vendors.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Sites</title>
+      <link>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</link>
+      <pubDate>Mon, 27 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</guid>
+      <description>Introduction In previous posts, we already looked at how to retrieve information from the devices or from the client API. We&amp;rsquo;ll now look a bit into the Sites API.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Assurance</title>
+      <link>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</link>
+      <pubDate>Sat, 25 Apr 2020 08:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</guid>
+      <description>Introduction In this post we introduced DNAC from a theoretical point of view. We continued in this post with looking at some simple Python scripts to retrieve device related information from DNAC.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Devices</title>
+      <link>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</link>
+      <pubDate>Fri, 24 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</guid>
+      <description>Introduction In this post, we introduced DNAC at a fairly high level and we have shown some POSTMAN samples to get a basic understanding of some of the APIs like authentication and devices).</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Getting Started</title>
+      <link>/networkprogrammability/2020-04-22_dnac_gettingstarted/</link>
+      <pubDate>Wed, 22 Apr 2020 08:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-22_dnac_gettingstarted/</guid>
+      <description>What is Cisco DNA Cisco DNA is Cisco’s architecture for enterprise networks. It provides an open, extensible, and software-driven approach that makes the network simpler to manage and more agile and responsive to business needs.</description>
+    </item>
     
     <item>
       <title>NetPalm Introduction - Part 3</title>
@@ -65,6 +110,15 @@ It spiked my interest as these days I&amp;rsquo;m going through the major networ
       
       <guid>/networkprogrammability/2020-04-06_napalm_introduction_part1/</guid>
       <description>Introduction Napalm stands for &amp;lsquo;Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)&amp;rsquo; and is a Python library that can be used to automate and interavt with networking devices and OSs using a unified API.</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF with Python</title>
+      <link>/networkprogrammability/2020-04-04_restconf_python/</link>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-04_restconf_python/</guid>
+      <description>Installation In this post, we went over a number of use cases. We used POSTMAN to understand the details. Here is the list of use cases for your convenience.</description>
     </item>
     
     <item>
@@ -142,7 +196,7 @@ It spiked my interest as these days I&amp;rsquo;m going through the major networ
     </item>
     
     <item>
-      <title>Create Cisco ACI network with Python (Requests)</title>
+      <title>Interact with Cisco ACI network through Python (Requests)</title>
       <link>/networkprogrammability/2020-03-19-aci_python_requests/</link>
       <pubDate>Thu, 19 Mar 2020 07:39:50 +0100</pubDate>
       
@@ -175,6 +229,15 @@ It spiked my interest as these days I&amp;rsquo;m going through the major networ
       
       <guid>/networkprogrammability/2020-01-14-parse_yaml_python/</guid>
       <description>Introduction In this post we&amp;rsquo;ll go over how to parse a YAML file with Python. Easy enough but I&amp;rsquo;m using at so often that it helps to have a little post on it.</description>
+    </item>
+    
+    <item>
+      <title>Parse JSON file with Python</title>
+      <link>/networkprogrammability/2020-01-11-parse_json_python/</link>
+      <pubDate>Sat, 11 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-11-parse_json_python/</guid>
+      <description>Introduction In this post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant.</description>
     </item>
     
     <item>

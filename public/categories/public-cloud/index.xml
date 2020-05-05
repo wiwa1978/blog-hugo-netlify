@@ -67,5 +67,32 @@
       <description>Introduction In this post, we are going to create a server (aka droplets) on DigitalOcean. They will be running Ubuntu. There’s plenty of ways doing it but for this post I decided to give Terraform a try.</description>
     </item>
     
+    <item>
+      <title>Docker-Machine and DigitalOcean</title>
+      <link>/devops/2016-04-14-docker-machine_digitalocean/</link>
+      <pubDate>Thu, 14 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-14-docker-machine_digitalocean/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>Docker-Machine and AWS</title>
+      <link>/devops/2016-04-12-docker-machine_aws/</link>
+      <pubDate>Tue, 12 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-12-docker-machine_aws/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>Docker-Machine and Virtualbox</title>
+      <link>/devops/2016-04-11-docker-machine_virtualbox/</link>
+      <pubDate>Mon, 11 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-11-docker-machine_virtualbox/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
   </channel>
 </rss>

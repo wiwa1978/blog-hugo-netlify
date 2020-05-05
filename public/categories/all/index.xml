@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>All on Technology Blog Wim</title>
+    <link>/categories/all/</link>
+    <description>Recent content in All on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 29 Apr 2020 10:32:50 +0100</lastBuildDate>
+    
+	<atom:link href="/categories/all/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ansible and IOSXE - IOS modules</title>
+      <link>/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/</link>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/</guid>
+      <description>Introduction In this blog post, we will use Ansible to interact with our IOS XE devices. Ansible has a very extensive set of Network Modules for various devices and vendors.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Sites</title>
+      <link>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</link>
+      <pubDate>Mon, 27 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</guid>
+      <description>Introduction In previous posts, we already looked at how to retrieve information from the devices or from the client API. We&amp;rsquo;ll now look a bit into the Sites API.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Assurance</title>
+      <link>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</link>
+      <pubDate>Sat, 25 Apr 2020 08:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</guid>
+      <description>Introduction In this post we introduced DNAC from a theoretical point of view. We continued in this post with looking at some simple Python scripts to retrieve device related information from DNAC.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Devices</title>
+      <link>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</link>
+      <pubDate>Fri, 24 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</guid>
+      <description>Introduction In this post, we introduced DNAC at a fairly high level and we have shown some POSTMAN samples to get a basic understanding of some of the APIs like authentication and devices).</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Getting Started</title>
+      <link>/networkprogrammability/2020-04-22_dnac_gettingstarted/</link>
+      <pubDate>Wed, 22 Apr 2020 08:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-22_dnac_gettingstarted/</guid>
+      <description>What is Cisco DNA Cisco DNA is Cisco’s architecture for enterprise networks. It provides an open, extensible, and software-driven approach that makes the network simpler to manage and more agile and responsive to business needs.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 3</title>
+      <link>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</link>
+      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</guid>
+      <description>Introduction This post is a follow up on part 1 and part 2.
+In part 1, we focused on retrieving information from our devices using NetPalm.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 2</title>
+      <link>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</link>
+      <pubDate>Wed, 15 Apr 2020 09:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-15_netpalm_introduction_part2/</guid>
+      <description>Introduction This post is a follow up on part 1 where we focused on retrieving information from our devices using NetPalm.</description>
+    </item>
+    
+    <item>
+      <title>NetPalm Introduction - Part 1</title>
+      <link>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</link>
+      <pubDate>Tue, 14 Apr 2020 09:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-14_netpalm_introduction_part1/</guid>
+      <description>Introduction Recently I came across this article. As I&amp;rsquo;m dealing with quite some network automation tools, it triggered my interest. I decided to give it a go.</description>
+    </item>
+    
+    <item>
+      <title>Scrapli Introduction</title>
+      <link>/networkprogrammability/2020-04-09_scrapli_introduction/</link>
+      <pubDate>Thu, 09 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-09_scrapli_introduction/</guid>
+      <description>Introduction I first came across Scrapli on Twitter.
+It spiked my interest as these days I&amp;rsquo;m going through the major network automation tools.</description>
+    </item>
+    
+    <item>
+      <title>NAPALM Introduction - Part 2</title>
+      <link>/networkprogrammability/2020-04-07_napalm_introduction_part2/</link>
+      <pubDate>Tue, 07 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-07_napalm_introduction_part2/</guid>
+      <description>Introduction Let&amp;rsquo;s continue where we left off in part 1. In this post, we will focus more on some specific use cases, like configuration validation and changing configurations onto our devices.</description>
+    </item>
+    
+    <item>
+      <title>NAPALM Introduction - Part 1</title>
+      <link>/networkprogrammability/2020-04-06_napalm_introduction_part1/</link>
+      <pubDate>Mon, 06 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-06_napalm_introduction_part1/</guid>
+      <description>Introduction Napalm stands for &amp;lsquo;Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)&amp;rsquo; and is a Python library that can be used to automate and interavt with networking devices and OSs using a unified API.</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF with Python</title>
+      <link>/networkprogrammability/2020-04-04_restconf_python/</link>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-04_restconf_python/</guid>
+      <description>Installation In this post, we went over a number of use cases. We used POSTMAN to understand the details. Here is the list of use cases for your convenience.</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF intro with Postman - Part 2</title>
+      <link>/networkprogrammability/2020-04-03_restconf_introduction_part2/</link>
+      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-03_restconf_introduction_part2/</guid>
+      <description>Introduction In part 1, we have introduced RESTCONF and explored it a bit using POSTMAN. I admit that post was a little dry and could leave some bad taste in your mouth :-).</description>
+    </item>
+    
+    <item>
+      <title>RESTCONF intro with Postman - Part 1</title>
+      <link>/networkprogrammability/2020-04-02_restconf_introduction_part1/</link>
+      <pubDate>Thu, 02 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-02_restconf_introduction_part1/</guid>
+      <description>What is RESTCONF As per RFC 8040 (RESTCONF Protocol), the IETF describes RESTCONF as:
+ an HTTP-based protocol that provides a programmatic interface for accessing data defined in YANG, using the datastore concepts defined in the Network Configuration Protocol (NETCONF).</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 2</title>
+      <link>/networkprogrammability/2020-03-31_netconf_python_part2/</link>
+      <pubDate>Tue, 31 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-31_netconf_python_part2/</guid>
+      <description>Introduction This is a follow up post on part 1 where we mainly focused on retrieving information from our devices using NETCONF.</description>
+    </item>
+    
+    <item>
+      <title>NETCONF/YANG and Python - part 1</title>
+      <link>/networkprogrammability/2020-03-30-netconf_python_part1/</link>
+      <pubDate>Mon, 30 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-30-netconf_python_part1/</guid>
+      <description>What is NETCONF From the Tail-F website:
+ NETCONF is a protocol defined by the IETF to “install, manipulate, and delete the configuration of network devices”.</description>
+    </item>
+    
+    <item>
+      <title>Interacting with IOS XE and IOS XR using Netmiko</title>
+      <link>/networkprogrammability/2020-03-25-netmiko_introduction/</link>
+      <pubDate>Wed, 25 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-25-netmiko_introduction/</guid>
+      <description>What is Netmiko Netmiko is a multi-vendor SSH Python library which makes connecting to network devices via SSH really easy and straightforward.</description>
+    </item>
+    
+    <item>
+      <title>Interacting with IOS XE using Paramiko (part 2)</title>
+      <link>/networkprogrammability/2020-03-24-paramiko_introduction_part2/</link>
+      <pubDate>Tue, 24 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-24-paramiko_introduction_part2/</guid>
+      <description>Introduction In the previous post, we experimented a bit with Paramiko. The post was describing a number of use cases to read information from a Cisco IOS XE device.</description>
+    </item>
+    
+    <item>
+      <title>Interacting with IOS XE using Paramiko (part 1)</title>
+      <link>/networkprogrammability/2020-03-23-paramiko_introduction_part1/</link>
+      <pubDate>Mon, 23 Mar 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-23-paramiko_introduction_part1/</guid>
+      <description>Introduction In this blog post, we will explore Paramiko to interact with Cisco devices. We will do a couple of things:</description>
+    </item>
+    
+    <item>
+      <title>Create Cisco ACI network with Python (ACI toolkit)</title>
+      <link>/networkprogrammability/2020-03-21-aci_python_acitookit/</link>
+      <pubDate>Sat, 21 Mar 2020 22:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-21-aci_python_acitookit/</guid>
+      <description>Introduction In this post, we have seen how to create some ACI objects using Python and Jinja2. While this was relatively straightforward, it&amp;rsquo;s not always as straigthforward as it seems.</description>
+    </item>
+    
+    <item>
+      <title>Interact with Cisco ACI network through Python (Requests)</title>
+      <link>/networkprogrammability/2020-03-19-aci_python_requests/</link>
+      <pubDate>Thu, 19 Mar 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-19-aci_python_requests/</guid>
+      <description>Introduction In this blog post, we will address how we can use Python to work with Cisco ACI. It&amp;rsquo;ll focus on the very basics, trusting it gives you enough meat to tackle the more complex tasks on your own (e.</description>
+    </item>
+    
+    <item>
+      <title>Use Python requests and Jinja2 to configure ACI</title>
+      <link>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</link>
+      <pubDate>Wed, 11 Mar 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-03-11-aci_python_requests_jinja_part2/</guid>
+      <description>Introduction In a previous post, we introduced how we could interact with Cisco&amp;rsquo;s ACI solution using Python. This post will build on the things we learned in that blog post.</description>
+    </item>
+    
+    <item>
+      <title>Python and Jinja2 introduction</title>
+      <link>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</link>
+      <pubDate>Thu, 27 Feb 2020 07:39:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/</guid>
+      <description>What is Jinja2? Jinja is a modern and designer-friendly templating language for Python. The idea is to combine a template with data to produce documents.</description>
+    </item>
+    
+    <item>
+      <title>Parse YAML file with Python</title>
+      <link>/networkprogrammability/2020-01-14-parse_yaml_python/</link>
+      <pubDate>Tue, 14 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-14-parse_yaml_python/</guid>
+      <description>Introduction In this post we&amp;rsquo;ll go over how to parse a YAML file with Python. Easy enough but I&amp;rsquo;m using at so often that it helps to have a little post on it.</description>
+    </item>
+    
+    <item>
+      <title>Parse JSON file with Python</title>
+      <link>/networkprogrammability/2020-01-11-parse_json_python/</link>
+      <pubDate>Sat, 11 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-11-parse_json_python/</guid>
+      <description>Introduction In this post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant.</description>
+    </item>
+    
+    <item>
+      <title>Parse XML file with Python</title>
+      <link>/networkprogrammability/2020-01-09-parse_xml_python/</link>
+      <pubDate>Thu, 09 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-09-parse_xml_python/</guid>
+      <description>Introduction We&amp;rsquo;ll focus in this post on how to parse some data structures in Python. We&amp;rsquo;ll start with XML, but in next posts we will also handle JSON and YAML.</description>
+    </item>
+    
+    <item>
+      <title>Create VM on vSphere and network on Cisco ACI (using Terraform)</title>
+      <link>/devops/2019-12-03-aci_vsphere_terraform/</link>
+      <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-03-aci_vsphere_terraform/</guid>
+      <description>Introduction In past couple of posts, we have been experimenting with Terraform in combination with ACI and vSphere seperately. In this post, we will combine both and we will first create network constructs on Cisco&amp;rsquo;s ACI solution and once done, we will create two VM instances on vSphere that are actually using the underlying ACI network constructs.</description>
+    </item>
+    
+    <item>
+      <title>vSphere - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-12-02_vsphere_kubernetes_ansible/</link>
+      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-02_vsphere_kubernetes_ansible/</guid>
+      <description>Introduction In this post, we created a couple of virtual instances running on vSphere using Terraform. We will use that blog post as a reference to install 3 virtual servers on our vSphere environment.</description>
+    </item>
+    
+    <item>
+      <title>vSphere - Create VMs with Terraform</title>
+      <link>/devops/2019-12-01-vsphere_terraform/</link>
+      <pubDate>Sun, 01 Dec 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-12-01-vsphere_terraform/</guid>
+      <description>Introduction In this post and this post, we created respectively some EC2 instances on AWS and some network contructs on Cisco’s ACI solution.</description>
+    </item>
+    
+    <item>
+      <title>Create Cisco ACI network with Terraform and Gitlab CICD</title>
+      <link>/devops/2019-11-29-aci_terraform_gitlab/</link>
+      <pubDate>Fri, 29 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-29-aci_terraform_gitlab/</guid>
+      <description>Introduction As promised, we’ll configure an ACI network using a CI/CD pipeline. If you understood this post, you’ll easily grasp this one as well.</description>
+    </item>
+    
+    <item>
+      <title>Create Cisco ACI network with Terraform</title>
+      <link>/devops/2019-11-27-aci_terraform/</link>
+      <pubDate>Wed, 27 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-27-aci_terraform/</guid>
+      <description>Introduction In this post, we created some EC2 instances on AWS. In this post, we will apply the same principle but instead of creating some servers on AWS, we will create a network on Cisco’s ACI solution using Terraform’s ACI provider.</description>
+    </item>
+    
+    <item>
+      <title>AWS - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-11-25-aws_kubernetes_ansible/</link>
+      <pubDate>Mon, 25 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-25-aws_kubernetes_ansible/</guid>
+      <description>Quick note: the original post dates from 25-11-2019 but got updated at 01-04-2020 with latest Kubernetes version.
+ Introduction This blog post is a follow up of a post we wrote couple of days ago where we created 3 EC2 instances on AWS.</description>
+    </item>
+    
+    <item>
+      <title>Configure AWS instances using Terraform and Gitlab CI/CD</title>
+      <link>/devops/2019-11-23-aws_terraform_gitlab/</link>
+      <pubDate>Sat, 23 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-23-aws_terraform_gitlab/</guid>
+      <description>Introduction In this post, we will deploy EC2 instances on AWS using a CI/CD pipeline. If you want to follow along, it’s advised you also refer to part 1 and part 2 for getting some background information.</description>
+    </item>
+    
+    <item>
+      <title>Configure AWS instances with Terraform (remote state with S3)</title>
+      <link>/devops/2019-11-22-aws_terraform_remotestate/</link>
+      <pubDate>Fri, 22 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-22-aws_terraform_remotestate/</guid>
+      <description>Introduction In an earlier post, we created one EC2 instance. As explained in that post, the Terraform state file was created in your local folder.</description>
+    </item>
+    
+    <item>
+      <title>Create AWS instances with Terraform</title>
+      <link>/devops/2019-11-21-aws_terraform/</link>
+      <pubDate>Thu, 21 Nov 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-11-21-aws_terraform/</guid>
+      <description>Intoduction In this blogpost, we will create an AWS instance onto EC2 entirely using Terraform. Nothing too complex as such, but better to start with something fairly easy and continue to expand on it.</description>
+    </item>
+    
+    <item>
+      <title>DigitalOcean - Install Kubernetes using Ansible</title>
+      <link>/devops/2019-10-17_digitalocean_kubernetes_ansible/</link>
+      <pubDate>Thu, 17 Oct 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-10-17_digitalocean_kubernetes_ansible/</guid>
+      <description>Quick note: the original post dates from 17-10-2019 but got updated at 01-04-2020 with latest Kubernetes version.
+ Introduction Couple of weeks ago, we have created a post where we created some servers on DigitalOcean.</description>
+    </item>
+    
+    <item>
+      <title>DigitalOcean - Create droplets instances with Terraform</title>
+      <link>/devops/2019-09-02_digitalocean_terraform/</link>
+      <pubDate>Mon, 02 Sep 2019 14:39:50 +0100</pubDate>
+      
+      <guid>/devops/2019-09-02_digitalocean_terraform/</guid>
+      <description>Introduction In this post, we are going to create a server (aka droplets) on DigitalOcean. They will be running Ubuntu. There’s plenty of ways doing it but for this post I decided to give Terraform a try.</description>
+    </item>
+    
+    <item>
+      <title>Docker-Machine and DigitalOcean</title>
+      <link>/devops/2016-04-14-docker-machine_digitalocean/</link>
+      <pubDate>Thu, 14 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-14-docker-machine_digitalocean/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>Docker-Machine and AWS</title>
+      <link>/devops/2016-04-12-docker-machine_aws/</link>
+      <pubDate>Tue, 12 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-12-docker-machine_aws/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>Docker-Machine and Virtualbox</title>
+      <link>/devops/2016-04-11-docker-machine_virtualbox/</link>
+      <pubDate>Mon, 11 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-11-docker-machine_virtualbox/</guid>
+      <description>Quick note: the original post dates from 14-04-2016 but got updated at 01-05-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>Remove all Docker images and containers</title>
+      <link>/devops/2016-04-10-docker_remove_containers/</link>
+      <pubDate>Sun, 10 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-10-docker_remove_containers/</guid>
+      <description>Quick note: the original post dates from 10-04-2016 but got updated at 02-05-2020 and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>REST API with Express and Mongo</title>
+      <link>/webdevelopment/2015-07-02_express_mongo_rest_api/</link>
+      <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
+      
+      <guid>/webdevelopment/2015-07-02_express_mongo_rest_api/</guid>
+      <description>Quick note: the original post dates from 02-07-2015 but got updated at 02-04-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+    <item>
+      <title>Python Webscraping with BeautifulSoup</title>
+      <link>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</link>
+      <pubDate>Sat, 12 Apr 2014 20:19:50 +0100</pubDate>
+      
+      <guid>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</guid>
+      <description>Quick note: the original post dates from 12-04-2014 but got updated at 20-04-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -112,74 +119,74 @@ if (!doNotTrack) {
 <p>The main purpose of virtual environments is to create isolated environments for Python projects. As such, each project can have its own dependencies, regardless of the dependencies in other projects or on your &lsquo;main&rsquo; PC.</p>
 <h3 id="setup-a-virtual-environment">Setup a virtual environment</h3>
 <p>Installing a virtual environment is pretty easy. First, use pip3 (for Python3) to install the package.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install virtualenv
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install virtualenv
 </code></pre></div><p>Next, create a virtual environment:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 -m venv
-usage: venv <span style="color:#666">[</span>-h<span style="color:#666">]</span> <span style="color:#666">[</span>--system-site-packages<span style="color:#666">]</span> <span style="color:#666">[</span>--symlinks | --copies<span style="color:#666">]</span> <span style="color:#666">[</span>--clear<span style="color:#666">]</span> <span style="color:#666">[</span>--upgrade<span style="color:#666">]</span> <span style="color:#666">[</span>--without-pip<span style="color:#666">]</span>
-            <span style="color:#666">[</span>--prompt PROMPT<span style="color:#666">]</span>
-            ENV_DIR <span style="color:#666">[</span>ENV_DIR ...<span style="color:#666">]</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 -m venv
+usage: venv <span style="color:#728e00">[</span>-h<span style="color:#728e00">]</span> <span style="color:#728e00">[</span>--system-site-packages<span style="color:#728e00">]</span> <span style="color:#728e00">[</span>--symlinks | --copies<span style="color:#728e00">]</span> <span style="color:#728e00">[</span>--clear<span style="color:#728e00">]</span> <span style="color:#728e00">[</span>--upgrade<span style="color:#728e00">]</span> <span style="color:#728e00">[</span>--without-pip<span style="color:#728e00">]</span>
+            <span style="color:#728e00">[</span>--prompt PROMPT<span style="color:#728e00">]</span>
+            ENV_DIR <span style="color:#728e00">[</span>ENV_DIR ...<span style="color:#728e00">]</span>
 </code></pre></div><p>The above learns us that the main command is <code>python3 -m venv</code>, but we also need to give the virtual environment a name. Most people use <code>venv</code> as the name, but this is entirely up to you. In any case, it explains a bit why you see two times the word <code>venv</code> in below command.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 -m venv venv
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 -m venv venv
 </code></pre></div><p>Next, we need to activate the virtual environment:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ <span style="color:#008000">source</span> venv/bin/activate
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Parse_YAML_Python wauterw$ <span style="color:#728e00">source</span> venv/bin/activate
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ 
 </code></pre></div><p>Observe that the command prompt now has this <code>(venv)</code> statement in front of it. This means you are into the virtual environment. Any install request under that virtual environment is entirely isolated from other environments.</p>
 <h3 id="install-libraries-to-work-with-yaml">Install libraries to work with YAML</h3>
 <p>Python has a nice package called <code>pyyaml</code> to work with YAML files. Install it as follows:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install pyyaml
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install pyyaml
 Collecting pyyaml
   Downloading https://files.pythonhosted.org/packages/64/c2/b80047c7ac2478f9501676c988a5411ed5572f35d1beff9cae07d3
   ***Truncated***
 </code></pre></div><p>Another nice package is called <code>pprint</code>. Note this is not strictly required to work with YAML, but it makes the output of our print statements nicer (in this case to output yaml files).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install pprint
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install pprint
 Collecting pprint
   Using cached https://files.pythonhosted.org/packages/99/12/b6383259ef85c2b942ab9135f322c0dce83fdca8600d87122d2b0181451f/pprint-0.1.tar.gz
   ***Truncated***
 </code></pre></div><h3 id="yaml-file">YAML file</h3>
 <p>First and foremost we need to have a YAML file. A YAML file starts with the three dashes and then it&rsquo;s mostly always key-value pairs. See below YAML file to check things out.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">tenant</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;Tenant_Wim&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">vrf</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;VRF_Wim&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">bridge_domains</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#008000;font-weight:bold">bd</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;BD_Wim&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">gateway</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;10.16.100.1&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">mask</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;24&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">scope</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;shared&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">l3_out</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;labinfra-l3out-ro&#34;</span><span style="color:#bbb">
-</span></code></pre></div><h3 id="python-script-to-parse-yaml">Python script to parse YAML</h3>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+<span style="color:#728e00">tenant</span>: <span style="color:#7f8c8d">&#34;Tenant_Wim&#34;</span>
+<span style="color:#728e00">vrf</span>: <span style="color:#7f8c8d">&#34;VRF_Wim&#34;</span>
+<span style="color:#728e00">bridge_domains</span>:
+  - <span style="color:#728e00">bd</span>: <span style="color:#7f8c8d">&#34;BD_Wim&#34;</span>
+    <span style="color:#728e00">gateway</span>: <span style="color:#7f8c8d">&#34;10.16.100.1&#34;</span>
+    <span style="color:#728e00">mask</span>: <span style="color:#7f8c8d">&#34;24&#34;</span>
+    <span style="color:#728e00">scope</span>: <span style="color:#7f8c8d">&#34;shared&#34;</span>
+    <span style="color:#728e00">l3_out</span>: <span style="color:#7f8c8d">&#34;labinfra-l3out-ro&#34;</span>
+</code></pre></div><h3 id="python-script-to-parse-yaml">Python script to parse YAML</h3>
 <p>Now onto the real meat of this blog post&hellip;how to parse a YAML file. We will use the YAML file we just introduced to test our Python script.</p>
 <p>First, we need to import the packages we installed through pip3 earlier in this post. Next, we open the file and use the <code>read()</code> function to store everything in a variable called <code>yml_file</code>. Note that the type of <code>yml_file</code> is just a string, which we can print with <code>pprint</code>.</p>
 <p>As it&rsquo;s rather difficult to continue working with a String object, we need to convert this String object to a Python type that makes it easier to use. PyYAML comes to the rescue here as the <code>yaml.load</code> function is essentially converting the String object to a Python Dict object. As we know, dict objects make it easy to read the different values.</p>
 <p>In order to retrieve an object, we simply need to specify the correct key. Speaks for itself I think. A somewhat more complex situation is when we have arrays (or lists) in the YAML file. In the original file, we have an item called <code>bridge_domain</code>, which contains a list of bridge domains. You know that because of the <code>-</code> sign in the front (in YAML syntax this <code>-</code> means it&rsquo;s a list).</p>
 <p>Therefore, if we want to retrieve the value of the first bridge domain, we need to specify this with the <code>[0]</code>. It&rsquo;s nothing more than an array. Essentially, we tell our code to find the first item (here there is only one) and from that item retrieve the name <code>['bd']</code>.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">yaml</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pprint</span> <span style="color:#008000;font-weight:bold">import</span> pprint
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">yaml</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">pprint</span> <span style="color:#728e00">import</span> <span style="color:#434f54">pprint</span>
 
-<span style="color:#408080;font-style:italic"># Read YAML configuration</span>
-yml_file <span style="color:#666">=</span> <span style="color:#008000">open</span>(<span style="color:#ba2121">&#34;variables.yaml&#34;</span>)<span style="color:#666">.</span>read()
-pprint(yml_file)
-yml_dict <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(yml_file, yaml<span style="color:#666">.</span>SafeLoader)
+<span style="color:#95a5a6"># Read YAML configuration</span>
+<span style="color:#434f54">yml_file</span> <span style="color:#728e00">=</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#34;variables.yaml&#34;</span>)<span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+<span style="color:#434f54">pprint</span>(<span style="color:#434f54">yml_file</span>)
+<span style="color:#434f54">yml_dict</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#434f54">yml_file</span>, <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
 
-tenant_name <span style="color:#666">=</span> yml_dict[<span style="color:#ba2121">&#39;tenant&#39;</span>]
-vrf_name <span style="color:#666">=</span> yml_dict[<span style="color:#ba2121">&#39;vrf&#39;</span>]
-bd_name <span style="color:#666">=</span> yml_dict[<span style="color:#ba2121">&#39;bridge_domains&#39;</span>][<span style="color:#666">0</span>][<span style="color:#ba2121">&#39;bd&#39;</span>]
+<span style="color:#434f54">tenant_name</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yml_dict</span>[<span style="color:#7f8c8d">&#39;tenant&#39;</span>]
+<span style="color:#434f54">vrf_name</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yml_dict</span>[<span style="color:#7f8c8d">&#39;vrf&#39;</span>]
+<span style="color:#434f54">bd_name</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yml_dict</span>[<span style="color:#7f8c8d">&#39;bridge_domains&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;bd&#39;</span>]
 
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;The variables are: &#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;Tenant name {tenant_name}&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;VRF name {vrf_name}&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;BD name {bd_name}&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;The variables are: &#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Tenant name {tenant_name}&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;VRF name {vrf_name}&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;BD name {bd_name}&#34;</span>)
 </code></pre></div><h3 id="output">Output</h3>
 <p>Below is the output when we run the script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 parseYAML.py 
-<span style="color:#666">(</span><span style="color:#ba2121">&#39;---\n&#39;</span>
- <span style="color:#ba2121">&#39;tenant: &#34;Tenant_Wim&#34;\n&#39;</span>
- <span style="color:#ba2121">&#39;vrf: &#34;VRF_Wim&#34;\n&#39;</span>
- <span style="color:#ba2121">&#39;bridge_domains:\n&#39;</span>
- <span style="color:#ba2121">&#39;  - bd: &#34;BD_Wim&#34;\n&#39;</span>
- <span style="color:#ba2121">&#39;    gateway: &#34;10.16.100.1&#34;\n&#39;</span>
- <span style="color:#ba2121">&#39;    mask: &#34;24&#34;\n&#39;</span>
- <span style="color:#ba2121">&#39;    scope: &#34;shared&#34;\n&#39;</span>
- <span style="color:#ba2121">&#39;    l3_out: &#34;labinfra-l3out-ro&#34;&#39;</span><span style="color:#666">)</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 parseYAML.py 
+<span style="color:#728e00">(</span><span style="color:#7f8c8d">&#39;---\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;tenant: &#34;Tenant_Wim&#34;\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;vrf: &#34;VRF_Wim&#34;\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;bridge_domains:\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;  - bd: &#34;BD_Wim&#34;\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;    gateway: &#34;10.16.100.1&#34;\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;    mask: &#34;24&#34;\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;    scope: &#34;shared&#34;\n&#39;</span>
+ <span style="color:#7f8c8d">&#39;    l3_out: &#34;labinfra-l3out-ro&#34;&#39;</span><span style="color:#728e00">)</span>
 The variables are: 
 Tenant name Tenant_Wim
 VRF name VRF_Wim
@@ -187,7 +194,7 @@ BD name BD_Wim
 </code></pre></div><p>Code can be found at <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Parse_YAML_Python">Github</a>.</p>
 <h3 id="deactivating-the-virtual-enviroment">Deactivating the virtual enviroment</h3>
 <p>Just for completeness, if you want to deactivate your virtual environment you can do as follows:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ deactivate
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Parse_YAML_Python wauterw$ deactivate
 WAUTERW-M-65P7:Parse_YAML_Python wauterw$ 
 </code></pre></div><p>And you will see that the <code>(venv)</code> in front of the prompt is gone now.</p>
 
@@ -208,7 +215,7 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/networkprogrammability/2020-01-09-parse_xml_python/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Parse XML file with Python</p></a>
+		<a class="post-nav__link" href="/networkprogrammability/2020-01-11-parse_json_python/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Parse JSON file with Python</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
 		<a class="post-nav__link" href="/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Python and Jinja2 introduction</p></a>
@@ -245,16 +252,16 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -263,6 +270,9 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -270,6 +280,9 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -299,14 +312,19 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -315,14 +333,15 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

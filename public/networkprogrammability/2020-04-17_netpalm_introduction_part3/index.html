@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -127,28 +134,28 @@ In part 2, we focused on changing/setting information in our devices.</p>
 </ul>
 <p>In this post, we will add some loopback interfaces to our device but using NetPalm (which under the hood will use NAPALM or Netmiko).</p>
 <p>Let&rsquo;s first create the Jinja2 template. Create a file called <code>loopback.j2</code> and place this in the <code>netpalm/backend/plugins/jinja2_templates</code> folder. We will be using the following template:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#bc7a00">{%</span> <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">interface</span> <span style="color:#008000;font-weight:bold">in</span> <span style="color:#19177c">interfaces</span> <span style="color:#bc7a00">%}</span>
-   interface <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.name</span><span style="color:#bc7a00">}}</span>
-   description <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.description</span><span style="color:#bc7a00">}}</span>
-   ip address <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_addr</span><span style="color:#bc7a00">}}</span> <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_mask</span><span style="color:#bc7a00">}}</span>
-<span style="color:#bc7a00">{%</span> <span style="color:#008000;font-weight:bold">endfor</span> <span style="color:#bc7a00">%}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#728e00">{%</span> <span style="color:#728e00">for</span> <span style="color:#434f54">interface</span> <span style="color:#728e00">in</span> <span style="color:#434f54">interfaces</span> <span style="color:#728e00">%}</span>
+   interface <span style="color:#728e00">{{</span><span style="color:#434f54">interface.name</span><span style="color:#728e00">}}</span>
+   description <span style="color:#728e00">{{</span><span style="color:#434f54">interface.description</span><span style="color:#728e00">}}</span>
+   ip address <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_addr</span><span style="color:#728e00">}}</span> <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_mask</span><span style="color:#728e00">}}</span>
+<span style="color:#728e00">{%</span> <span style="color:#728e00">endfor</span> <span style="color:#728e00">%}</span>
 </code></pre></div><p>NetPalm provides an API to change the configuration through a Jinja2 template (see <a href="https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#85056012-e546-41d7-b832-19e9285823f7">here</a> for Netmiko and <a href="https://documenter.getpostman.com/view/2391814/SzYbxcQx?version=latest#44fdde62-c21c-417b-95d4-54fa2640d135">here</a> for NAPALM.</p>
 <p>The example is the following:</p>
 <p><img src="/images/2020-04-17-1.png" alt="netpalm"></p>
 <p>Essentially the <code>template</code> argument points to the template we have stored in the <code>netpalm/backend/plugins/jinja2_templates</code> folder, in our case this will be <code>loopback</code> (not loopback.j2). Next, in the args, we need to pass the variables for our Jinja2 template. In our case, we want to provide the following information.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#008000;font-weight:bold">&#34;interfaces&#34;</span>: [
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#434f54">&#34;interfaces&#34;</span>: [
     {
-      <span style="color:#008000;font-weight:bold">&#34;name&#34;</span>: <span style="color:#ba2121">&#34;Loopback3001&#34;</span>,
-      <span style="color:#008000;font-weight:bold">&#34;description&#34;</span>: <span style="color:#ba2121">&#34;Description for Loopback 3001&#34;</span>,
-      <span style="color:#008000;font-weight:bold">&#34;ipv4_addr&#34;</span>: <span style="color:#ba2121">&#34;200.200.200.230&#34;</span>,
-      <span style="color:#008000;font-weight:bold">&#34;ipv4_mask&#34;</span>: <span style="color:#ba2121">&#34;255.255.255.255&#34;</span>
+      <span style="color:#434f54">&#34;name&#34;</span>: <span style="color:#7f8c8d">&#34;Loopback3001&#34;</span>,
+      <span style="color:#434f54">&#34;description&#34;</span>: <span style="color:#7f8c8d">&#34;Description for Loopback 3001&#34;</span>,
+      <span style="color:#434f54">&#34;ipv4_addr&#34;</span>: <span style="color:#7f8c8d">&#34;200.200.200.230&#34;</span>,
+      <span style="color:#434f54">&#34;ipv4_mask&#34;</span>: <span style="color:#7f8c8d">&#34;255.255.255.255&#34;</span>
     },
     {
-      <span style="color:#008000;font-weight:bold">&#34;name&#34;</span>: <span style="color:#ba2121">&#34;Loopback3002&#34;</span>,
-      <span style="color:#008000;font-weight:bold">&#34;description&#34;</span>: <span style="color:#ba2121">&#34;Description for Loopback 3002&#34;</span>,
-      <span style="color:#008000;font-weight:bold">&#34;ipv4_addr&#34;</span>: <span style="color:#ba2121">&#34;200.200.200.231&#34;</span>,
-      <span style="color:#008000;font-weight:bold">&#34;ipv4_mask&#34;</span>: <span style="color:#ba2121">&#34;255.255.255.255&#34;</span>
+      <span style="color:#434f54">&#34;name&#34;</span>: <span style="color:#7f8c8d">&#34;Loopback3002&#34;</span>,
+      <span style="color:#434f54">&#34;description&#34;</span>: <span style="color:#7f8c8d">&#34;Description for Loopback 3002&#34;</span>,
+      <span style="color:#434f54">&#34;ipv4_addr&#34;</span>: <span style="color:#7f8c8d">&#34;200.200.200.231&#34;</span>,
+      <span style="color:#434f54">&#34;ipv4_mask&#34;</span>: <span style="color:#7f8c8d">&#34;255.255.255.255&#34;</span>
     }
   ]
 }
@@ -161,14 +168,14 @@ In part 2, we focused on changing/setting information in our devices.</p>
 <p>In below screenshot, you can see these two loopback interfaces got added successfully.</p>
 <p><img src="/images/2020-04-17-5.png" alt="netpalm"></p>
 <p>Or via SSH into our devices, we see them listed indeed:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       unassigned      YES NVRAM  administratively down down
 GigabitEthernet3       unassigned      YES NVRAM  administratively down down
-Loopback76             unassigned      YES <span style="color:#008000">unset</span>  up                    up
-Loopback100            unassigned      YES <span style="color:#008000">unset</span>  up                    up
-Loopback1000           unassigned      YES <span style="color:#008000">unset</span>  up                    up
+Loopback76             unassigned      YES <span style="color:#728e00">unset</span>  up                    up
+Loopback100            unassigned      YES <span style="color:#728e00">unset</span>  up                    up
+Loopback1000           unassigned      YES <span style="color:#728e00">unset</span>  up                    up
 Loopback2000           10.0.0.40       YES other  up                    up
 Loopback3001           200.200.200.230 YES manual up                    up
 Loopback3002           200.200.200.231 YES manual up                    up
@@ -181,27 +188,27 @@ Loopback3002           200.200.200.231 YES manual up                    up
 <p>A service file defines several CRUD operations, hence you will find a section to get configuration from your device (RETRIEVE), to add some configuration (CREATE) and to delete some configuration from your device (DELETE).</p>
 <h6 id="a-retrieve-section">A) Retrieve section</h6>
 <p>Let&rsquo;s have a look first at the easiest one, which is the retrieve. As you can see, this is (part of) a Jinja template to which we need to pass some variables like the host, username and password. Also note that to retrieve the interfaces, we will be using <code>netmiko</code> under the hood.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">      {
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">      {
         &#34;operation&#34;: &#34;retrieve&#34;,
         &#34;payload&#34;: {
           &#34;library&#34;: &#34;netmiko&#34;,
           &#34;connection_args&#34;: {
             &#34;device_type&#34;: &#34;cisco_xe&#34;,
-            &#34;host&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">host</span><span style="color:#bc7a00">}}</span>&#34;,
-            &#34;username&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">username</span><span style="color:#bc7a00">}}</span>&#34;,
-            &#34;password&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">password</span><span style="color:#bc7a00">}}</span>&#34;,
+            &#34;host&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">host</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;username&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">username</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;password&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">password</span><span style="color:#728e00">}}</span>&#34;,
             &#34;port&#34;: &#34;8181&#34;
           },
         &#34;command&#34;: &#34;show ip interface brief&#34;
         }
       }
 </code></pre></div><p>We will pass in these variables through the json body as part of the REST call. Below you see an example of such body.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-	<span style="color:#008000;font-weight:bold">&#34;operation&#34;</span>: <span style="color:#ba2121">&#34;retrieve&#34;</span>,
-	<span style="color:#008000;font-weight:bold">&#34;args&#34;</span>:{
-		<span style="color:#008000;font-weight:bold">&#34;hosts&#34;</span>:[<span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>],
-		<span style="color:#008000;font-weight:bold">&#34;username&#34;</span>:<span style="color:#ba2121">&#34;developer&#34;</span>,
-		<span style="color:#008000;font-weight:bold">&#34;password&#34;</span>:<span style="color:#ba2121">&#34;C1sco12345&#34;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+	<span style="color:#434f54">&#34;operation&#34;</span>: <span style="color:#7f8c8d">&#34;retrieve&#34;</span>,
+	<span style="color:#434f54">&#34;args&#34;</span>:{
+		<span style="color:#434f54">&#34;hosts&#34;</span>:[<span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>],
+		<span style="color:#434f54">&#34;username&#34;</span>:<span style="color:#7f8c8d">&#34;developer&#34;</span>,
+		<span style="color:#434f54">&#34;password&#34;</span>:<span style="color:#7f8c8d">&#34;C1sco12345&#34;</span>
 		
 	}
 }
@@ -213,15 +220,15 @@ Loopback3002           200.200.200.231 YES manual up                    up
 <h6 id="b-create-section">B) Create section</h6>
 <p>If you understood the above, it will be quite easy to understand also the <code>create</code> and <code>delete</code> sections of the service template. Let&rsquo;s quickly walk over things here.</p>
 <p>Below is the <code>create</code> part of the service template.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">      {
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">      {
         &#34;operation&#34;: &#34;create&#34;,
         &#34;payload&#34;: {
           &#34;library&#34;: &#34;napalm&#34;,
           &#34;connection_args&#34;: {
             &#34;device_type&#34;: &#34;cisco_ios&#34;,
-            &#34;host&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">host</span><span style="color:#bc7a00">}}</span>&#34;,
-            &#34;username&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">username</span><span style="color:#bc7a00">}}</span>&#34;,
-            &#34;password&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">password</span><span style="color:#bc7a00">}}</span>&#34;,
+            &#34;host&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">host</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;username&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">username</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;password&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">password</span><span style="color:#728e00">}}</span>&#34;,
             &#34;optional_args&#34;: {&#34;port&#34;: 8181}
         },
         &#34;j2config&#34;: {
@@ -245,18 +252,18 @@ Loopback3002           200.200.200.231 YES manual up                    up
     	  }
 </code></pre></div><p>It looks pretty similar to the <code>retrieve</code> example from above. Yet, here we are passing a Jinja template as well. How does this work? Well, NetPalm needs to know what you want to create on your device. In our little example, we will be adding two loopback interfaces. While in the <code>retrieve</code> section we wanted to use <code>netmiko</code>, here I deciced to use <code>napalm</code>.</p>
 <p>Next, you&rsquo;ll need to create file in the <code>netpalm &gt; backend &gt; plugins &gt; jinja2_templates</code> folder. We&rsquo;ll call this file <code>loopback_create.j2</code> and it looks as follows:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#bc7a00">{%</span> <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">interface</span> <span style="color:#008000;font-weight:bold">in</span> <span style="color:#19177c">interfaces</span> <span style="color:#bc7a00">%}</span>
-   interface <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.name</span><span style="color:#bc7a00">}}</span>
-   description <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.description</span><span style="color:#bc7a00">}}</span>
-   ip address <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_addr</span><span style="color:#bc7a00">}}</span> <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_mask</span><span style="color:#bc7a00">}}</span>
-<span style="color:#bc7a00">{%</span> <span style="color:#008000;font-weight:bold">endfor</span> <span style="color:#bc7a00">%}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#728e00">{%</span> <span style="color:#728e00">for</span> <span style="color:#434f54">interface</span> <span style="color:#728e00">in</span> <span style="color:#434f54">interfaces</span> <span style="color:#728e00">%}</span>
+   interface <span style="color:#728e00">{{</span><span style="color:#434f54">interface.name</span><span style="color:#728e00">}}</span>
+   description <span style="color:#728e00">{{</span><span style="color:#434f54">interface.description</span><span style="color:#728e00">}}</span>
+   ip address <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_addr</span><span style="color:#728e00">}}</span> <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_mask</span><span style="color:#728e00">}}</span>
+<span style="color:#728e00">{%</span> <span style="color:#728e00">endfor</span> <span style="color:#728e00">%}</span>
 </code></pre></div><p>This is a simple Jinja2 template, in fact the same one as we used in the first section of this blog post. We&rsquo;ll need to pass in the data to the template of course and this is exactly what the <code>j2config</code> portion of the <code>create</code> section does for us. As you can see from the service template snippet above, we are providing a list of two interfaces.</p>
 <p>Let&rsquo;s try things out again. The POSTMAN REST call does not change apart from the fact that we specify the <code>create</code> operation for obvious reasons.</p>
 <p><img src="/images/2020-04-17-8.png" alt="netpalm"></p>
 <p>Below you will see that we added the loopback interfaces.</p>
 <p><img src="/images/2020-04-17-9.png" alt="netpalm"></p>
 <p>Let&rsquo;s verify by logging into the device through SSH and you indeed see the loopback interfaces were added successfully.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -271,14 +278,14 @@ Loopback251            200.200.200.21  YES TFTP   up                    up
 {% endfor %}
 </code></pre><p>In the snippet above, pay attention to the word &lsquo;no&rsquo; which indicates we want to remove the interface from our device. Also note we only need to know the name of the interface (the description and IP configuration will obviously automatically be deleted by the device).</p>
 <p>Next, let&rsquo;s have a look at the <code>delete</code> operation in the service template.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">     &#34;operation&#34;: &#34;delete&#34;,
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">     &#34;operation&#34;: &#34;delete&#34;,
         &#34;payload&#34;: {
           &#34;library&#34;: &#34;napalm&#34;,
           &#34;connection_args&#34;: {
             &#34;device_type&#34;: &#34;cisco_ios&#34;,
-            &#34;host&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">host</span><span style="color:#bc7a00">}}</span>&#34;,
-            &#34;username&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">username</span><span style="color:#bc7a00">}}</span>&#34;,
-            &#34;password&#34;: &#34;<span style="color:#bc7a00">{{</span><span style="color:#19177c">password</span><span style="color:#bc7a00">}}</span>&#34;,
+            &#34;host&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">host</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;username&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">username</span><span style="color:#728e00">}}</span>&#34;,
+            &#34;password&#34;: &#34;<span style="color:#728e00">{{</span><span style="color:#434f54">password</span><span style="color:#728e00">}}</span>&#34;,
             &#34;optional_args&#34;: {&#34;port&#34;: 8181}
           },
         &#34;j2config&#34;: {
@@ -301,7 +308,7 @@ Loopback251            200.200.200.21  YES TFTP   up                    up
 <p>You&rsquo;ll see we get back an indication that the interfaces were deleted. See below screenshot.</p>
 <p><img src="/images/2020-04-17-11.png" alt="netpalm"></p>
 <p>And as usual, let&rsquo;s verify things again through SSH and you&rsquo;ll see the loopback interfaces were removed properly.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  administratively down down
@@ -326,6 +333,9 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
 		<a class="post-nav__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">NetPalm Introduction - Part 2</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">Cisco DNA Center - Getting Started</p></a>
 	</div>
 </nav>
 
@@ -359,16 +369,16 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -377,6 +387,9 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -384,6 +397,9 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -413,14 +429,19 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -429,14 +450,15 @@ GigabitEthernet3       10.255.255.2    YES other  up                    up
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

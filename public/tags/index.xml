@@ -6,10 +6,37 @@
     <description>Recent content in Tags on Technology Blog Wim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2020 10:32:50 +0100</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ansible</title>
+      <link>/tags/ansible/</link>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/tags/ansible/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IOSXE</title>
+      <link>/tags/iosxe/</link>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/tags/iosxe/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DNAC</title>
+      <link>/tags/dnac/</link>
+      <pubDate>Mon, 27 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/tags/dnac/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>NetPalm</title>
@@ -50,7 +77,7 @@
     <item>
       <title>IOS XE</title>
       <link>/tags/ios-xe/</link>
-      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
       
       <guid>/tags/ios-xe/</guid>
       <description></description>
@@ -59,7 +86,7 @@
     <item>
       <title>RESTCONF</title>
       <link>/tags/restconf/</link>
-      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
       
       <guid>/tags/restconf/</guid>
       <description></description>
@@ -68,7 +95,7 @@
     <item>
       <title>YANG</title>
       <link>/tags/yang/</link>
-      <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
       
       <guid>/tags/yang/</guid>
       <description></description>
@@ -138,6 +165,15 @@
     </item>
     
     <item>
+      <title>JSON</title>
+      <link>/tags/json/</link>
+      <pubDate>Sat, 11 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/tags/json/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>XML</title>
       <link>/tags/xml/</link>
       <pubDate>Thu, 09 Jan 2020 10:19:50 +0100</pubDate>
@@ -161,15 +197,6 @@
       <pubDate>Tue, 03 Dec 2019 14:39:50 +0100</pubDate>
       
       <guid>/tags/vsphere/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ansible</title>
-      <link>/tags/ansible/</link>
-      <pubDate>Mon, 02 Dec 2019 14:39:50 +0100</pubDate>
-      
-      <guid>/tags/ansible/</guid>
       <description></description>
     </item>
     
@@ -206,6 +233,33 @@
       <pubDate>Thu, 17 Oct 2019 14:39:50 +0100</pubDate>
       
       <guid>/tags/digitalocean/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>/tags/docker/</link>
+      <pubDate>Thu, 14 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker-machine</title>
+      <link>/tags/docker-machine/</link>
+      <pubDate>Thu, 14 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/tags/docker-machine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Virtualbox</title>
+      <link>/tags/virtualbox/</link>
+      <pubDate>Mon, 11 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/tags/virtualbox/</guid>
       <description></description>
     </item>
     

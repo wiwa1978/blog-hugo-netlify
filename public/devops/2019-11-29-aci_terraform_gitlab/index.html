@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -121,41 +128,41 @@ if (!doNotTrack) {
 <li>git commit -m &ldquo;Initial commit&rdquo;</li>
 <li>git push -u origin master</li>
 </ul>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git init
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git init
 Initialized empty Git repository in /Users/wauterw/Dropbox/Programming/blog-hugo-netlify-code/ACI__Terraform_Gitlab/.git/
 WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git remote add origin http://10.48.109.16/cisco/terraform-aci.git
 WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git add .
-WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git commit -m <span style="color:#ba2121">&#34;Initial commit&#34;</span>
-<span style="color:#666">[</span>master <span style="color:#666">(</span>root-commit<span style="color:#666">)</span> 9de6e78<span style="color:#666">]</span> Initial commit
- <span style="color:#666">4</span> files changed, <span style="color:#666">53</span> insertions<span style="color:#666">(</span>+<span style="color:#666">)</span>
- create mode <span style="color:#666">100644</span> .gitignore
- create mode <span style="color:#666">100644</span> main_aci.tf
- create mode <span style="color:#666">100644</span> terraform.tf
- create mode <span style="color:#666">100644</span> variables_aci.tf
+WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git commit -m <span style="color:#7f8c8d">&#34;Initial commit&#34;</span>
+<span style="color:#728e00">[</span>master <span style="color:#728e00">(</span>root-commit<span style="color:#728e00">)</span> 9de6e78<span style="color:#728e00">]</span> Initial commit
+ <span style="color:#8a7b52">4</span> files changed, <span style="color:#8a7b52">53</span> insertions<span style="color:#728e00">(</span>+<span style="color:#728e00">)</span>
+ create mode <span style="color:#8a7b52">100644</span> .gitignore
+ create mode <span style="color:#8a7b52">100644</span> main_aci.tf
+ create mode <span style="color:#8a7b52">100644</span> terraform.tf
+ create mode <span style="color:#8a7b52">100644</span> variables_aci.tf
 WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git push -u origin master
-Enumerating objects: 7, <span style="color:#008000;font-weight:bold">done</span>.
-Counting objects: 100% <span style="color:#666">(</span>7/7<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Delta compression using up to <span style="color:#666">12</span> threads
-Compressing objects: 100% <span style="color:#666">(</span>6/6<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Writing objects: 100% <span style="color:#666">(</span>7/7<span style="color:#666">)</span>, 1.09 KiB | 1.09 MiB/s, <span style="color:#008000;font-weight:bold">done</span>.
-Total <span style="color:#666">7</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>, reused <span style="color:#666">0</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>
+Enumerating objects: 7, <span style="color:#728e00">done</span>.
+Counting objects: 100% <span style="color:#728e00">(</span>7/7<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Delta compression using up to <span style="color:#8a7b52">12</span> threads
+Compressing objects: 100% <span style="color:#728e00">(</span>6/6<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Writing objects: 100% <span style="color:#728e00">(</span>7/7<span style="color:#728e00">)</span>, 1.09 KiB | 1.09 MiB/s, <span style="color:#728e00">done</span>.
+Total <span style="color:#8a7b52">7</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>, reused <span style="color:#8a7b52">0</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>
 To http://10.48.109.16/cisco/terraform-aci.git
- * <span style="color:#666">[</span>new branch<span style="color:#666">]</span>      master -&gt; master
-Branch <span style="color:#ba2121">&#39;master&#39;</span> <span style="color:#008000">set</span> up to track remote branch <span style="color:#ba2121">&#39;master&#39;</span> from <span style="color:#ba2121">&#39;origin&#39;</span>.
+ * <span style="color:#728e00">[</span>new branch<span style="color:#728e00">]</span>      master -&gt; master
+Branch <span style="color:#7f8c8d">&#39;master&#39;</span> <span style="color:#728e00">set</span> up to track remote branch <span style="color:#7f8c8d">&#39;master&#39;</span> from <span style="color:#7f8c8d">&#39;origin&#39;</span>.
 </code></pre></div><p><img src="/images/2019-11-29-3.png" alt="gitlab"></p>
 <h3 id="gitlab-cicd">Gitlab CI/CD</h3>
 <p>As we learned in earlier posts, we need to create a ‘.gitlab-ci.yaml’ with the following content. It does define a number of stages, essentially to do a ‘terraform init’, ‘terraform plan’ and ‘terraform apply’.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">image:
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">image:
   name: hashicorp/terraform:light
   entrypoint:
-    - <span style="color:#ba2121">&#39;/usr/bin/env&#39;</span>
-    - <span style="color:#ba2121">&#39;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</span>
+    - <span style="color:#7f8c8d">&#39;/usr/bin/env&#39;</span>
+    - <span style="color:#7f8c8d">&#39;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</span>
 
 before_script:
   - rm -rf .terraform
   - terraform --version
-  - <span style="color:#008000">export</span> AWS_ACCESS_KEY_ID
-  - <span style="color:#008000">export</span> AWS_SECRET_ACCESS_KEY
+  - <span style="color:#728e00">export</span> AWS_ACCESS_KEY_ID
+  - <span style="color:#728e00">export</span> AWS_SECRET_ACCESS_KEY
   - terraform init
 
 stages:
@@ -171,7 +178,7 @@ validate:
 plan:
   stage: plan
   script:
-    - terraform plan -out <span style="color:#ba2121">&#34;planfile&#34;</span>
+    - terraform plan -out <span style="color:#7f8c8d">&#34;planfile&#34;</span>
   dependencies:
     - validate
   artifacts:
@@ -181,23 +188,23 @@ plan:
 apply:
   stage: apply
   script:
-    - terraform apply -input<span style="color:#666">=</span><span style="color:#008000">false</span> <span style="color:#ba2121">&#34;planfile&#34;</span>
+    - terraform apply -input<span style="color:#728e00">=</span><span style="color:#728e00">false</span> <span style="color:#7f8c8d">&#34;planfile&#34;</span>
   dependencies:
     - plan
   when: manual
 </code></pre></div><p>Save the .gitlab-ci.yaml into the same folder as the rest of your Terraform files and check this file in with Gitlab (just follow the 3 commands as mentioned earlier).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git add .
-WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git commit -m <span style="color:#ba2121">&#34;Adding CICD file&#34;</span>
-<span style="color:#666">[</span>master 2d9fae2<span style="color:#666">]</span> Adding CICD file
- <span style="color:#666">1</span> file changed, <span style="color:#666">27</span> insertions<span style="color:#666">(</span>+<span style="color:#666">)</span>
- create mode <span style="color:#666">100644</span> .gitlab-ci.yml
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git add .
+WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git commit -m <span style="color:#7f8c8d">&#34;Adding CICD file&#34;</span>
+<span style="color:#728e00">[</span>master 2d9fae2<span style="color:#728e00">]</span> Adding CICD file
+ <span style="color:#8a7b52">1</span> file changed, <span style="color:#8a7b52">27</span> insertions<span style="color:#728e00">(</span>+<span style="color:#728e00">)</span>
+ create mode <span style="color:#8a7b52">100644</span> .gitlab-ci.yml
 WAUTERW-M-65P7:ACI__Terraform_Gitlab wauterw$ git push origin master
-Enumerating objects: 4, <span style="color:#008000;font-weight:bold">done</span>.
-Counting objects: 100% <span style="color:#666">(</span>4/4<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Delta compression using up to <span style="color:#666">12</span> threads
-Compressing objects: 100% <span style="color:#666">(</span>3/3<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Writing objects: 100% <span style="color:#666">(</span>3/3<span style="color:#666">)</span>, <span style="color:#666">521</span> bytes | 521.00 KiB/s, <span style="color:#008000;font-weight:bold">done</span>.
-Total <span style="color:#666">3</span> <span style="color:#666">(</span>delta 1<span style="color:#666">)</span>, reused <span style="color:#666">0</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>
+Enumerating objects: 4, <span style="color:#728e00">done</span>.
+Counting objects: 100% <span style="color:#728e00">(</span>4/4<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Delta compression using up to <span style="color:#8a7b52">12</span> threads
+Compressing objects: 100% <span style="color:#728e00">(</span>3/3<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Writing objects: 100% <span style="color:#728e00">(</span>3/3<span style="color:#728e00">)</span>, <span style="color:#8a7b52">521</span> bytes | 521.00 KiB/s, <span style="color:#728e00">done</span>.
+Total <span style="color:#8a7b52">3</span> <span style="color:#728e00">(</span>delta 1<span style="color:#728e00">)</span>, reused <span style="color:#8a7b52">0</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>
 To http://10.48.109.16/cisco/terraform-aci.git
    5fc2d86..2d9fae2  master -&gt; master
 </code></pre></div><p>After this is done, your repo will look as follows:
@@ -212,17 +219,17 @@ To http://10.48.109.16/cisco/terraform-aci.git
 <img src="/images/2019-11-29-7.png" alt="gitlab"></p>
 <h3 id="destroy-aci-configuration">Destroy ACI configuration</h3>
 <p>Let’s now use a pipeline to destroy the network constructs on ACI automatically.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">image:
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">image:
   name: hashicorp/terraform:light
   entrypoint:
-    - <span style="color:#ba2121">&#39;/usr/bin/env&#39;</span>
-    - <span style="color:#ba2121">&#39;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</span>
+    - <span style="color:#7f8c8d">&#39;/usr/bin/env&#39;</span>
+    - <span style="color:#7f8c8d">&#39;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</span>
 
 before_script:
   - rm -rf .terraform
   - terraform --version
-  - <span style="color:#008000">export</span> AWS_ACCESS_KEY_ID
-  - <span style="color:#008000">export</span> AWS_SECRET_ACCESS_KEY
+  - <span style="color:#728e00">export</span> AWS_ACCESS_KEY_ID
+  - <span style="color:#728e00">export</span> AWS_SECRET_ACCESS_KEY
   - terraform init
 
 stages:
@@ -303,16 +310,16 @@ destroy:
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -321,6 +328,9 @@ destroy:
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -328,6 +338,9 @@ destroy:
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -357,14 +370,19 @@ destroy:
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -373,14 +391,15 @@ destroy:
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

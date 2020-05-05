@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -144,57 +151,60 @@ Successfully installed bcrypt-3.1.7 cffi-1.14.0 cryptography-2.8 future-0.18.2 n
 <li>import the ConnectHandler library. <code>from netmiko import Netmiko</code> would become <code>from netmiko import ConnectHandler</code>.</li>
 </ul>
 <p>In the below example, we will simply use the Netmiko method.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">netmiko</span> <span style="color:#008000;font-weight:bold">import</span> Netmiko
+<blockquote>
+<p>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">netmiko</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Netmiko</span>
 
-devices <span style="color:#666">=</span> [{
-    <span style="color:#ba2121">&#34;device_type&#34;</span>: <span style="color:#ba2121">&#34;cisco_xr&#34;</span>,
-    <span style="color:#ba2121">&#34;ip&#34;</span>: <span style="color:#ba2121">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;username&#34;</span>: <span style="color:#ba2121">&#34;admin&#34;</span>,
-    <span style="color:#ba2121">&#34;password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#ba2121">&#34;8181&#34;</span>,
+<span style="color:#434f54">devices</span> <span style="color:#728e00">=</span> [{
+    <span style="color:#7f8c8d">&#34;device_type&#34;</span>: <span style="color:#7f8c8d">&#34;cisco_xr&#34;</span>,
+    <span style="color:#7f8c8d">&#34;ip&#34;</span>: <span style="color:#7f8c8d">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#7f8c8d">&#34;8181&#34;</span>,
 }, {
-    <span style="color:#ba2121">&#34;device_type&#34;</span>: <span style="color:#ba2121">&#34;cisco_xe&#34;</span>,
-    <span style="color:#ba2121">&#34;ip&#34;</span>: <span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;username&#34;</span>: <span style="color:#ba2121">&#34;developer&#34;</span>,
-    <span style="color:#ba2121">&#34;password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#ba2121">&#34;8181&#34;</span>,
+    <span style="color:#7f8c8d">&#34;device_type&#34;</span>: <span style="color:#7f8c8d">&#34;cisco_xe&#34;</span>,
+    <span style="color:#7f8c8d">&#34;ip&#34;</span>: <span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#7f8c8d">&#34;8181&#34;</span>,
 }]
 
-<span style="color:#008000;font-weight:bold">for</span> device <span style="color:#a2f;font-weight:bold">in</span> devices:
-    net_connect <span style="color:#666">=</span> Netmiko(<span style="color:#666">**</span>device)
-    output <span style="color:#666">=</span> net_connect<span style="color:#666">.</span>send_command(<span style="color:#ba2121">&#34;show version&#34;</span>)
-    net_connect<span style="color:#666">.</span>disconnect()
-    result <span style="color:#666">=</span> output<span style="color:#666">.</span>find(<span style="color:#ba2121">&#39;uptime is&#39;</span>)
-    begin <span style="color:#666">=</span> <span style="color:#008000">int</span>(result)
-    end <span style="color:#666">=</span> begin <span style="color:#666">+</span> <span style="color:#666">38</span>
-    <span style="color:#008000;font-weight:bold">print</span>(device[<span style="color:#ba2121">&#39;ip&#39;</span>] <span style="color:#666">+</span> <span style="color:#ba2121">&#34; =&gt; &#34;</span> <span style="color:#666">+</span> output[<span style="color:#008000">int</span>(begin):<span style="color:#008000">int</span>(end)])
+<span style="color:#728e00">for</span> <span style="color:#434f54">device</span> <span style="color:#728e00">in</span> <span style="color:#434f54">devices</span>:
+    <span style="color:#434f54">net_connect</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Netmiko</span>(<span style="color:#728e00">**</span><span style="color:#434f54">device</span>)
+    <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">send_command</span>(<span style="color:#7f8c8d">&#34;show version&#34;</span>)
+    <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">disconnect</span>()
+    <span style="color:#434f54">result</span> <span style="color:#728e00">=</span> <span style="color:#434f54">output</span><span style="color:#728e00">.</span><span style="color:#434f54">find</span>(<span style="color:#7f8c8d">&#39;uptime is&#39;</span>)
+    <span style="color:#434f54">begin</span> <span style="color:#728e00">=</span> <span style="color:#728e00">int</span>(<span style="color:#434f54">result</span>)
+    <span style="color:#434f54">end</span> <span style="color:#728e00">=</span> <span style="color:#434f54">begin</span> <span style="color:#728e00">+</span> <span style="color:#8a7b52">38</span>
+    <span style="color:#728e00">print</span>(<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>] <span style="color:#728e00">+</span> <span style="color:#7f8c8d">&#34; =&gt; &#34;</span> <span style="color:#728e00">+</span> <span style="color:#434f54">output</span>[<span style="color:#728e00">int</span>(<span style="color:#434f54">begin</span>):<span style="color:#728e00">int</span>(<span style="color:#434f54">end</span>)])
 </code></pre></div><p>In the Github repo, the above script can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netmiko_Introduction/show_uptime.py">here</a>. Another simple and straightforward example can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netmiko_Introduction/show_ip_int_brief.py">here</a>. It&rsquo;s a small variant on the above script and retrieves an overview of all interfaces on both devices.</p>
 <h3 id="use-case-set-interface-description">Use case: Set interface description</h3>
 <p>In the previous use case, we have shown an example to execute some simple &ldquo;show&rdquo; commands, in other words to <code>read</code> information from the device. In this use case, we want also to give an example on how to <code>write</code> information to the devices.</p>
 <p>We will essentially change the interface description of a particular port. It follows the same approach as the previous example. We store the devices in a list of dictionaries and we loop over them in a for-loop. Inside the for-loop, we use the <code>send_config_set</code> method (see documentation <a href="https://ktbyers.github.io/netmiko/docs/netmiko/index.html">here</a>). At a minimum, we need to pass the config_commands, which is an iterable contain all of the configuration commands. Hence, we have created a list called <code>description_config</code> which contains a list of all the commands we want to execute (in order).</p>
 <p>Important to understand is that NetMiko will already bring you in the <code>conf t</code> state. Next, we will go into &lsquo;interface GigabitEthernet3&rsquo; and then set the description.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">netmiko</span> <span style="color:#008000;font-weight:bold">import</span> ConnectHandler
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">netmiko</span> <span style="color:#728e00">import</span> <span style="color:#434f54">ConnectHandler</span>
 
-devices <span style="color:#666">=</span> [{
-   <span style="color:#ba2121">&#34;device_type&#34;</span>: <span style="color:#ba2121">&#34;cisco_xe&#34;</span>,
-   <span style="color:#ba2121">&#34;ip&#34;</span>: <span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
-   <span style="color:#ba2121">&#34;username&#34;</span>: <span style="color:#ba2121">&#34;developer&#34;</span>,
-   <span style="color:#ba2121">&#34;password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-   <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#ba2121">&#34;8181&#34;</span>,
+<span style="color:#434f54">devices</span> <span style="color:#728e00">=</span> [{
+   <span style="color:#7f8c8d">&#34;device_type&#34;</span>: <span style="color:#7f8c8d">&#34;cisco_xe&#34;</span>,
+   <span style="color:#7f8c8d">&#34;ip&#34;</span>: <span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
+   <span style="color:#7f8c8d">&#34;username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+   <span style="color:#7f8c8d">&#34;password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+   <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#7f8c8d">&#34;8181&#34;</span>,
 }]
 
-description <span style="color:#666">=</span> <span style="color:#ba2121">&#39;Description set with Netmiko&#39;</span>
+<span style="color:#434f54">description</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#39;Description set with Netmiko&#39;</span>
 
-description_config <span style="color:#666">=</span> [
-    <span style="color:#ba2121">&#34;interface GigabitEthernet3&#34;</span>,
-    f<span style="color:#ba2121">&#34;description {description}&#34;</span>,
+<span style="color:#434f54">description_config</span> <span style="color:#728e00">=</span> [
+    <span style="color:#7f8c8d">&#34;interface GigabitEthernet3&#34;</span>,
+    <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;description {description}&#34;</span>,
 ]
 
-<span style="color:#008000;font-weight:bold">for</span> device <span style="color:#a2f;font-weight:bold">in</span> devices:
-   net_connect <span style="color:#666">=</span> ConnectHandler(<span style="color:#666">**</span>device)
-   output <span style="color:#666">=</span> net_connect<span style="color:#666">.</span>send_config_set(description_config)
-   <span style="color:#008000;font-weight:bold">print</span>(output)
-   net_connect<span style="color:#666">.</span>disconnect()
+<span style="color:#728e00">for</span> <span style="color:#434f54">device</span> <span style="color:#728e00">in</span> <span style="color:#434f54">devices</span>:
+   <span style="color:#434f54">net_connect</span> <span style="color:#728e00">=</span> <span style="color:#434f54">ConnectHandler</span>(<span style="color:#728e00">**</span><span style="color:#434f54">device</span>)
+   <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">send_config_set</span>(<span style="color:#434f54">description_config</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">output</span>)
+   <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">disconnect</span>()
 </code></pre></div><p>Before executing this script, let&rsquo;s check the interface descriptions (pay attention to &lsquo;Gi3&rsquo;) by just logging into the device using a terminal.</p>
 <p><img src="/images/2020-03-25-1.png" alt="interface"></p>
 <p>Let&rsquo;s now execute our Python script.</p>
@@ -203,22 +213,22 @@ description_config <span style="color:#666">=</span> [
 <p><img src="/images/2020-03-25-3.png" alt="interface"></p>
 <h3 id="use-case-variant-to-set-interface-description">Use case: Variant to &lsquo;Set interface description&rsquo;</h3>
 <p>In the previous use case, we have read the various commands from a list we declared in our Python script. Netmiko also supports a method (<code>send_config_from_file</code> method) to read these commands from a file. It&rsquo;s pretty similar to the script we used in previous use case.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">netmiko</span> <span style="color:#008000;font-weight:bold">import</span> ConnectHandler
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">logging</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">netmiko</span> <span style="color:#728e00">import</span> <span style="color:#434f54">ConnectHandler</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">logging</span>
 
-devices <span style="color:#666">=</span> [{
-   <span style="color:#ba2121">&#34;device_type&#34;</span>: <span style="color:#ba2121">&#34;cisco_xe&#34;</span>,
-   <span style="color:#ba2121">&#34;ip&#34;</span>: <span style="color:#ba2121">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
-   <span style="color:#ba2121">&#34;username&#34;</span>: <span style="color:#ba2121">&#34;developer&#34;</span>,
-   <span style="color:#ba2121">&#34;password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-   <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#ba2121">&#34;8181&#34;</span>,
+<span style="color:#434f54">devices</span> <span style="color:#728e00">=</span> [{
+   <span style="color:#7f8c8d">&#34;device_type&#34;</span>: <span style="color:#7f8c8d">&#34;cisco_xe&#34;</span>,
+   <span style="color:#7f8c8d">&#34;ip&#34;</span>: <span style="color:#7f8c8d">&#34;ios-xe-mgmt-latest.cisco.com&#34;</span>,
+   <span style="color:#7f8c8d">&#34;username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+   <span style="color:#7f8c8d">&#34;password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+   <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#7f8c8d">&#34;8181&#34;</span>,
 }]
 
-<span style="color:#008000;font-weight:bold">for</span> device <span style="color:#a2f;font-weight:bold">in</span> devices:
-   net_connect <span style="color:#666">=</span> ConnectHandler(<span style="color:#666">**</span>device)
-   output <span style="color:#666">=</span> net_connect<span style="color:#666">.</span>send_config_from_file(<span style="color:#ba2121">&#39;changes.txt&#39;</span>)
-   <span style="color:#008000;font-weight:bold">print</span>(output)
-   net_connect<span style="color:#666">.</span>disconnect()
+<span style="color:#728e00">for</span> <span style="color:#434f54">device</span> <span style="color:#728e00">in</span> <span style="color:#434f54">devices</span>:
+   <span style="color:#434f54">net_connect</span> <span style="color:#728e00">=</span> <span style="color:#434f54">ConnectHandler</span>(<span style="color:#728e00">**</span><span style="color:#434f54">device</span>)
+   <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">send_config_from_file</span>(<span style="color:#7f8c8d">&#39;changes.txt&#39;</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">output</span>)
+   <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">disconnect</span>()
 </code></pre></div><p>As you can see, the commands are read from the changes.txt file. See below the contents of that file:</p>
 <pre><code># Changes.txt
 interface GigabitEthernet3
@@ -241,85 +251,85 @@ description This is set via Netmiko and text file
 <li>Working with Jinja2: see <a href="https://blog.wimwauters.com/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/">here</a></li>
 </ul>
 <p>Let&rsquo;s have a look at the YML file first:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#008000;font-weight:bold">interfaces</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>Loopback2001<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">description</span>:<span style="color:#bbb"> </span>Description<span style="color:#bbb"> </span>for<span style="color:#bbb"> </span>Loopback<span style="color:#bbb"> </span><span style="color:#666">2000</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_addr</span>:<span style="color:#bbb"> </span><span style="color:#666">200.200.200.200</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_mask</span>:<span style="color:#bbb"> </span><span style="color:#666">255.255.255.255</span><span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb">  </span>Loopback2002<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">description</span>:<span style="color:#bbb"> </span>Description<span style="color:#bbb"> </span>for<span style="color:#bbb"> </span>Loopback<span style="color:#bbb"> </span><span style="color:#666">2001</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_addr</span>:<span style="color:#bbb"> </span><span style="color:#666">200.200.200.201</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_mask</span>:<span style="color:#bbb"> </span><span style="color:#666">255.255.255.255</span><span style="color:#bbb">
-</span></code></pre></div><p>As mentioned, this file contains the required information to configure the loopback interfaces. We will also read the host information from a file called hosts.yml.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#408080;font-style:italic"># Define list of hosts</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span>---<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">hosts</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>sbx-iosxr-mgmt.cisco.com<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">username</span>:<span style="color:#bbb"> </span>admin<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">password</span>:<span style="color:#bbb"> </span>C1sco12345<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">port</span>:<span style="color:#bbb"> </span><span style="color:#666">8181</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">cmd</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;show running-config&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">type</span>:<span style="color:#bbb"> </span>cisco_xr<span style="color:#bbb">
-</span><span style="color:#bbb">  </span>- <span style="color:#008000;font-weight:bold">name</span>:<span style="color:#bbb"> </span>ios-xe-mgmt-latest.cisco.com<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">username</span>:<span style="color:#bbb"> </span>developer<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">password</span>:<span style="color:#bbb"> </span>C1sco12345<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">port</span>:<span style="color:#bbb"> </span><span style="color:#666">8181</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">cmd</span>:<span style="color:#bbb"> </span><span style="color:#ba2121">&#34;show running-config&#34;</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">type</span>:<span style="color:#bbb"> </span>cisco_xe<span style="color:#bbb">
-</span></code></pre></div><p>The Jinja2 file is relative straightforward as well. Essentially, we use a for loop to iterate over the loopback interfaces. Each time, we use the data that is passed to this template from the Python file.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#bc7a00">{%</span> <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">interface</span> <span style="color:#008000;font-weight:bold">in</span> <span style="color:#19177c">data.interfaces</span> <span style="color:#bc7a00">%}</span>
-interface <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.name</span><span style="color:#bc7a00">}}</span>
-description <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.description</span><span style="color:#bc7a00">}}</span>
- ip address <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_addr</span><span style="color:#bc7a00">}}</span> <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_mask</span><span style="color:#bc7a00">}}</span>
-<span style="color:#bc7a00">{%</span> <span style="color:#008000;font-weight:bold">endfor</span> <span style="color:#bc7a00">%}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#728e00">interfaces</span>:
+  - <span style="color:#728e00">name</span>: Loopback2001
+    <span style="color:#728e00">description</span>: Description for Loopback <span style="color:#8a7b52">2000</span>
+    <span style="color:#728e00">ipv4_addr</span>: <span style="color:#8a7b52">200.200.200.200</span>
+    <span style="color:#728e00">ipv4_mask</span>: <span style="color:#8a7b52">255.255.255.255</span>
+  - <span style="color:#728e00">name</span>:  Loopback2002
+    <span style="color:#728e00">description</span>: Description for Loopback <span style="color:#8a7b52">2001</span>
+    <span style="color:#728e00">ipv4_addr</span>: <span style="color:#8a7b52">200.200.200.201</span>
+    <span style="color:#728e00">ipv4_mask</span>: <span style="color:#8a7b52">255.255.255.255</span>
+</code></pre></div><p>As mentioned, this file contains the required information to configure the loopback interfaces. We will also read the host information from a file called hosts.yml.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#95a5a6"># Define list of hosts</span>
+---
+<span style="color:#728e00">hosts</span>:
+  - <span style="color:#728e00">name</span>: sbx-iosxr-mgmt.cisco.com
+    <span style="color:#728e00">username</span>: <span style="color:#728e00">***</span>
+    <span style="color:#728e00">password</span>: <span style="color:#728e00">***</span>
+    <span style="color:#728e00">port</span>: <span style="color:#8a7b52">8181</span>
+    <span style="color:#728e00">cmd</span>: <span style="color:#7f8c8d">&#34;show running-config&#34;</span>
+    <span style="color:#728e00">type</span>: cisco_xr
+  - <span style="color:#728e00">name</span>: ios-xe-mgmt-latest.cisco.com
+    <span style="color:#728e00">username</span>: <span style="color:#728e00">***</span>
+    <span style="color:#728e00">password</span>: <span style="color:#728e00">***</span>
+    <span style="color:#728e00">port</span>: <span style="color:#8a7b52">8181</span>
+    <span style="color:#728e00">cmd</span>: <span style="color:#7f8c8d">&#34;show running-config&#34;</span>
+    <span style="color:#728e00">type</span>: cisco_xe
+</code></pre></div><p>The Jinja2 file is relative straightforward as well. Essentially, we use a for loop to iterate over the loopback interfaces. Each time, we use the data that is passed to this template from the Python file.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#728e00">{%</span> <span style="color:#728e00">for</span> <span style="color:#434f54">interface</span> <span style="color:#728e00">in</span> <span style="color:#434f54">data.interfaces</span> <span style="color:#728e00">%}</span>
+interface <span style="color:#728e00">{{</span><span style="color:#434f54">interface.name</span><span style="color:#728e00">}}</span>
+description <span style="color:#728e00">{{</span><span style="color:#434f54">interface.description</span><span style="color:#728e00">}}</span>
+ ip address <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_addr</span><span style="color:#728e00">}}</span> <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_mask</span><span style="color:#728e00">}}</span>
+<span style="color:#728e00">{%</span> <span style="color:#728e00">endfor</span> <span style="color:#728e00">%}</span>
 </code></pre></div><p>The Python file is first reading in the host information from the hosts.yml file. The interface information we read from the YML file. The host and interface information is now available to us in a Python dictionary.</p>
 <p>Next, we use the Jinja2 library to render the template with the variables. The end result of this is that <code>loopback_config</code> contains the completed (absolute) file with all loopback information.</p>
 <p>Next, we simply loop over the devices (hosts) and for each host we create an SSH connection via Netmiko. And finally we use the <code>send_config_set</code> method to which we pass the loopback_config information (which contains nothing more than the commands to configure a loopback interface).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">yaml</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">netmiko</span> <span style="color:#008000;font-weight:bold">import</span> Netmiko
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment, FileSystemLoader
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">yaml</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">netmiko</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Netmiko</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>, <span style="color:#434f54">FileSystemLoader</span>
 
-hosts <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(<span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;hosts.yml&#39;</span>), Loader<span style="color:#666">=</span>yaml<span style="color:#666">.</span>SafeLoader)
-interfaces <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(<span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;loopback.yml&#39;</span>), Loader<span style="color:#666">=</span>yaml<span style="color:#666">.</span>SafeLoader)
+<span style="color:#434f54">hosts</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;hosts.yml&#39;</span>), <span style="color:#434f54">Loader</span><span style="color:#728e00">=</span><span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
+<span style="color:#434f54">interfaces</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;loopback.yml&#39;</span>), <span style="color:#434f54">Loader</span><span style="color:#728e00">=</span><span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
 
-env <span style="color:#666">=</span> Environment(loader <span style="color:#666">=</span> FileSystemLoader(<span style="color:#ba2121">&#39;.&#39;</span>), trim_blocks<span style="color:#666">=</span>True, autoescape<span style="color:#666">=</span>True)
-template <span style="color:#666">=</span> env<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#39;loopback.j2&#39;</span>)
-loopback_config <span style="color:#666">=</span> template<span style="color:#666">.</span>render(data<span style="color:#666">=</span>interfaces)
+<span style="color:#434f54">env</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span> <span style="color:#728e00">=</span> <span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;.&#39;</span>), <span style="color:#434f54">trim_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">autoescape</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">env</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#39;loopback.j2&#39;</span>)
+<span style="color:#434f54">loopback_config</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">interfaces</span>)
 
-<span style="color:#008000;font-weight:bold">for</span> host <span style="color:#a2f;font-weight:bold">in</span> hosts[<span style="color:#ba2121">&#34;hosts&#34;</span>]:
-   net_connect <span style="color:#666">=</span> Netmiko(
-      host <span style="color:#666">=</span> host[<span style="color:#ba2121">&#34;name&#34;</span>],
-      username <span style="color:#666">=</span> host[<span style="color:#ba2121">&#34;username&#34;</span>],
-      password <span style="color:#666">=</span> host[<span style="color:#ba2121">&#34;password&#34;</span>],
-      port <span style="color:#666">=</span> host[<span style="color:#ba2121">&#34;port&#34;</span>],
-      device_type <span style="color:#666">=</span> host[<span style="color:#ba2121">&#34;type&#34;</span>]
+<span style="color:#728e00">for</span> <span style="color:#434f54">host</span> <span style="color:#728e00">in</span> <span style="color:#434f54">hosts</span>[<span style="color:#7f8c8d">&#34;hosts&#34;</span>]:
+   <span style="color:#434f54">net_connect</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Netmiko</span>(
+      <span style="color:#434f54">host</span> <span style="color:#728e00">=</span> <span style="color:#434f54">host</span>[<span style="color:#7f8c8d">&#34;name&#34;</span>],
+      <span style="color:#434f54">username</span> <span style="color:#728e00">=</span> <span style="color:#434f54">host</span>[<span style="color:#7f8c8d">&#34;username&#34;</span>],
+      <span style="color:#434f54">password</span> <span style="color:#728e00">=</span> <span style="color:#434f54">host</span>[<span style="color:#7f8c8d">&#34;password&#34;</span>],
+      <span style="color:#434f54">port</span> <span style="color:#728e00">=</span> <span style="color:#434f54">host</span>[<span style="color:#7f8c8d">&#34;port&#34;</span>],
+      <span style="color:#434f54">device_type</span> <span style="color:#728e00">=</span> <span style="color:#434f54">host</span>[<span style="color:#7f8c8d">&#34;type&#34;</span>]
    )
-   <span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;Logged into {host[&#39;name&#39;]} successfully&#34;</span>)
-   output <span style="color:#666">=</span> net_connect<span style="color:#666">.</span>send_config_set(loopback_config<span style="color:#666">.</span>split(<span style="color:#ba2121">&#34;</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">&#34;</span>))
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Logged into {host[&#39;name&#39;]} successfully&#34;</span>)
+   <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">net_connect</span><span style="color:#728e00">.</span><span style="color:#434f54">send_config_set</span>(<span style="color:#434f54">loopback_config</span><span style="color:#728e00">.</span><span style="color:#434f54">split</span>(<span style="color:#7f8c8d">&#34;</span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">&#34;</span>))
 </code></pre></div><p>Let&rsquo;s run this example.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>base<span style="color:#666">)</span> WAUTERW-M-65P7:test wauterw$ python3 script.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>base<span style="color:#728e00">)</span> WAUTERW-M-65P7:test wauterw$ python3 script.py 
 ***Truncated***
 Logged into ios-xe-mgmt-latest.cisco.com successfully
 config term
 Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1<span style="color:#666">(</span>config<span style="color:#666">)</span><span style="color:#408080;font-style:italic">#interface Loopback3001</span>
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span><span style="color:#408080;font-style:italic">#description Description for Loopback 3001</span>
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span><span style="color:#408080;font-style:italic"># ip address 200.200.200.230 255.255.255.255</span>
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span><span style="color:#408080;font-style:italic">#interface Loopback3002</span>
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span><span style="color:#408080;font-style:italic">#description Description for Loopback 3002</span>
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span><span style="color:#408080;font-style:italic"># ip address 200.200.200.231 255.255.255.255</span>
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span>#
-csr1000v-1<span style="color:#666">(</span>config-if<span style="color:#666">)</span><span style="color:#408080;font-style:italic">#end</span>
+csr1000v-1<span style="color:#728e00">(</span>config<span style="color:#728e00">)</span><span style="color:#95a5a6">#interface Loopback3001</span>
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span><span style="color:#95a5a6">#description Description for Loopback 3001</span>
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span><span style="color:#95a5a6"># ip address 200.200.200.230 255.255.255.255</span>
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span><span style="color:#95a5a6">#interface Loopback3002</span>
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span><span style="color:#95a5a6">#description Description for Loopback 3002</span>
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span><span style="color:#95a5a6"># ip address 200.200.200.231 255.255.255.255</span>
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span>#
+csr1000v-1<span style="color:#728e00">(</span>config-if<span style="color:#728e00">)</span><span style="color:#95a5a6">#end</span>
 </code></pre></div><p>To see if the interfaces were correctly added, we can use a script we mentioned earlier in this blogpost, e.g <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netmiko_Introduction/show_ip_int_brief.py">this</a> one.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Interface              IP-Address      OK? Method Status                Protocol
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES other  up                    up      
 GigabitEthernet2       10.121.23.120   YES other  up                    up      
 GigabitEthernet2.4     unassigned      YES manual deleted               down    
 ***Truncated***     
 Loopback3001           200.200.200.230 YES manual up                    up      
 Loopback3002           200.200.200.231 YES manual up                    up      
-Port-channel1          unassigned      YES <span style="color:#008000">unset</span>  down                  down    
-VirtualPortGroup0      10.10.20.48     YES <span style="color:#008000">unset</span>  up                    up   
+Port-channel1          unassigned      YES <span style="color:#728e00">unset</span>  down                  down    
+VirtualPortGroup0      10.10.20.48     YES <span style="color:#728e00">unset</span>  up                    up   
 </code></pre></div><p>This particular example can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction/loopback">here</a>.</p>
 <p>That&rsquo;s it for this post. Hope you liked this little introduction to Netmiko. To have a view on all examples discussed in this post, you can check out the Github repo <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction">here</a>.</p>
 
@@ -379,16 +389,16 @@ VirtualPortGroup0      10.10.20.48     YES <span style="color:#008000">unset</sp
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -397,6 +407,9 @@ VirtualPortGroup0      10.10.20.48     YES <span style="color:#008000">unset</sp
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -404,6 +417,9 @@ VirtualPortGroup0      10.10.20.48     YES <span style="color:#008000">unset</sp
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -433,14 +449,19 @@ VirtualPortGroup0      10.10.20.48     YES <span style="color:#008000">unset</sp
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -449,14 +470,15 @@ VirtualPortGroup0      10.10.20.48     YES <span style="color:#008000">unset</sp
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

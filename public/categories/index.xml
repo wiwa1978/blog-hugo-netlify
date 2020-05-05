@@ -6,15 +6,24 @@
     <description>Recent content in Categories on Technology Blog Wim</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 09:48:50 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2020 10:32:50 +0100</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>All</title>
+      <link>/categories/all/</link>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/categories/all/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Network Programming</title>
       <link>/categories/network-programming/</link>
-      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
       
       <guid>/categories/network-programming/</guid>
       <description></description>
@@ -23,7 +32,7 @@
     <item>
       <title>Programming</title>
       <link>/categories/programming/</link>
-      <pubDate>Fri, 17 Apr 2020 09:48:50 +0100</pubDate>
+      <pubDate>Wed, 29 Apr 2020 10:32:50 +0100</pubDate>
       
       <guid>/categories/programming/</guid>
       <description></description>
@@ -89,6 +98,15 @@
       <pubDate>Thu, 02 Jul 2015 20:19:50 +0100</pubDate>
       
       <guid>/categories/web-development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Development</title>
+      <link>/categories/development/</link>
+      <pubDate>Sat, 12 Apr 2014 20:19:50 +0100</pubDate>
+      
+      <guid>/categories/development/</guid>
       <description></description>
     </item>
     

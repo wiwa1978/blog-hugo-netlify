@@ -40,6 +40,15 @@ It spiked my interest as these days I&amp;rsquo;m going through the major networ
     </item>
     
     <item>
+      <title>RESTCONF with Python</title>
+      <link>/networkprogrammability/2020-04-04_restconf_python/</link>
+      <pubDate>Sat, 04 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-04_restconf_python/</guid>
+      <description>Installation In this post, we went over a number of use cases. We used POSTMAN to understand the details. Here is the list of use cases for your convenience.</description>
+    </item>
+    
+    <item>
       <title>RESTCONF intro with Postman - Part 2</title>
       <link>/networkprogrammability/2020-04-03_restconf_introduction_part2/</link>
       <pubDate>Fri, 03 Apr 2020 12:32:50 +0100</pubDate>
@@ -114,7 +123,7 @@ It spiked my interest as these days I&amp;rsquo;m going through the major networ
     </item>
     
     <item>
-      <title>Create Cisco ACI network with Python (Requests)</title>
+      <title>Interact with Cisco ACI network through Python (Requests)</title>
       <link>/networkprogrammability/2020-03-19-aci_python_requests/</link>
       <pubDate>Thu, 19 Mar 2020 07:39:50 +0100</pubDate>
       
@@ -150,12 +159,30 @@ It spiked my interest as these days I&amp;rsquo;m going through the major networ
     </item>
     
     <item>
+      <title>Parse JSON file with Python</title>
+      <link>/networkprogrammability/2020-01-11-parse_json_python/</link>
+      <pubDate>Sat, 11 Jan 2020 10:19:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-01-11-parse_json_python/</guid>
+      <description>Introduction In this post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant.</description>
+    </item>
+    
+    <item>
       <title>Parse XML file with Python</title>
       <link>/networkprogrammability/2020-01-09-parse_xml_python/</link>
       <pubDate>Thu, 09 Jan 2020 10:19:50 +0100</pubDate>
       
       <guid>/networkprogrammability/2020-01-09-parse_xml_python/</guid>
       <description>Introduction We&amp;rsquo;ll focus in this post on how to parse some data structures in Python. We&amp;rsquo;ll start with XML, but in next posts we will also handle JSON and YAML.</description>
+    </item>
+    
+    <item>
+      <title>Python Webscraping with BeautifulSoup</title>
+      <link>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</link>
+      <pubDate>Sat, 12 Apr 2014 20:19:50 +0100</pubDate>
+      
+      <guid>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</guid>
+      <description>Quick note: the original post dates from 12-04-2014 but got updated at 20-04-2020 with latest versions and it was essentially written from scratch again.</description>
     </item>
     
   </channel>

@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -117,40 +124,40 @@ if (!doNotTrack) {
 <h3 id="creating-the-terraform-scripts">Creating the Terraform scripts</h3>
 <p>The below script will create a droplet called server 1 on DigitalOcean and will apply also a tag ‘webserver’ to the droplet.</p>
 <p>Create a file and copy/past the below information. Note that the name of the file does not really matter as long as the extension is &lsquo;tf&rsquo;.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">provider</span><span style=""> &#34;digitalocean&#34;</span>{
-<span style="color:#7d9029">  token</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">do_token</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#00979d">provider</span> <span style="color:#7f8c8d">&#34;digitalocean&#34;</span>{
+  <span style="color:#434f54">token</span> = <span style="color:#728e00">var</span>.<span style="color:#728e00">do_token</span>
 }
-
-<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;digitalocean_droplet&#34; &#34;myserver&#34;</span> {
-<span style="color:#7d9029">   count</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">number_servers</span>
-<span style="color:#7d9029">   name</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;server-${count.index}&#34;</span>
-<span style="color:#7d9029">   image</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;ubuntu-18-04-x64&#34;</span>
-<span style="color:#7d9029">   size</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;1gb&#34;</span>
-<span style="color:#7d9029">   region</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">region</span>
-<span style="color:#7d9029">   ssh_keys</span> <span style="color:#666">=</span> [
-        <span style="">var</span>.<span style="">ssh_fingerprint</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">resource</span> <span style="color:#7f8c8d">&#34;digitalocean_droplet&#34;</span> <span style="color:#7f8c8d">&#34;myserver&#34;</span> {
+   <span style="color:#434f54">count</span> = <span style="color:#728e00">var</span>.<span style="color:#728e00">number_servers</span>
+   <span style="color:#434f54">name</span> = <span style="color:#7f8c8d">&#34;server-</span><span style="color:#7f8c8d">${</span><span style="color:#728e00">count</span>.<span style="color:#728e00">index</span><span style="color:#7f8c8d">}</span><span style="color:#7f8c8d">&#34;</span>
+   <span style="color:#434f54">image</span> = <span style="color:#7f8c8d">&#34;ubuntu-18-04-x64&#34;</span>
+   <span style="color:#434f54">size</span> = <span style="color:#7f8c8d">&#34;1gb&#34;</span>
+   <span style="color:#434f54">region</span> = <span style="color:#728e00">var</span>.<span style="color:#728e00">region</span>
+   <span style="color:#434f54">ssh_keys</span> = [
+        <span style="color:#728e00">var</span>.<span style="color:#728e00">ssh_fingerprint</span>
    ]
-<span style="color:#7d9029">   tags</span>   <span style="color:#666">=</span> [<span style="color:#ba2121">&#34;${digitalocean_tag.webserver.id}&#34;</span>]  
+   <span style="color:#434f54">tags</span>   = [<span style="color:#7f8c8d">&#34;</span><span style="color:#7f8c8d">${</span><span style="color:#728e00">digitalocean_tag</span>.<span style="color:#728e00">webserver</span>.<span style="color:#728e00">id</span><span style="color:#7f8c8d">}</span><span style="color:#7f8c8d">&#34;</span>]  
 }
-
-<span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;digitalocean_tag&#34; &#34;webserver&#34;</span> {
-<span style="color:#7d9029">    name</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;webserver&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">resource</span> <span style="color:#7f8c8d">&#34;digitalocean_tag&#34;</span> <span style="color:#7f8c8d">&#34;webserver&#34;</span> {
+    <span style="color:#434f54">name</span> = <span style="color:#7f8c8d">&#34;webserver&#34;</span>
 }
 </code></pre></div><p>And the corresponding variables file.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;do_token&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;82c33***2f56d&#34;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;do_token&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;82c33***2f56d&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;region&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;AMS3&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;region&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;AMS3&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ssh_fingerprint&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span>  <span style="color:#ba2121">&#34;5a:25:***:c9:8d:03&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ssh_fingerprint&#34;</span> {
+  <span style="color:#434f54">default</span> =  <span style="color:#7f8c8d">&#34;5a:25:***:c9:8d:03&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;number_servers&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;2&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;number_servers&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;2&#34;</span>
 }
 </code></pre></div><p>Then execute the command ‘terraform init’. This will essentially download the DigitalOcean plugin and initialise it.</p>
 <pre><code>WAUTERW-M-65P7:DigitalOcean_Terraform wauterw$ terraform init
@@ -162,100 +169,100 @@ Initializing the backend...
 Terraform has been successfully initialized!
 ***Truncated***
 </code></pre><p>Next, perform a <code>terraform plan</code> as follows.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="">WAUTERW-M-</span><span style="color:#666">65</span><span style="">P</span><span style="color:#666">7</span><span style="">:DigitalOcean_Terraform</span> <span style="">wauterw$</span> <span style="">terraform</span> <span style="">plan</span>
-<span style="">Refreshing</span> <span style="">Terraform</span> <span style="">state</span> <span style="">in-memory</span> <span style="">prior</span> <span style="">to</span> <span style="">plan</span>...
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#728e00">WAUTERW</span><span style="color:#728e00">-</span><span style="color:#728e00">M</span><span style="color:#8a7b52">-65</span><span style="color:#728e00">P7</span><span style="color:#728e00">:</span><span style="color:#728e00">DigitalOcean_Terraform</span> <span style="color:#728e00">wauterw</span><span style="color:#a61717">$</span> <span style="color:#728e00">terraform</span> <span style="color:#728e00">plan</span>
+<span style="color:#728e00">Refreshing</span> <span style="color:#728e00">Terraform</span> <span style="color:#728e00">state</span> <span style="color:#728e00">in</span><span style="color:#728e00">-</span><span style="color:#728e00">memory</span> <span style="color:#728e00">prior</span> <span style="color:#728e00">to</span> <span style="color:#728e00">plan</span>...
 
-<span style="">***Truncated***</span>
+<span style="color:#728e00">***</span><span style="color:#728e00">Truncated</span><span style="color:#728e00">***</span>
 
-<span style="">Plan:</span> <span style="color:#666">3</span> <span style="">to</span> <span style="">add</span>, <span style="color:#666">0</span> <span style="">to</span> <span style="">change</span>, <span style="color:#666">0</span> <span style="">to</span> <span style="">destroy</span>.
+<span style="color:#728e00">Plan</span><span style="color:#728e00">:</span> <span style="color:#8a7b52">3</span> <span style="color:#728e00">to</span> <span style="color:#728e00">add</span>, <span style="color:#8a7b52">0</span> <span style="color:#728e00">to</span> <span style="color:#728e00">change</span>, <span style="color:#8a7b52">0</span> <span style="color:#728e00">to</span> <span style="color:#728e00">destroy</span>.
 </code></pre></div><p>So we can see that the plan is to add three resources, essentially these are the two droplets themselves and then also the tag.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="">WAUTERW-M-</span><span style="color:#666">65</span><span style="">P</span><span style="color:#666">7</span><span style="">:DigitalOcean_Terraform</span> <span style="">wauterw$</span> <span style="">terraform</span> <span style="">apply</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#728e00">WAUTERW</span><span style="color:#728e00">-</span><span style="color:#728e00">M</span><span style="color:#8a7b52">-65</span><span style="color:#728e00">P7</span><span style="color:#728e00">:</span><span style="color:#728e00">DigitalOcean_Terraform</span> <span style="color:#728e00">wauterw</span><span style="color:#a61717">$</span> <span style="color:#728e00">terraform</span> <span style="color:#728e00">apply</span>
 
-<span style="">***Truncated***</span>
+<span style="color:#728e00">***</span><span style="color:#728e00">Truncated</span><span style="color:#728e00">***</span>
 
-<span style="">digitalocean_tag</span>.<span style="">webserver:</span> <span style="">Creating</span>...
-<span style="color:#7d9029">digitalocean_tag.webserver: Creation complete after 2s [id</span><span style="color:#666">=</span><span style="">webserver</span>]
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">0</span>]<span style="">:</span> <span style="">Creating</span>...
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">1</span>]<span style="">:</span> <span style="">Creating</span>...
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">1</span>]<span style="">:</span> <span style="">Still</span> <span style="">creating</span>... [<span style="color:#666">10</span><span style="">s</span> <span style="">elapsed</span>]
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">0</span>]<span style="">:</span> <span style="">Still</span> <span style="">creating</span>... [<span style="color:#666">10</span><span style="">s</span> <span style="">elapsed</span>]
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">0</span>]<span style="">:</span> <span style="">Still</span> <span style="">creating</span>... [<span style="color:#666">20</span><span style="">s</span> <span style="">elapsed</span>]
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">1</span>]<span style="">:</span> <span style="">Still</span> <span style="">creating</span>... [<span style="color:#666">20</span><span style="">s</span> <span style="">elapsed</span>]
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">1</span>]<span style="">:</span> <span style="">Still</span> <span style="">creating</span>... [<span style="color:#666">30</span><span style="">s</span> <span style="">elapsed</span>]
-<span style="">digitalocean_droplet</span>.<span style="">myserver</span>[<span style="color:#666">0</span>]<span style="">:</span> <span style="">Still</span> <span style="">creating</span>... [<span style="color:#666">30</span><span style="">s</span> <span style="">elapsed</span>]
-<span style="color:#7d9029">digitalocean_droplet.myserver[1]: Creation complete after 34s [id</span><span style="color:#666">=</span><span style="color:#666">186893061</span>]
-<span style="color:#7d9029">digitalocean_droplet.myserver[0]: Creation complete after 34s [id</span><span style="color:#666">=</span><span style="color:#666">186893059</span>]
+<span style="color:#728e00">digitalocean_tag</span>.<span style="color:#728e00">webserver</span><span style="color:#728e00">:</span> <span style="color:#728e00">Creating</span>...
+<span style="color:#728e00">digitalocean_tag</span>.<span style="color:#728e00">webserver</span><span style="color:#728e00">:</span> <span style="color:#728e00">Creation</span> <span style="color:#728e00">complete</span> <span style="color:#728e00">after</span> <span style="color:#8a7b52">2</span><span style="color:#728e00">s</span> [<span style="color:#434f54">id</span>=<span style="color:#728e00">webserver</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">0</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Creating</span>...
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">1</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Creating</span>...
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">1</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Still</span> <span style="color:#728e00">creating</span>... [<span style="color:#8a7b52">10</span><span style="color:#728e00">s</span> <span style="color:#728e00">elapsed</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">0</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Still</span> <span style="color:#728e00">creating</span>... [<span style="color:#8a7b52">10</span><span style="color:#728e00">s</span> <span style="color:#728e00">elapsed</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">0</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Still</span> <span style="color:#728e00">creating</span>... [<span style="color:#8a7b52">20</span><span style="color:#728e00">s</span> <span style="color:#728e00">elapsed</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">1</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Still</span> <span style="color:#728e00">creating</span>... [<span style="color:#8a7b52">20</span><span style="color:#728e00">s</span> <span style="color:#728e00">elapsed</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">1</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Still</span> <span style="color:#728e00">creating</span>... [<span style="color:#8a7b52">30</span><span style="color:#728e00">s</span> <span style="color:#728e00">elapsed</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">0</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Still</span> <span style="color:#728e00">creating</span>... [<span style="color:#8a7b52">30</span><span style="color:#728e00">s</span> <span style="color:#728e00">elapsed</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">1</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Creation</span> <span style="color:#728e00">complete</span> <span style="color:#728e00">after</span> <span style="color:#8a7b52">34</span><span style="color:#728e00">s</span> [<span style="color:#434f54">id</span>=<span style="color:#8a7b52">186893061</span>]
+<span style="color:#728e00">digitalocean_droplet</span>.<span style="color:#728e00">myserver</span>[<span style="color:#8a7b52">0</span>]<span style="color:#728e00">:</span> <span style="color:#728e00">Creation</span> <span style="color:#728e00">complete</span> <span style="color:#728e00">after</span> <span style="color:#8a7b52">34</span><span style="color:#728e00">s</span> [<span style="color:#434f54">id</span>=<span style="color:#8a7b52">186893059</span>]
 
-<span style="">Apply</span> <span style="">complete!</span> <span style="">Resources:</span> <span style="color:#666">3</span> <span style="">added</span>, <span style="color:#666">0</span> <span style="">changed</span>, <span style="color:#666">0</span> <span style="">destroyed</span>.
+<span style="color:#728e00">Apply</span> <span style="color:#728e00">complete</span><span style="color:#728e00">!</span> <span style="color:#728e00">Resources</span><span style="color:#728e00">:</span> <span style="color:#8a7b52">3</span> <span style="color:#728e00">added</span>, <span style="color:#8a7b52">0</span> <span style="color:#728e00">changed</span>, <span style="color:#8a7b52">0</span> <span style="color:#728e00">destroyed</span>.
 </code></pre></div><p>As indicated in the output, the servers were created successfully and also the tag was applied properly (hence 3 resources: 2 servers and 1 tag resource)</p>
 <p><img src="/images/2019-09-02-3.png" alt="DigitalOceanToken"></p>
 <h3 id="tfstate-file">*.tfstate file</h3>
 <p>The tfstate file contains the state of the infrastructure on the DigitalOcean platform. Terraform keeps this statefile to make it easy to modify or delete resources at a later moment.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform">{
-  <span style="color:#ba2121">&#34;version&#34;</span><span style="">:</span> <span style="color:#666">4</span>,
-  <span style="color:#ba2121">&#34;terraform_version&#34;: &#34;0.12.24&#34;</span>,
-  <span style="color:#ba2121">&#34;serial&#34;</span><span style="">:</span> <span style="color:#666">4</span>,
-  <span style="color:#ba2121">&#34;lineage&#34;: &#34;89eab7df-d695-6da3-f8b5-a660bfd2311d&#34;</span>,
-  <span style="color:#ba2121">&#34;outputs&#34;</span><span style="">:</span> {},
-  <span style="color:#ba2121">&#34;resources&#34;</span><span style="">:</span> [
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform">{
+  <span style="color:#7f8c8d">&#34;version&#34;</span><span style="color:#728e00">:</span> <span style="color:#8a7b52">4</span>,
+  <span style="color:#7f8c8d">&#34;terraform_version&#34;</span><span style="color:#728e00">:</span> <span style="color:#7f8c8d">&#34;0.12.24&#34;</span>,
+  <span style="color:#7f8c8d">&#34;serial&#34;</span><span style="color:#728e00">:</span> <span style="color:#8a7b52">4</span>,
+  <span style="color:#7f8c8d">&#34;lineage&#34;</span><span style="color:#728e00">:</span> <span style="color:#7f8c8d">&#34;89eab7df-d695-6da3-f8b5-a660bfd2311d&#34;</span>,
+  <span style="color:#7f8c8d">&#34;outputs&#34;</span><span style="color:#728e00">:</span> {},
+  <span style="color:#7f8c8d">&#34;resources&#34;</span><span style="color:#728e00">:</span> [
     {
-      <span style="color:#ba2121">&#34;mode&#34;: &#34;managed&#34;</span>,
-      <span style="color:#ba2121">&#34;type&#34;: &#34;digitalocean_droplet&#34;</span>,
-      <span style="color:#ba2121">&#34;name&#34;: &#34;myserver&#34;</span>,
-      <span style="color:#ba2121">&#34;each&#34;: &#34;list&#34;</span>,
-      <span style="color:#ba2121">&#34;provider&#34;: &#34;provider.digitalocean&#34;</span>,
-      <span style="color:#ba2121">&#34;instances&#34;</span><span style="">:</span> [
-        {
-          <span style="color:#ba2121">&#34;index_key&#34;</span><span style="">:</span> <span style="color:#666">0</span>,
-          <span style="color:#ba2121">&#34;schema_version&#34;</span><span style="">:</span> <span style="color:#666">1</span>,
-         <span style="">***Truncated***</span>
-         
-        {
-          <span style="color:#ba2121">&#34;index_key&#34;</span><span style="">:</span> <span style="color:#666">1</span>,
-          <span style="color:#ba2121">&#34;schema_version&#34;</span><span style="">:</span> <span style="color:#666">1</span>,
-          <span style="color:#ba2121">&#34;attributes&#34;</span><span style="">:</span> {
-            <span style="color:#ba2121">&#34;backups&#34;</span><span style="">:</span> <span style="color:#b00040">false</span>,
-            <span style="color:#ba2121">&#34;created_at&#34;: &#34;2020-03-31T19:18:38Z&#34;</span>,
-        
-         <span style="">***Truncated***</span> 
-
-            <span style="color:#ba2121">&#34;volume_ids&#34;</span><span style="">:</span> []
-          },
-<span style="color:#7d9029">          &#34;private&#34;: &#34;eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ</span><span style="color:#666">==</span><span style="">&#34;</span>,
-          <span style="color:#ba2121">&#34;dependencies&#34;</span><span style="">:</span> [
-            <span style="color:#ba2121">&#34;digitalocean_tag.webserver&#34;</span>
-          ]
-        }
-      ]
-    },
-    
-    <span style="">***Truncated***</span>
-}
-</code></pre></div><h3 id="ssh-into-the-server">SSH into the server</h3>
+      <span style="color:#7f8c8d">&#34;mode&#34;</span><span style="color:#728e00">:</span> <span style="color:#7f8c8d">&#34;managed&#34;</span>,
+      <span style="color:#7f8c8d">&#34;type&#34;</span><span style="color:#728e00">:</span> <span style="color:#7f8c8d">&#34;digitalocean_droplet&#34;</span>,
+      <span style="color:#7f8c8d">&#34;name&#34;</span><span style="color:#728e00">:</span> <span style="color:#7f8c8d">&#34;myserver&#34;</span>,
+      <span style="color:#7f8c8d">&#34;each&#34;</span><span style="color:#728e00">:</span> <span style="color:#728e00">&#34;list</span><span style="color:#7f8c8d">&#34;,
+</span><span style="color:#7f8c8d">      &#34;</span><span style="color:#728e00">provider</span><span style="color:#7f8c8d">&#34;: &#34;</span><span style="color:#728e00">provider</span>.<span style="color:#728e00">digitalocean</span><span style="color:#7f8c8d">&#34;,
+</span><span style="color:#7f8c8d">      &#34;</span><span style="color:#728e00">instances</span><span style="color:#7f8c8d">&#34;: [
+</span><span style="color:#7f8c8d">        {
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">index_key</span><span style="color:#7f8c8d">&#34;: 0,
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">schema_version</span><span style="color:#7f8c8d">&#34;: 1,
+</span><span style="color:#7f8c8d">         ***Truncated***
+</span><span style="color:#7f8c8d">         
+</span><span style="color:#7f8c8d">        {
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">index_key</span><span style="color:#7f8c8d">&#34;: 1,
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">schema_version</span><span style="color:#7f8c8d">&#34;: 1,
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">attributes</span><span style="color:#7f8c8d">&#34;: {
+</span><span style="color:#7f8c8d">            &#34;</span><span style="color:#728e00">backups</span><span style="color:#7f8c8d">&#34;: false,
+</span><span style="color:#7f8c8d">            &#34;</span><span style="color:#728e00">created_at</span><span style="color:#7f8c8d">&#34;: &#34;</span><span style="color:#8a7b52">2020-03-31</span><span style="color:#728e00">T19</span><span style="color:#728e00">:</span><span style="color:#8a7b52">18</span><span style="color:#728e00">:</span><span style="color:#8a7b52">38</span><span style="color:#728e00">Z</span><span style="color:#7f8c8d">&#34;,
+</span><span style="color:#7f8c8d">        
+</span><span style="color:#7f8c8d">         ***Truncated*** 
+</span><span style="color:#7f8c8d">
+</span><span style="color:#7f8c8d">            &#34;</span><span style="color:#728e00">volume_ids</span><span style="color:#7f8c8d">&#34;: []
+</span><span style="color:#7f8c8d">          },
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">private</span><span style="color:#7f8c8d">&#34;: &#34;</span><span style="color:#434f54">eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ</span>=<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;,
+</span><span style="color:#7f8c8d">          &#34;</span><span style="color:#728e00">dependencies</span><span style="color:#7f8c8d">&#34;: [
+</span><span style="color:#7f8c8d">            &#34;</span><span style="color:#728e00">digitalocean_tag</span>.<span style="color:#728e00">webserver</span><span style="color:#7f8c8d">&#34;
+</span><span style="color:#7f8c8d">          ]
+</span><span style="color:#7f8c8d">        }
+</span><span style="color:#7f8c8d">      ]
+</span><span style="color:#7f8c8d">    },
+</span><span style="color:#7f8c8d">    
+</span><span style="color:#7f8c8d">    ***Truncated***
+</span><span style="color:#7f8c8d">}
+</span></code></pre></div><h3 id="ssh-into-the-server">SSH into the server</h3>
 <p>Let’s now try to ssh into the server by using our keypair. Go to the local folder on your PC/MAC and locate the public key that corresponds to the SSH key you uploaded to the DO webinterface.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Keys wauterw$ ssh -i keypair_digitalocean_146185179184 root@188.166.40.81
-The authenticity of host <span style="color:#ba2121">&#39;188.166.40.81 (188.166.40.81)&#39;</span> can<span style="color:#ba2121">&#39;t be established.
-</span><span style="color:#ba2121">ECDSA key fingerprint is SHA256:XcR+DRg9Dz5eYeLDdh6c0K7Mx2K6lmnVKELrYwT1wQk.
-</span><span style="color:#ba2121">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-</span><span style="color:#ba2121">Warning: Permanently added &#39;</span>188.166.40.81<span style="">&#39;</span> <span style="color:#666">(</span>ECDSA<span style="color:#666">)</span> to the list of known hosts.
-Welcome to Ubuntu 18.04.3 LTS <span style="color:#666">(</span>GNU/Linux 4.15.0-66-generic x86_64<span style="color:#666">)</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Keys wauterw$ ssh -i keypair_digitalocean_146185179184 root@188.166.40.81
+The authenticity of host <span style="color:#7f8c8d">&#39;188.166.40.81 (188.166.40.81)&#39;</span> can<span style="color:#7f8c8d">&#39;t be established.
+</span><span style="color:#7f8c8d">ECDSA key fingerprint is SHA256:XcR+DRg9Dz5eYeLDdh6c0K7Mx2K6lmnVKELrYwT1wQk.
+</span><span style="color:#7f8c8d">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span><span style="color:#7f8c8d">Warning: Permanently added &#39;</span>188.166.40.81<span style="color:#a61717">&#39;</span> <span style="color:#728e00">(</span>ECDSA<span style="color:#728e00">)</span> to the list of known hosts.
+Welcome to Ubuntu 18.04.3 LTS <span style="color:#728e00">(</span>GNU/Linux 4.15.0-66-generic x86_64<span style="color:#728e00">)</span>
 
  * Documentation:  https://help.ubuntu.com
  * Management:     https://landscape.canonical.com
  * Support:        https://ubuntu.com/advantage
 
-  System information as of Tue Mar <span style="color:#666">31</span> 19:23:31 UTC <span style="color:#666">2020</span>
+  System information as of Tue Mar <span style="color:#8a7b52">31</span> 19:23:31 UTC <span style="color:#8a7b52">2020</span>
 
-  System load:  0.0               Processes:           <span style="color:#666">84</span>
-  Usage of /:   3.3% of 28.90GB   Users logged in:     <span style="color:#666">0</span>
-  Memory usage: 11%               IP address <span style="color:#008000;font-weight:bold">for</span> eth0: 188.166.40.81
+  System load:  0.0               Processes:           <span style="color:#8a7b52">84</span>
+  Usage of /:   3.3% of 28.90GB   Users logged in:     <span style="color:#8a7b52">0</span>
+  Memory usage: 11%               IP address <span style="color:#728e00">for</span> eth0: 188.166.40.81
   Swap usage:   0%
 
-<span style="color:#666">0</span> packages can be updated.
-<span style="color:#666">0</span> updates are security updates.
+<span style="color:#8a7b52">0</span> packages can be updated.
+<span style="color:#8a7b52">0</span> updates are security updates.
 
 The programs included with the Ubuntu system are free software;
-the exact distribution terms <span style="color:#008000;font-weight:bold">for</span> each program are described in the
+the exact distribution terms <span style="color:#728e00">for</span> each program are described in the
 individual files in /usr/share/doc/*/copyright.
 
 Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
@@ -264,10 +271,10 @@ applicable law.
 root@server-0:~# 
 </code></pre></div><h3 id="deleting-the-server">Deleting the server</h3>
 <p>Deleting the server is very easy with Terraform. Just use the <code>terraform destroy</code> command will do the trick.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:DigitalOcean_Terraform wauterw$ terraform destroy
-digitalocean_tag.webserver: Refreshing state... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>webserver<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>1<span style="color:#666">]</span>: Refreshing state... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893061<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>0<span style="color:#666">]</span>: Refreshing state... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893059<span style="color:#666">]</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:DigitalOcean_Terraform wauterw$ terraform destroy
+digitalocean_tag.webserver: Refreshing state... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>webserver<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>1<span style="color:#728e00">]</span>: Refreshing state... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893061<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>0<span style="color:#728e00">]</span>: Refreshing state... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893059<span style="color:#728e00">]</span>
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -275,20 +282,20 @@ Resource actions are indicated with the following symbols:
 
 ***Truncated***
 
-Plan: <span style="color:#666">0</span> to add, <span style="color:#666">0</span> to change, <span style="color:#666">3</span> to destroy.
+Plan: <span style="color:#8a7b52">0</span> to add, <span style="color:#8a7b52">0</span> to change, <span style="color:#8a7b52">3</span> to destroy.
 
-digitalocean_droplet.myserver<span style="color:#666">[</span>1<span style="color:#666">]</span>: Destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893061<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>0<span style="color:#666">]</span>: Destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893059<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>0<span style="color:#666">]</span>: Still destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893059, 10s elapsed<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>1<span style="color:#666">]</span>: Still destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893061, 10s elapsed<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>0<span style="color:#666">]</span>: Still destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893059, 20s elapsed<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>1<span style="color:#666">]</span>: Still destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>186893061, 20s elapsed<span style="color:#666">]</span>
-digitalocean_droplet.myserver<span style="color:#666">[</span>0<span style="color:#666">]</span>: Destruction <span style="color:#008000">complete</span> after 23s
-digitalocean_droplet.myserver<span style="color:#666">[</span>1<span style="color:#666">]</span>: Destruction <span style="color:#008000">complete</span> after 24s
-digitalocean_tag.webserver: Destroying... <span style="color:#666">[</span><span style="color:#19177c">id</span><span style="color:#666">=</span>webserver<span style="color:#666">]</span>
-digitalocean_tag.webserver: Destruction <span style="color:#008000">complete</span> after 0s
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>1<span style="color:#728e00">]</span>: Destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893061<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>0<span style="color:#728e00">]</span>: Destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893059<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>0<span style="color:#728e00">]</span>: Still destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893059, 10s elapsed<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>1<span style="color:#728e00">]</span>: Still destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893061, 10s elapsed<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>0<span style="color:#728e00">]</span>: Still destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893059, 20s elapsed<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>1<span style="color:#728e00">]</span>: Still destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>186893061, 20s elapsed<span style="color:#728e00">]</span>
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>0<span style="color:#728e00">]</span>: Destruction <span style="color:#728e00">complete</span> after 23s
+digitalocean_droplet.myserver<span style="color:#728e00">[</span>1<span style="color:#728e00">]</span>: Destruction <span style="color:#728e00">complete</span> after 24s
+digitalocean_tag.webserver: Destroying... <span style="color:#728e00">[</span><span style="color:#434f54">id</span><span style="color:#728e00">=</span>webserver<span style="color:#728e00">]</span>
+digitalocean_tag.webserver: Destruction <span style="color:#728e00">complete</span> after 0s
 
-Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
+Destroy complete! Resources: <span style="color:#8a7b52">3</span> destroyed.
 </code></pre></div><p>As you can imagine the droplets have been destroyed successfully.</p>
 <p>You can check the files in this <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DigitalOcean_Terraform">repo</a>.</p>
 
@@ -308,6 +315,9 @@ Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
 
 
 <nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/devops/2016-04-14-docker-machine_digitalocean/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Docker-Machine and DigitalOcean</p></a>
+	</div>
 	<div class="post-nav__item post-nav__item--next">
 		<a class="post-nav__link" href="/devops/2019-10-17_digitalocean_kubernetes_ansible/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">DigitalOcean - Install Kubernetes using Ansible</p></a>
 	</div>
@@ -343,16 +353,16 @@ Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -361,6 +371,9 @@ Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -368,6 +381,9 @@ Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -397,14 +413,19 @@ Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -413,14 +434,15 @@ Destroy complete! Resources: <span style="color:#666">3</span> destroyed.
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

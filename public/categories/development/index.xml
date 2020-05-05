@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Development on Technology Blog Wim</title>
+    <link>/categories/development/</link>
+    <description>Recent content in Development on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Apr 2014 20:19:50 +0100</lastBuildDate>
+    
+	<atom:link href="/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python Webscraping with BeautifulSoup</title>
+      <link>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</link>
+      <pubDate>Sat, 12 Apr 2014 20:19:50 +0100</pubDate>
+      
+      <guid>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</guid>
+      <description>Quick note: the original post dates from 12-04-2014 but got updated at 20-04-2020 with latest versions and it was essentially written from scratch again.</description>
+    </item>
+    
+  </channel>
+</rss>

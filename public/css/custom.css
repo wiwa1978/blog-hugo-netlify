@@ -1,5 +1,42 @@
 {{- $highlightColor := .Site.Params.highlightColor | default "#e22d30" -}}
 
+pre,
+code,
+kbd,
+samp {
+	font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-size: 12px;
+}
+
+pre,
+code {
+	background-color: #f5f5f5;
+	border: 2px solid #ebebeb;
+}
+
+code {
+	padding: 0 5px;
+	color: rgb(96, 89, 117);
+}
+
+pre {
+	display: block;
+	padding: 0;
+	padding: 1.25rem;
+	margin-bottom: 20px;
+	margin-bottom: 1.25rem;
+	overflow: auto;
+	color: #000;
+}
+
+pre code {
+	padding: 0;
+	color: inherit;
+	white-space: inherit;
+	background: inherit;
+	border: 0;
+}
+
 img {
 	width: auto\9; /* ie8 */
 	max-width: 100%;
@@ -30,7 +67,7 @@ img[src$='#floatright']
     margin: 1rem;      /* this margin is totally up to you */
     /* whatever else styles you fancy here */
 }
-.
+
 .divider {
 	height: 5px;
 	margin: 0;

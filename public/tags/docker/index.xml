@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Technology Blog Wim</title>
+    <link>/tags/docker/</link>
+    <description>Recent content in docker on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 14 Apr 2016 20:19:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Remove all Docker images and containers</title>
+      <link>/devops/2016-04-10-docker_remove_containers/</link>
+      <pubDate>Sun, 10 Apr 2016 20:19:50 +0100</pubDate>
+      
+      <guid>/devops/2016-04-10-docker_remove_containers/</guid>
+      <description>Quick note: the original post dates from 10-04-2016 but got updated at 02-05-2020 and it was essentially written from scratch again.</description>
+    </item>
+    
+  </channel>
+</rss>

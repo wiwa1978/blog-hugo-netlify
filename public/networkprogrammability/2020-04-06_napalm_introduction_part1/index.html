@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -108,11 +115,14 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<h3 id="introduction">Introduction</h3>
 <p>Napalm stands for &lsquo;Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)&rsquo; and is a Python library that can be used to automate and interavt with networking devices and OSs using a unified API. So if you have multiple vendors in your network and don&rsquo;t want to write a dedicated automation script per vendor device, then NAPALM is exactly what you are looking for.</p>
+<blockquote>
+<p>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
 <h3 id="installing-the-library">Installing the library</h3>
 <p>Installing NAPALM is very straightforward and is described very well in the online <a href="https://napalm.readthedocs.io/en/latest/installation/">documentation</a>.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Napalm_intro wauterw$ python3 -m venv venv
-WAUTERW-M-65P7:Napalm_Introduction wauterw$ <span style="color:#008000">source</span> venv/bin/activate
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ pip3 install napalm
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Napalm_intro wauterw$ python3 -m venv venv
+WAUTERW-M-65P7:Napalm_Introduction wauterw$ <span style="color:#728e00">source</span> venv/bin/activate
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ pip3 install napalm
 Collecting napalm
 **Truncated**
 Successfully installed ciscoconfparse-1.5.1 colorama-0.4.3 dnspython-1.16.0 junos-eznc-2.2.1 napalm-2.5.0 netaddr-0.7.19 netmiko-2.4.2 nxapi-plumbing-0.5.2 passlib-1.7.2 pyIOSXR-0.53 pyYAML-5.3.1 pyeapi-0.8.3
@@ -121,102 +131,102 @@ Successfully installed ciscoconfparse-1.5.1 colorama-0.4.3 dnspython-1.16.0 juno
 <p>I&rsquo;ll be testing here with an IOS XR device from Cisco DevNet. We load the correct driver using the <code>get_network_driver</code> method. Here you essentially tell NAPALM that it needs to connect to an &lsquo;IOSXR&rsquo; device. As you can see in the support matrix, under the hood NAPALM used the pyIOSXR Python library.</p>
 <p>After making a connection to the device using the <code>driver()</code> method (the result from the get_network_driver method), we just open the connection using the <code>open()</code> connection.</p>
 <p>As we want to show what methods are supported by this connection, we are using the <code>dir()</code> function to print these.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">napalm</span> <span style="color:#008000;font-weight:bold">import</span> get_network_driver
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">json</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">napalm</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_network_driver</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
 
-driver_xr <span style="color:#666">=</span> get_network_driver(<span style="color:#ba2121">&#34;iosxr&#34;</span>)
+<span style="color:#434f54">driver_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_network_driver</span>(<span style="color:#7f8c8d">&#34;iosxr&#34;</span>)
 
-device <span style="color:#666">=</span> {
-    <span style="color:#ba2121">&#34;device_type&#34;</span>: <span style="color:#ba2121">&#34;cisco_xr&#34;</span>,
-    <span style="color:#ba2121">&#34;ip&#34;</span>: <span style="color:#ba2121">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
-    <span style="color:#ba2121">&#34;username&#34;</span>: <span style="color:#ba2121">&#34;admin&#34;</span>,
-    <span style="color:#ba2121">&#34;password&#34;</span>: <span style="color:#ba2121">&#34;C1sco12345&#34;</span>,
-    <span style="color:#ba2121">&#34;port&#34;</span>: <span style="color:#ba2121">&#34;8181&#34;</span>,
+<span style="color:#434f54">device</span> <span style="color:#728e00">=</span> {
+    <span style="color:#7f8c8d">&#34;device_type&#34;</span>: <span style="color:#7f8c8d">&#34;cisco_xr&#34;</span>,
+    <span style="color:#7f8c8d">&#34;ip&#34;</span>: <span style="color:#7f8c8d">&#34;sbx-iosxr-mgmt.cisco.com&#34;</span>,
+    <span style="color:#7f8c8d">&#34;username&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;password&#34;</span>: <span style="color:#7f8c8d">&#34;***&#34;</span>,
+    <span style="color:#7f8c8d">&#34;port&#34;</span>: <span style="color:#7f8c8d">&#34;8181&#34;</span>,
 }
 
-device_xr <span style="color:#666">=</span> driver_xr(hostname<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>device[<span style="color:#ba2121">&#39;password&#39;</span>], optional_args<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;port&#39;</span>:device[<span style="color:#ba2121">&#39;port&#39;</span>]})
-device_xr<span style="color:#666">.</span>open()
-get_method <span style="color:#666">=</span> <span style="color:#008000">dir</span>(device_xr)
-<span style="color:#008000;font-weight:bold">print</span>(json<span style="color:#666">.</span>dumps(get_method, sort_keys<span style="color:#666">=</span>True, indent<span style="color:#666">=</span><span style="color:#666">4</span>))
+<span style="color:#434f54">device_xr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">driver_xr</span>(<span style="color:#434f54">hostname</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">optional_args</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;port&#39;</span>:<span style="color:#434f54">device</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>]})
+<span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">open</span>()
+<span style="color:#434f54">get_method</span> <span style="color:#728e00">=</span> <span style="color:#728e00">dir</span>(<span style="color:#434f54">device_xr</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">get_method</span>, <span style="color:#434f54">sort_keys</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">indent</span><span style="color:#728e00">=</span><span style="color:#8a7b52">4</span>))
 </code></pre></div><p>This results in the following:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 start.py 
-<span style="color:#666">[</span>
-    <span style="color:#ba2121">&#34;__class__&#34;</span>,
-    <span style="color:#ba2121">&#34;__del__&#34;</span>,
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 start.py 
+<span style="color:#728e00">[</span>
+    <span style="color:#7f8c8d">&#34;__class__&#34;</span>,
+    <span style="color:#7f8c8d">&#34;__del__&#34;</span>,
      ***Truncated***
-    <span style="color:#ba2121">&#34;compare_config&#34;</span>,
-    <span style="color:#ba2121">&#34;compliance_report&#34;</span>,
-    <span style="color:#ba2121">&#34;connection_tests&#34;</span>,
-    <span style="color:#ba2121">&#34;device&#34;</span>,
-    <span style="color:#ba2121">&#34;hostname&#34;</span>,
+    <span style="color:#7f8c8d">&#34;compare_config&#34;</span>,
+    <span style="color:#7f8c8d">&#34;compliance_report&#34;</span>,
+    <span style="color:#7f8c8d">&#34;connection_tests&#34;</span>,
+    <span style="color:#7f8c8d">&#34;device&#34;</span>,
+    <span style="color:#7f8c8d">&#34;hostname&#34;</span>,
     ***Truncated***
-    <span style="color:#ba2121">&#34;traceroute&#34;</span>,
-    <span style="color:#ba2121">&#34;username&#34;</span>
-<span style="color:#666">]</span>
+    <span style="color:#7f8c8d">&#34;traceroute&#34;</span>,
+    <span style="color:#7f8c8d">&#34;username&#34;</span>
+<span style="color:#728e00">]</span>
 </code></pre></div><p>The output represents a list of methods that can be called on this connection. Let&rsquo;s do this by adding following lines to our script:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">get_hostname <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>hostname
-<span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;Hostname is {get_hostname}&#34;</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">get_hostname</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">hostname</span>
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Hostname is {get_hostname}&#34;</span>)
 </code></pre></div><p>This will result in:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 start.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 start.py 
 Hostname is sbx-iosxr-mgmt.cisco.com
 </code></pre></div><p>Another method (refer to the output before), is the <code>get_facts</code> method. Let&rsquo;s call this by adding the following lines to our script:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(venv) WAUTERW<span style="color:#666">-</span>M<span style="color:#666">-</span><span style="color:#666">65</span>P7:Napalm_Introduction wauterw<span style="">$</span> python3 start<span style="color:#666">.</span>py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#434f54">venv</span>) <span style="color:#434f54">WAUTERW</span><span style="color:#728e00">-</span><span style="color:#434f54">M</span><span style="color:#728e00">-</span><span style="color:#8a7b52">65</span><span style="color:#434f54">P7</span>:<span style="color:#434f54">Napalm_Introduction</span> <span style="color:#434f54">wauterw</span><span style="color:#a61717">$</span> <span style="color:#434f54">python3</span> <span style="color:#434f54">start</span><span style="color:#728e00">.</span><span style="color:#434f54">py</span> 
 {
-    <span style="color:#ba2121">&#34;fqdn&#34;</span>: <span style="color:#ba2121">&#34;iosxr1&#34;</span>,
-    <span style="color:#ba2121">&#34;hostname&#34;</span>: <span style="color:#ba2121">&#34;iosxr1&#34;</span>,
-    <span style="color:#ba2121">&#34;interface_list&#34;</span>: [
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/0&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/0.144&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/1&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/2&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/3&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/4&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/5&#34;</span>,
-        <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/6&#34;</span>,
-        <span style="color:#ba2121">&#34;Loopback100&#34;</span>,
-        <span style="color:#ba2121">&#34;Loopback200&#34;</span>,
-        <span style="color:#ba2121">&#34;MgmtEth0/RP0/CPU0/0&#34;</span>,
-        <span style="color:#ba2121">&#34;Null0&#34;</span>
+    <span style="color:#7f8c8d">&#34;fqdn&#34;</span>: <span style="color:#7f8c8d">&#34;iosxr1&#34;</span>,
+    <span style="color:#7f8c8d">&#34;hostname&#34;</span>: <span style="color:#7f8c8d">&#34;iosxr1&#34;</span>,
+    <span style="color:#7f8c8d">&#34;interface_list&#34;</span>: [
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/0&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/0.144&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/1&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/2&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/3&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/4&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/5&#34;</span>,
+        <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/6&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback100&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Loopback200&#34;</span>,
+        <span style="color:#7f8c8d">&#34;MgmtEth0/RP0/CPU0/0&#34;</span>,
+        <span style="color:#7f8c8d">&#34;Null0&#34;</span>
     ],
-    <span style="color:#ba2121">&#34;model&#34;</span>: <span style="color:#ba2121">&#34;R-IOSXRV9000-CC&#34;</span>,
-    <span style="color:#ba2121">&#34;os_version&#34;</span>: <span style="color:#ba2121">&#34;6.5.3&#34;</span>,
-    <span style="color:#ba2121">&#34;serial_number&#34;</span>: <span style="color:#ba2121">&#34;05EFB4E4D3D&#34;</span>,
-    <span style="color:#ba2121">&#34;uptime&#34;</span>: <span style="color:#666">78892</span>,
-    <span style="color:#ba2121">&#34;vendor&#34;</span>: <span style="color:#ba2121">&#34;Cisco&#34;</span>
+    <span style="color:#7f8c8d">&#34;model&#34;</span>: <span style="color:#7f8c8d">&#34;R-IOSXRV9000-CC&#34;</span>,
+    <span style="color:#7f8c8d">&#34;os_version&#34;</span>: <span style="color:#7f8c8d">&#34;6.5.3&#34;</span>,
+    <span style="color:#7f8c8d">&#34;serial_number&#34;</span>: <span style="color:#7f8c8d">&#34;05EFB4E4D3D&#34;</span>,
+    <span style="color:#7f8c8d">&#34;uptime&#34;</span>: <span style="color:#8a7b52">78892</span>,
+    <span style="color:#7f8c8d">&#34;vendor&#34;</span>: <span style="color:#7f8c8d">&#34;Cisco&#34;</span>
 }
 </code></pre></div><p>As you can witness, this will give an overview of some important information, e.g hostname, interface overview, serial number and more.</p>
 <p>Let&rsquo;s pretend we want to know more about a given interface, let&rsquo;s say the IP configuration or the interface counters. Let&rsquo;s do this next.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">get_interfaces_counters <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>get_interfaces_counters()
-<span style="color:#008000;font-weight:bold">print</span>(json<span style="color:#666">.</span>dumps(get_interfaces_counters, sort_keys<span style="color:#666">=</span>True, indent<span style="color:#666">=</span><span style="color:#666">4</span>))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">get_interfaces_counters</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">get_interfaces_counters</span>()
+<span style="color:#728e00">print</span>(<span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">get_interfaces_counters</span>, <span style="color:#434f54">sort_keys</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">indent</span><span style="color:#728e00">=</span><span style="color:#8a7b52">4</span>))
 
-get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:#666">.</span>get_interfaces_ip()
-<span style="color:#008000;font-weight:bold">print</span>(json<span style="color:#666">.</span>dumps(get_interfaces_ip, sort_keys<span style="color:#666">=</span>True, indent<span style="color:#666">=</span><span style="color:#666">4</span>))
+<span style="color:#434f54">get_interfaces_ip</span> <span style="color:#728e00">=</span> <span style="color:#434f54">device_xr</span><span style="color:#728e00">.</span><span style="color:#434f54">get_interfaces_ip</span>()
+<span style="color:#728e00">print</span>(<span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">get_interfaces_ip</span>, <span style="color:#434f54">sort_keys</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">indent</span><span style="color:#728e00">=</span><span style="color:#8a7b52">4</span>))
 </code></pre></div><p>The output of above print statements is the provided in the below snippet. Note that I truncated the output quite a bit but I&rsquo;m sure you get the picture.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 start.py 
-<span style="color:#666">{</span>
-    <span style="color:#ba2121">&#34;GigabitEthernet0/0/0/0&#34;</span>: <span style="color:#666">{</span>
-        <span style="color:#ba2121">&#34;rx_broadcast_packets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;rx_discards&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;rx_errors&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;rx_multicast_packets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;rx_octets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;rx_unicast_packets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;tx_broadcast_packets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;tx_discards&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;tx_errors&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;tx_multicast_packets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;tx_octets&#34;</span>: 0,
-        <span style="color:#ba2121">&#34;tx_unicast_packets&#34;</span>: <span style="color:#666">0</span>
-    <span style="color:#666">}</span>,
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Napalm_Introduction wauterw$ python3 start.py 
+<span style="color:#728e00">{</span>
+    <span style="color:#7f8c8d">&#34;GigabitEthernet0/0/0/0&#34;</span>: <span style="color:#728e00">{</span>
+        <span style="color:#7f8c8d">&#34;rx_broadcast_packets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;rx_discards&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;rx_errors&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;rx_multicast_packets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;rx_octets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;rx_unicast_packets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;tx_broadcast_packets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;tx_discards&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;tx_errors&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;tx_multicast_packets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;tx_octets&#34;</span>: 0,
+        <span style="color:#7f8c8d">&#34;tx_unicast_packets&#34;</span>: <span style="color:#8a7b52">0</span>
+    <span style="color:#728e00">}</span>,
     ***Truncated***
-    <span style="color:#ba2121">&#34;MgmtEth0/RP0/CPU0/0&#34;</span>: <span style="color:#666">{</span>
-        <span style="color:#ba2121">&#34;ipv4&#34;</span>: <span style="color:#666">{</span>
-            <span style="color:#ba2121">&#34;10.10.20.175&#34;</span>: <span style="color:#666">{</span>
-                <span style="color:#ba2121">&#34;prefix_length&#34;</span>: <span style="color:#666">24</span>
-            <span style="color:#666">}</span>
-        <span style="color:#666">}</span>
-    <span style="color:#666">}</span>
-<span style="color:#666">}</span>
+    <span style="color:#7f8c8d">&#34;MgmtEth0/RP0/CPU0/0&#34;</span>: <span style="color:#728e00">{</span>
+        <span style="color:#7f8c8d">&#34;ipv4&#34;</span>: <span style="color:#728e00">{</span>
+            <span style="color:#7f8c8d">&#34;10.10.20.175&#34;</span>: <span style="color:#728e00">{</span>
+                <span style="color:#7f8c8d">&#34;prefix_length&#34;</span>: <span style="color:#8a7b52">24</span>
+            <span style="color:#728e00">}</span>
+        <span style="color:#728e00">}</span>
+    <span style="color:#728e00">}</span>
+<span style="color:#728e00">}</span>
 </code></pre></div><p>The code we have been using in this blog post can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Napalm_Introduction">here</a>. The start.py file covers exactly what we discussed in this post.</p>
 
 		</div>
@@ -236,7 +246,7 @@ get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">RESTCONF intro with Postman - Part 2</p></a>
+		<a class="post-nav__link" href="/networkprogrammability/2020-04-04_restconf_python/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">RESTCONF with Python</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
 		<a class="post-nav__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">NAPALM Introduction - Part 2</p></a>
@@ -273,16 +283,16 @@ get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -291,6 +301,9 @@ get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -298,6 +311,9 @@ get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -327,14 +343,19 @@ get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -343,14 +364,15 @@ get_interfaces_ip <span style="color:#666">=</span> device_xr<span style="color:
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

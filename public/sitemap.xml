@@ -3,8 +3,78 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/categories/all/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ansible/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
-    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/iosxe/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/network-programming/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/programming/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-04-29T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</loc>
+    <lastmod>2020-04-27T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/dnac/</loc>
+    <lastmod>2020-04-27T10:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</loc>
+    <lastmod>2020-04-25T08:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</loc>
+    <lastmod>2020-04-24T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-22_dnac_gettingstarted/</loc>
+    <lastmod>2020-04-22T08:32:50+01:00</lastmod>
   </url>
   
   <url>
@@ -14,31 +84,6 @@
   
   <url>
     <loc>/networkprogrammability/2020-04-17_netpalm_introduction_part3/</loc>
-    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/network-programming/</loc>
-    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/networkprogrammability/</loc>
-    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/programming/</loc>
-    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-04-17T09:48:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
     <lastmod>2020-04-17T09:48:50+01:00</lastmod>
   </url>
   
@@ -84,21 +129,26 @@
   
   <url>
     <loc>/tags/ios-xe/</loc>
-    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+    <lastmod>2020-04-04T12:32:50+01:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/restconf/</loc>
-    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+    <lastmod>2020-04-04T12:32:50+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/networkprogrammability/2020-04-03_restconf_introduction_part2/</loc>
-    <lastmod>2020-04-03T12:32:50+01:00</lastmod>
+    <loc>/networkprogrammability/2020-04-04_restconf_python/</loc>
+    <lastmod>2020-04-04T12:32:50+01:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/yang/</loc>
+    <lastmod>2020-04-04T12:32:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-04-03_restconf_introduction_part2/</loc>
     <lastmod>2020-04-03T12:32:50+01:00</lastmod>
   </url>
   
@@ -198,6 +248,16 @@
   </url>
   
   <url>
+    <loc>/tags/json/</loc>
+    <lastmod>2020-01-11T10:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/networkprogrammability/2020-01-11-parse_json_python/</loc>
+    <lastmod>2020-01-11T10:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/networkprogrammability/2020-01-09-parse_xml_python/</loc>
     <lastmod>2020-01-09T10:19:50+01:00</lastmod>
   </url>
@@ -235,11 +295,6 @@
   <url>
     <loc>/tags/vsphere/</loc>
     <lastmod>2019-12-03T14:39:50+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/ansible/</loc>
-    <lastmod>2019-12-02T14:39:50+01:00</lastmod>
   </url>
   
   <url>
@@ -323,6 +378,41 @@
   </url>
   
   <url>
+    <loc>/tags/docker/</loc>
+    <lastmod>2016-04-14T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/docker-machine/</loc>
+    <lastmod>2016-04-14T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2016-04-14-docker-machine_digitalocean/</loc>
+    <lastmod>2016-04-14T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2016-04-12-docker-machine_aws/</loc>
+    <lastmod>2016-04-12T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2016-04-11-docker-machine_virtualbox/</loc>
+    <lastmod>2016-04-11T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/virtualbox/</loc>
+    <lastmod>2016-04-11T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/devops/2016-04-10-docker_remove_containers/</loc>
+    <lastmod>2016-04-10T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/backend/</loc>
     <lastmod>2015-07-02T20:19:50+01:00</lastmod>
   </url>
@@ -355,6 +445,16 @@
   <url>
     <loc>/webdevelopment/</loc>
     <lastmod>2015-07-02T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/development/</loc>
+    <lastmod>2014-04-12T20:19:50+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/webdevelopment/2014-04-12_python_scraping_beautifulsoup/</loc>
+    <lastmod>2014-04-12T20:19:50+01:00</lastmod>
   </url>
   
   <url>

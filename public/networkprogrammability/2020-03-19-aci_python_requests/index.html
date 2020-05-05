@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Create Cisco ACI network with Python (Requests) - Technology Blog Wim</title>
+	<title>Interact with Cisco ACI network through Python (Requests) - Technology Blog Wim</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	
@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -98,7 +105,7 @@ if (!doNotTrack) {
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">Create Cisco ACI network with Python (Requests)</h1>
+			<h1 class="post__title">Interact with Cisco ACI network through Python (Requests)</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
@@ -108,103 +115,184 @@ if (!doNotTrack) {
 		</header><div class="content post__content clearfix">
 			<h3 id="introduction">Introduction</h3>
 <p>In this blog post, we will address how we can use Python to work with Cisco ACI. It&rsquo;ll focus on the very basics, trusting it gives you enough meat to tackle the more complex tasks on your own (e.g. create EPGs, contracts etc&hellip;)</p>
+<h3 id="note-about-equipment">Note about equipment</h3>
+<blockquote>
+<p>For all the examples, I will use my own APIC in my lab. However, if you want to follow along with this blog post, checkout the Cisco sandbox environment delivered by <a href="https://developer.cisco.com">Cisco Devnet</a>. To get a list of all sandboxes, check out <a href="https://devnetsandbox.cisco.com/">this</a> link. For this tutorial, you could use the always on ACI sandbox as well (see <a href="https://devnetsandbox.cisco.com/RM/Diagram/Index/5a229a7c-95d5-4cfd-a651-5ee9bc1b30e2?diagramType=Topology">here</a>).</p>
+</blockquote>
 <h3 id="code-to-login-to-the-apic-controller">Code to login to the APIC Controller</h3>
 <p>Cisco ACI uses a controller, called the APIC. The APIC exposes a REST API which is documented <a href="https://developer.cisco.com/docs/aci/">here</a>. I encourage you to go through the information on that page as it gives you essentially all the knowledge you need to work programmatically with ACI. The REST API itself can be found <a href="https://www.cisco.com/c/en/us/td/docs/switches/datacenter/aci/apic/sw/4-x/rest-api-config/Cisco-APIC-REST-API-Configuration-Guide-401.html">here</a></p>
 <p>First things first, we&rsquo;ll need to login to the APIC and retrieve a token. According to the API guide, the REST API looks as follows.</p>
 <p><img src="/images/2020-03-19-1.png" alt="APICLogin"></p>
 <p>So we need to use the POST method to send JSON body the the following URL. https://&lt;APICclusterIP&gt;/api/aaaLogin.json</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">requests</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">json</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">requests</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">get_token</span>():  
-   url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://10.48.109.10/api/aaaLogin.json&#34;</span>
+<span style="color:#728e00">def</span> <span style="color:#d35400">get_token</span>():  
+   <span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/api/aaaLogin.json&#34;</span>
 
-   payload <span style="color:#666">=</span> {
-      <span style="color:#ba2121">&#34;aaaUser&#34;</span>: {
-         <span style="color:#ba2121">&#34;attributes&#34;</span>: {
-            <span style="color:#ba2121">&#34;name&#34;</span>:<span style="color:#ba2121">&#34;admin&#34;</span>,
-            <span style="color:#ba2121">&#34;pwd&#34;</span>:<span style="color:#ba2121">&#34;---&#34;</span>
+   <span style="color:#434f54">payload</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;aaaUser&#34;</span>: {
+         <span style="color:#7f8c8d">&#34;attributes&#34;</span>: {
+            <span style="color:#7f8c8d">&#34;name&#34;</span>:<span style="color:#7f8c8d">&#34;admin&#34;</span>,
+            <span style="color:#7f8c8d">&#34;pwd&#34;</span>:<span style="color:#7f8c8d">&#34;---&#34;</span>
          }
       }
    }
 
-   headers <span style="color:#666">=</span> {
-      <span style="color:#ba2121">&#34;Content-Type&#34;</span> : <span style="color:#ba2121">&#34;application/json&#34;</span>
+   <span style="color:#434f54">headers</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;Content-Type&#34;</span> : <span style="color:#7f8c8d">&#34;application/json&#34;</span>
    }
 
-   requests<span style="color:#666">.</span>packages<span style="color:#666">.</span>urllib3<span style="color:#666">.</span>disable_warnings()
-   response <span style="color:#666">=</span> requests<span style="color:#666">.</span>post(url,data<span style="color:#666">=</span>json<span style="color:#666">.</span>dumps(payload), headers<span style="color:#666">=</span>headers, verify<span style="color:#666">=</span>False)<span style="color:#666">.</span>json()
+   <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">packages</span><span style="color:#728e00">.</span><span style="color:#434f54">urllib3</span><span style="color:#728e00">.</span><span style="color:#434f54">disable_warnings</span>()
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">url</span>,<span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">payload</span>), <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
 
-   token <span style="color:#666">=</span> response[<span style="color:#ba2121">&#39;imdata&#39;</span>][<span style="color:#666">0</span>][<span style="color:#ba2121">&#39;aaaLogin&#39;</span>][<span style="color:#ba2121">&#39;attributes&#39;</span>][<span style="color:#ba2121">&#39;token&#39;</span>]
-   <span style="color:#008000;font-weight:bold">return</span> token
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;imdata&#39;</span>][<span style="color:#8a7b52">0</span>][<span style="color:#7f8c8d">&#39;aaaLogin&#39;</span>][<span style="color:#7f8c8d">&#39;attributes&#39;</span>][<span style="color:#7f8c8d">&#39;token&#39;</span>]
+   <span style="color:#728e00">return</span> <span style="color:#434f54">token</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">main</span>():
-   token <span style="color:#666">=</span> get_token()
-   <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;The token is: &#34;</span> <span style="color:#666">+</span> token)
+<span style="color:#728e00">def</span> <span style="color:#d35400">main</span>():
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_token</span>()
+   <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;The token is: &#34;</span> <span style="color:#728e00">+</span> <span style="color:#434f54">token</span>)
 
-<span style="color:#008000;font-weight:bold">if</span> __name__ <span style="color:#666">==</span> <span style="color:#ba2121">&#34;__main__&#34;</span>:
-   main()
+<span style="color:#728e00">if</span> <span style="color:#434f54">__name__</span> <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;__main__&#34;</span>:
+   <span style="color:#434f54">main</span>()
 </code></pre></div><p>In the script, you&rsquo;ll that we prepare the &lsquo;payload&rsquo; json body according to the REST API. We&rsquo;ll insert the username and password in the appropriate place. Nothing more to it.</p>
 <p>Then we send the HTTP request itself. We pass the payload via the json.dumps format, we pass the headers and we disable SSL verification (for demo purposes only).</p>
 <p>APIC will then send back a JSON response (again as documented in the above screenshot). We can parse the JSON response in Python as it essentially is a dict object. In order to parse the object, you need to look at the response and you&rsquo;ll note the token is in the attribites section ([&lsquo;imdata&rsquo;][0][&lsquo;aaaLogin&rsquo;][&lsquo;attributes&rsquo;]).</p>
 <p>Note: I&rsquo;m creating a header. Strictly speaking this is not required with ACI as the .json extension in the REST URL indicates that we expect JSON format. ACI also supports XML.</p>
 <p>When we execute the above script, it will print the token that is returned in the JSON body of the response.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:aci_rest_examples wauterw$ python3 aci_login.py 
-6jUCAAAAAAAAAAAAAAAAABCOfgYX5j0IXhy0ZKPV7x05BEhyd00p5yVn9s59oAR5ZTlSjCZ9wlTY9VSEJbT2pJJPc02hfPsGh/2C1dmQHe9QmNuS9Qq5avaBcfoS12PUWi1rD4lnJ3ul0w4kfbNex/C2cg1g99v5BlSUa47PFbwsf78ig7Vdv8o0l2ZuxRFp3AF5uaN+1BtOxE9fGlw8JA<span style="color:#666">==</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:aci_rest_examples wauterw$ python3 aci_login.py 
+6jUCAAAAAAAAAAAAAAAAABCOfgYX5j0IXhy0ZKPV7x05BEhyd00p5yVn9s59oAR5ZTlSjCZ9wlTY9VSEJbT2pJJPc02hfPsGh/2C1dmQHe9QmNuS9Qq5avaBcfoS12PUWi1rD4lnJ3ul0w4kfbNex/C2cg1g99v5BlSUa47PFbwsf78ig7Vdv8o0l2ZuxRFp3AF5uaN+1BtOxE9fGlw8JA<span style="color:#728e00">==</span>
 </code></pre></div><p>This token will now be used for the subsequent REST calls.</p>
-<h3 id="code-to-create-an-aci-tenant">Code to create an ACI tenant</h3>
+<h3 id="retrieve-all-aci-tenants">Retrieve all ACI tenants</h3>
+<p>Let&rsquo;s see what are the configured tenants on our APIC. Now that we have the script to perform a login, we can re-use this in our code. The code is pretty straightforward, in essence, we will query the <code>/api/node/class/fvTenant.json</code> endpoint and iterate over the response.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">requests</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">aci_login</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_token</span>
+
+<span style="color:#728e00">def</span> <span style="color:#d35400">get_tenants</span>():
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_token</span>()
+
+   <span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/api/node/class/fvTenant.json&#34;</span>
+   
+   <span style="color:#434f54">headers</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;Cookie&#34;</span> : <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;APIC-Cookie={token}&#34;</span>, 
+   }
+
+   <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">packages</span><span style="color:#728e00">.</span><span style="color:#434f54">urllib3</span><span style="color:#728e00">.</span><span style="color:#434f54">disable_warnings</span>()
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">get</span>(<span style="color:#434f54">url</span>, <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
+
+   <span style="color:#728e00">return</span> <span style="color:#434f54">response</span>
+
+<span style="color:#728e00">if</span> <span style="color:#434f54">__name__</span> <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;__main__&#34;</span>:
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_tenants</span>()<span style="color:#728e00">.</span><span style="color:#434f54">json</span>()
+   <span style="color:#434f54">tenants</span> <span style="color:#728e00">=</span> <span style="color:#434f54">response</span>[<span style="color:#7f8c8d">&#39;imdata&#39;</span>]
+   
+   <span style="color:#728e00">for</span> <span style="color:#434f54">tenant</span> <span style="color:#728e00">in</span> <span style="color:#434f54">tenants</span>:
+      <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Tenant name: {tenant[&#39;fvTenant&#39;][&#39;attributes&#39;][&#39;name&#39;]}&#34;</span>)
+</code></pre></div><p>When we execute this script, we will receive a list of tenants:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 requests % python3 get_tenants.py
+Tenant name: tn-bjorn
+Tenant name: dvs-demo-dynamic
+Tenant name: mgmt
+Tenant name: common
+Tenant name: infra
+Tenant name: tn-qinq
+Tenant name: tn-automation
+Tenant name: Tenant_Wim
+...
+</code></pre></div><h3 id="create-an-aci-tenant">Create an ACI tenant</h3>
 <p>In many cases, your first action on Cisco ACI will be to create a Tenant. We&rsquo;ll also use the REST API documentation to achieve this.</p>
 <p><img src="/images/2020-03-19-2.png" alt="APICTenant"></p>
 <p>Again, this is pretty straightforward and is following the same &lsquo;template&rsquo; as the login script above.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">requests</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">json</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">aci_login</span> <span style="color:#008000;font-weight:bold">import</span> get_token
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">requests</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">aci_login</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_token</span>
 
-tenant_name <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Tenant_Python&#34;</span>
+<span style="color:#434f54">tenant_name</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;Tenant_Python&#34;</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">main</span>():
+<span style="color:#728e00">def</span> <span style="color:#d35400">create_tenant</span>():
   
-   token <span style="color:#666">=</span> get_token()
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_token</span>()
 
-   url <span style="color:#666">=</span> <span style="color:#ba2121">&#34;https://10.48.109.10/api/mo/uni.json&#34;</span>
+   <span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/api/mo/uni.json&#34;</span>
    
-   payload <span style="color:#666">=</span> {
-      <span style="color:#ba2121">&#34;fvTenant&#34;</span>: {
-         <span style="color:#ba2121">&#34;attributes&#34;</span>: {
-            <span style="color:#ba2121">&#34;name&#34;</span>: tenant_name
+   <span style="color:#434f54">payload</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;fvTenant&#34;</span>: {
+         <span style="color:#7f8c8d">&#34;attributes&#34;</span>: {
+            <span style="color:#7f8c8d">&#34;name&#34;</span>: <span style="color:#434f54">tenant_name</span>
          }
       }
    }
 
-   headers <span style="color:#666">=</span> {
-      <span style="color:#ba2121">&#34;Cookie&#34;</span> : f<span style="color:#ba2121">&#34;APIC-Cookie={token}&#34;</span>, 
+   <span style="color:#434f54">headers</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;Cookie&#34;</span> : <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;APIC-Cookie={token}&#34;</span>, 
    }
 
-   requests<span style="color:#666">.</span>packages<span style="color:#666">.</span>urllib3<span style="color:#666">.</span>disable_warnings()
-   response <span style="color:#666">=</span> requests<span style="color:#666">.</span>post(url,data<span style="color:#666">=</span>json<span style="color:#666">.</span>dumps(payload), headers<span style="color:#666">=</span>headers, verify<span style="color:#666">=</span>False)
+   <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">packages</span><span style="color:#728e00">.</span><span style="color:#434f54">urllib3</span><span style="color:#728e00">.</span><span style="color:#434f54">disable_warnings</span>()
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">url</span>,<span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">payload</span>), <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-   <span style="color:#008000;font-weight:bold">if</span> (response<span style="color:#666">.</span>status_code <span style="color:#666">==</span> <span style="color:#666">200</span>):
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;Tenant was successfully created&#34;</span>)
-   <span style="color:#008000;font-weight:bold">else</span>:
-      <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#34;Issue with creating tenant&#34;</span>)
+   <span style="color:#728e00">if</span> (<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">status_code</span> <span style="color:#728e00">==</span> <span style="color:#8a7b52">200</span>):
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Successfully created tenant&#34;</span>)
+   <span style="color:#728e00">else</span>:
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Issue with creating tenant&#34;</span>)
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">get_tenant</span>():
-   <span style="color:#008000;font-weight:bold">return</span> tenant_name
+<span style="color:#728e00">def</span> <span style="color:#d35400">get_tenant</span>():
+   <span style="color:#728e00">return</span> <span style="color:#434f54">tenant_name</span>
 
-<span style="color:#008000;font-weight:bold">if</span> __name__ <span style="color:#666">==</span> <span style="color:#ba2121">&#34;__main__&#34;</span>:
-   main()
+
+
+<span style="color:#728e00">if</span> <span style="color:#434f54">__name__</span> <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;__main__&#34;</span>:
+   <span style="color:#434f54">create_tenant</span>()
 </code></pre></div><p>First, we will need to retrieve the token. Therefore we call the get_token() function. Note that we imported that function in the third line of the script. According to the documentation, we need to pass that token in a Cookie called APIC-Cookie. The rest of the script is pretty self explanatory I would think.</p>
 <h3 id="the-result">The result</h3>
 <p>Executing the script is as simple as running any other Python script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:aci_rest_examples wauterw$ python3 aci_login.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:aci_rest_examples wauterw$ python3 aci_login.py 
 s1ICAAAAAAAAAAAAAAAAAIodgsFHXkastXMmKf7Hr8x/rLC1f/L+z3iXiFbqJXk6ufdu0w3oSXoTgLIVwK4Mqgl4TDHnoDYbmdEcC7GW1GZOZRn+PmrFUzuM8HK98Dc03AzfrsfVp
-q0fThEgCfJjzCN2fkR0NUIg2SsLN5ZnPhqw9gWyTKyjT/wfFedZ+BdW1Bxz1kCU/SGqa/cRsPa99A<span style="color:#666">==</span>
+q0fThEgCfJjzCN2fkR0NUIg2SsLN5ZnPhqw9gWyTKyjT/wfFedZ+BdW1Bxz1kCU/SGqa/cRsPa99A<span style="color:#728e00">==</span>
 
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:aci_rest_examples wauterw$ python3 create_tenant.py 
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:aci_rest_examples wauterw$ python3 create_tenant.py 
 Successfully created tenant
 </code></pre></div><p>In the below screenshot, you&rsquo;ll notice a Tenant called &lsquo;Tenant_Python&rsquo; got created.</p>
 <p><img src="/images/2020-03-19-3.png" alt="APICLogin"></p>
-<p>The code can be found at <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests">Github</a>.</p>
+<h3 id="delete-an-aci-tenant">Delete an ACI tenant</h3>
+<p>Let&rsquo;s quickly checkout a Python script that takes care of the tenant deletion. Pretty much similar to the rest of the examples, but nevertheless, here is the full code.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">requests</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">json</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">aci_login</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_token</span>
+
+<span style="color:#728e00">def</span> <span style="color:#d35400">delete_tenant</span>():
+   <span style="color:#434f54">token</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_token</span>()
+
+   <span style="color:#434f54">url</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;https://10.48.109.10/api/mo/uni.json&#34;</span>
+   
+
+   <span style="color:#434f54">payload</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;fvTenant&#34;</span>: {
+         <span style="color:#7f8c8d">&#34;attributes&#34;</span>: {
+            <span style="color:#7f8c8d">&#34;name&#34;</span>: <span style="color:#7f8c8d">&#34;Tenant_Python&#34;</span>,
+            <span style="color:#7f8c8d">&#34;status&#34;</span>: <span style="color:#7f8c8d">&#34;deleted&#34;</span>
+         }
+      }
+   }
+
+   <span style="color:#434f54">headers</span> <span style="color:#728e00">=</span> {
+      <span style="color:#7f8c8d">&#34;Cookie&#34;</span> : <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;APIC-Cookie={token}&#34;</span>, 
+   }
+
+   <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">packages</span><span style="color:#728e00">.</span><span style="color:#434f54">urllib3</span><span style="color:#728e00">.</span><span style="color:#434f54">disable_warnings</span>()
+   <span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">requests</span><span style="color:#728e00">.</span><span style="color:#434f54">post</span>(<span style="color:#434f54">url</span>,<span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">json</span><span style="color:#728e00">.</span><span style="color:#434f54">dumps</span>(<span style="color:#434f54">payload</span>), <span style="color:#434f54">headers</span><span style="color:#728e00">=</span><span style="color:#434f54">headers</span>, <span style="color:#434f54">verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
+   
+   <span style="color:#728e00">if</span> (<span style="color:#434f54">response</span><span style="color:#728e00">.</span><span style="color:#434f54">status_code</span> <span style="color:#728e00">==</span> <span style="color:#8a7b52">200</span>):
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Successfully deleted tenant&#34;</span>)
+   <span style="color:#728e00">else</span>:
+      <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#34;Issue with deleting tenant&#34;</span>)
+
+<span style="color:#728e00">if</span> <span style="color:#434f54">__name__</span> <span style="color:#728e00">==</span> <span style="color:#7f8c8d">&#34;__main__&#34;</span>:
+   <span style="color:#434f54">delete_tenant</span>()
+</code></pre></div><p>Let&rsquo;s execute the script:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wauterw@WAUTERW-M-65P7 ACI_Python_Requests % python3 delete_tenant.py 
+Successfully deleted tenant
+</code></pre></div><p>The code can be found at <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests">Github</a>.</p>
 
 		</div>
 		<footer class="post__footer">
@@ -260,16 +348,16 @@ Successfully created tenant
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -278,6 +366,9 @@ Successfully created tenant
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -285,6 +376,9 @@ Successfully created tenant
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -314,14 +408,19 @@ Successfully created tenant
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -330,14 +429,15 @@ Successfully created tenant
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -111,54 +118,54 @@ if (!doNotTrack) {
 <h3 id="code">Code</h3>
 <p>Below are the files we are going to use. If you went through part 1 and part 2 you’ll surely know what they are doing. Won’t explain them here anymore, but will just list them.</p>
 <p>provider.tf:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">provider</span> <span style="color:#ba2121">&#34;aws&#34;</span> {
-<span style="color:#7d9029">  version</span>    <span style="color:#666">=</span> <span style="color:#ba2121">&#34;~&gt; 2.0&#34;</span>
-<span style="color:#7d9029">  region</span>     <span style="color:#666">=</span> <span style="">var</span>.<span style="">ec</span><span style="color:#666">2</span><span style="">_region</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#00979d">provider</span> <span style="color:#7f8c8d">&#34;aws&#34;</span> {
+  <span style="color:#434f54">version</span>    = <span style="color:#7f8c8d">&#34;~&gt; 2.0&#34;</span>
+  <span style="color:#434f54">region</span>     = <span style="color:#728e00">var</span>.<span style="color:#728e00">ec2_region</span>
 }
 </code></pre></div><p>variables.tf:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_region&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;eu-west-1&#34;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_region&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;eu-west-1&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_image&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;ami-00035f41c82244dab&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_image&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;ami-00035f41c82244dab&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_instance_type&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;t2.micro&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_instance_type&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;t2.micro&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_keypair&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;AWS-Cisco&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_keypair&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;AWS-Cisco&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_tags&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Cisco-Demo-Terraform-1&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_tags&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;Cisco-Demo-Terraform-1&#34;</span>
 }
-
-<span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_count&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;2&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_count&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;2&#34;</span>
 }
 
 
 </code></pre></div><p>main.tf:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">resource</span> <span style="color:#ba2121">&#34;aws_instance&#34; &#34;OneServer&#34;</span> {
-<span style="color:#7d9029">  ami</span>           <span style="color:#666">=</span> <span style="">var</span>.<span style="">ec</span><span style="color:#666">2</span><span style="">_image</span>
-<span style="color:#7d9029">  instance_type</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">ec</span><span style="color:#666">2</span><span style="">_instance_type</span>
-<span style="color:#7d9029">  key_name</span>      <span style="color:#666">=</span> <span style="">var</span>.<span style="">ec</span><span style="color:#666">2</span><span style="">_keypair</span>
-<span style="color:#7d9029">  count</span>         <span style="color:#666">=</span> <span style="">var</span>.<span style="">ec</span><span style="color:#666">2</span><span style="">_count</span>
-<span style="color:#7d9029">  tags</span> <span style="color:#666">=</span> {
-<span style="color:#7d9029">    Name</span> <span style="color:#666">=</span> <span style="">var</span>.<span style="">ec</span><span style="color:#666">2</span><span style="">_tags</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#00979d">resource</span> <span style="color:#7f8c8d">&#34;aws_instance&#34;</span> <span style="color:#7f8c8d">&#34;OneServer&#34;</span> {
+  <span style="color:#434f54">ami</span>           = <span style="color:#728e00">var</span>.<span style="color:#728e00">ec2_image</span>
+  <span style="color:#434f54">instance_type</span> = <span style="color:#728e00">var</span>.<span style="color:#728e00">ec2_instance_type</span>
+  <span style="color:#434f54">key_name</span>      = <span style="color:#728e00">var</span>.<span style="color:#728e00">ec2_keypair</span>
+  <span style="color:#434f54">count</span>         = <span style="color:#728e00">var</span>.<span style="color:#728e00">ec2_count</span>
+  <span style="color:#434f54">tags</span> = {
+    <span style="color:#434f54">Name</span> = <span style="color:#728e00">var</span>.<span style="color:#728e00">ec2_tags</span>
   }
 }
-
-<span style="">output</span> <span style="color:#ba2121">&#34;instance_ip_addr&#34;</span> {
-<span style="color:#7d9029">  value</span>       <span style="color:#666">=</span> <span style="">aws_instance</span>.<span style="">OneServer</span>.<span style="">*</span>.<span style="">private_ip</span>
-<span style="color:#7d9029">  description</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;The private IP address of the main server instance.&#34;</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">output</span> <span style="color:#7f8c8d">&#34;instance_ip_addr&#34;</span> {
+  <span style="color:#434f54">value</span>       = <span style="color:#728e00">aws_instance</span>.<span style="color:#728e00">OneServer</span>.<span style="color:#728e00">*</span>.<span style="color:#728e00">private_ip</span>
+  <span style="color:#434f54">description</span> = <span style="color:#7f8c8d">&#34;The private IP address of the main server instance.&#34;</span>
 }
-
-<span style="">output</span> <span style="color:#ba2121">&#34;instance_ips&#34;</span> {
-<span style="color:#7d9029">  value</span> <span style="color:#666">=</span> <span style="">aws_instance</span>.<span style="">OneServer</span>.<span style="">*</span>.<span style="">public_ip</span>
+<span style="color:#00979d">
+</span><span style="color:#00979d">output</span> <span style="color:#7f8c8d">&#34;instance_ips&#34;</span> {
+  <span style="color:#434f54">value</span> = <span style="color:#728e00">aws_instance</span>.<span style="color:#728e00">OneServer</span>.<span style="color:#728e00">*</span>.<span style="color:#728e00">public_ip</span>
 }
 </code></pre></div><h3 id="create-gitlab-repository">Create Gitlab repository</h3>
 <p>We will be using Gitlab in this post. I’m going to assume you have a working Gitlab application. For this post, you can just go to <a href="http://gitlab.com">http://gitlab.com</a> and create an account. It’s free.</p>
@@ -167,28 +174,28 @@ if (!doNotTrack) {
 <p>Once the project is created, you will get the below screen:</p>
 <p><img src="/images/2019-11-23-2.png" alt="AWSGitlab"></p>
 <p>Next, go to the folder where you stored all the tf files and just follow what Gitlab informed you about, dead easy. Below are the commands you should use:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git init
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git init
 Initialized empty Git repository in /Users/wauterw/Dropbox/Programming/blog-hugo-netlify-code/AWS_Terraform_Gitlab/
 .git/
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git remote add origin https://gitlab.com/wiwa1978/terraform_aws_cicd.g
 it
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git add .
-WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#ba2121">&#34;First commit&#34;</span>
-<span style="color:#666">[</span>master <span style="color:#666">(</span>root-commit<span style="color:#666">)</span> 3b3c3b1<span style="color:#666">]</span> First commit
- <span style="color:#666">4</span> files changed, <span style="color:#666">63</span> insertions<span style="color:#666">(</span>+<span style="color:#666">)</span>
- create mode <span style="color:#666">100644</span> main.tf
- create mode <span style="color:#666">100644</span> provider.tf
- create mode <span style="color:#666">100644</span> terraform.tf
- create mode <span style="color:#666">100644</span> variables.tf
+WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#7f8c8d">&#34;First commit&#34;</span>
+<span style="color:#728e00">[</span>master <span style="color:#728e00">(</span>root-commit<span style="color:#728e00">)</span> 3b3c3b1<span style="color:#728e00">]</span> First commit
+ <span style="color:#8a7b52">4</span> files changed, <span style="color:#8a7b52">63</span> insertions<span style="color:#728e00">(</span>+<span style="color:#728e00">)</span>
+ create mode <span style="color:#8a7b52">100644</span> main.tf
+ create mode <span style="color:#8a7b52">100644</span> provider.tf
+ create mode <span style="color:#8a7b52">100644</span> terraform.tf
+ create mode <span style="color:#8a7b52">100644</span> variables.tf
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git push origin master
-Enumerating objects: 6, <span style="color:#008000;font-weight:bold">done</span>.
-Counting objects: 100% <span style="color:#666">(</span>6/6<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Delta compression using up to <span style="color:#666">12</span> threads
-Compressing objects: 100% <span style="color:#666">(</span>6/6<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Writing objects: 100% <span style="color:#666">(</span>6/6<span style="color:#666">)</span>, <span style="color:#666">957</span> bytes | 957.00 KiB/s, <span style="color:#008000;font-weight:bold">done</span>.
-Total <span style="color:#666">6</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>, reused <span style="color:#666">0</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>
+Enumerating objects: 6, <span style="color:#728e00">done</span>.
+Counting objects: 100% <span style="color:#728e00">(</span>6/6<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Delta compression using up to <span style="color:#8a7b52">12</span> threads
+Compressing objects: 100% <span style="color:#728e00">(</span>6/6<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Writing objects: 100% <span style="color:#728e00">(</span>6/6<span style="color:#728e00">)</span>, <span style="color:#8a7b52">957</span> bytes | 957.00 KiB/s, <span style="color:#728e00">done</span>.
+Total <span style="color:#8a7b52">6</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>, reused <span style="color:#8a7b52">0</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>
 To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
- * <span style="color:#666">[</span>new branch<span style="color:#666">]</span>      master -&gt; master
+ * <span style="color:#728e00">[</span>new branch<span style="color:#728e00">]</span>      master -&gt; master
 </code></pre></div><p>Eventually, your repository on Gitlab will contain all your files.</p>
 <p><img src="/images/2019-11-23-3.png" alt="AWSGitlab"></p>
 <h3 id="configure-gitlab-pipeline">Configure Gitlab pipeline</h3>
@@ -198,73 +205,73 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 <p>We will start with pulling the hashicorp/terraform image. In the background, Gitlab will create a docker container (running that image). Next, you will notice that we specify two export statements. Essentially, these statements will take the environment variables we created above and add them to your docker instance.</p>
 <p>The rest of the file is pretty self-explanatory in my view. We will validate our TF files, we will make a TF plan and we will apply the configuration. We have added the ‘when: manual’ statement to the apply stage because we want Gitlab to ask for our confirmation before deploying our infrastructure.</p>
 <p>It’s important you call the above file ‘.gitlab-ci.yml’.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">image:
-  name: hashicorp<span style="color:#666">/</span>terraform:light
-  entrypoint:
-    <span style="color:#666">-</span> <span style="color:#ba2121">&#39;/usr/bin/env&#39;</span>
-    <span style="color:#666">-</span> <span style="color:#ba2121">&#39;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">image</span>:
+  <span style="color:#434f54">name</span>: <span style="color:#434f54">hashicorp</span><span style="color:#728e00">/</span><span style="color:#434f54">terraform</span>:<span style="color:#434f54">light</span>
+  <span style="color:#434f54">entrypoint</span>:
+    <span style="color:#728e00">-</span> <span style="color:#7f8c8d">&#39;/usr/bin/env&#39;</span>
+    <span style="color:#728e00">-</span> <span style="color:#7f8c8d">&#39;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#39;</span>
 
-before_script:
-  <span style="color:#666">-</span> rm <span style="color:#666">-</span>rf <span style="color:#666">.</span>terraform
-  <span style="color:#666">-</span> terraform <span style="color:#666">--</span>version
-  <span style="color:#666">-</span> export AWS_ACCESS_KEY_ID
-  <span style="color:#666">-</span> export AWS_SECRET_ACCESS_KEY
-  <span style="color:#666">-</span> terraform init
+<span style="color:#434f54">before_script</span>:
+  <span style="color:#728e00">-</span> <span style="color:#434f54">rm</span> <span style="color:#728e00">-</span><span style="color:#434f54">rf</span> <span style="color:#728e00">.</span><span style="color:#434f54">terraform</span>
+  <span style="color:#728e00">-</span> <span style="color:#434f54">terraform</span> <span style="color:#728e00">--</span><span style="color:#434f54">version</span>
+  <span style="color:#728e00">-</span> <span style="color:#434f54">export</span> <span style="color:#434f54">AWS_ACCESS_KEY_ID</span>
+  <span style="color:#728e00">-</span> <span style="color:#434f54">export</span> <span style="color:#434f54">AWS_SECRET_ACCESS_KEY</span>
+  <span style="color:#728e00">-</span> <span style="color:#434f54">terraform</span> <span style="color:#434f54">init</span>
 
-stages:
-  <span style="color:#666">-</span> validate
-  <span style="color:#666">-</span> plan
-  <span style="color:#666">-</span> <span style="color:#008000">apply</span>
+<span style="color:#434f54">stages</span>:
+  <span style="color:#728e00">-</span> <span style="color:#434f54">validate</span>
+  <span style="color:#728e00">-</span> <span style="color:#434f54">plan</span>
+  <span style="color:#728e00">-</span> <span style="color:#728e00">apply</span>
 
-validate:
-  stage: validate
-  script:
-    <span style="color:#666">-</span> terraform validate
+<span style="color:#434f54">validate</span>:
+  <span style="color:#434f54">stage</span>: <span style="color:#434f54">validate</span>
+  <span style="color:#434f54">script</span>:
+    <span style="color:#728e00">-</span> <span style="color:#434f54">terraform</span> <span style="color:#434f54">validate</span>
 
-plan:
-  stage: plan
-  script:
-    <span style="color:#666">-</span> terraform plan <span style="color:#666">-</span>out <span style="color:#ba2121">&#34;planfile&#34;</span>
-  dependencies:
-    <span style="color:#666">-</span> validate
-  artifacts:
-    paths:
-      <span style="color:#666">-</span> planfile
+<span style="color:#434f54">plan</span>:
+  <span style="color:#434f54">stage</span>: <span style="color:#434f54">plan</span>
+  <span style="color:#434f54">script</span>:
+    <span style="color:#728e00">-</span> <span style="color:#434f54">terraform</span> <span style="color:#434f54">plan</span> <span style="color:#728e00">-</span><span style="color:#434f54">out</span> <span style="color:#7f8c8d">&#34;planfile&#34;</span>
+  <span style="color:#434f54">dependencies</span>:
+    <span style="color:#728e00">-</span> <span style="color:#434f54">validate</span>
+  <span style="color:#434f54">artifacts</span>:
+    <span style="color:#434f54">paths</span>:
+      <span style="color:#728e00">-</span> <span style="color:#434f54">planfile</span>
 
-<span style="color:#008000">apply</span>:
-  stage: <span style="color:#008000">apply</span>
-  script:
-    <span style="color:#666">-</span> terraform <span style="color:#008000">apply</span> <span style="color:#666">-</span><span style="color:#008000">input</span><span style="color:#666">=</span>false <span style="color:#ba2121">&#34;planfile&#34;</span>
-  dependencies:
-    <span style="color:#666">-</span> plan
-  when: manual
+<span style="color:#728e00">apply</span>:
+  <span style="color:#434f54">stage</span>: <span style="color:#728e00">apply</span>
+  <span style="color:#434f54">script</span>:
+    <span style="color:#728e00">-</span> <span style="color:#434f54">terraform</span> <span style="color:#728e00">apply</span> <span style="color:#728e00">-</span><span style="color:#728e00">input</span><span style="color:#728e00">=</span><span style="color:#434f54">false</span> <span style="color:#7f8c8d">&#34;planfile&#34;</span>
+  <span style="color:#434f54">dependencies</span>:
+    <span style="color:#728e00">-</span> <span style="color:#434f54">plan</span>
+  <span style="color:#434f54">when</span>: <span style="color:#434f54">manual</span>
 </code></pre></div><h3 id="execute-gitlab-pipeline">Execute Gitlab pipeline</h3>
 <p>Once you commit this file to your Gitlab repository, Gitlab will automatically (by default) start the execution of your pipeline.</p>
 <p>So we need to commit this file to our repository. You can do this using below commands:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git init
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git init
 Initialized empty Git repository in /Users/wauterw/Dropbox/Programming/blog-hugo-netlify-code/AWS_Terraform_Gitlab/
 .git/
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git remote add origin https://gitlab.com/wiwa1978/terraform_aws_cicd.g
 it
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git add .
-WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#ba2121">&#34;First commit&#34;</span>
-<span style="color:#666">[</span>master <span style="color:#666">(</span>root-commit<span style="color:#666">)</span> 3b3c3b1<span style="color:#666">]</span> First commit
- <span style="color:#666">4</span> files changed, <span style="color:#666">63</span> insertions<span style="color:#666">(</span>+<span style="color:#666">)</span>
+WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#7f8c8d">&#34;First commit&#34;</span>
+<span style="color:#728e00">[</span>master <span style="color:#728e00">(</span>root-commit<span style="color:#728e00">)</span> 3b3c3b1<span style="color:#728e00">]</span> First commit
+ <span style="color:#8a7b52">4</span> files changed, <span style="color:#8a7b52">63</span> insertions<span style="color:#728e00">(</span>+<span style="color:#728e00">)</span>
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git init
 Reinitialized existing Git repository in /Users/wauterw/Dropbox/Programming/blog-hugo-netlify-code/AWS_Terraform_Gi
 tlab/.git/
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git add .
-WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#ba2121">&#34;Add CICD config&#34;</span>
-<span style="color:#666">[</span>master b5c52da<span style="color:#666">]</span> Add CICD config
- <span style="color:#666">1</span> file changed, <span style="color:#666">40</span> insertions<span style="color:#666">(</span>+<span style="color:#666">)</span>
- create mode <span style="color:#666">100644</span> .gitlab-ci.yml
+WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#7f8c8d">&#34;Add CICD config&#34;</span>
+<span style="color:#728e00">[</span>master b5c52da<span style="color:#728e00">]</span> Add CICD config
+ <span style="color:#8a7b52">1</span> file changed, <span style="color:#8a7b52">40</span> insertions<span style="color:#728e00">(</span>+<span style="color:#728e00">)</span>
+ create mode <span style="color:#8a7b52">100644</span> .gitlab-ci.yml
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git push origin master
-Enumerating objects: 4, <span style="color:#008000;font-weight:bold">done</span>.
-Counting objects: 100% <span style="color:#666">(</span>4/4<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Delta compression using up to <span style="color:#666">12</span> threads
-Compressing objects: 100% <span style="color:#666">(</span>3/3<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Writing objects: 100% <span style="color:#666">(</span>3/3<span style="color:#666">)</span>, <span style="color:#666">574</span> bytes | 574.00 KiB/s, <span style="color:#008000;font-weight:bold">done</span>.
-Total <span style="color:#666">3</span> <span style="color:#666">(</span>delta 1<span style="color:#666">)</span>, reused <span style="color:#666">0</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>
+Enumerating objects: 4, <span style="color:#728e00">done</span>.
+Counting objects: 100% <span style="color:#728e00">(</span>4/4<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Delta compression using up to <span style="color:#8a7b52">12</span> threads
+Compressing objects: 100% <span style="color:#728e00">(</span>3/3<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Writing objects: 100% <span style="color:#728e00">(</span>3/3<span style="color:#728e00">)</span>, <span style="color:#8a7b52">574</span> bytes | 574.00 KiB/s, <span style="color:#728e00">done</span>.
+Total <span style="color:#8a7b52">3</span> <span style="color:#728e00">(</span>delta 1<span style="color:#728e00">)</span>, reused <span style="color:#8a7b52">0</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>
 To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
    3b3c3b1..b5c52da  master -&gt; master
 </code></pre></div><p>Note: Make sure the remote state is cleaned in the beginning, otherwise you might run into some issues.</p>
@@ -278,21 +285,21 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 <p><img src="/images/2019-11-23-8.png" alt="AWSGitlab"></p>
 <h3 id="changing-the-name-of-the-ec2-instance">Changing the name of the EC2 instance</h3>
 <p>Let’s give our instances a different name. Change the name of the EC2 instance in the variable.tf file:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#008000;font-weight:bold">variable</span> <span style="color:#ba2121">&#34;ec2_tags&#34;</span> {
-<span style="color:#7d9029">  default</span> <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Cisco-Demo-Terraform-NewValue&#34;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#00979d">variable</span> <span style="color:#7f8c8d">&#34;ec2_tags&#34;</span> {
+  <span style="color:#434f54">default</span> = <span style="color:#7f8c8d">&#34;Cisco-Demo-Terraform-NewValue&#34;</span>
 }
 </code></pre></div><p>Once done, commit these changes to your Gitlab repository using the below commands.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git add .
-WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#ba2121">&#34;Change server name&#34;</span>
-<span style="color:#666">[</span>master 883a481<span style="color:#666">]</span> Change server name
- <span style="color:#666">1</span> file changed, <span style="color:#666">1</span> insertion<span style="color:#666">(</span>+<span style="color:#666">)</span>, <span style="color:#666">1</span> deletion<span style="color:#666">(</span>-<span style="color:#666">)</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git add .
+WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git commit -m <span style="color:#7f8c8d">&#34;Change server name&#34;</span>
+<span style="color:#728e00">[</span>master 883a481<span style="color:#728e00">]</span> Change server name
+ <span style="color:#8a7b52">1</span> file changed, <span style="color:#8a7b52">1</span> insertion<span style="color:#728e00">(</span>+<span style="color:#728e00">)</span>, <span style="color:#8a7b52">1</span> deletion<span style="color:#728e00">(</span>-<span style="color:#728e00">)</span>
 WAUTERW-M-65P7:AWS_Terraform_Gitlab wauterw$ git push origin master
-Enumerating objects: 5, <span style="color:#008000;font-weight:bold">done</span>.
-Counting objects: 100% <span style="color:#666">(</span>5/5<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Delta compression using up to <span style="color:#666">12</span> threads
-Compressing objects: 100% <span style="color:#666">(</span>3/3<span style="color:#666">)</span>, <span style="color:#008000;font-weight:bold">done</span>.
-Writing objects: 100% <span style="color:#666">(</span>3/3<span style="color:#666">)</span>, <span style="color:#666">305</span> bytes | 305.00 KiB/s, <span style="color:#008000;font-weight:bold">done</span>.
-Total <span style="color:#666">3</span> <span style="color:#666">(</span>delta 2<span style="color:#666">)</span>, reused <span style="color:#666">0</span> <span style="color:#666">(</span>delta 0<span style="color:#666">)</span>
+Enumerating objects: 5, <span style="color:#728e00">done</span>.
+Counting objects: 100% <span style="color:#728e00">(</span>5/5<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Delta compression using up to <span style="color:#8a7b52">12</span> threads
+Compressing objects: 100% <span style="color:#728e00">(</span>3/3<span style="color:#728e00">)</span>, <span style="color:#728e00">done</span>.
+Writing objects: 100% <span style="color:#728e00">(</span>3/3<span style="color:#728e00">)</span>, <span style="color:#8a7b52">305</span> bytes | 305.00 KiB/s, <span style="color:#728e00">done</span>.
+Total <span style="color:#8a7b52">3</span> <span style="color:#728e00">(</span>delta 2<span style="color:#728e00">)</span>, reused <span style="color:#8a7b52">0</span> <span style="color:#728e00">(</span>delta 0<span style="color:#728e00">)</span>
 To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
    b5c52da..883a481  master -&gt; master
 
@@ -361,16 +368,16 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -379,6 +386,9 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -386,6 +396,9 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -415,14 +428,19 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -431,14 +449,15 @@ To https://gitlab.com/wiwa1978/terraform_aws_cicd.git
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

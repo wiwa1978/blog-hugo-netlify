@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -130,36 +137,39 @@ if (!doNotTrack) {
 &lt;/config&gt;
 </code></pre><p>This file contains the configuration for the interface in XML format. Note the <code>{description}</code> variable in particular. It&rsquo;s in fact a placeholder in the XML document. Hence, we need to pass the description from our Python script, which is done through the format method. It will then render the XML file with our input and fill in the description variable with the correct value.</p>
 <p>Also note that we are using the <code>edit_config</code> method (see <a href="https://ncclient.readthedocs.io/en/latest/manager.html?highlight=edit_config#ncclient.manager.Manager.edit_config">documentation</a>). The <code>edit_config</code> needs a target and a config which must be rooted in a config element (which is also the reason why the interface XML file is wrapped in a <!-- raw HTML omitted --><!-- raw HTML omitted --> block).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pprint</span> <span style="color:#008000;font-weight:bold">import</span> pprint
+<blockquote>
+<p>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">pprint</span> <span style="color:#728e00">import</span> <span style="color:#434f54">pprint</span>
 
-router <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#39;ip&#39;</span>: <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
-   <span style="color:#ba2121">&#39;port&#39;</span>: <span style="color:#ba2121">&#39;10000&#39;</span>,
-   <span style="color:#ba2121">&#39;username&#39;</span>: <span style="color:#ba2121">&#39;developer&#39;</span>,
-   <span style="color:#ba2121">&#39;password&#39;</span>: <span style="color:#ba2121">&#39;C1sco12345&#39;</span>
+<span style="color:#434f54">router</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
+   <span style="color:#7f8c8d">&#39;port&#39;</span>: <span style="color:#7f8c8d">&#39;10000&#39;</span>,
+   <span style="color:#7f8c8d">&#39;username&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+   <span style="color:#7f8c8d">&#39;password&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>
 }
 
-netconf_template <span style="color:#666">=</span> <span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;templates/interface.xml&#39;</span>)<span style="color:#666">.</span>read()
-netconf_payload <span style="color:#666">=</span> netconf_template<span style="color:#666">.</span>format(description<span style="color:#666">=</span><span style="color:#ba2121">&#34;Changing through Netconf&#34;</span>)
+<span style="color:#434f54">netconf_template</span> <span style="color:#728e00">=</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;templates/interface.xml&#39;</span>)<span style="color:#728e00">.</span><span style="color:#434f54">read</span>()
+<span style="color:#434f54">netconf_payload</span> <span style="color:#728e00">=</span> <span style="color:#434f54">netconf_template</span><span style="color:#728e00">.</span><span style="color:#434f54">format</span>(<span style="color:#434f54">description</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;Changing through Netconf&#34;</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(netconf_payload)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">netconf_payload</span>)
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;ip&#39;</span>], port<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;port&#39;</span>], username<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;username&#39;</span>],
-                    password<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;password&#39;</span>], device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span>False)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>],
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-response <span style="color:#666">=</span> m<span style="color:#666">.</span>edit_config(netconf_payload, target<span style="color:#666">=</span><span style="color:#ba2121">&#34;running&#34;</span>)
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">edit_config</span>(<span style="color:#434f54">netconf_payload</span>, <span style="color:#434f54">target</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;running&#34;</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(response)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span>)
 </code></pre></div><p>Let&rsquo;s execute this script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 edit_config_format.py 
-&lt;?xml <span style="color:#19177c">version</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;1.0&#34;</span> <span style="color:#19177c">encoding</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;UTF-8&#34;</span>?&gt;
-&lt;rpc-reply <span style="color:#19177c">xmlns</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> message-id<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:uuid:09b2c3d8-0ac8-4d02-9a09-851a
-</span><span style="color:#ba2121">39d410fc&#34;</span> xmlns:nc<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 edit_config_format.py 
+&lt;?xml <span style="color:#434f54">version</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;1.0&#34;</span> <span style="color:#434f54">encoding</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;UTF-8&#34;</span>?&gt;
+&lt;rpc-reply <span style="color:#434f54">xmlns</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> message-id<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:uuid:09b2c3d8-0ac8-4d02-9a09-851a
+</span><span style="color:#7f8c8d">39d410fc&#34;</span> xmlns:nc<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;
   &lt;ok/&gt;
 &lt;/rpc-reply&gt;
 </code></pre></div><p>As you can see, we receive an RPC reply from our IOS XE device with a message indicating that the configuration update was successfull. Let&rsquo;s use one of our previous scripts to see the changes. We will read the interface configuration by specifying a filter (that only retrieves information related to GigabitEthernet3)</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 netconf_filter_part2.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 netconf_filter_part2.py 
 Interface name: GigabitEthernet3
 Interface description: Changing through Netconf
 Interface IP address: 87.2.3.4
@@ -186,39 +196,39 @@ Interface IP netmask: 255.255.255.0
    &lt;/interfaces&gt;
 &lt;/config&gt;
 </code></pre><p>Pretty similar of course. Note the double curly braces here. Again, we need to pass the description variable to the template. In below snippet you can see how this works. We define a variable called <code>template_vars</code> containing a key/value pair. The <code>get_template</code> method will retrieve the Jinja2 file and the <code>render</code> method will essentially do the heavy lifting of replacing the variable and provide back the &lsquo;static&rsquo;(completed) file. In exactly the same way as previous Python script, we can then just pass the content to the <code>edit_config</code> method.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> FileSystemLoader
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">FileSystemLoader</span>
 
-router <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#39;ip&#39;</span>: <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
-   <span style="color:#ba2121">&#39;port&#39;</span>: <span style="color:#ba2121">&#39;10000&#39;</span>,
-   <span style="color:#ba2121">&#39;username&#39;</span>: <span style="color:#ba2121">&#39;developer&#39;</span>,
-   <span style="color:#ba2121">&#39;password&#39;</span>: <span style="color:#ba2121">&#39;C1sco12345&#39;</span>
+<span style="color:#434f54">router</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
+   <span style="color:#7f8c8d">&#39;port&#39;</span>: <span style="color:#7f8c8d">&#39;10000&#39;</span>,
+   <span style="color:#7f8c8d">&#39;username&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+   <span style="color:#7f8c8d">&#39;password&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>
 }
 
-my_template <span style="color:#666">=</span> Environment(loader<span style="color:#666">=</span>FileSystemLoader(<span style="color:#ba2121">&#39;templates&#39;</span>))
+<span style="color:#434f54">my_template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span><span style="color:#728e00">=</span><span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;templates&#39;</span>))
 
-template_vars <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#34;description&#34;</span>: <span style="color:#ba2121">&#34;Changed again&#34;</span>
+<span style="color:#434f54">template_vars</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#34;description&#34;</span>: <span style="color:#7f8c8d">&#34;Changed again&#34;</span>
 }
 
-template <span style="color:#666">=</span> my_template<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#34;interface.j2.xml&#34;</span>)
-netconf_payload <span style="color:#666">=</span> template<span style="color:#666">.</span>render(template_vars)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">my_template</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#34;interface.j2.xml&#34;</span>)
+<span style="color:#434f54">netconf_payload</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">template_vars</span>)
 
-<span style="color:#408080;font-style:italic"># Alternative: it can also be a little easier.</span>
-<span style="color:#408080;font-style:italic"># description = &#34;Changed description&#34;</span>
-<span style="color:#408080;font-style:italic"># template = my_template.get_template(&#34;interface.j2.xml&#34;)</span>
-<span style="color:#408080;font-style:italic"># netconf_payload = template.render(description=description)</span>
+<span style="color:#95a5a6"># Alternative: it can also be a little easier.</span>
+<span style="color:#95a5a6"># description = &#34;Changed description&#34;</span>
+<span style="color:#95a5a6"># template = my_template.get_template(&#34;interface.j2.xml&#34;)</span>
+<span style="color:#95a5a6"># netconf_payload = template.render(description=description)</span>
  
-<span style="color:#008000;font-weight:bold">print</span>(netconf_payload)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">netconf_payload</span>)
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;ip&#39;</span>], port<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;port&#39;</span>], username<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;username&#39;</span>],
-                    password<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;password&#39;</span>], device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span>False)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>],
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-response <span style="color:#666">=</span> m<span style="color:#666">.</span>edit_config(netconf_payload, target<span style="color:#666">=</span><span style="color:#ba2121">&#34;running&#34;</span>)
+<span style="color:#434f54">response</span> <span style="color:#728e00">=</span> <span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">edit_config</span>(<span style="color:#434f54">netconf_payload</span>, <span style="color:#434f54">target</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;running&#34;</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(response)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">response</span>)
 </code></pre></div><p>The code for this blogpost can be found at <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netconf_Python">Github</a>.</p>
 <ul>
 <li>Set Interface description: <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netconf_Python/edit_config_format.py">source code</a></li>
@@ -282,16 +292,16 @@ response <span style="color:#666">=</span> m<span style="color:#666">.</span>edi
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -300,6 +310,9 @@ response <span style="color:#666">=</span> m<span style="color:#666">.</span>edi
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -307,6 +320,9 @@ response <span style="color:#666">=</span> m<span style="color:#666">.</span>edi
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -336,14 +352,19 @@ response <span style="color:#666">=</span> m<span style="color:#666">.</span>edi
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -352,14 +373,15 @@ response <span style="color:#666">=</span> m<span style="color:#666">.</span>edi
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

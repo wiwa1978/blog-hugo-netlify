@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -129,9 +136,9 @@ if (!doNotTrack) {
 <h3 id="install-netconf-python-library">Install Netconf Python library</h3>
 <p>In order to work with NETCONF, we have a library called <code>ncclient</code>. It&rsquo;s a Python library that facilitates client-side scripting and application development around the NETCONF protocol. Refer to <a href="https://github.com/ncclient/ncclient">Github</a> for more information on the library. The docs can be found <a href="https://ncclient.readthedocs.io/en/latest/">here</a>.</p>
 <p>Installing the library is straigthforward. In addition, we also install some additional libraries to work with NETCONF more easily.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Netconf_Python wauterw$ python3 -m venv venv
-WAUTERW-M-65P7:Netconf_Python wauterw$ <span style="color:#008000">source</span> venv/bin/activate
-<span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ pip3 install ncclient pyang xmltodict
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:Netconf_Python wauterw$ python3 -m venv venv
+WAUTERW-M-65P7:Netconf_Python wauterw$ <span style="color:#728e00">source</span> venv/bin/activate
+<span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ pip3 install ncclient pyang xmltodict
 ***Truncated***
 Successfully installed bcrypt-3.1.7 cffi-1.14.0 cryptography-2.8 lxml-4.5.0 ncclient-0.6.7 paramiko-2.7.1 pyang-2.2.1 pycparser-2.20 pynacl-1.3.0 six-1.14.0 xmltodict-0.12.0
 </code></pre></div><h3 id="note-about-devices">Note about devices</h3>
@@ -139,61 +146,64 @@ Successfully installed bcrypt-3.1.7 cffi-1.14.0 cryptography-2.8 lxml-4.5.0 nccl
 <h3 id="netconf-and-python-first-steps">Netconf and Python: first steps</h3>
 <p>Let&rsquo;s check if everything works. We will use the ncclient library to connect to my device in the DevNet sandbox. In the sandbox documentation, you&rsquo;ll notice the NETCONF port is set to 10000.</p>
 <p>Below script speaks for itself. If all works well you will see that you successfully created a connection between your SSH client (ncclient) and the IOS XE NETCONF agent.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
+<blockquote>
+<p>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span><span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>, port<span style="color:#666">=</span><span style="color:#ba2121">&#39;10000&#39;</span>, username<span style="color:#666">=</span><span style="color:#ba2121">&#39;developer&#39;</span>,
-                    password<span style="color:#666">=</span><span style="color:#ba2121">&#39;C1sco12345&#39;</span>, device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span>False)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>, <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;10000&#39;</span>, <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;***&#39;</span>,
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;***&#39;</span>, <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(m<span style="color:#666">.</span>connected)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">connected</span>)
 </code></pre></div><p>This will print True:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 connect.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 connect.py 
 True
 </code></pre></div><h3 id="get-capabilities">Get Capabilities</h3>
 <p>Basic NETCONF functionality can be extended by the definition of NETCONF capabilities. The set of additional protocol features that an implementation supports is communicated between the server and the client during the capability exchange portion of session setup. Let&rsquo;s see this in action by executing the below script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span><span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>, port<span style="color:#666">=</span><span style="color:#ba2121">&#39;10000&#39;</span>, username<span style="color:#666">=</span><span style="color:#ba2121">&#39;developer&#39;</span>,
-                    password<span style="color:#666">=</span><span style="color:#ba2121">&#39;C1sco12345&#39;</span>, device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span>False)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>, <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;10000&#39;</span>, <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;***&#39;</span>,
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;***&#39;</span>, <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-<span style="color:#008000;font-weight:bold">for</span> capability <span style="color:#a2f;font-weight:bold">in</span> m<span style="color:#666">.</span>server_capabilities:
-   <span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#39;*&#39;</span><span style="color:#666">*</span> <span style="color:#666">50</span>)
-   <span style="color:#008000;font-weight:bold">print</span>(capability)
+<span style="color:#728e00">for</span> <span style="color:#434f54">capability</span> <span style="color:#728e00">in</span> <span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">server_capabilities</span>:
+   <span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#39;*&#39;</span><span style="color:#728e00">*</span> <span style="color:#8a7b52">50</span>)
+   <span style="color:#728e00">print</span>(<span style="color:#434f54">capability</span>)
 </code></pre></div><p>You will see a HUGE list of capabilities returned from our device.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 capabilities.py
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 capabilities.py
 ***Truncated***
-urn:ietf:params:xml:ns:yang:smiv2:UDP-MIB?module<span style="color:#666">=</span>UDP-MIB&amp;<span style="color:#19177c">revision</span><span style="color:#666">=</span>2005-05-20
+urn:ietf:params:xml:ns:yang:smiv2:UDP-MIB?module<span style="color:#728e00">=</span>UDP-MIB&amp;<span style="color:#434f54">revision</span><span style="color:#728e00">=</span>2005-05-20
 **************************************************
-urn:ietf:params:xml:ns:yang:smiv2:VPN-TC-STD-MIB?module<span style="color:#666">=</span>VPN-TC-STD-MIB&amp;<span style="color:#19177c">revision</span><span style="color:#666">=</span>2005-11-15
+urn:ietf:params:xml:ns:yang:smiv2:VPN-TC-STD-MIB?module<span style="color:#728e00">=</span>VPN-TC-STD-MIB&amp;<span style="color:#434f54">revision</span><span style="color:#728e00">=</span>2005-11-15
 **************************************************
-urn:ietf:params:xml:ns:netconf:base:1.0?module<span style="color:#666">=</span>ietf-netconf&amp;<span style="color:#19177c">revision</span><span style="color:#666">=</span>2011-06-01
+urn:ietf:params:xml:ns:netconf:base:1.0?module<span style="color:#728e00">=</span>ietf-netconf&amp;<span style="color:#434f54">revision</span><span style="color:#728e00">=</span>2011-06-01
 **************************************************
-urn:ietf:params:xml:ns:yang:ietf-netconf-with-defaults?module<span style="color:#666">=</span>ietf-netconf-with-defaults&amp;<span style="color:#19177c">revision</span><span style="color:#666">=</span>2011-06-01
+urn:ietf:params:xml:ns:yang:ietf-netconf-with-defaults?module<span style="color:#728e00">=</span>ietf-netconf-with-defaults&amp;<span style="color:#434f54">revision</span><span style="color:#728e00">=</span>2011-06-01
 </code></pre></div><h3 id="get-running-config">Get Running Config</h3>
 <p>Using NETCONF, we can also retrieve the &lsquo;running-config&rsquo; from our device. Below is the Python script for that. We again make a connection to our device and then we issue the <code>get_config</code> method. Refer to the <a href="https://ncclient.readthedocs.io/en/latest/manager.html?highlight=get_config#ncclient.manager.Manager.get_config">documentation</a> for more context.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pprint</span> <span style="color:#008000;font-weight:bold">import</span> pprint
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">xmltodict</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">xml.dom.minidom</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">pprint</span> <span style="color:#728e00">import</span> <span style="color:#434f54">pprint</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">xmltodict</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">xml.dom.minidom</span>
 
-router <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#39;ip&#39;</span>: <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
-   <span style="color:#ba2121">&#39;port&#39;</span>: <span style="color:#ba2121">&#39;10000&#39;</span>,
-   <span style="color:#ba2121">&#39;username&#39;</span>: <span style="color:#ba2121">&#39;developer&#39;</span>,
-   <span style="color:#ba2121">&#39;password&#39;</span>: <span style="color:#ba2121">&#39;C1sco12345&#39;</span>
+<span style="color:#434f54">router</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
+   <span style="color:#7f8c8d">&#39;port&#39;</span>: <span style="color:#7f8c8d">&#39;10000&#39;</span>,
+   <span style="color:#7f8c8d">&#39;username&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+   <span style="color:#7f8c8d">&#39;password&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>
 }
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;ip&#39;</span>], port<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;port&#39;</span>], username<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;username&#39;</span>],
-                    password<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;password&#39;</span>], device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">False</span>)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>],
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-running_config <span style="color:#666">=</span> m<span style="color:#666">.</span>get_config(<span style="color:#ba2121">&#39;running&#39;</span>)
-<span style="color:#008000">print</span>(xml<span style="color:#666">.</span>dom<span style="color:#666">.</span>minidom<span style="color:#666">.</span>parseString(<span style="color:#008000">str</span>(running_config))<span style="color:#666">.</span>toprettyxml())
+<span style="color:#434f54">running_config</span> <span style="color:#728e00">=</span> <span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">get_config</span>(<span style="color:#7f8c8d">&#39;running&#39;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">xml</span><span style="color:#728e00">.</span><span style="color:#434f54">dom</span><span style="color:#728e00">.</span><span style="color:#434f54">minidom</span><span style="color:#728e00">.</span><span style="color:#434f54">parseString</span>(<span style="color:#728e00">str</span>(<span style="color:#434f54">running_config</span>))<span style="color:#728e00">.</span><span style="color:#434f54">toprettyxml</span>())
 
-m<span style="color:#666">.</span>close_session()
+<span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">close_session</span>()
 </code></pre></div><p>For printing the response, we are performing some XML manipulation. The issue is that the <code>get_config</code> returns a GetReply object. If we print out the content, it would be something like:</p>
 <pre><code class="language-<?xml" data-lang="<?xml">&lt;rpc-reply xmlns=&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot; message-id=&quot;urn:uuid:0b1df155-ae50-432f-8293-d38dc1f66baf&quot; xmlns:nc=&quot;urn:ietf:params:xml:ns:netconf:base:1.0&quot;&gt;&lt;data&gt;&lt;app-hosting-cfg-data xmlns=&quot;http://cisco.com/ns/yang/Cisco-IOS-XE-app-hosting-cfg&quot;&gt;&lt;apps&gt;&lt;app&gt;&lt;application-name&gt;guestshell&lt;/application-name&gt;&lt;application-network-resource&gt;&lt;vnic-gateway-0&gt;0&lt;/vnic-gateway-0&gt;&lt;virtualportgroup-guest-interface-name-1&gt;0&lt;/virtualportgroup-guest-interface-name-1&gt;&lt;virtualportgroup-guest-ip-address-1&gt;192.168.35.2&lt;/virtualportgroup-guest-i
 </code></pre><p>This huge string is difficult to read of course, but if you look inside it contains XML tags. Hence we are using <code>xml.dom.minidom</code> library to print it out more nicely.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 running_config.py
-&lt;rpc-reply <span style="color:#19177c">xmlns</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> message-id<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:uuid:0b1df155-ae50-432f-8293-d38dc1f66baf&#34;</span> xmlns:nc<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 running_config.py
+&lt;rpc-reply <span style="color:#434f54">xmlns</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> message-id<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:uuid:0b1df155-ae50-432f-8293-d38dc1f66baf&#34;</span> xmlns:nc<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;
   &lt;data&gt;
      ***Truncated*** 
   &lt;/data&gt;
@@ -201,81 +211,81 @@ m<span style="color:#666">.</span>close_session()
 </code></pre></div><p>I truncated the reponse here, but you can clearly see that we received an RPC reply and inside the data you will find the running config.</p>
 <h3 id="get-running-config-and-print-to-file">Get Running Config and print to file</h3>
 <p>In below snippet, we do essentually the same as in the previous script, instead we will print out the reply to a text file instead of showing it inside our terminal.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
 
-router <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#39;ip&#39;</span>: <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
-   <span style="color:#ba2121">&#39;port&#39;</span>: <span style="color:#ba2121">&#39;10000&#39;</span>,
-   <span style="color:#ba2121">&#39;username&#39;</span>: <span style="color:#ba2121">&#39;developer&#39;</span>,
-   <span style="color:#ba2121">&#39;password&#39;</span>: <span style="color:#ba2121">&#39;C1sco12345&#39;</span>
+<span style="color:#434f54">router</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
+   <span style="color:#7f8c8d">&#39;port&#39;</span>: <span style="color:#7f8c8d">&#39;10000&#39;</span>,
+   <span style="color:#7f8c8d">&#39;username&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+   <span style="color:#7f8c8d">&#39;password&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>
 }
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;ip&#39;</span>], port<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;port&#39;</span>], username<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;username&#39;</span>],
-                    password<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;password&#39;</span>], device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span>False)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>],
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-c <span style="color:#666">=</span> m<span style="color:#666">.</span>get_config(source<span style="color:#666">=</span><span style="color:#ba2121">&#39;running&#39;</span>)<span style="color:#666">.</span>data_xml
+<span style="color:#434f54">c</span> <span style="color:#728e00">=</span> <span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">get_config</span>(<span style="color:#434f54">source</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#39;running&#39;</span>)<span style="color:#728e00">.</span><span style="color:#434f54">data_xml</span>
 
-<span style="color:#008000;font-weight:bold">with</span> <span style="color:#008000">open</span>(<span style="color:#ba2121">&#34;</span><span style="color:#b68;font-weight:bold">%s</span><span style="color:#ba2121">.xml&#34;</span> <span style="color:#666">%</span> router[<span style="color:#ba2121">&#39;ip&#39;</span>], <span style="color:#ba2121">&#39;w&#39;</span>) <span style="color:#008000;font-weight:bold">as</span> f:
-   f<span style="color:#666">.</span>write(c)
+<span style="color:#728e00">with</span> <span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#34;</span><span style="color:#7f8c8d">%s</span><span style="color:#7f8c8d">.xml&#34;</span> <span style="color:#728e00">%</span> <span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#7f8c8d">&#39;w&#39;</span>) <span style="color:#728e00">as</span> <span style="color:#434f54">f</span>:
+   <span style="color:#434f54">f</span><span style="color:#728e00">.</span><span style="color:#434f54">write</span>(<span style="color:#434f54">c</span>)
 </code></pre></div><p>If you execute this script, you will find an XML file in your current directory with the contents of the running-config.</p>
 <h3 id="use-filter">Use filter</h3>
 <p>Sometimes we are only interested in a very particular part of the config. NETCONF accomodates this with the ability to specify a filter. In below script, we will specify a filter that only shows the information for interface <code>GigabitEthernet3</code>. The <code>get_config</code> also accepts a filter parameter (<a href="https://ncclient.readthedocs.io/en/latest/manager.html?highlight=get_config#ncclient.manager.Manager.get_config">documentation</a>). So in below script, we will simply pass that filter to the <code>get_config</code> method and see what happens.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">ncclient</span> <span style="color:#008000;font-weight:bold">import</span> manager
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pprint</span> <span style="color:#008000;font-weight:bold">import</span> pprint
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">xmltodict</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">xml.dom.minidom</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">ncclient</span> <span style="color:#728e00">import</span> <span style="color:#434f54">manager</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">pprint</span> <span style="color:#728e00">import</span> <span style="color:#434f54">pprint</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">xmltodict</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">xml.dom.minidom</span>
 
-router <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#39;ip&#39;</span>: <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
-   <span style="color:#ba2121">&#39;port&#39;</span>: <span style="color:#ba2121">&#39;10000&#39;</span>,
-   <span style="color:#ba2121">&#39;username&#39;</span>: <span style="color:#ba2121">&#39;developer&#39;</span>,
-   <span style="color:#ba2121">&#39;password&#39;</span>: <span style="color:#ba2121">&#39;C1sco12345&#39;</span>
+<span style="color:#434f54">router</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
+   <span style="color:#7f8c8d">&#39;port&#39;</span>: <span style="color:#7f8c8d">&#39;10000&#39;</span>,
+   <span style="color:#7f8c8d">&#39;username&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+   <span style="color:#7f8c8d">&#39;password&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>
 }
 
-m <span style="color:#666">=</span> manager<span style="color:#666">.</span>connect(host<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;ip&#39;</span>], port<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;port&#39;</span>], username<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;username&#39;</span>],
-                    password<span style="color:#666">=</span>router[<span style="color:#ba2121">&#39;password&#39;</span>], device_params<span style="color:#666">=</span>{<span style="color:#ba2121">&#39;name&#39;</span>:<span style="color:#ba2121">&#39;iosxe&#39;</span>}, hostkey_verify<span style="color:#666">=</span>False)
+<span style="color:#434f54">m</span> <span style="color:#728e00">=</span> <span style="color:#434f54">manager</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;port&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;username&#39;</span>],
+                    <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">router</span>[<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">device_params</span><span style="color:#728e00">=</span>{<span style="color:#7f8c8d">&#39;name&#39;</span>:<span style="color:#7f8c8d">&#39;iosxe&#39;</span>}, <span style="color:#434f54">hostkey_verify</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
 
-netconf_filter <span style="color:#666">=</span> <span style="color:#ba2121">&#34;&#34;&#34;
-</span><span style="color:#ba2121">&lt;filter&gt;
-</span><span style="color:#ba2121">   &lt;interfaces xmlns=&#34;urn:ietf:params:xml:ns:yang:ietf-interfaces&#34;&gt;
-</span><span style="color:#ba2121">      &lt;interface&gt;
-</span><span style="color:#ba2121">         &lt;name&gt;GigabitEthernet1&lt;/name&gt;
-</span><span style="color:#ba2121">      &lt;/interface&gt;
-</span><span style="color:#ba2121">   &lt;/interfaces&gt;
-</span><span style="color:#ba2121">&lt;/filter&gt;
-</span><span style="color:#ba2121">&#34;&#34;&#34;</span>
+<span style="color:#434f54">netconf_filter</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;&#34;&#34;
+</span><span style="color:#7f8c8d">&lt;filter&gt;
+</span><span style="color:#7f8c8d">   &lt;interfaces xmlns=&#34;urn:ietf:params:xml:ns:yang:ietf-interfaces&#34;&gt;
+</span><span style="color:#7f8c8d">      &lt;interface&gt;
+</span><span style="color:#7f8c8d">         &lt;name&gt;GigabitEthernet1&lt;/name&gt;
+</span><span style="color:#7f8c8d">      &lt;/interface&gt;
+</span><span style="color:#7f8c8d">   &lt;/interfaces&gt;
+</span><span style="color:#7f8c8d">&lt;/filter&gt;
+</span><span style="color:#7f8c8d">&#34;&#34;&#34;</span>
 
-running_config <span style="color:#666">=</span> m<span style="color:#666">.</span>get_config(<span style="color:#ba2121">&#34;running&#34;</span>, netconf_filter)
+<span style="color:#434f54">running_config</span> <span style="color:#728e00">=</span> <span style="color:#434f54">m</span><span style="color:#728e00">.</span><span style="color:#434f54">get_config</span>(<span style="color:#7f8c8d">&#34;running&#34;</span>, <span style="color:#434f54">netconf_filter</span>)
 
-running_config_xml <span style="color:#666">=</span> xmltodict<span style="color:#666">.</span>parse(running_config<span style="color:#666">.</span>xml)[<span style="color:#ba2121">&#34;rpc-reply&#34;</span>][<span style="color:#ba2121">&#34;data&#34;</span>
-<span style="color:#008000;font-weight:bold">print</span>(xml<span style="color:#666">.</span>dom<span style="color:#666">.</span>minidom<span style="color:#666">.</span>parseString(<span style="color:#008000">str</span>(running_config))<span style="color:#666">.</span>toprettyxml())
+<span style="color:#434f54">running_config_xml</span> <span style="color:#728e00">=</span> <span style="color:#434f54">xmltodict</span><span style="color:#728e00">.</span><span style="color:#434f54">parse</span>(<span style="color:#434f54">running_config</span><span style="color:#728e00">.</span><span style="color:#434f54">xml</span>)[<span style="color:#7f8c8d">&#34;rpc-reply&#34;</span>][<span style="color:#7f8c8d">&#34;data&#34;</span>
+<span style="color:#728e00">print</span>(<span style="color:#434f54">xml</span><span style="color:#728e00">.</span><span style="color:#434f54">dom</span><span style="color:#728e00">.</span><span style="color:#434f54">minidom</span><span style="color:#728e00">.</span><span style="color:#434f54">parseString</span>(<span style="color:#728e00">str</span>(<span style="color:#434f54">running_config</span>))<span style="color:#728e00">.</span><span style="color:#434f54">toprettyxml</span>())
 </code></pre></div><p>Below is the output from running the above script. You can clearly see the RPC reply here. And as expected, the script returns the information related to the requested interface.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#666">(</span>venv<span style="color:#666">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 netconf_filter_part1.py 
-&lt;?xml <span style="color:#19177c">version</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;1.0&#34;</span> ?&gt;
-&lt;rpc-reply <span style="color:#19177c">xmlns</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> xmlns:nc<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> message-id<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:uuid:ada291fe-01d6-476b-ad48-1b209c41381f&#34;</span>&gt;
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#728e00">(</span>venv<span style="color:#728e00">)</span> WAUTERW-M-65P7:Netconf_Python wauterw$ python3 netconf_filter_part1.py 
+&lt;?xml <span style="color:#434f54">version</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;1.0&#34;</span> ?&gt;
+&lt;rpc-reply <span style="color:#434f54">xmlns</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> xmlns:nc<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span> message-id<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:uuid:ada291fe-01d6-476b-ad48-1b209c41381f&#34;</span>&gt;
   &lt;data&gt;
-    &lt;interfaces <span style="color:#19177c">xmlns</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:yang:ietf-interfaces&#34;</span>&gt;
+    &lt;interfaces <span style="color:#434f54">xmlns</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:yang:ietf-interfaces&#34;</span>&gt;
       &lt;interface&gt;
-        &lt;name xmlns:nc<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;GigabitEthernet1&lt;/name&gt;
+        &lt;name xmlns:nc<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:netconf:base:1.0&#34;</span>&gt;GigabitEthernet1&lt;/name&gt;
         &lt;description&gt;MANAGEMENT INTERFACE - DONOT TOUCH ME&lt;/description&gt;
-        &lt;<span style="color:#008000">type</span> xmlns:ianaift<span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:yang:iana-if-type&#34;</span>&gt;ianaift:ethernetCsmacd&lt;/type&gt;
+        &lt;<span style="color:#728e00">type</span> xmlns:ianaift<span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:yang:iana-if-type&#34;</span>&gt;ianaift:ethernetCsmacd&lt;/type&gt;
         &lt;enabled&gt;true&lt;/enabled&gt;
-        &lt;ipv4 <span style="color:#19177c">xmlns</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:yang:ietf-ip&#34;</span>&gt;
+        &lt;ipv4 <span style="color:#434f54">xmlns</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:yang:ietf-ip&#34;</span>&gt;
           &lt;address&gt;
             &lt;ip&gt;10.10.20.48&lt;/ip&gt;
             &lt;netmask&gt;255.255.255.0&lt;/netmask&gt;
           &lt;/address&gt;
         &lt;/ipv4&gt;
-        &lt;ipv6 <span style="color:#19177c">xmlns</span><span style="color:#666">=</span><span style="color:#ba2121">&#34;urn:ietf:params:xml:ns:yang:ietf-ip&#34;</span>/&gt;
+        &lt;ipv6 <span style="color:#434f54">xmlns</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;urn:ietf:params:xml:ns:yang:ietf-ip&#34;</span>/&gt;
       &lt;/interface&gt;
     &lt;/interfaces&gt;
   &lt;/data&gt;
 &lt;/rpc-reply&gt;
 </code></pre></div><p>If you want to extract some of this information you can do so using the following code. The full script can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netconf_Python/netconf_filter_part2.py">here</a>.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#008000">print</span>(f<span style="color:#ba2121">&#39;Interface name: { interface[&#34;name&#34;][&#34;#text&#34;] }&#39;</span>)
-<span style="color:#008000">print</span>(f<span style="color:#ba2121">&#39;Interface description: { interface[&#34;description&#34;] }&#39;</span>)
-<span style="color:#008000">print</span>(f<span style="color:#ba2121">&#39;Interface IP address: {  interface[&#34;ipv4&#34;][&#34;address&#34;][&#34;ip&#34;] }&#39;</span>)
-<span style="color:#008000">print</span>(f<span style="color:#ba2121">&#39;Interface IP netmask: {  interface[&#34;ipv4&#34;][&#34;address&#34;][&#34;netmask&#34;] }&#39;</span>)
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#39;Interface name: { interface[&#34;name&#34;][&#34;#text&#34;] }&#39;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#39;Interface description: { interface[&#34;description&#34;] }&#39;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#39;Interface IP address: {  interface[&#34;ipv4&#34;][&#34;address&#34;][&#34;ip&#34;] }&#39;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#39;Interface IP netmask: {  interface[&#34;ipv4&#34;][&#34;address&#34;][&#34;netmask&#34;] }&#39;</span>)
 </code></pre></div><p>This will print out the following:</p>
 <pre><code>(venv) WAUTERW-M-65P7:Netconf_Python wauterw$ python3 netconf_filter_part2.py 
 Interface name: GigabitEthernet1
@@ -350,16 +360,16 @@ Interface IP netmask: 255.255.255.0
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -368,6 +378,9 @@ Interface IP netmask: 255.255.255.0
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -375,6 +388,9 @@ Interface IP netmask: 255.255.255.0
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -404,14 +420,19 @@ Interface IP netmask: 255.255.255.0
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -420,14 +441,15 @@ Interface IP netmask: 255.255.255.0
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

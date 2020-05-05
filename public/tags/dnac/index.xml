@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DNAC on Technology Blog Wim</title>
+    <link>/tags/dnac/</link>
+    <description>Recent content in DNAC on Technology Blog Wim</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Apr 2020 10:32:50 +0100</lastBuildDate>
+    
+	<atom:link href="/tags/dnac/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cisco DNA Center - Sites</title>
+      <link>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</link>
+      <pubDate>Mon, 27 Apr 2020 10:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/</guid>
+      <description>Introduction In previous posts, we already looked at how to retrieve information from the devices or from the client API. We&amp;rsquo;ll now look a bit into the Sites API.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Assurance</title>
+      <link>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</link>
+      <pubDate>Sat, 25 Apr 2020 08:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/</guid>
+      <description>Introduction In this post we introduced DNAC from a theoretical point of view. We continued in this post with looking at some simple Python scripts to retrieve device related information from DNAC.</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Devices</title>
+      <link>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</link>
+      <pubDate>Fri, 24 Apr 2020 12:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/</guid>
+      <description>Introduction In this post, we introduced DNAC at a fairly high level and we have shown some POSTMAN samples to get a basic understanding of some of the APIs like authentication and devices).</description>
+    </item>
+    
+    <item>
+      <title>Cisco DNA Center - Getting Started</title>
+      <link>/networkprogrammability/2020-04-22_dnac_gettingstarted/</link>
+      <pubDate>Wed, 22 Apr 2020 08:32:50 +0100</pubDate>
+      
+      <guid>/networkprogrammability/2020-04-22_dnac_gettingstarted/</guid>
+      <description>What is Cisco DNA Cisco DNA is Cisco’s architecture for enterprise networks. It provides an open, extensible, and software-driven approach that makes the network simpler to manage and more agile and responsive to business needs.</description>
+    </item>
+    
+  </channel>
+</rss>

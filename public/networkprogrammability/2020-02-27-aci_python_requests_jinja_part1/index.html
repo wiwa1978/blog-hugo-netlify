@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -109,166 +116,166 @@ if (!doNotTrack) {
 			<h3 id="what-is-jinja2">What is Jinja2?</h3>
 <p>Jinja is a modern and designer-friendly templating language for Python. The idea is to combine a template with data to produce documents. A template contains variables which are replaced by the values which are passed in when the template is rendered. The easiest would be to give a very straightforward example.</p>
 <p>In the below example, we define a template <code>Hello {{ something }}!</code>. The items in curly braces will get replaced with the data that we pass to the template. In out case, we pass the value &lsquo;World&rsquo; (through the <code>template.render</code> method) to the template. Jinja2 will take this value and insert it into the template. The result will be a static document that contains all the information pre-filled. That resulting document will then be used further in our Python script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Template
-template <span style="color:#666">=</span> Template(<span style="color:#ba2121">&#34;Hello {{ something }}!&#34;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(template<span style="color:#666">.</span>render(something<span style="color:#666">=</span><span style="color:#ba2121">&#34;World&#34;</span>))
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Template</span>
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Template</span>(<span style="color:#7f8c8d">&#34;Hello {{ something }}!&#34;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">something</span><span style="color:#728e00">=</span><span style="color:#7f8c8d">&#34;World&#34;</span>))
 </code></pre></div><p>Let&rsquo;s dive into some more examples.</p>
 <h3 id="vlans-template-inside-code">VLANs: template inside code</h3>
 <p>In this example, we will be taking a vlans object and insert it into a template to create a vlan overview.</p>
 <p>As we will be using Jinja templates in our Python script, we need to import the required Jinja libraries (line 1 in the below script). The script is pretty straigthforward. We will first define a dict called <code>template_vars</code>. That dict will contain a number of key-value pairs related to our vlan configuration.</p>
 <p>We also define an inline template which would use the values from our dict object.</p>
 <p>The <code>vlan_template</code> is nothing more than a String, but Jinja2 needs it to be a <code>Template</code>. Hence, we are using the <code>jinja2.Template</code> method to convert it to a <code>Template</code>. On that template object, we can now call the <code>render</code> method, which will do the heavy lifting. It would take the template variables (from template_vars) and insert them (render) into the template. The surrounding print statement obviously just prints the result of that operation.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">jinja2</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">jinja2</span>
 
-template_vars <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#34;vlan_id&#34;</span>: <span style="color:#666">620</span>, 
-   <span style="color:#ba2121">&#34;vlan_name&#34;</span>: <span style="color:#ba2121">&#34;vlan-620&#34;</span>
+<span style="color:#434f54">template_vars</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#34;vlan_id&#34;</span>: <span style="color:#8a7b52">620</span>, 
+   <span style="color:#7f8c8d">&#34;vlan_name&#34;</span>: <span style="color:#7f8c8d">&#34;vlan-620&#34;</span>
 }
 
-vlan_template <span style="color:#666">=</span> <span style="color:#ba2121">&#34;&#34;&#34;
-</span><span style="color:#ba2121">vlan {{ vlan_id }}
-</span><span style="color:#ba2121">   name {{ vlan_name }}
-</span><span style="color:#ba2121">&#34;&#34;&#34;</span>
+<span style="color:#434f54">vlan_template</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;&#34;&#34;
+</span><span style="color:#7f8c8d">vlan {{ vlan_id }}
+</span><span style="color:#7f8c8d">   name {{ vlan_name }}
+</span><span style="color:#7f8c8d">&#34;&#34;&#34;</span>
 
-template <span style="color:#666">=</span> jinja2<span style="color:#666">.</span>Template(vlan_template)
-<span style="color:#008000;font-weight:bold">print</span>(template<span style="color:#666">.</span>render(template_vars))
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">jinja2</span><span style="color:#728e00">.</span><span style="color:#434f54">Template</span>(<span style="color:#434f54">vlan_template</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">template_vars</span>))
 </code></pre></div><p>The output of the above script is:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlan.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlan.py 
 
-vlan <span style="color:#666">620</span>
+vlan <span style="color:#8a7b52">620</span>
    name vlan-620
 </code></pre></div><p>This example can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlan.py">here</a>.</p>
 <h3 id="vlans-template-inside-code-with-for-loop">VLANs: template inside code with for-loop</h3>
 <p>What if we have more than one vlan. How would we address this?</p>
 <p>Fortunately Jinja2 suppors for-loops as well. In the below snippet, we have a dictionary object where the vlan id is the key and the vlan name is the value. The template contains a for loop to iterate over the different key/value pairs from our dictionary object. Pretty neat, no?</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">jinja2</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">jinja2</span>
 
-vlans <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#34;620&#34;</span>: <span style="color:#ba2121">&#34;VLAN-620&#34;</span>,
-   <span style="color:#ba2121">&#34;621&#34;</span>: <span style="color:#ba2121">&#34;VLAN-621&#34;</span>, 
-   <span style="color:#ba2121">&#34;622&#34;</span>: <span style="color:#ba2121">&#34;VLAN-622&#34;</span>, 
-   <span style="color:#ba2121">&#34;633&#34;</span>: <span style="color:#ba2121">&#34;VLAN-623&#34;</span>,   
+<span style="color:#434f54">vlans</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#34;620&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-620&#34;</span>,
+   <span style="color:#7f8c8d">&#34;621&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-621&#34;</span>, 
+   <span style="color:#7f8c8d">&#34;622&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-622&#34;</span>, 
+   <span style="color:#7f8c8d">&#34;633&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-623&#34;</span>,   
 }
 
-template_vars <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#34;vlans&#34;</span>: vlans
+<span style="color:#434f54">template_vars</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#34;vlans&#34;</span>: <span style="color:#434f54">vlans</span>
 }
 
-vlan_template <span style="color:#666">=</span> <span style="color:#ba2121">&#34;&#34;&#34;
-</span><span style="color:#ba2121">{</span><span style="color:#b68;font-weight:bold">% f</span><span style="color:#ba2121">or vlan_id, vlan_name in vlans.items() %}
-</span><span style="color:#ba2121">vlan {{ vlan_id }}
-</span><span style="color:#ba2121">   name {{ vlan_name }}
-</span><span style="color:#ba2121">{</span><span style="color:#b68;font-weight:bold">% e</span><span style="color:#ba2121">ndfor %}
-</span><span style="color:#ba2121">&#34;&#34;&#34;</span>
+<span style="color:#434f54">vlan_template</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;&#34;&#34;
+</span><span style="color:#7f8c8d">{</span><span style="color:#7f8c8d">% f</span><span style="color:#7f8c8d">or vlan_id, vlan_name in vlans.items() %}
+</span><span style="color:#7f8c8d">vlan {{ vlan_id }}
+</span><span style="color:#7f8c8d">   name {{ vlan_name }}
+</span><span style="color:#7f8c8d">{</span><span style="color:#7f8c8d">% e</span><span style="color:#7f8c8d">ndfor %}
+</span><span style="color:#7f8c8d">&#34;&#34;&#34;</span>
 
-template <span style="color:#666">=</span> jinja2<span style="color:#666">.</span>Template(vlan_template)
-<span style="color:#008000;font-weight:bold">print</span>(template<span style="color:#666">.</span>render(template_vars))
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">jinja2</span><span style="color:#728e00">.</span><span style="color:#434f54">Template</span>(<span style="color:#434f54">vlan_template</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">template_vars</span>))
 </code></pre></div><p>The output of above script will be as below:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlans_multiple.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlans_multiple.py 
 
-vlan <span style="color:#666">620</span>
+vlan <span style="color:#8a7b52">620</span>
    name VLAN-620
 
-vlan <span style="color:#666">621</span>
+vlan <span style="color:#8a7b52">621</span>
    name VLAN-621
 
-vlan <span style="color:#666">622</span>
+vlan <span style="color:#8a7b52">622</span>
    name VLAN-622
 
-vlan <span style="color:#666">633</span>
+vlan <span style="color:#8a7b52">633</span>
    name VLAN-623
 </code></pre></div><p>Notice the white spaces and empty lines? Have a look at the <a href="https://jinja.palletsprojects.com/en/2.11.x/templates/#whitespace-control">documentation</a> on how to deal with white spaces in more depth. If you want to get rid of these, you could also use the below template (pay attention to the - sign).</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">vlan_template = &#34;&#34;&#34;
-<span style="color:#bc7a00">{%</span>- <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">vlan_id</span><span style="color:#666">,</span> <span style="color:#19177c">vlan_name</span> <span style="color:#008000;font-weight:bold">in</span> <span style="color:#19177c">vlans.items</span><span style="color:#666">()</span> <span style="color:#bc7a00">%}</span>
-vlan <span style="color:#bc7a00">{{</span> <span style="color:#19177c">vlan_id</span> <span style="color:#bc7a00">}}</span>
-   name <span style="color:#bc7a00">{{</span> <span style="color:#19177c">vlan_name</span> <span style="color:#bc7a00">}}</span>
-<span style="color:#bc7a00">{%</span>- <span style="color:#008000;font-weight:bold">endfor</span> <span style="color:#bc7a00">%}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja">vlan_template = &#34;&#34;&#34;
+<span style="color:#728e00">{%</span>- <span style="color:#728e00">for</span> <span style="color:#434f54">vlan_id</span><span style="color:#728e00">,</span> <span style="color:#434f54">vlan_name</span> <span style="color:#728e00">in</span> <span style="color:#434f54">vlans.items</span><span style="color:#728e00">()</span> <span style="color:#728e00">%}</span>
+vlan <span style="color:#728e00">{{</span> <span style="color:#434f54">vlan_id</span> <span style="color:#728e00">}}</span>
+   name <span style="color:#728e00">{{</span> <span style="color:#434f54">vlan_name</span> <span style="color:#728e00">}}</span>
+<span style="color:#728e00">{%</span>- <span style="color:#728e00">endfor</span> <span style="color:#728e00">%}</span>
 &#34;&#34;&#34;
 </code></pre></div><p>That will generate a more condensed output.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">WAUTERW<span style="color:#666">-</span>M<span style="color:#666">-</span><span style="color:#666">65</span>P7:ACI_Python_Requests_Jinja wauterw<span style="">$</span> python3 vlans_multiple<span style="color:#666">.</span>py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#434f54">WAUTERW</span><span style="color:#728e00">-</span><span style="color:#434f54">M</span><span style="color:#728e00">-</span><span style="color:#8a7b52">65</span><span style="color:#434f54">P7</span>:<span style="color:#434f54">ACI_Python_Requests_Jinja</span> <span style="color:#434f54">wauterw</span><span style="color:#a61717">$</span> <span style="color:#434f54">python3</span> <span style="color:#434f54">vlans_multiple</span><span style="color:#728e00">.</span><span style="color:#434f54">py</span> 
 
-vlan <span style="color:#666">620</span>
-   name VLAN<span style="color:#666">-</span><span style="color:#666">620</span>
-vlan <span style="color:#666">621</span>
-   name VLAN<span style="color:#666">-</span><span style="color:#666">621</span>
-vlan <span style="color:#666">622</span>
-   name VLAN<span style="color:#666">-</span><span style="color:#666">622</span>
-vlan <span style="color:#666">633</span>
-   name VLAN<span style="color:#666">-</span><span style="color:#666">623</span>
+<span style="color:#434f54">vlan</span> <span style="color:#8a7b52">620</span>
+   <span style="color:#434f54">name</span> <span style="color:#434f54">VLAN</span><span style="color:#728e00">-</span><span style="color:#8a7b52">620</span>
+<span style="color:#434f54">vlan</span> <span style="color:#8a7b52">621</span>
+   <span style="color:#434f54">name</span> <span style="color:#434f54">VLAN</span><span style="color:#728e00">-</span><span style="color:#8a7b52">621</span>
+<span style="color:#434f54">vlan</span> <span style="color:#8a7b52">622</span>
+   <span style="color:#434f54">name</span> <span style="color:#434f54">VLAN</span><span style="color:#728e00">-</span><span style="color:#8a7b52">622</span>
+<span style="color:#434f54">vlan</span> <span style="color:#8a7b52">633</span>
+   <span style="color:#434f54">name</span> <span style="color:#434f54">VLAN</span><span style="color:#728e00">-</span><span style="color:#8a7b52">623</span>
 </code></pre></div><p>This example can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlans_multiple.py">here</a>.</p>
 <h3 id="vlans-template-in-seperate-file">VLANs: template in seperate file</h3>
 <p>What if we don&rsquo;t want to have our template defined in our code itself but rather read it in from an external file? Jinja2 has that covered as well.</p>
 <p>Let&rsquo;s start with defining the template. It&rsquo;s essentially the same template as the one we used above but now we store it in a specific templates folder. Create in the templates folder a file called vlans.j2.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#bc7a00">{%</span>- <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">vlan_id</span><span style="color:#666">,</span> <span style="color:#19177c">vlan_name</span> <span style="color:#008000;font-weight:bold">in</span> <span style="color:#19177c">vlans.items</span><span style="color:#666">()</span> <span style="color:#bc7a00">%}</span>
-vlan <span style="color:#bc7a00">{{</span> <span style="color:#19177c">vlan_id</span> <span style="color:#bc7a00">}}</span>
-   name <span style="color:#bc7a00">{{</span> <span style="color:#19177c">vlan_name</span> <span style="color:#bc7a00">}}</span>
-<span style="color:#bc7a00">{%</span>- <span style="color:#008000;font-weight:bold">endfor</span> <span style="color:#bc7a00">%}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#728e00">{%</span>- <span style="color:#728e00">for</span> <span style="color:#434f54">vlan_id</span><span style="color:#728e00">,</span> <span style="color:#434f54">vlan_name</span> <span style="color:#728e00">in</span> <span style="color:#434f54">vlans.items</span><span style="color:#728e00">()</span> <span style="color:#728e00">%}</span>
+vlan <span style="color:#728e00">{{</span> <span style="color:#434f54">vlan_id</span> <span style="color:#728e00">}}</span>
+   name <span style="color:#728e00">{{</span> <span style="color:#434f54">vlan_name</span> <span style="color:#728e00">}}</span>
+<span style="color:#728e00">{%</span>- <span style="color:#728e00">endfor</span> <span style="color:#728e00">%}</span>
 </code></pre></div><p>Our Python script will change a bit. We will need to import the <code>FileSystemLoader</code> method. The 4th line in our script essentially tells Jinja2 where it can find the template folder (in our case in the templates folder).</p>
 <p>To pass the template file, we will use the <code>get_template</code> method. This will pass the vlans.j2 file from the templates folder into the template object. On that template object, we then call the render function while passing the vlans dictionary. Again, all pretty straightforward.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> FileSystemLoader
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">FileSystemLoader</span>
 
-my_template <span style="color:#666">=</span> Environment(loader<span style="color:#666">=</span>FileSystemLoader(<span style="color:#ba2121">&#39;../templates&#39;</span>))
+<span style="color:#434f54">my_template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span><span style="color:#728e00">=</span><span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;../templates&#39;</span>))
 
-vlans <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#34;620&#34;</span>: <span style="color:#ba2121">&#34;VLAN-620&#34;</span>,
-   <span style="color:#ba2121">&#34;621&#34;</span>: <span style="color:#ba2121">&#34;VLAN-621&#34;</span>, 
-   <span style="color:#ba2121">&#34;622&#34;</span>: <span style="color:#ba2121">&#34;VLAN-622&#34;</span>, 
-   <span style="color:#ba2121">&#34;623&#34;</span>: <span style="color:#ba2121">&#34;VLAN-623&#34;</span>,  
+<span style="color:#434f54">vlans</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#34;620&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-620&#34;</span>,
+   <span style="color:#7f8c8d">&#34;621&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-621&#34;</span>, 
+   <span style="color:#7f8c8d">&#34;622&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-622&#34;</span>, 
+   <span style="color:#7f8c8d">&#34;623&#34;</span>: <span style="color:#7f8c8d">&#34;VLAN-623&#34;</span>,  
 }
 
-template <span style="color:#666">=</span> my_template<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#34;vlans.j2&#34;</span>)
-result <span style="color:#666">=</span> template<span style="color:#666">.</span>render(vlans<span style="color:#666">=</span>vlans)
-<span style="color:#008000;font-weight:bold">print</span>(result)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">my_template</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#34;vlans.j2&#34;</span>)
+<span style="color:#434f54">result</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">vlans</span><span style="color:#728e00">=</span><span style="color:#434f54">vlans</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">result</span>)
 </code></pre></div><p>As expected the output will be:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlans_file.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:ACI_Python_Requests_Jinja wauterw$ python3 vlans_file.py 
 
-vlan <span style="color:#666">620</span>
+vlan <span style="color:#8a7b52">620</span>
    name VLAN-620
-vlan <span style="color:#666">621</span>
+vlan <span style="color:#8a7b52">621</span>
    name VLAN-621
-vlan <span style="color:#666">622</span>
+vlan <span style="color:#8a7b52">622</span>
    name VLAN-622
-vlan <span style="color:#666">623</span>
+vlan <span style="color:#8a7b52">623</span>
    name VLAN-623
 </code></pre></div><p>This file can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlans_file.py">here</a>.</p>
 <h3 id="vlans-template-in-seperate-file-input-from-yaml-file">VLANs: template in seperate file, input from YAML file</h3>
 <p>A small improvement on the previous script could be achieved by reading the vlan information from a YML file. Let&rsquo;s see how that works:</p>
 <p>Define a YML file:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#008000;font-weight:bold">620</span>:<span style="color:#bbb"> </span>VLAN<span style="color:#666">-620</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">621</span>:<span style="color:#bbb"> </span>VLAN<span style="color:#666">-621</span><span style="color:#bbb"> 
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">622</span>:<span style="color:#bbb"> </span>VLAN<span style="color:#666">-622</span><span style="color:#bbb"> 
-</span><span style="color:#bbb"></span><span style="color:#008000;font-weight:bold">623</span>:<span style="color:#bbb"> </span>VLAN<span style="color:#666">-623</span><span style="color:#bbb">  
-</span></code></pre></div><p>The Jinja2 template did not change:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#728e00">620</span>: VLAN<span style="color:#8a7b52">-620</span>
+<span style="color:#728e00">621</span>: VLAN<span style="color:#8a7b52">-621</span> 
+<span style="color:#728e00">622</span>: VLAN<span style="color:#8a7b52">-622</span> 
+<span style="color:#728e00">623</span>: VLAN<span style="color:#8a7b52">-623</span>  
+</code></pre></div><p>The Jinja2 template did not change:</p>
 <pre><code class="language-jinja2" data-lang="jinja2">{%- for vlan_id, vlan_name in vlans.items() %}
 vlan {{ vlan_id }}
    name {{ vlan_name }}
 {%- endfor %}
 </code></pre><p>The modified script is below. All that we changed is that we are using the <code>yaml.load</code> function to read the YML file into the vlans variable. Hence, the vlans variable is a Python dictionary object that can be used in the <code>get_template</code> method.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> FileSystemLoader
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">yaml</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">FileSystemLoader</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">yaml</span>
 
-my_template <span style="color:#666">=</span> Environment(loader<span style="color:#666">=</span>FileSystemLoader(<span style="color:#ba2121">&#39;../templates&#39;</span>))
+<span style="color:#434f54">my_template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span><span style="color:#728e00">=</span><span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;../templates&#39;</span>))
 
-vlans <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(<span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;vlans.yml&#39;</span>), Loader<span style="color:#666">=</span>yaml<span style="color:#666">.</span>SafeLoader)
+<span style="color:#434f54">vlans</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;vlans.yml&#39;</span>), <span style="color:#434f54">Loader</span><span style="color:#728e00">=</span><span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
 
-template <span style="color:#666">=</span> my_template<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#34;vlans.j2&#34;</span>)
-result <span style="color:#666">=</span> template<span style="color:#666">.</span>render(vlans<span style="color:#666">=</span>vlans)
-<span style="color:#008000;font-weight:bold">print</span>(result)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">my_template</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#34;vlans.j2&#34;</span>)
+<span style="color:#434f54">result</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">vlans</span><span style="color:#728e00">=</span><span style="color:#434f54">vlans</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">result</span>)
 </code></pre></div><p>This file can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/ACI_Python_Requests_Jinja/vlans/vlans_file_yml_file.py">here</a>.</p>
 <h3 id="loopbacks">Loopbacks</h3>
 <p>Here is an additional example, mostly re-iterating what we learned already. Have a look at below to ensure you understand what we learned previously.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#008000;font-weight:bold">interfaces</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">Loopback2000</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">description</span>:<span style="color:#bbb"> </span>Description<span style="color:#bbb"> </span>for<span style="color:#bbb"> </span>Loopback<span style="color:#bbb"> </span><span style="color:#666">2000</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_addr</span>:<span style="color:#bbb"> </span><span style="color:#666">200.200.200.200</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_mask</span>:<span style="color:#bbb"> </span><span style="color:#666">255.255.255.255</span><span style="color:#bbb">
-</span><span style="color:#bbb">  </span><span style="color:#008000;font-weight:bold">Loopback2001</span>:<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">description</span>:<span style="color:#bbb"> </span>Description<span style="color:#bbb"> </span>for<span style="color:#bbb"> </span>Loopback<span style="color:#bbb"> </span><span style="color:#666">2001</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_addr</span>:<span style="color:#bbb"> </span><span style="color:#666">200.200.200.201</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#008000;font-weight:bold">ipv4_mask</span>:<span style="color:#bbb"> </span><span style="color:#666">255.255.255.255</span><span style="color:#bbb">
-</span></code></pre></div><pre><code class="language-jinja2" data-lang="jinja2">interface Loopback2000
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#728e00">interfaces</span>:
+  <span style="color:#728e00">Loopback2000</span>:
+    <span style="color:#728e00">description</span>: Description for Loopback <span style="color:#8a7b52">2000</span>
+    <span style="color:#728e00">ipv4_addr</span>: <span style="color:#8a7b52">200.200.200.200</span>
+    <span style="color:#728e00">ipv4_mask</span>: <span style="color:#8a7b52">255.255.255.255</span>
+  <span style="color:#728e00">Loopback2001</span>:
+    <span style="color:#728e00">description</span>: Description for Loopback <span style="color:#8a7b52">2001</span>
+    <span style="color:#728e00">ipv4_addr</span>: <span style="color:#8a7b52">200.200.200.201</span>
+    <span style="color:#728e00">ipv4_mask</span>: <span style="color:#8a7b52">255.255.255.255</span>
+</code></pre></div><pre><code class="language-jinja2" data-lang="jinja2">interface Loopback2000
 description {{interfaces.Loopback2000.description}}
  ip address {{interfaces.Loopback2000.ipv4_addr}} {{interfaces.Loopback2000.ipv4_mask}}
 !
@@ -276,16 +283,16 @@ interface Loopback2001
 description {{interfaces.Loopback2001.description}}
  ip address {{interfaces.Loopback2001.ipv4_addr}} {{interfaces.Loopback2001.ipv4_mask}}
 end
-</code></pre><div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">yaml</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment, FileSystemLoader
+</code></pre><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">yaml</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>, <span style="color:#434f54">FileSystemLoader</span>
 
-loopbacks <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(<span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;loopback.yml&#39;</span>), Loader<span style="color:#666">=</span>yaml<span style="color:#666">.</span>SafeLoader)
+<span style="color:#434f54">loopbacks</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;loopback.yml&#39;</span>), <span style="color:#434f54">Loader</span><span style="color:#728e00">=</span><span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
 
-env <span style="color:#666">=</span> Environment(loader <span style="color:#666">=</span> FileSystemLoader(<span style="color:#ba2121">&#39;../../templates&#39;</span>), trim_blocks<span style="color:#666">=</span>True, lstrip_blocks<span style="color:#666">=</span>True)
-template <span style="color:#666">=</span> env<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#39;loopback.j2&#39;</span>)
-loopback_config <span style="color:#666">=</span> template<span style="color:#666">.</span>render(loopbacks)
+<span style="color:#434f54">env</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span> <span style="color:#728e00">=</span> <span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;../../templates&#39;</span>), <span style="color:#434f54">trim_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">lstrip_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">env</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#39;loopback.j2&#39;</span>)
+<span style="color:#434f54">loopback_config</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">loopbacks</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(loopback_config)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">loopback_config</span>)
 </code></pre></div><p>This example can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja/loopbacks/normal">here</a>.</p>
 <h3 id="loopbacks-variant">Loopbacks (variant)</h3>
 <p>Let&rsquo;s look at a little variant, a little more complex. In previous example, we had multiple loopback interfaces and in the YML file we just listed them sequentially. That&rsquo;s doable for two interfaces but what if you have many more. This is where a for-loop (in Jinja2) comes in very handy. Let&rsquo;s have a look:</p>
@@ -300,28 +307,28 @@ loopback_config <span style="color:#666">=</span> template<span style="color:#66
     ipv4_addr: 200.200.200.201
     ipv4_mask: 255.255.255.255
 </code></pre><p>We will rewrite the Jinja2 template. As mentioned above, we want to use a for loop inside the template. This makes it much more scalable in case we need more interfaces later on.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#bc7a00">{%</span>- <span style="color:#008000;font-weight:bold">for</span> <span style="color:#19177c">interface</span> <span style="color:#008000;font-weight:bold">in</span> <span style="color:#19177c">data.interfaces</span> <span style="color:#bc7a00">%}</span>
-interface <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.name</span><span style="color:#bc7a00">}}</span>
-description <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.description</span><span style="color:#bc7a00">}}</span>
- ip address <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_addr</span><span style="color:#bc7a00">}}</span> <span style="color:#bc7a00">{{</span><span style="color:#19177c">interface.ipv4_mask</span><span style="color:#bc7a00">}}</span>
-<span style="color:#bc7a00">{%</span>- <span style="color:#008000;font-weight:bold">endfor</span> <span style="color:#bc7a00">%}</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jinja" data-lang="jinja"><span style="color:#728e00">{%</span>- <span style="color:#728e00">for</span> <span style="color:#434f54">interface</span> <span style="color:#728e00">in</span> <span style="color:#434f54">data.interfaces</span> <span style="color:#728e00">%}</span>
+interface <span style="color:#728e00">{{</span><span style="color:#434f54">interface.name</span><span style="color:#728e00">}}</span>
+description <span style="color:#728e00">{{</span><span style="color:#434f54">interface.description</span><span style="color:#728e00">}}</span>
+ ip address <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_addr</span><span style="color:#728e00">}}</span> <span style="color:#728e00">{{</span><span style="color:#434f54">interface.ipv4_mask</span><span style="color:#728e00">}}</span>
+<span style="color:#728e00">{%</span>- <span style="color:#728e00">endfor</span> <span style="color:#728e00">%}</span>
 </code></pre></div><p>The Python file did not change, but I&rsquo;ve added it here for completeness:</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">yaml</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">jinja2</span> <span style="color:#008000;font-weight:bold">import</span> Environment, FileSystemLoader
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">yaml</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">jinja2</span> <span style="color:#728e00">import</span> <span style="color:#434f54">Environment</span>, <span style="color:#434f54">FileSystemLoader</span>
 
-interfaces <span style="color:#666">=</span> yaml<span style="color:#666">.</span>load(<span style="color:#008000">open</span>(<span style="color:#ba2121">&#39;loopback_variant.yml&#39;</span>), Loader<span style="color:#666">=</span>yaml<span style="color:#666">.</span>SafeLoader)
+<span style="color:#434f54">interfaces</span> <span style="color:#728e00">=</span> <span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">load</span>(<span style="color:#728e00">open</span>(<span style="color:#7f8c8d">&#39;loopback_variant.yml&#39;</span>), <span style="color:#434f54">Loader</span><span style="color:#728e00">=</span><span style="color:#434f54">yaml</span><span style="color:#728e00">.</span><span style="color:#434f54">SafeLoader</span>)
 
-env <span style="color:#666">=</span> Environment(loader <span style="color:#666">=</span> FileSystemLoader(<span style="color:#ba2121">&#39;../../templates&#39;</span>), trim_blocks<span style="color:#666">=</span>True, lstrip_blocks<span style="color:#666">=</span>True)
-template <span style="color:#666">=</span> env<span style="color:#666">.</span>get_template(<span style="color:#ba2121">&#39;loopback_variant.j2&#39;</span>)
-loopback_config <span style="color:#666">=</span> template<span style="color:#666">.</span>render(data<span style="color:#666">=</span>interfaces)
+<span style="color:#434f54">env</span> <span style="color:#728e00">=</span> <span style="color:#434f54">Environment</span>(<span style="color:#434f54">loader</span> <span style="color:#728e00">=</span> <span style="color:#434f54">FileSystemLoader</span>(<span style="color:#7f8c8d">&#39;../../templates&#39;</span>), <span style="color:#434f54">trim_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>, <span style="color:#434f54">lstrip_blocks</span><span style="color:#728e00">=</span><span style="color:#434f54">True</span>)
+<span style="color:#434f54">template</span> <span style="color:#728e00">=</span> <span style="color:#434f54">env</span><span style="color:#728e00">.</span><span style="color:#434f54">get_template</span>(<span style="color:#7f8c8d">&#39;loopback_variant.j2&#39;</span>)
+<span style="color:#434f54">loopback_config</span> <span style="color:#728e00">=</span> <span style="color:#434f54">template</span><span style="color:#728e00">.</span><span style="color:#434f54">render</span>(<span style="color:#434f54">data</span><span style="color:#728e00">=</span><span style="color:#434f54">interfaces</span>)
 
-<span style="color:#008000;font-weight:bold">print</span>(loopback_config)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">loopback_config</span>)
 </code></pre></div><p>Running this script will render the list of loopbacks.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:loopbacks wauterw$ python3 loopback_variant.py 
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">WAUTERW-M-65P7:loopbacks wauterw$ python3 loopback_variant.py 
 interface Loopback2001
-description Description <span style="color:#008000;font-weight:bold">for</span> Loopback <span style="color:#666">2000</span>
+description Description <span style="color:#728e00">for</span> Loopback <span style="color:#8a7b52">2000</span>
  ip address 200.200.200.200 255.255.255.255interface Loopback2002
-description Description <span style="color:#008000;font-weight:bold">for</span> Loopback <span style="color:#666">2001</span>
+description Description <span style="color:#728e00">for</span> Loopback <span style="color:#8a7b52">2001</span>
  ip address 200.200.200.201 255.255.255.255
 </code></pre></div><p>This example can be found <a href="https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests_Jinja/loopbacks/variant">here</a>.</p>
 <p>That&rsquo;ll do for now. In a next post, we will look into applying these concepts to Cisco ACI.</p>
@@ -381,16 +388,16 @@ description Description <span style="color:#008000;font-weight:bold">for</span> 
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -399,6 +406,9 @@ description Description <span style="color:#008000;font-weight:bold">for</span> 
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -406,6 +416,9 @@ description Description <span style="color:#008000;font-weight:bold">for</span> 
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -435,14 +448,19 @@ description Description <span style="color:#008000;font-weight:bold">for</span> 
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -451,14 +469,15 @@ description Description <span style="color:#008000;font-weight:bold">for</span> 
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">

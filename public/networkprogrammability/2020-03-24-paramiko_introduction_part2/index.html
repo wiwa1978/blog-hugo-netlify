@@ -46,6 +46,13 @@ if (!doNotTrack) {
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/categories/all/">
+				
+				<span class="menu__text">All Posts</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/networkprogrammability">
 				
 				<span class="menu__text">Network Programmability</span>
@@ -62,7 +69,7 @@ if (!doNotTrack) {
 		<li class="menu__item">
 			<a class="menu__link" href="/webdevelopment">
 				
-				<span class="menu__text">Web Development</span>
+				<span class="menu__text">(Web)Development</span>
 				
 			</a>
 		</li>
@@ -110,28 +117,31 @@ if (!doNotTrack) {
 <p>In the previous post, we experimented a bit with Paramiko. The post was describing a number of use cases to read information from a Cisco IOS XE device. In this post, we will continue on what we achieved but we will focus on making configuration changes onto our Cisco IOS XE device.</p>
 <h3 id="script-1-read-the-interface-description">Script 1: Read the &lsquo;Interface Description&rsquo;</h3>
 <p>We will write a small script to read the interface description via Paramiko. I know we said in the introduction that we would focus on making configuration changes, but we will use the below script in the final script.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">paramiko</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">connection</span> <span style="color:#008000;font-weight:bold">import</span> get_connection
+<blockquote>
+<p>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.</p>
+</blockquote>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">paramiko</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">connection</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_connection</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">get_description</span>(devices):
-   host <span style="color:#666">=</span> <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>
-   username <span style="color:#666">=</span> <span style="color:#ba2121">&#39;developer&#39;</span>
-   password <span style="color:#666">=</span> <span style="color:#ba2121">&#39;C1sco12345&#39;</span>
-   port <span style="color:#666">=</span> <span style="color:#666">8181</span>
+<span style="color:#728e00">def</span> <span style="color:#d35400">get_description</span>(<span style="color:#434f54">devices</span>):
+   <span style="color:#434f54">host</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>
+   <span style="color:#434f54">username</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#39;***&#39;</span>
+   <span style="color:#434f54">password</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#39;***&#39;</span>
+   <span style="color:#434f54">port</span> <span style="color:#728e00">=</span> <span style="color:#8a7b52">8181</span>
 
-   command <span style="color:#666">=</span> <span style="color:#ba2121">&#39;show interface description </span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">&#39;</span>
+   <span style="color:#434f54">command</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#39;show interface description </span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">&#39;</span>
 
-   <span style="color:#008000;font-weight:bold">for</span> device <span style="color:#a2f;font-weight:bold">in</span> devices<span style="color:#666">.</span>keys(): 
-      <span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;Executing on device: {devices[device][&#39;ip&#39;]}</span><span style="color:#b62;font-weight:bold">\n\n</span><span style="color:#ba2121">&#34;</span>)
-      ssh <span style="color:#666">=</span> get_connection(host<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;password&#39;</span>], port<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;port&#39;</span>])
-      stdin, stdout, stderr <span style="color:#666">=</span> ssh<span style="color:#666">.</span>exec_command(command)
-      output <span style="color:#666">=</span> stdout<span style="color:#666">.</span>readlines()
-      newoutput <span style="color:#666">=</span> <span style="color:#ba2121">&#39; &#39;</span><span style="color:#666">.</span>join(<span style="color:#008000">map</span>(<span style="color:#008000">str</span>, output))
-      <span style="color:#008000;font-weight:bold">print</span>(newoutput)
+   <span style="color:#728e00">for</span> <span style="color:#434f54">device</span> <span style="color:#728e00">in</span> <span style="color:#434f54">devices</span><span style="color:#728e00">.</span><span style="color:#434f54">keys</span>(): 
+      <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Executing on device: {devices[device][&#39;ip&#39;]}</span><span style="color:#7f8c8d">\n\n</span><span style="color:#7f8c8d">&#34;</span>)
+      <span style="color:#434f54">ssh</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_connection</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;port&#39;</span>])
+      <span style="color:#434f54">stdin</span>, <span style="color:#434f54">stdout</span>, <span style="color:#434f54">stderr</span> <span style="color:#728e00">=</span> <span style="color:#434f54">ssh</span><span style="color:#728e00">.</span><span style="color:#434f54">exec_command</span>(<span style="color:#434f54">command</span>)
+      <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">stdout</span><span style="color:#728e00">.</span><span style="color:#434f54">readlines</span>()
+      <span style="color:#434f54">newoutput</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#39; &#39;</span><span style="color:#728e00">.</span><span style="color:#434f54">join</span>(<span style="color:#728e00">map</span>(<span style="color:#728e00">str</span>, <span style="color:#434f54">output</span>))
+      <span style="color:#728e00">print</span>(<span style="color:#434f54">newoutput</span>)
 
 </code></pre></div><p>This above script will return a list of interfaces with its description.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Interface                      Status         Protocol Description
- Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="">&#39;</span>T TOUCH ME
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Interface                      Status         Protocol Description
+ Gi1                            up             up       MANAGEMENT INTERFACE - DON<span style="color:#a61717">&#39;</span>T TOUCH ME
  Gi2                            up             up       Nader was here
  Gi3                            admin down     down     Dummy Description
  Lo2                            up             up       
@@ -149,54 +159,54 @@ if (!doNotTrack) {
 <li>(config-if) description &lsquo;new description&rsquo;</li>
 </ul>
 <p>In the below script, we have specified the above list of commands in a list called <code>commands</code>. We will loop over the devices and we will simply execute these commands. Towards the end of the script, we will execute the <code>GetDescription</code> method to verify if the description was indeed changed.</p>
-<div class="highlight"><pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">paramiko</span>
-<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">time</span>
-<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">GetDescription</span> <span style="color:#008000;font-weight:bold">import</span> get_description
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#728e00">import</span> <span style="color:#434f54">paramiko</span>
+<span style="color:#728e00">import</span> <span style="color:#434f54">time</span>
+<span style="color:#728e00">from</span> <span style="color:#434f54">GetDescription</span> <span style="color:#728e00">import</span> <span style="color:#434f54">get_description</span>
 
-description <span style="color:#666">=</span> <span style="color:#ba2121">&#34;This is description A&#34;</span>
-commands <span style="color:#666">=</span> [<span style="color:#ba2121">&#39;conf t</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">&#39;</span>, <span style="color:#ba2121">&#39;interface GigabitEthernet3</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">&#39;</span>, f<span style="color:#ba2121">&#34;description {description}</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#ba2121">&#34;</span>]
+<span style="color:#434f54">description</span> <span style="color:#728e00">=</span> <span style="color:#7f8c8d">&#34;This is description A&#34;</span>
+<span style="color:#434f54">commands</span> <span style="color:#728e00">=</span> [<span style="color:#7f8c8d">&#39;conf t</span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#7f8c8d">&#39;interface GigabitEthernet3</span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;description {description}</span><span style="color:#7f8c8d">\n</span><span style="color:#7f8c8d">&#34;</span>]
 
-max_buffer <span style="color:#666">=</span> <span style="color:#666">65535</span>
+<span style="color:#434f54">max_buffer</span> <span style="color:#728e00">=</span> <span style="color:#8a7b52">65535</span>
 
-devices <span style="color:#666">=</span> {
-   <span style="color:#ba2121">&#39;iosxe1&#39;</span>: {
-      <span style="color:#ba2121">&#39;ip&#39;</span>: <span style="color:#ba2121">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
-      <span style="color:#ba2121">&#39;username&#39;</span>: <span style="color:#ba2121">&#39;developer&#39;</span>,
-      <span style="color:#ba2121">&#39;password&#39;</span>: <span style="color:#ba2121">&#39;C1sco12345&#39;</span>,
-      <span style="color:#ba2121">&#39;port&#39;</span>: <span style="color:#ba2121">&#39;8181&#39;</span>
+<span style="color:#434f54">devices</span> <span style="color:#728e00">=</span> {
+   <span style="color:#7f8c8d">&#39;iosxe1&#39;</span>: {
+      <span style="color:#7f8c8d">&#39;ip&#39;</span>: <span style="color:#7f8c8d">&#39;ios-xe-mgmt-latest.cisco.com&#39;</span>,
+      <span style="color:#7f8c8d">&#39;username&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+      <span style="color:#7f8c8d">&#39;password&#39;</span>: <span style="color:#7f8c8d">&#39;***&#39;</span>,
+      <span style="color:#7f8c8d">&#39;port&#39;</span>: <span style="color:#7f8c8d">&#39;8181&#39;</span>
       }
    }
 
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#39;Description BEFORE change&#39;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(get_description(devices))
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#39;Description BEFORE change&#39;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">get_description</span>(<span style="color:#434f54">devices</span>))
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">get_connection</span>(host, username, password, port):
-   ssh <span style="color:#666">=</span> paramiko<span style="color:#666">.</span>SSHClient()
-   ssh<span style="color:#666">.</span>set_missing_host_key_policy(paramiko<span style="color:#666">.</span>AutoAddPolicy())
-   ssh<span style="color:#666">.</span>connect(hostname<span style="color:#666">=</span>host,username<span style="color:#666">=</span>username, password<span style="color:#666">=</span>password, port<span style="color:#666">=</span>port, look_for_keys<span style="color:#666">=</span>False, allow_agent<span style="color:#666">=</span>False)
-   <span style="color:#008000;font-weight:bold">return</span> ssh
+<span style="color:#728e00">def</span> <span style="color:#d35400">get_connection</span>(<span style="color:#434f54">host</span>, <span style="color:#434f54">username</span>, <span style="color:#434f54">password</span>, <span style="color:#434f54">port</span>):
+   <span style="color:#434f54">ssh</span> <span style="color:#728e00">=</span> <span style="color:#434f54">paramiko</span><span style="color:#728e00">.</span><span style="color:#434f54">SSHClient</span>()
+   <span style="color:#434f54">ssh</span><span style="color:#728e00">.</span><span style="color:#434f54">set_missing_host_key_policy</span>(<span style="color:#434f54">paramiko</span><span style="color:#728e00">.</span><span style="color:#434f54">AutoAddPolicy</span>())
+   <span style="color:#434f54">ssh</span><span style="color:#728e00">.</span><span style="color:#434f54">connect</span>(<span style="color:#434f54">hostname</span><span style="color:#728e00">=</span><span style="color:#434f54">host</span>,<span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">username</span>, <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">password</span>, <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">port</span>, <span style="color:#434f54">look_for_keys</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>, <span style="color:#434f54">allow_agent</span><span style="color:#728e00">=</span><span style="color:#434f54">False</span>)
+   <span style="color:#728e00">return</span> <span style="color:#434f54">ssh</span>
 
-<span style="color:#008000;font-weight:bold">def</span> <span style="color:#00f">clear_buffer</span>(connection):
-   <span style="color:#008000;font-weight:bold">if</span> connection<span style="color:#666">.</span>recv_ready():
-      <span style="color:#008000;font-weight:bold">return</span> connection<span style="color:#666">.</span>recv(max_buffer)
+<span style="color:#728e00">def</span> <span style="color:#d35400">clear_buffer</span>(<span style="color:#434f54">connection</span>):
+   <span style="color:#728e00">if</span> <span style="color:#434f54">connection</span><span style="color:#728e00">.</span><span style="color:#434f54">recv_ready</span>():
+      <span style="color:#728e00">return</span> <span style="color:#434f54">connection</span><span style="color:#728e00">.</span><span style="color:#434f54">recv</span>(<span style="color:#434f54">max_buffer</span>)
 
 
-<span style="color:#008000;font-weight:bold">for</span> device <span style="color:#a2f;font-weight:bold">in</span> devices<span style="color:#666">.</span>keys(): 
-   connection <span style="color:#666">=</span> get_connection(host<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;ip&#39;</span>], username<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;username&#39;</span>], password<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;password&#39;</span>], port<span style="color:#666">=</span>devices[device][<span style="color:#ba2121">&#39;port&#39;</span>])
-   new_connection <span style="color:#666">=</span> connection<span style="color:#666">.</span>invoke_shell()
-   output <span style="color:#666">=</span> clear_buffer(new_connection)
-   time<span style="color:#666">.</span>sleep(<span style="color:#666">2</span>)
+<span style="color:#728e00">for</span> <span style="color:#434f54">device</span> <span style="color:#728e00">in</span> <span style="color:#434f54">devices</span><span style="color:#728e00">.</span><span style="color:#434f54">keys</span>(): 
+   <span style="color:#434f54">connection</span> <span style="color:#728e00">=</span> <span style="color:#434f54">get_connection</span>(<span style="color:#434f54">host</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;ip&#39;</span>], <span style="color:#434f54">username</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;username&#39;</span>], <span style="color:#434f54">password</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;password&#39;</span>], <span style="color:#434f54">port</span><span style="color:#728e00">=</span><span style="color:#434f54">devices</span>[<span style="color:#434f54">device</span>][<span style="color:#7f8c8d">&#39;port&#39;</span>])
+   <span style="color:#434f54">new_connection</span> <span style="color:#728e00">=</span> <span style="color:#434f54">connection</span><span style="color:#728e00">.</span><span style="color:#434f54">invoke_shell</span>()
+   <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">clear_buffer</span>(<span style="color:#434f54">new_connection</span>)
+   <span style="color:#434f54">time</span><span style="color:#728e00">.</span><span style="color:#434f54">sleep</span>(<span style="color:#8a7b52">2</span>)
     
-   <span style="color:#008000;font-weight:bold">for</span> command <span style="color:#a2f;font-weight:bold">in</span> commands:
-      <span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;Executing command {command}&#34;</span>)
-      new_connection<span style="color:#666">.</span>send(command)
-      time<span style="color:#666">.</span>sleep(<span style="color:#666">2</span>)
-      output <span style="color:#666">=</span> new_connection<span style="color:#666">.</span>recv(max_buffer)
+   <span style="color:#728e00">for</span> <span style="color:#434f54">command</span> <span style="color:#728e00">in</span> <span style="color:#434f54">commands</span>:
+      <span style="color:#728e00">print</span>(<span style="color:#434f54">f</span><span style="color:#7f8c8d">&#34;Executing command {command}&#34;</span>)
+      <span style="color:#434f54">new_connection</span><span style="color:#728e00">.</span><span style="color:#434f54">send</span>(<span style="color:#434f54">command</span>)
+      <span style="color:#434f54">time</span><span style="color:#728e00">.</span><span style="color:#434f54">sleep</span>(<span style="color:#8a7b52">2</span>)
+      <span style="color:#434f54">output</span> <span style="color:#728e00">=</span> <span style="color:#434f54">new_connection</span><span style="color:#728e00">.</span><span style="color:#434f54">recv</span>(<span style="color:#434f54">max_buffer</span>)
     
-   new_connection<span style="color:#666">.</span>close()
+   <span style="color:#434f54">new_connection</span><span style="color:#728e00">.</span><span style="color:#434f54">close</span>()
 
-<span style="color:#008000;font-weight:bold">print</span>(<span style="color:#ba2121">&#39;Description AFTER change&#39;</span>)
-<span style="color:#008000;font-weight:bold">print</span>(get_description(devices))
+<span style="color:#728e00">print</span>(<span style="color:#7f8c8d">&#39;Description AFTER change&#39;</span>)
+<span style="color:#728e00">print</span>(<span style="color:#434f54">get_description</span>(<span style="color:#434f54">devices</span>))
 </code></pre></div><p>The output is below:</p>
 <pre><code>(venv) WAUTERW-M-65P7:Paramiko_Introduction wauterw$ python3 SetDescription_modular.py 
 
@@ -295,16 +305,16 @@ None
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-29_ansible_iosxe_iosmodules/">Ansible and IOSXE - IOS modules</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-27_dnac_pythonrequests_part3/">Cisco DNA Center - Sites</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-25_dnac_pythonrequests_part2/">Cisco DNA Center - Assurance</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/">Cisco DNA Center - Devices</a></li>
+			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-22_dnac_gettingstarted/">Cisco DNA Center - Getting Started</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-17_netpalm_introduction_part3/">NetPalm Introduction - Part 3</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-15_netpalm_introduction_part2/">NetPalm Introduction - Part 2</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-14_netpalm_introduction_part1/">NetPalm Introduction - Part 1</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-09_scrapli_introduction/">Scrapli Introduction</a></li>
 			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-07_napalm_introduction_part2/">NAPALM Introduction - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-06_napalm_introduction_part1/">NAPALM Introduction - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-03_restconf_introduction_part2/">RESTCONF intro with Postman - Part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-04-02_restconf_introduction_part1/">RESTCONF intro with Postman - Part 1</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-31_netconf_python_part2/">NETCONF/YANG and Python - part 2</a></li>
-			<li class="widget__item"><a class="widget__link" href="/networkprogrammability/2020-03-30-netconf_python_part1/">NETCONF/YANG and Python - part 1</a></li>
 		</ul>
 	</div>
 </div>
@@ -313,6 +323,9 @@ None
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item">
+				<a class="widget__link" href="/categories/all/">All</a>
+			</li>
+			<li class="widget__item">
 				<a class="widget__link" href="/categories/backend/">Backend</a>
 			</li>
 			<li class="widget__item">
@@ -320,6 +333,9 @@ None
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/continuous-integration/deployment/">Continuous Integration/Deployment</a>
+			</li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/development/">Development</a>
 			</li>
 			<li class="widget__item">
 				<a class="widget__link" href="/categories/devops/">DevOps</a>
@@ -349,14 +365,19 @@ None
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/aci/" title="ACI">ACI (6)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (3)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ansible/" title="Ansible">Ansible (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/aws/" title="AWS">AWS (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/digitalocean/" title="DigitalOcean">DigitalOcean (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dnac/" title="DNAC">DNAC (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker/" title="docker">docker (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/docker-machine/" title="docker-machine">docker-machine (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/express/" title="Express">Express (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gitlab/" title="Gitlab">Gitlab (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (7)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xe/" title="IOS XE">IOS XE (8)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/ios-xr/" title="IOS XR">IOS XR (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/iosxe/" title="IOSXE">IOSXE (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/jinja2/" title="Jinja2">Jinja2 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/json/" title="JSON">JSON (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/kubernetes/" title="Kubernetes">Kubernetes (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mean/" title="MEAN">MEAN (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mongo/" title="Mongo">Mongo (1)</a>
@@ -365,14 +386,15 @@ None
 		<a class="widget-taglist__link widget__link btn" href="/tags/netmiko/" title="Netmiko">Netmiko (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/netpalm/" title="NetPalm">NetPalm (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paramiko/" title="Paramiko">Paramiko (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (16)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python/" title="Python">Python (19)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/restconf/" title="RESTCONF">RESTCONF (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/scrapli/" title="Scrapli">Scrapli (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/terraform/" title="Terraform">Terraform (11)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/virtualbox/" title="Virtualbox">Virtualbox (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/vsphere/" title="vSphere">vSphere (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/xml/" title="XML">XML (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/yaml/" title="YAML">YAML (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/yang/" title="YANG">YANG (5)</a>
 	</div>
 </div>
 <div class="widget-social widget">
