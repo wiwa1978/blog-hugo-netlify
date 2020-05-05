@@ -21,16 +21,14 @@ Let's have a look at the Client API section in the [API](https://developer.cisco
 
 As a reminder, we are looking to print an overview of the various health categories (fair, poor, ...) per device category. 
 
-In below Python script, you will notice we use the `client-health` API. Before we dive into the Python code, let's see how the response will look like.
+In below Python script, you will notice we use the `client-health` API. Before we dive into the Python code, let's see how the response will look like. 
 
 ```bash
-wauterw@WAUTERW-M-65P7 Assurance % python3 get_client_health.py
-DNAC: sandboxdnac2.cisco.com
 {'response': [{'scoreDetail': [
     {'clientCount': 66,
         'clientUniqueCount': 66,
         'endtime': 1587739500000,
-         'scoreCategory': {'scoreCategory': 'CLIENT_TYPE', 'value': 'ALL'},
+        'scoreCategory': {'scoreCategory': 'CLIENT_TYPE', 'value': 'ALL'},
             'scoreValue': 36,
             'starttime': 1587739200000},
              {'clientCount': 2,
@@ -45,14 +43,21 @@ DNAC: sandboxdnac2.cisco.com
                              'scoreCategory': 'SCORE_TYPE','value': 'POOR'},
                                             
 ```
-So we'll need to do some parsing to extract the data we are interested in.
+You will notice that there is quite a complex JSON response but let's analyse it a bit first. You see we have 66 client devices in total. From these 66 total devices, there are 2 wired devices and 64 wireless devices (although we don't see that in the above snippet, I truncated it to save some space). Per device we see the value for different qualities such as POOR, FAIR etc.... This is the base structure of the JSON response.
+
+Hence, we'll need to do some parsing to extract the data we are interested in.
 
 Here's what we do:
-- We store the `ScoreDetails` in a list called `scores`
-- We define two dictionaries, one for the wired devices and one for the wireless devices. We will populate those dictionaries later on.
-- We iterate over the `scores` list and we look at the `value` of the `scoreCategory` key. This contains essentially whether the score is related to a wired device or a wireless device.
-- Next, per category (wired or wireless) we will store `ScoreList` (which is an array) values in a list. As you can see, also the `ScoreList` has a `scoreCategory` itself. Now these scoreCategories are poor, fair, .... So we can now see
-- We can then loop over the values and for each value (good, fair...) we add a key to the wired or wireless dictionary with the value (poor, fair...) and the clientCount as the corresponding value
+
+* We store the `ScoreDetails` in a list called `scores`
+
+* We define two dictionaries, one for the wired devices and one for the wireless devices. We will populate those dictionaries later on.
+
+* We iterate over the `scores` list and we look at the `value` of the `scoreCategory` key. This contains essentially whether the score is related to a wired device or a wireless device.
+
+* Next, per category (wired or wireless) we will store `ScoreList` (which is an array) values in a list. As you can see, also the `ScoreList` has a `scoreCategory` itself. Now these scoreCategories are poor, fair, .... So we can now see
+
+* We can then loop over the values and for each value (GOOD, FAIR...) we add a key to the wired or wireless dictionary with the value (poor, fair...) and the clientCount as the corresponding value
 
 The above might be a bit confusing I admit, but essentially all the above is done to get the following dictionary:
 
@@ -73,8 +78,8 @@ Note: this is in fact a dictionary inside another dictionary (cfr nested diction
 With this dictionary, we have an elegant structure to show the health (as a percentage) for category. This is taken care of in the `calculatePercentageHealth()` function.
 
 Here we do the following:
-- We first calculate the total of client devices we have. We need this later on to be able to calculate the percentage.
--  As we are dealing with a nested dictionary structure, we'll need two for loops. The first loop gets us in either the wired or the wireless dictonary. The second loop will iterate over the inner dictionary and per category (poor, fair), calculate the client health as a percentage.
+* We first calculate the total of client devices we have. We need this later on to be able to calculate the percentage.
+*  As we are dealing with a nested dictionary structure, we'll need two for loops. The first loop gets us in either the wired or the wireless dictonary. The second loop will iterate over the inner dictionary and per category (poor, fair), calculate the client health as a percentage.
 
 ```python
 import requests
