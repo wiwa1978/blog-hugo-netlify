@@ -1,6 +1,6 @@
 ---
 title: Ansible and IOSXE - NETCONF
-date: 2020-04-29T10:32:50+01:00
+date: 2020-04-29T12:32:50+01:00
 draft: false
 categories:
   - Network Programming
