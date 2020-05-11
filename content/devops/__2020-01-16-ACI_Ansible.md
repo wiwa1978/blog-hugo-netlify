@@ -129,9 +129,10 @@ PLAY RECAP *********************************************************************
 ```
 
 ### Verify the infrastructure
-![ACIAnsible](/images/2020-01-16.1.png)
+![ACIAnsible](/images/2020-01-16-1.png)
 
-![ACIAnsible](/images/2020-01-16.2.png)
+![ACIAnsible](/images/2020-01-16-2.png)
+
 
 ### Destroy the infrastructure
 

@@ -8,6 +8,7 @@ categories:
   - All
 tags:
   - DNAC
+  - Python
 ---
 ### What is Cisco DNA
 

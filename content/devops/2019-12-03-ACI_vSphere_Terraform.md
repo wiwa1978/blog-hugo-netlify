@@ -399,7 +399,7 @@ You will notice now that some objects are created on ACI and on vSphere. Below, 
 
 First, you will see that the ACI tenant got created and that it has a VRF, a BD and 2 EPG's.
 
-![Tenat](/images/2019-12-03-1.png)
+![Tenant](/images/2019-12-03-1.png)
 
 And you will also notice that it has a VRF, a BD and 2 EPG's.
 

@@ -1,6 +1,6 @@
 ---
-title: Ansible and IOSXE - NAPALM
-date: 2020-04-30T10:32:50+01:00
+title: Ansible and IOSXE - RESTCONF
+date: 2020-05-02T10:32:50+01:00
 draft: true
 categories:
   - Network Programming
@@ -9,6 +9,6 @@ categories:
 tags:
   - Ansible
   - IOSXE
-  - NAPALM
+  - RESTCONF
 ---
 ### Introduction
