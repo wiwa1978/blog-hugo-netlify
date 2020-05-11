@@ -1,7 +1,7 @@
 ---
 title: Cisco DNA Center - Discovery (POSTMAN)
 date: 2020-04-29T10:32:50+01:00
-draft: false
+draft: true
 categories:
   - Network Programming
   - Programming
