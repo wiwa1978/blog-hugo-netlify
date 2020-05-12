@@ -24,6 +24,11 @@ So far, we covered 4 blog posts on interacting with DNAC.
 
 In this tutorial, we will look into (and experiment) with some more advanced features of DNAC, like Network Discovery and Command Runner. To start with, we will focus on some POSTMAN interactions to get familiar with the flow of these features. As a reminder, the API documentation for DNAC can be found [here](https://developer.cisco.com/docs/dna-center/api/1-3-3-x/). Refer to the `Network Decovery` and the `Command Runner` section respectively.
 
+### Note about equipment
+
+In this post, I'm using my own DNAC in my lab. However, if you want to follow along, you could also use a Cisco sandbox environment delivered by [Cisco Devnet](https://developer.cisco.com). To get a list of all sandboxes, check out [this](https://devnetsandbox.cisco.com/) link. For this tutorial, you could use [this](https://devnetsandbox.cisco.com/RM/Diagram/Index/b8d7aa34-aa8f-4bf2-9c42-302aaa2daafb?diagramType=Topology) one. Note that this is a reservable instance as the always-on is restricted in functionality.
+
+
 ### Network Discovery
 
 DNAC allows you to discover devices in your network by scanning the network based on a given IP range or through CDP. Let's see how the IP range based discovery works.
