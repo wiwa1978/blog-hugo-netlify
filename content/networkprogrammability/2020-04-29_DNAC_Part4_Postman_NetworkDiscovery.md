@@ -14,10 +14,13 @@ tags:
 
 So far, we covered 4 blog posts on interacting with DNAC.
 
-1) Cisco DNA Center - Getting Started: explains what is Cisco DNA and shows some basic POSTMAN interactions to get familiar with the API. see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/)
-2) Cisco DNA Center - Devices: interacting through Python with the `Devices` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_part1_pythonrequests/)
-3) Cisco DNA Center - Assurance: interacting through Python with the `Assurance` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-25_dnac_part2_pythonrequests/)
-4) Cisco DNA Center - Sites: interacting through Python with the `Sites` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
+- Cisco DNA Center - Getting Started: explains what is Cisco DNA and shows some basic POSTMAN interactions to get familiar with the API. see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/)
+
+- Cisco DNA Center - Devices: interacting through Python with the `Devices` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_part1_pythonrequests/)
+
+- Cisco DNA Center - Assurance: interacting through Python with the `Assurance` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-25_dnac_part2_pythonrequests/)
+
+- Cisco DNA Center - Sites: interacting through Python with the `Sites` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
 
 In this tutorial, we will look into (and experiment) with some more advanced features of DNAC, like Network Discovery and Command Runner. To start with, we will focus on some POSTMAN interactions to get familiar with the flow of these features. As a reminder, the API documentation for DNAC can be found [here](https://developer.cisco.com/docs/dna-center/api/1-3-3-x/). Refer to the `Network Decovery` and the `Command Runner` section respectively.
 

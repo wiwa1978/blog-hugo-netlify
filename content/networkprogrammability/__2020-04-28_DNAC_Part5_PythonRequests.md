@@ -11,7 +11,7 @@ tags:
   - Python
 ---
 ### Introduction
-
+ In [this](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part4_postman_networkdiscovery/) we have been showing some POSTMAN samples for running a Network Discovery and Command Runner. In the next sections, we will explore how we can achieve exactly the same using Python Requests.
 
 ### Device Discovery
 
