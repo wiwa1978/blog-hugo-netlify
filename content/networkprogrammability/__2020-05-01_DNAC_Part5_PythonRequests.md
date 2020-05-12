@@ -1,5 +1,5 @@
 ---
-title: Cisco DNA Center - Network Discovery
+title: Cisco DNA Center - Discovery (Python)
 date: 2020-05-01T10:32:50+01:00
 draft: false
 categories:
