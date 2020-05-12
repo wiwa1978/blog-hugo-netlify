@@ -1,6 +1,6 @@
 ---
 title: Ansible and IOSXE - NAPALM
-date: 2020-04-30T10:32:50+01:00
+date: 2020-05-08T10:32:50+01:00
 draft: false
 categories:
   - Network Programming
