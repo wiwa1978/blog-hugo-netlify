@@ -1,7 +1,7 @@
 ---
 title: Webex Teams Chatbot with Python
 date: 2020-05-01T17:19:50+01:00
-draft: true
+draft: false
 categories:
   - Web Development
   - Programming
@@ -106,4 +106,4 @@ for message in messages:
     else:
         print(f"Deleted message with id {message['id']}")
 ```
-That's how easy it is to implement a basic chatbot.
+That's how easy it is to implement a basic chatbot. In case you want to see the full example, check my repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Webex_Chatbot_Messages).
