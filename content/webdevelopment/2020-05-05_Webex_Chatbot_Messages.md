@@ -1,6 +1,6 @@
 ---
 title: Webex Teams Chatbot with Python
-date: 2020-05-01T17:19:50+01:00
+date: 2020-05-05T17:19:50+01:00
 draft: false
 categories:
   - Web Development
@@ -73,11 +73,11 @@ Let's execute the Python script:
 
 ```
 wauterw@WAUTERW-M-65P7 Webex_Chatbot_Messages % python3 webex.py
-{'id': 'Y2lzY29zcGFyazovL3VzL01FU1NBR0UvNWMzOWI3NDAtOGEyOS0xMWVhLTlhYTktYjdhZjhmOWE5ZmRl', 'roomId': 'Y2lzY29zcGFyazovL3VzL1JPT00vOGE1YzcyNmItNTU2ZC0zMzlkLWEyZGMtNzQxMDhkMGRiZDU5', 'roomType': 'direct', 'text': 'This is a test message from the Python application', 'personId': 'Y2lzY29zcGFyazovL3VzL1BFT1BMRS82NjlkYjQ0YS1iY2JjLTRlNzEtOTM4Mi1hMzMxODhlMGVlYmE', 'personEmail': 'blogwim@webex.bot', 'created': '2020-04-29T14:54:43.380Z'}
+{'id': 'Y2***mRl', 'roomId': 'Y2l***ZDU5', 'roomType': 'direct', 'text': 'This is a test message from the Python application', 'personId': 'Y2lzY29zc***MGVlYmE', 'personEmail': 'blogwim@webex.bot', 'created': '2020-04-29T14:54:43.380Z'}
 ```
 Next, check your Webex Teams application and you will see the message appears there.
 
-![webex](/images/2020-05-05-6.png)
+![webex](/images/2020-05-05-7.png)
 
 ### Python code: delete messages
 ```python
@@ -85,8 +85,8 @@ import requests
 
 url = "https://api.ciscospark.com/v1/messages"
 
-room_id = "Y2lzY29zcGFyazovL3VzL1JPT00vOGE1YzcyNmItNTU2ZC0zMzlkLWEyZGMtNzQxMDhkMGRiZDU5"
-bearer = "Yzg2ZjE4NjAtYWI1MC00NmExLWEzMDUtOGFkYjQxMGRjZDJiMDc0MTkxZjYtOGQ1_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f"
+room_id = "Y2lz***RiZDU5"
+bearer = "Yzg2***2e0e10f"
 
 message_url = f"?roomId={room_id}"
 
