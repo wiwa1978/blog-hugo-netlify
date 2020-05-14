@@ -11,7 +11,7 @@ tags:
   - JSON
 ---
 ### Introduction
-In this post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant. 
+In [this](https://blog.wimwauters.com/networkprogrammability/2020-01-09-parse_xml_python/) post, we have shown how to parse an XML file. In this one, we will focus on parsing the JSON variant. 
 
 ### Sample file
 I downloaded [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/sample-xml-file-customers-and-orders-in-a-namespace) XML file and converted it to JSON. There's plenty of tools om the web to do this. I did it already for you, in case you want to follow along. Here it is:
@@ -58,12 +58,8 @@ I downloaded [this](https://docs.microsoft.com/en-us/dotnet/csharp/programming-g
 ```
 ### Code 
 
-We’ll start with creating a Python virtual environment and the installation of the xmltodict library.
+First use [this](https://blog.wimwauters.com/2020-01-08-PythonVirtualEnvironment) post to create a virtual environment. 
 
-```bash
-WAUTERW-M-65P7:Parse_JSON_Python wauterw$ python3 -m venv venv
-WAUTERW-M-65P7:Parse_JSON_Python wauterw$ source venv/bin/activate
-```
 Next, we’ll write the Python script. We'll first need to import the json package and read the JSON file into a variable.
 
 ```python3

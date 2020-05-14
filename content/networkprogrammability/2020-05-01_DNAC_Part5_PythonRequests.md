@@ -17,7 +17,7 @@ tags:
 
 In this post, I'm using my own DNAC in my lab. However, if you want to follow along, you could also use a Cisco sandbox environment delivered by [Cisco Devnet](https://developer.cisco.com). To get a list of all sandboxes, check out [this](https://devnetsandbox.cisco.com/) link. For this tutorial, you could use [this](https://devnetsandbox.cisco.com/RM/Diagram/Index/b8d7aa34-aa8f-4bf2-9c42-302aaa2daafb?diagramType=Topology) one. Note that this is a reservable instance as the always-on is restricted in functionality.
 
-### Device Discovery
+### Network Discovery
 DNAC allows you to discover devices in your network by scanning the network based on a given IP range or through CDP. Let’s see how the IP range based discovery works.
 
 ###### Get Credentials

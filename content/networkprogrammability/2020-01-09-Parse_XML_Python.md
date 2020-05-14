@@ -57,10 +57,12 @@ I found a sample XML file [here](https://docs.microsoft.com/en-us/dotnet/csharp/
   <Orders> 
 ```
 ### Code
-We'll start with creating a Python virtual environment and the installation of the `xmltodict` library.
+First use [this](https://blog.wimwauters.com/2020-01-08-PythonVirtualEnvironment) post to create a virtual environment. 
+
+Next, install the `xmltodict` library.
+
 ```bash
-WAUTERW-M-65P7:Parse_XML_Python wauterw$ python3 -m venv venv
-WAUTERW-M-65P7:Parse_XML_Python wauterw$ source venv/bin/activate
+
 (venv) WAUTERW-M-65P7:Parse_XML_Python wauterw$ pip3 install xmltodict
 ```
 Next, we'll write the Python script. As a first step, we need to import the `xmltodict` library and read the XML file into a variable. Hence (in our case), the entire XML file is stored into the variable called `xml_content`.

@@ -12,35 +12,13 @@ tags:
 ---
 ### Introduction
 
-In this post we'll go over how to parse a YAML file with Python. Easy enough but I'm using at so often that it helps to have a little post on it. As mentioned before, this blog is mainly to serve my memory :-).
+In this post we'll go over how to parse a YAML file with Python. Easy enough but I'm using it so often that it helps to have a little post on it. As mentioned before, this blog is mainly to serve my memory :-). Refer to [this](https://blog.wimwauters.com/networkprogrammability/2020-01-11-parse_json_python/) post for getting to know how to parse JSON and check out [this](https://blog.wimwauters.com/networkprogrammability/2020-01-09-parse_xml_python/) one to find out how to parse XML
 
-### What is a virtual environment
-The main purpose of virtual environments is to create isolated environments for Python projects. As such, each project can have its own dependencies, regardless of the dependencies in other projects or on your 'main' PC.
-
-### Setup a virtual environment
-Installing a virtual environment is pretty easy. First, use pip3 (for Python3) to install the package.
-```bash
-WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install virtualenv
-```
-Next, create a virtual environment:
-```bash
-WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 -m venv
-usage: venv [-h] [--system-site-packages] [--symlinks | --copies] [--clear] [--upgrade] [--without-pip]
-            [--prompt PROMPT]
-            ENV_DIR [ENV_DIR ...]
-```
-The above learns us that the main command is `python3 -m venv`, but we also need to give the virtual environment a name. Most people use `venv` as the name, but this is entirely up to you. In any case, it explains a bit why you see two times the word `venv` in below command.
-```bash
-WAUTERW-M-65P7:Parse_YAML_Python wauterw$ python3 -m venv venv
-```
-Next, we need to activate the virtual environment:
-```bash
-WAUTERW-M-65P7:Parse_YAML_Python wauterw$ source venv/bin/activate
-(venv) WAUTERW-M-65P7:Parse_YAML_Python wauterw$ 
-```
-Observe that the command prompt now has this `(venv)` statement in front of it. This means you are into the virtual environment. Any install request under that virtual environment is entirely isolated from other environments.
 
 ### Install libraries to work with YAML
+
+First use [this](https://blog.wimwauters.com/2020-01-08-PythonVirtualEnvironment) post to create a virtual environment. 
+
 Python has a nice package called `pyyaml` to work with YAML files. Install it as follows:
 ```bash
 (venv) WAUTERW-M-65P7:Parse_YAML_Python wauterw$ pip3 install pyyaml
