@@ -5,8 +5,6 @@ draft: True
 categories:
   - Web Development
   - Programming
-  - Backend
-  - Frontend
   - All
 tags:
   - Laravel
