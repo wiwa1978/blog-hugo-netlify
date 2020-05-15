@@ -1,6 +1,6 @@
 ---
 title: Cisco SDWAN - Python Requests
-date: 2020-06-01T10:32:50+01:00
+date: 2020-05-16T10:32:50+01:00
 draft: true
 categories:
   - Network Programming
@@ -11,10 +11,10 @@ tags:
   - Python
 ---
 ### Introduction
-In this post, we will explore integration into Cisco's SDWAN solution through Python.
+In [this](https://blog.wimwauters.com/networkprogrammability/__2020-06-01_sdwan_gettingstarted/) post, we walked through a number of SD-WAN API's using POSTMAN. As a follow-up, we will explore in today's post some Python scripts that implement these APIs.
 
 ### Authenticate
-First off, we need to authenticate with the SDWAN solution. Therefore we need to send a POST request to `https://{{vmanage}}:{{port}}/j_security_check`. In the body, we need to specify the username (called `j_username`) and password (`j_password`). Have a look [here](https://sdwan-docs.cisco.com/Product_Documentation/Command_Reference/Command_Reference/vManage_REST_APIs/vManage_REST_APIs_Overview/Using_the_vManage_REST_APIs) to get acquainted with the API
+As mentioned in the previous post, we need to authenticate with vManage  by sending a POST request to `https://{{vmanage}}:{{port}}/j_security_check`. In the body, we need to specify the username (called `j_username`) and password (`j_password`). Have a look [here](https://sdwan-docs.cisco.com/Product_Documentation/Command_Reference/Command_Reference/vManage_REST_APIs/vManage_REST_APIs_Overview/Using_the_vManage_REST_APIs) to get acquainted with the API
 
 So create a file called `authenticate.py`. You will see that we specify the usual headers and we create a body dictionary containing the username and password. As the SDWAN API returns back a cookie (called `JSESSIONID`), it's easier to work with the Requests Session object. The Session object allows you to persist certain parameters across requests. So if you’re making several requests to the same host, the underlying TCP connection will be reused. Note that we need to use the session object then for the REST API POST call. vManage API does not return content when authenticating but returns an HTML page when authentication is not successful. So what we do is checking for the <html> tag to see if our authentication was successful.
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
    print(response)
 ```
 ### Get device controllers
-With authentication out of the way, we can now focus on retrieving some data. In the next script, we will retrieve a list of device controllers from our SD-WAN setup. Code is pretty easy.
+In this example, we will retrieve a list of device controllers from our SD-WAN setup. Code is pretty easy.
 
 We will first call the login function that we created above. Therefore we added the line `from authenticate import login` at the top of the script. Next, we will specify the correct endpoint, e.g. the API call we want to use is `/dataservice/system/device/controllers`. What rests is simply parsing the response. If you follow along you will note that the response contains a list of devices, so in the script we just loop through the list of devices and we print the required information (in our case the device type and its IP address).
 
@@ -93,7 +93,7 @@ Device controller => vbond with IP address 10.0.0.12
 ```
 
 ### Get edge devices
-In the above script, we retrieved the device controllers. With a small variation to the above script we can also retrieve a list of vEdge devices. Just call the `/dataservice/system/device/vedges` API and parse the result in a similar way as above script. Oh and you'll see I make some variations on the API call as well. The API allows us to filter what we want to query so we also used a small variation on the above API (e.g. `/dataservice/system/device/vedges?model=vedge-CSR-1000v`) to retrieve only the CSR100V.
+With a small variation to the above script we can also retrieve a list of vEdge devices. To achieve that, we need to call the `/dataservice/system/device/vedges` API and parse the result in a similar way as above script. Oh and you'll see I make some variations on the API call as well. The API allows us to filter what we want to query so we also used a small variation on the above API (e.g. `/dataservice/system/device/vedges?model=vedge-CSR-1000v`) to retrieve only the CSR100V.
 
 ```python
 import requests
@@ -187,5 +187,7 @@ Running the script gives us a list of all templates with its corresponding id.
 wauterw@WAUTERW-M-65P7 SDWAN_PythonRequests % python3 get_templates.py 
 Template => vedge-CSR-1000v with id 8efa8c0a-c9ef-42f1-a92a-2e2f79c2bbe3
 ```
+
+If you are interested in seeing the full code, please check out my Github [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/SDWAN_PythonRequests).
 
 

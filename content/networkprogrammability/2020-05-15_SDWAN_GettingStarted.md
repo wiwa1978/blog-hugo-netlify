@@ -1,6 +1,6 @@
 ---
 title: Cisco SD-WAN - Getting Started
-date: 2020-05-01T08:32:50+01:00
+date: 2020-05-15T08:32:50+01:00
 draft: true
 categories:
   - Network Programming
@@ -29,49 +29,78 @@ With authentication out of the way, we can now focus on retrieving some data. In
 ![sdwan](/images/2020-06-01-2-a.png)
 
 ### Get edge devices
+In the above script, we retrieved the device controllers. With a small variation to the above script we can also retrieve a list of vEdge devices. Just call the `/dataservice/system/device/vedges` API. 
 
 ![sdwan](/images/2020-06-01-3.png)
 
+Obviously, the POSTMAN response is also reflected in the 
+
 ![sdwan](/images/2020-06-01-3-a.png)
 
+Let's say we would only be interested to have an overview of the CSR1000v edge devices. Then the API allows us also to 'filter' the response by using a query parameters. See below for the relevant POSTMAN example.
+
 ![sdwan](/images/2020-06-01-4.png)
+
+As you would expect, the returned list of CSR1000v correspond to the list in the SD-WAN user interface.
 
 ![sdwan](/images/2020-06-01-4-a.png)
  
 ### Get templates
 
+In order to retrieve templates from vManage, we will use the `/dataservice/template/` API.
+
 ![sdwan](/images/2020-06-01-5.png)
+
+Checking the templates in the user interface of course gets us back the same list of templates.
 
 ![sdwan](/images/2020-06-01-5-a.png)
 
 ### Get feature template
 
+SD-WAN works with so called feature templates. Retrieving these feature templates is very similar to retrieving templates. We will use the `/dataservice/template/feature` API.
+
 ![sdwan](/images/2020-06-01-6.png)
 
+Below the UI with the same feature templates.
 
 ![sdwan](/images/2020-06-01-6-a.png)
 
 ### Get alarm count
 
+We can also retrieve the alarm counts. Use the `/dataservice/alarms/count` API` for that.
+
 ![sdwan](/images/2020-06-01-7.png)
+
+You'll see we receive back a response with the alarm count and the amount of cleared alarms.
 
 ![sdwan](/images/2020-06-01-7-a.png)
 
 
 ### Add user
 
+Adding users is done through sending a POST request to the `/dataservice/admin/user` API. Note the capital N in userName in the JSON body (if spelled wrong, the user will not be added).
+
 ![sdwan](/images/2020-06-01-8.png)
+
+If all works well, the user is added here.
 
 ![sdwan](/images/2020-06-01-8-a.png)
 
 ### Change Password
 
-![sdwan](/images/2020-06-01-9.png)
+Also changing the password through the API is possible. For this, use the `/dataservice/admin/user/password/<user>` API.
 
+![sdwan](/images/2020-06-01-9.png)
 
 ### Get Certificates
 
+In order to retrieve the certificates, you can use the `/dataservices/certificate/vsmart/list` API. 
+
 ![sdwan](/images/2020-06-01-10.png)
 
+Below is a screenshot showing the list of certificates.
+
 ![sdwan](/images/2020-06-01-10-a.png)
+
+The intention of this post is to provide a short overview of some relevant SD-WAN APIs, nothing really more. In a next post, I will provide some Python scripts that implement these API calls.
 
