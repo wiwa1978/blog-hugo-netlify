@@ -1,7 +1,7 @@
 ---
 title: Cisco SD-WAN - Getting Started
 date: 2020-05-15T08:32:50+01:00
-draft: true
+draft: false
 categories:
   - Network Programming
   - Programming
