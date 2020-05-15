@@ -12,7 +12,7 @@ tags:
 ---
 ### Introduction
 
-Let's continue where we left off in part 1. In this post, we will focus more on some specific use cases, like configuration validation and changing configurations onto our devices.
+Let's continue where we left off in [part 1](https://blog.wimwauters.com/networkprogrammability/2020-04-06_napalm_introduction_part1/). In this post, we will focus more on some specific use cases, like configuration validation and changing configurations onto our devices.
 
 >Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
 

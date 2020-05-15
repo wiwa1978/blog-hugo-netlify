@@ -13,7 +13,7 @@ tags:
 ---
 
 ### Introduction
-In a [previous](http://localhost:1313/development/2020-03-19/) post, we introduced how we could interact with Cisco's ACI solution using Python. This post will build on the things we learned in that blog post. 
+In a [previous](http://blog.wimwauters.com/development/2020-03-19/) post, we introduced how we could interact with Cisco's ACI solution using Python. This post will build on the things we learned in that blog post. 
 
 One of the painpoints was that we had to construct the payload in the script itself. That's difficult to maintain in the long run. So a better way to tackle this would be to use Jinja2 templates. We have come across Jinja2 already before in this blogpost.
 
@@ -67,7 +67,8 @@ def main():
 if __name__ == "__main__":
    main()
 ```
-The rest is business as usual (already explained in the [previous](http://localhost:1313/development/2020-03-19/) post:
+The rest is business as usual (already explained in the [previous](http://blog.wimwauters.com/development/2020-03-19/) post:
+
 - send a request via REST POST method, specifying the payload
 - parse the token from the returned response
 

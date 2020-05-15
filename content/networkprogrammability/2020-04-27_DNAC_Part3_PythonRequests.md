@@ -10,6 +10,17 @@ tags:
   - DNAC
   - Python
 ---
+### DNAC Series
+
+This is part of a DNAC series:
+
+- Part 1: [Getting started](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/)
+- Part 2: [Cisco DNA Center - Devices](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_part1_pythonrequests/)
+- Part 3: [Cisco DNA Center - Assurance](https://blog.wimwauters.com/networkprogrammability/2020-04-25_dnac_part2_pythonrequests/)
+- Part 4 (this post): [Cisco DNA Center - Sites](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
+- Part 5: [Cisco DNA Center - Discovery (POSTMAN)](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part4_postman_networkdiscovery/)
+- Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
+
 ### Introduction
 
 In previous posts, we already looked at how to retrieve information from the [devices](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/) or from the [client](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part2/) API. We'll now look a bit into the `Sites` API. 

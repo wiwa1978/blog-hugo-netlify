@@ -10,6 +10,18 @@ tags:
   - DNAC
   - Python
 ---
+### DNAC Series
+
+This is part of a DNAC series:
+
+- Part 1: [Getting started](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/)
+- Part 2: [Cisco DNA Center - Devices](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_part1_pythonrequests/)
+- Part 3 (this post): [Cisco DNA Center - Assurance](https://blog.wimwauters.com/networkprogrammability/2020-04-25_dnac_part2_pythonrequests/)
+- Part 4: [Cisco DNA Center - Sites](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
+- Part 5: [Cisco DNA Center - Discovery (POSTMAN)](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part4_postman_networkdiscovery/)
+- Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
+
+
 ### Introduction
 
 In this [post](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/) we introduced DNAC from a theoretical point of view. We continued in [this](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/) post with looking at some simple Python scripts to retrieve device related information from DNAC. For this one, we will look into `Clients` API's. We will write a Python script that shows us the health statistics per device category (wired or wireless).

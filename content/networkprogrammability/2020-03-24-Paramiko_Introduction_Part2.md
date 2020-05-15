@@ -12,7 +12,7 @@ tags:
   - Paramiko
 ---
 ### Introduction
-In the previous post, we experimented a bit with Paramiko. The post was describing a number of use cases to read information from a Cisco IOS XE device. In this post, we will continue on what we achieved but we will focus on making configuration changes onto our Cisco IOS XE device.
+In the [previous](https://blog.wimwauters.com/networkprogrammability/2020-03-23-paramiko_introduction_part1/) post, we experimented a bit with Paramiko. The post was describing a number of use cases to read information from a Cisco IOS XE device. In this post, we will continue on what we achieved but we will focus on making configuration changes onto our Cisco IOS XE device.
 
 ### Script 1: Read the 'Interface Description'
 
@@ -59,6 +59,7 @@ Interface                      Status         Protocol Description
 
 ### Script 2: Change the 'Interface Description'
 As you surely know, changing an interface description on an IOS devices goes as follows:
+
 - conf t
 - (config) interface GigabitEthernet3
 - (config-if) description 'new description'
@@ -156,6 +157,7 @@ None
 ```
  
 The code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Paramiko_Introduction). Check out the following files for this tutorial:
+
 - GetDescription.py
 - SetDescription_modular.py
 

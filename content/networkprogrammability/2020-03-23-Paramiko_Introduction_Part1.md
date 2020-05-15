@@ -26,7 +26,7 @@ To use the sandbox for this blog post, refer to [this page](https://devnetsandbo
 
 ### Installing Paramiko
 
-We will start with instakllation of the Paramiko library. That's pretty straigthforward, please refer to the below output. I'm recommending to work inside a virtual enviroment (see [this](http://localhost:1313/development/2020-03-01/) post to check how to do this)
+We will start with instakllation of the Paramiko library. That's pretty straigthforward, please refer to the below output. I'm recommending to work inside a virtual enviroment (see [this](https://blog.wimwauters.com/networkprogrammability/2020-01-08-pythonvirtualenvironment/) post to check how to do this)
 
 ```bash
 WAUTERW-M-65P7:Paramiko_Introduction wauterw$ python3 -m venv venv

@@ -13,7 +13,7 @@ tags:
 ---
 ### Introduction
 
-In [this](http://localhost:1313/development/2020-03-20/) post, we have seen how to create some ACI objects using Python and Jinja2. While this was relatively straightforward, it's not always as straigthforward as it seems. 
+In [this](http://blog.wimwauters.comdevelopment/2020-03-20/) post, we have seen how to create some ACI objects using Python and Jinja2. While this was relatively straightforward, it's not always as straigthforward as it seems. 
 
 Things can become quickly more complex. Examples include:
 - assign a BD to a VRF, the BD and VRF each part of the same tenant
@@ -29,7 +29,7 @@ As mentioned before, while this works, it certainly is not the easiest way. Luck
 
 ### Use a virtual environment
 
-I would suggest you to work with a Python virtual environment. If you don't know how to do that, please refer to [this](http://localhost:1313/development/2020-03-01/) post, where some sections explain how to achieve this.
+I would suggest you to work with a Python virtual environment. If you don't know how to do that, please refer to [this](https://blog.wimwauters.com/networkprogrammability/2020-01-08-pythonvirtualenvironment/) post, where some sections explain how to achieve this.
 
 Once inside the virtual environment, continue with the rest of this tutorial.
 
@@ -57,12 +57,12 @@ Finished processing dependencies for acitoolkit==0.4
 Don't forget to also install the `pyyaml` and `pprint` packages in your virtual environment. The installation of both these packages in covered in that same blog post.
 
 ### Parsing YAML files
-We will use a YAML file to pass the variables to our script. We have discussed that in [this](http://localhost:1313/development/2020-03-01/) blog post. A big part of our code will be to deal with YAML files, so make sure you understand that blog post before you continue.
+We will use a YAML file to pass the variables to our script. We have discussed that in [this](https://blog.wimwauters.com/networkprogrammability/2020-01-14-parse_yaml_python/) blog post. A big part of our code will be to deal with YAML files, so make sure you understand that blog post before you continue.
 
 ### Python script
 
 ##### Read variables file
-Refer to the first line in below script. The part after `Read YAML configuration` is explained quite well in the blogpost we referred to already ([this](http://localhost:1313/development/2020-03-01/) one). Nothing different here.
+Refer to the first line in below script. The part after `Read YAML configuration` is explained quite well in the blogpost we referred to already ([this](https://blog.wimwauters.com/networkprogrammability/2020-01-14-parse_yaml_python/) one). Nothing different here.
 
 ##### Making use of Session object
 Note that to work with the acitoolkit we need to use a `Session`. The Session object is described [here](https://github.com/datacenter/acitoolkit/blob/master/acitoolkit/acisession.py) but a Session object is essentially under the hood dealing with the ACI login process (and token). 

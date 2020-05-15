@@ -14,7 +14,7 @@ tags:
 ---
 
 ### Introduction
-This is a follow up post on part 1 where we mainly focused on retrieving information from our devices using NETCONF. This post will focus on how to make configuration changes to our devices configuration. It is highly recommended to first work your way through part 1.
+This is a follow up post on [part 1](https://blog.wimwauters.com/networkprogrammability/2020-03-30-netconf_python_part1/) where we mainly focused on retrieving information from our devices using NETCONF. This post will focus on how to make configuration changes to our devices configuration. It is highly recommended to first work your way through [part 1](https://blog.wimwauters.com/networkprogrammability/2020-03-30-netconf_python_part1/).
 
 ### Set Interface description
 Setting the description of a particular interface is pretty straightforward. For simplicity reasons, we will read the configuration from an XML file we have stored in a templates folder.

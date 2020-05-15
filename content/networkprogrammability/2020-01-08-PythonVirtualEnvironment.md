@@ -34,3 +34,5 @@ WAUTERW-M-65P7:Parse_YAML_Python wauterw$ source venv/bin/activate
 (venv) WAUTERW-M-65P7:Parse_YAML_Python wauterw$ 
 ```
 Observe that the command prompt now has this `(venv)` statement in front of it. This means you are into the virtual environment. Any install request under that virtual environment is entirely isolated from other environments.
+
+Short post, hope you enjoyed it!
