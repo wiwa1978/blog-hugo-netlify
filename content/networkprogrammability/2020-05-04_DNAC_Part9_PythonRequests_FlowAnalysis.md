@@ -23,6 +23,7 @@ This is part of a DNAC series:
 - Part 7: [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part7_pythonrequests/)
 - Part 8: [Cisco DNA Center - Flow-Analysis (POSTMAN)](https://blog.wimwauters.com/networkprogrammability/2020-05-03_dnac_part8_postman_flowanalysis/)
 - Part 9 (this post): [Cisco DNA Center - Flow-Analysis (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-04_dnac_part9_pythonrequests_flowanalysis/)
+
 >Disclaimer: the code in this post is not production-grade code obviously.  The examples in the post are merely conceptual and for informational purposes.
 
 ### Introduction
@@ -65,16 +66,17 @@ def flowanalysis():
         "periodicRefresh": False
     }
       
-    flow_url = f"https://{dnac}/api/v1/flow-analysis"
-    response_flow =  requests.post(flow_url, data=json.dumps(payload), headers=headers, verify=False ).json()
+    flow_url = "/dna/intent/api/v1/flow-analysis"
+    print(url + flow_url)
+    response_flow =  requests.post(url + flow_url, data=json.dumps(payload), headers=headers, verify=False ).json()
     analysis_url = response_flow['response']['url']
+    print(url + analysis_url)
     
     response =  requests.get(url + analysis_url, headers=headers, verify=False ).json()
-    print(f"{response['response']['request']['status']} => Reason: {response['response']['request']['failureReason']}")
+    print(f"{response['response']['request']['status']}")
 
 if __name__ == "__main__":
    flowanalysis()
-
 ```
 
 The full source code can be found on my Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DNAC_PythonRequests/CommandRunner).
