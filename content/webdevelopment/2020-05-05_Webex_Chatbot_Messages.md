@@ -1,6 +1,6 @@
 ---
 title: Webex Teams Chatbot with Python
-date: 2020-05-05T17:19:50+01:00
+date: 2020-06-05T17:19:50+01:00
 draft: false
 categories:
   - Web Development
@@ -17,28 +17,28 @@ In this post, we will create a very simple chatbot with Webex Teams API using Py
 
 To start off, go to `https://developer.webex.com/`.
 
-![webex](/images/2020-05-05-1.png)
+![webex](/images/2020-06-05-1.png)
 
 Next, create a new App (select `Create a Bot`).
 
-![webex](/images/2020-05-05-2.png)
+![webex](/images/2020-06-05-2.png)
 
 In the details page, add the requested information:
 
-![webex](/images/2020-05-05-3.png)
+![webex](/images/2020-06-05-3.png)
 
 As a result, you will get back some information which you will need in future so take a note of it. 
 
-![webex](/images/2020-05-05-4.png)
+![webex](/images/2020-06-05-4.png)
 
 Next, go to Webex Teams and search for your bot based on the bot username. I called my bot blog-wim, so the username will be blogwim@webex.bot.
 You will see the bot is listed now in your Webex Teams.
 
-![webex](/images/2020-05-05-5.png)
+![webex](/images/2020-06-05-5.png)
 
 Next, we need to find out what the room ID is. Therefore, the easiest is to go to https://developer.webex.com/docs/api/v1/rooms/list-rooms to retrieve a list of all the rooms available in your Webex Teams application.
 
-![webex](/images/2020-05-05-6.png)
+![webex](/images/2020-06-05-6.png)
 
 The first one you will see is the room ID of the chatbot you just added. Also note down the roomID as you will need it later.
 
@@ -77,7 +77,7 @@ wauterw@WAUTERW-M-65P7 Webex_Chatbot_Messages % python3 webex.py
 ```
 Next, check your Webex Teams application and you will see the message appears there.
 
-![webex](/images/2020-05-05-7.png)
+![webex](/images/2020-06-05-7.png)
 
 ### Python code: delete messages
 ```python

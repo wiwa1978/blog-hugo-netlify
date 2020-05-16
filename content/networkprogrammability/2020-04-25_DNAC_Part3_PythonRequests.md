@@ -36,9 +36,11 @@ Let's have a look at the Client API section in the [API](https://developer.cisco
 
 ![DNAC](/images/2020-04-25-1.png)
 
-As a reminder, we are looking to print an overview of the various health categories (fair, poor, ...) per device category. 
+As a reminder, we are looking to print an overview of the various health categories (fair, poor, ...) per device category. Let's have a look at the POSTMAN example, that will make the implementation a lot easier as the response is quite complex to parse.
 
-In below Python script, you will notice we use the `client-health` API. Before we dive into the Python code, let's see how the response will look like. 
+![DNAC](/images/2020-04-25-1-a.png)
+
+Before we dive into the Python code, let's see how the response will look like. 
 
 ```bash
 {'response': [{'scoreDetail': [
@@ -208,4 +210,18 @@ Sum_wireless: 64
     For NODATA => 0%
     For NEW => 0%
 ```
+
+### Get Network Health
+
+In a simular fashion, we can write a script to parse the Network health. We won't cover that now but if you understood previous example, parsing the Network health response will be very easy. The API to call is `/dna/intent/api/v1/network-health?timestamp={{$timestamp}}000`
+
+![DNAC](/images/2020-04-25-2.png)
+
+
+### Get Site Health
+
+In a simular fashion, we can write a script to parse the Site health. We won't cover that now but if you understood how to parse the client health, parsing the Site health response will be very easy. The API to call is `/dna/intent/api/v1/site-health?timestamp={{$timestamp}}000`
+
+![DNAC](/images/2020-04-25-3.png)
+
 As usual, code can be found on my Github [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DNAC_PythonRequests/Assurance).
