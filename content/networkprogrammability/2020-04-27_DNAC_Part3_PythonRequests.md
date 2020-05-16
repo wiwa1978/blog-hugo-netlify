@@ -22,6 +22,8 @@ This is part of a DNAC series:
 - Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
 - Part 7: [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part6_pythonrequests/)
 
+>Disclaimer: the code in this post is not production-grade code obviously.  The examples in the post are merely conceptual and for informational purposes.
+
 ### Introduction
 
 In previous posts, we already looked at how to retrieve information from the [devices](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/) or from the [client](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part2/) API. We'll now look a bit into the `Sites` API. 

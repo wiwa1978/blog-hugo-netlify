@@ -22,6 +22,8 @@ This is part of a DNAC series:
 - Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
 - Part 7: [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part6_pythonrequests/)
 
+>Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ### Introduction
 
 In this [post](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/) we introduced DNAC from a theoretical point of view. We continued in [this](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_pythonrequests_part1/) post with looking at some simple Python scripts to retrieve device related information from DNAC. For this one, we will look into `Clients` API's. We will write a Python script that shows us the health statistics per device category (wired or wireless).

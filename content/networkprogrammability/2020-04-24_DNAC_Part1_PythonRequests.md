@@ -27,8 +27,7 @@ This is part of a DNAC series:
 
 In this [post](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/), we introduced DNAC at a fairly high level and we have shown some POSTMAN samples to get a basic understanding of some of the APIs like authentication and devices). In this post, we will continue that journey as we will show some  Python samples.
 
->Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
-
+>Disclaimer: the code in this post is not production-grade code obviously.  The examples in the post are merely conceptual and for informational purposes.
 
 ### Authentication through Python
 

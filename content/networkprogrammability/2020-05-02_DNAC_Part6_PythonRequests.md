@@ -22,6 +22,7 @@ This is part of a DNAC series:
 - Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
 - Part 7 (this post): [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part6_pythonrequests/)
 
+>Disclaimer: the code in this post is not production-grade code obviously.  The examples in the post are merely conceptual and for informational purposes.
 
 ### Introduction
  In [this](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part4_postman_networkdiscovery/) we have been showing some POSTMAN samples for running a Network Discovery and Command Runner. In the next sections, we will explore how we can implement the CommandRunner functionality using Python Requests. I recommend you to first go through the POSTMAN post before attempting this one.

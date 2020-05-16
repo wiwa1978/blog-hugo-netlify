@@ -22,6 +22,8 @@ This is part of a DNAC series:
 - Part 6 (this post): [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
 - Part 7: [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part6_pythonrequests/)
 
+>Disclaimer: the code in this post is not production-grade code obviously.  The examples in the post are merely conceptual and for informational purposes.
+
 ### Introduction
  In [this](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part4_postman_networkdiscovery/) we have been showing some POSTMAN samples for running a Network Discovery and Command Runner. In the next sections, we will explore how we can achieve exactly the same using Python Requests. I recommend you to first go through the POSTMAN post before attempting this one.
 
@@ -67,6 +69,7 @@ def main():
    response =  requests.get(url + cred_url, params=params, headers=headers, verify=False ).json()
    cred_list.append(response["response"][0]["id"])
 ```
+Note: the discovery name needs to be different every run. I did not implement code to check if the name was already used.
 
 ###### Start IP based discovery
 Next, we will create the following Jinja2 template. This contains the sample JSON body for our API request.
