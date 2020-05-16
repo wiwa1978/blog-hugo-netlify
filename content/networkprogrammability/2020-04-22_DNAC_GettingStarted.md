@@ -69,6 +69,10 @@ Cisco DNAC comes with an intend API, which is a Northbound API that exposes spec
 **Event Management**
 - Event Management
 
+### Credits
+
+Most of the examples I'm using here are using the Postman collection from Nick Russo. Find them at Nick's website ([here](http://njrusmc.net/jobaid/jobaid.html)). Also, Nick has a brilliant course on automation DNAC operations at Pluralsight. Really worth watching it if you want to explore how to run APIs against Cisco's SDA solution. Check out all of Nick's courses [here](https://app.pluralsight.com/search/?q=nick%20russo&query_id=dede7781-f811-41d0-bd66-568c1d1966d7&is_auto_suggested=true).
+
 ### Getting started example (POSTMAN)
 
 Enough intro...let's dive into some basic programming. Let's try this with POSTMAN first. 

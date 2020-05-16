@@ -14,6 +14,14 @@ tags:
 
 SD-WAN is a software-defined approach to managing the WAN. In the past, MPLS networks were used to ensure reliable connectivity between users connecting at the branch to applications running on servers in the datacenter. SD-WAN is a new approach to building out WAN networks. It will help organizations to manage their WAN network from a single pane of glass, ensuring optimized routing paths, ensuring high availability for enterprise applications and easily connect your WAN Network to the cloud. 
 
+### Documentation
+
+Documentation can be found by logging into the vManage and go to `/apidocs'. So for the SD-WAN Devnet Always On Sandbox, we could use https://sandboxsdwan.cisco.com/apidocs.
+
+### Credits
+
+Most of the examples below are making use of Nick Russo's SD-WAN POSTMAN collection. Find them at Nick's website ([here](http://njrusmc.net/jobaid/jobaid.html)). Also, Nick has a brilliant course on SD-WAN at Pluralsight. Really worth watching it if you want to explore how to run APIs against Cisco's SD-WAN solution. Check out all of Nick's courses [here](https://app.pluralsight.com/search/?q=nick%20russo&query_id=dede7781-f811-41d0-bd66-568c1d1966d7&is_auto_suggested=true).
+
 ### Authenticate
 
 First off, we need to authenticate with the SDWAN solution. Therefore we need to send a POST request to `https://{{vmanage}}:{{port}}/j_security_check`. In the body, we need to specify the username (called `j_username`) and password (`j_password`). Have a look [here](https://sdwan-docs.cisco.com/Product_Documentation/Command_Reference/Command_Reference/vManage_REST_APIs/vManage_REST_APIs_Overview/Using_the_vManage_REST_APIs) to get acquainted with the API
@@ -65,17 +73,6 @@ Below the UI with the same feature templates.
 
 ![sdwan](/images/2020-06-01-6-a.png)
 
-### Get alarm count
-
-We can also retrieve the alarm counts. Use the `/dataservice/alarms/count` API` for that.
-
-![sdwan](/images/2020-06-01-7.png)
-
-You'll see we receive back a response with the alarm count and the amount of cleared alarms.
-
-![sdwan](/images/2020-06-01-7-a.png)
-
-
 ### Add user
 
 Adding users is done through sending a POST request to the `/dataservice/admin/user` API. Note the capital N in userName in the JSON body (if spelled wrong, the user will not be added).
@@ -102,5 +99,101 @@ Below is a screenshot showing the list of certificates.
 
 ![sdwan](/images/2020-06-01-10-a.png)
 
-The intention of this post is to provide a short overview of some relevant SD-WAN APIs, nothing really more. In a next post, I will provide some Python scripts that implement these API calls.
+### Get alarm count
 
+We can also retrieve the alarm counts. Use the `/dataservice/alarms/count` API` for that.
+
+![sdwan](/images/2020-06-01-7.png)
+
+You'll see we receive back a response with the alarm count and the amount of cleared alarms.
+
+![sdwan](/images/2020-06-01-7-a.png)
+
+
+### Get Certificates statistics
+
+In order to retrieve the certificates statistics, you can use the `/dataservices/certificate/stats/summary` API. 
+
+![sdwan](/images/2020-06-01-11.png)
+
+### Get Control Count
+
+In order to retrieve the control count, you can use the `/dataservices/device/control/count` API. 
+
+![sdwan](/images/2020-06-01-12.png)
+
+You'll notice that in the response, we get back a link to more details for that status. This lets us explore which devices are up or down. Let's explore that further.
+
+![sdwan](/images/2020-06-01-12-a.png)
+
+### Get Tunnel statistics
+
+In order to retrieve the control count, you can use the `/dataservices/device/tunnel/statistics` API. Note that we need to specify a `deviceId` parameter (e.g the IP address)
+
+![sdwan](/images/2020-06-01-13.png)
+
+### Get Device Control Connections
+
+In order to retrieve the control connections, you can use the `/dataservices/device/control/connections` API. Note that we need to specify a `deviceId` parameter (e.g the IP address)
+
+![sdwan](/images/2020-06-01-14.png)
+
+### Get CPU stats
+
+In order to retrieve CPU stats, you can use the `/dataservices/statistics/system` API. 
+
+![sdwan](/images/2020-06-01-15.png)
+
+Pay particular attention to the JSON body:
+
+```json
+{
+  "query": {
+    "condition": "AND",
+    "rules": [
+      {
+        "value": [
+          "1"
+        ],
+        "field": "entry_time",
+        "type": "date",
+        "operator": "last_n_hours"
+      },
+      {
+        "value": [
+          "4.4.4.60"
+        ],
+        "field": "vdevice_name",
+        "type": "string",
+        "operator": "in"
+      }
+    ]
+  },
+  "fields": [
+    "entry_time",
+    "count",
+    "cpu_user_new",
+    "mem_util"
+  ],
+  "sort": [
+    {
+      "field": "entry_time",
+      "type": "date",
+      "order": "asc"
+    }
+  ]
+}
+```
+Here we have specified two rules:
+
+- Rule 1: the `entry time` (of type `date`). As the operator is `last_n_hours` and the value equals 1, it means we want to check the last 1 hour.
+- Rule 2: the `vdevice_name` (of type `string`) must contain the value 4.4.4.60.
+
+The query condition is `AND` which means that both above rules must be TRUE 
+
+The fields (optional) ensures we collect only a few fields, in our example we are interested in the `entry_time`, the `cpu_user_new` and the `mem_util`. Other attributes could have been `statcycletime`, `system-ip`, `device_model`, `host_name`, `runningp` (running processes), `totalp`(total processes), `cpu_system_new`, `cpu_idle`, `mem_free`, `mem_buffers`, `mem_cached`, `disk_used`, `disk_avail`, `min1_avg` (CPU), `min5_avg` (CPU), `min15_avg` (CPU).
+
+Last, we will want to sort the date on `entry_time` in ascending order.
+
+
+The intention of this post was mainly to provide a short overview of some relevant SD-WAN APIs, nothing really more. In a next post, I will provide some Python scripts that implement these API calls.
