@@ -26,3 +26,13 @@ You can authorize by passing the `X-Cisco-Meraki-API-Key` in the header of your 
 
 For the official documentation, please check [this](https://developer.cisco.com/meraki/api/#/rest/guides/rest-api-quick-start) link.
 
+##### Find organization
+
+![meraki](/images/2020-06-01-1.png)
+
+Find Network ID
+
+`/organizations/:organizationId/networks`
+
+![meraki](/images/2020-06-01-2.png)
+
