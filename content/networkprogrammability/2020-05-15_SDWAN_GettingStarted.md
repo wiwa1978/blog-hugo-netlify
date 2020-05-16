@@ -75,7 +75,7 @@ Below the UI with the same feature templates.
 
 ### Add user
 
-Adding users is done through sending a POST request to the `/dataservice/admin/user` API. Note the capital N in userName in the JSON body (if spelled wrong, the user will not be added).
+Adding users to an existing group is done through sending a POST request to the `/dataservice/admin/user` API. Note the capital N in userName in the JSON body (if spelled wrong, the user will not be added).
 
 ![sdwan](/images/2020-06-01-8.png)
 
@@ -88,6 +88,24 @@ If all works well, the user is added here.
 Also changing the password through the API is possible. For this, use the `/dataservice/admin/user/password/<user>` API.
 
 ![sdwan](/images/2020-06-01-9.png)
+
+### Add Group
+
+Let's say we wanted to add a new group, we could use the `/dataservice/admin/usergroup` API. In the JSON body, we can set read/write permissions for specific features. Features include `Interface`, `Routing`, `Security`, `System`, `Policy`, `Alarms`, `Audit Log`, `Device Monitoring`, `Certificates`, `Device Inventory`, `Template Configuration`, `Template Deploy`, `Policy Configuration`, `Security Policy Configuration`, `Policy Deploy`, `Cloud OnRamp`, `Software Upgrade`, `Device Reboot`, `Manage Users`, `Tools`, `Settings`, `Cluster`, `vAnalytics` and `Events`.
+
+![sdwan](/images/2020-06-01-18.png)
+
+### Get Auditlog
+
+To retrieve the auditlog, we can use the API endpoint `/dataservice/auditlog`. The audit log contains security related events
+
+![sdwan](/images/2020-06-01-16.png)
+
+Note: in order to collect auditlogs, we need to be an admin user. To check if a user is an Admin, you could use the `dataservice/admin/user/role` API.
+
+![sdwan](/images/2020-06-01-17.png)
+
+It will return true if the current user has admin privileges.
 
 ### Get Certificates
 
