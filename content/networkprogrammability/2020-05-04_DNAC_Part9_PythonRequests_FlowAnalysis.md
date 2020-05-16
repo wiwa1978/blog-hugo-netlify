@@ -79,4 +79,4 @@ if __name__ == "__main__":
    flowanalysis()
 ```
 
-The full source code can be found on my Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DNAC_PythonRequests/CommandRunner).
+The full source code can be found on my Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DNAC_PythonRequests/FlowAnalysis).
