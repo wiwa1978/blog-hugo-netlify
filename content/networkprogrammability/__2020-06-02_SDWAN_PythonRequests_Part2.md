@@ -12,9 +12,8 @@ tags:
 ---
 ### Introduction
 
+### Get Tunnel Statistics
 
-### Create User
+### Get Auditlogs
 
-### Change User's password
-
-### Certificate
+### Get Device Control Connections

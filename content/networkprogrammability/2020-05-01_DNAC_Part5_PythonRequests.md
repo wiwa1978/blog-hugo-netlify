@@ -38,28 +38,26 @@ The following Python snippet will call the `/dna/intent/api/v1/global-credential
 ```python
 import requests
 from authenticate import get_token
-from pprint import pprint
 import json, time
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 
+dnac = "10.48.82.183"
+token = get_token(dnac)
+url = f"https://{dnac}"
+
+headers = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "X-auth-Token": token 
+   }
+
 def main():
-   dnac = "10.48.82.183"
-   token = get_token(dnac)
-
-   url = f"https://{dnac}"
-
    cred_url = "/api/v1/global-credential"
    credtype = "CLI"
    
    params = {
       "credentialSubType": {credtype}
-   }
-
-   headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-auth-Token": token 
    }
 
    discoveryname = "newDiscovery_v1" #needs to be updated every run
@@ -115,13 +113,6 @@ Therefore, I implemented a `waitTask` function that essentually checks every sec
 
 ```python
 def waitTask(url, task_url):
-   dnac = "10.48.82.183"
-   token = get_token(dnac)
-   headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-auth-Token": token 
-   }
    for i in range(10):
       time.sleep(1)
       response_task =  requests.get(url + task_url, headers=headers, verify=False ).json()

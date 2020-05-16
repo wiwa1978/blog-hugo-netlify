@@ -1,5 +1,5 @@
 ---
-title: Cisco SDWAN - Python Requests
+title: Cisco SD-WAN - Python Requests
 date: 2020-05-16T04:32:50+01:00
 draft: false
 categories:
