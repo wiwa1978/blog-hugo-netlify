@@ -20,18 +20,7 @@ This is part of a DNAC series:
 - Part 4: [Cisco DNA Center - Sites](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
 - Part 5 (this post): [Cisco DNA Center - Discovery (POSTMAN)](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part4_postman_networkdiscovery/)
 - Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part5_pythonrequests/)
-
-### Introduction
-
-So far, we covered 4 blog posts on interacting with DNAC.
-
-- Cisco DNA Center - Getting Started: explains what is Cisco DNA and shows some basic POSTMAN interactions to get familiar with the API. see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_gettingstarted/)
-
-- Cisco DNA Center - Devices: interacting through Python with the `Devices` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_part1_pythonrequests/)
-
-- Cisco DNA Center - Assurance: interacting through Python with the `Assurance` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-25_dnac_part2_pythonrequests/)
-
-- Cisco DNA Center - Sites: interacting through Python with the `Sites` API, see [here](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
+- Part 7: [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part6_pythonrequests/)
 
 In this tutorial, we will look into (and experiment) with some more advanced features of DNAC, like Network Discovery and Command Runner. To start with, we will focus on some POSTMAN interactions to get familiar with the flow of these features. As a reminder, the API documentation for DNAC can be found [here](https://developer.cisco.com/docs/dna-center/api/1-3-3-x/). Refer to the `Network Decovery` and the `Command Runner` section respectively.
 
