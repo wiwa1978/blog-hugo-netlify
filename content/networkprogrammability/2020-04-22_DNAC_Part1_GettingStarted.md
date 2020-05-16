@@ -8,7 +8,7 @@ categories:
   - All
 tags:
   - DNAC
-  - Python
+  - POSTMAN
 ---
 ### DNAC Series
 
