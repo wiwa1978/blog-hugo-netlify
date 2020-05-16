@@ -71,7 +71,7 @@ Cisco DNAC comes with an intend API, which is a Northbound API that exposes spec
 
 ### Credits
 
-Most of the examples I'm using here are using the Postman collection from Nick Russo. Find them at Nick's website ([here](http://njrusmc.net/jobaid/jobaid.html)). Also, Nick has a brilliant course on automation DNAC operations at Pluralsight. Really worth watching it if you want to explore how to run APIs against Cisco's SDA solution. Check out all of Nick's courses [here](https://app.pluralsight.com/search/?q=nick%20russo&query_id=dede7781-f811-41d0-bd66-568c1d1966d7&is_auto_suggested=true).
+Most of the examples I'm using here are using the Postman collection from Nick Russo. Find them at Nick's website ([here](http://njrusmc.net/jobaid/jobaid.html)). Also, Nick has a brilliant course on automation DNAC operations at Pluralsight. Really worth watching it if you want to explore how to run APIs against Cisco's SDA solution. Check out Nick's course on `Automating Cisco DNA Center Operations using APIs` [here](https://app.pluralsight.com/library/courses/automating-cisco-dna-center-operations-using-apis/table-of-contents).
 
 ### Getting started example (POSTMAN)
 

@@ -20,7 +20,7 @@ Documentation can be found by logging into the vManage and go to `/apidocs'. So 
 
 ### Credits
 
-Most of the examples below are making use of Nick Russo's SD-WAN POSTMAN collection. Find them at Nick's website ([here](http://njrusmc.net/jobaid/jobaid.html)). Also, Nick has a brilliant course on SD-WAN at Pluralsight. Really worth watching it if you want to explore how to run APIs against Cisco's SD-WAN solution. Check out all of Nick's courses [here](https://app.pluralsight.com/search/?q=nick%20russo&query_id=dede7781-f811-41d0-bd66-568c1d1966d7&is_auto_suggested=true).
+Most of the examples below are making use of Nick Russo's SD-WAN POSTMAN collection. Find them at Nick's website ([here](http://njrusmc.net/jobaid/jobaid.html)). Also, Nick has a brilliant course on SD-WAN at Pluralsight. Really worth watching it if you want to explore how to run APIs against Cisco's SD-WAN solution. Check out Nick's course `Automating Cisco SD-WAN Operations Using APIs` [here](https://app.pluralsight.com/library/courses/automating-cisco-sd-wan-operations-using-apis/table-of-contents)).
 
 ### Authenticate
 
