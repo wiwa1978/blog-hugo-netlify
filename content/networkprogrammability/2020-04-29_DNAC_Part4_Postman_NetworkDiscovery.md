@@ -1,5 +1,5 @@
 ---
-title: Cisco DNA Center - Discovery (POSTMAN)
+title: Cisco DNA Center - Discovery & Command Runner (POSTMAN)
 date: 2020-04-29T06:32:50+01:00
 draft: false
 categories:
