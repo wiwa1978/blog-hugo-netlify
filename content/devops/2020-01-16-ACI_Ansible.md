@@ -197,6 +197,9 @@ PLAY RECAP *********************************************************************
 sandboxapicdc.cisco.com    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 ```
 And if all goes well, you will see the tenant and the underlying objects have been deleted from our ACI fabric.
-[Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Ansible/Simple). A more complex example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Ansible/Expert)
+
+If you want to see the full code, please go to my [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Ansible/Simple). A more complex example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Ansible/Complex). 
+
+Hope you enjoy playing around with Ansible and ACI! See you need time.
 
 
