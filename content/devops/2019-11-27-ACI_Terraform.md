@@ -224,6 +224,8 @@ Destroy complete! Resources: 3 destroyed.
 
 Check back your ACI Controller and you will notice that the Tenant and the underlying objects (in this case VRF and BD) are destroyed.
 
-Hope you had some fun with Terraform and ACI. You can check out the files in my [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Terraform) repo. In our next blog post, we will be integrating all this in a CI/CD pipeline with Gitlab.
+Hope you had some fun with Terraform and ACI. You can check out the files in my [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Terraform/Simple) repo. A more complete example, where we create EPGs with contracts and filters between them, can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Terraform/Complex).
+
+In our next blog post, we will be integrating all this in a CI/CD pipeline with Gitlab.
 
 Hope to see you back!
