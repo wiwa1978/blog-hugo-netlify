@@ -234,4 +234,4 @@ wauterw@WAUTERW-M-65P7 ACI_Python_Requests % python3 delete_tenant.py
 Successfully deleted tenant
 ```
 
-The code can be found at [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests).
+This example was fairly simple of course. The code can be found at [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests/Simple). In case you are interested in a more complete and complex example, please have a look at [this](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/ACI_Python_Requests/Complex) code. It builts entirely on the foundation of this post, but is focusing on creating a more complete setup (using contracts and filters etc.)
