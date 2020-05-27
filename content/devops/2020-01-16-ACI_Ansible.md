@@ -13,7 +13,7 @@ tags:
 ---
 
 ### Introduction
-In [this] post we created an simple ACI network using Terraform. In what follows, we will do the same but instead use Ansible. Have a look [here](https://docs.ansible.com/ansible/latest/scenario_guides/guide_aci.html) for more information on how Ansible and ACI can integrate. [Here](https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#aci) are all the ACI related Ansible modules.
+In [this](https://blog.wimwauters.com/devops/2019-11-27-aci_terraform/) post we created an simple ACI network using Terraform. In what follows, we will do the same but instead use Ansible. Have a look [here](https://docs.ansible.com/ansible/latest/scenario_guides/guide_aci.html) for more information on how Ansible and ACI can integrate. [Here](https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#aci) are all the ACI related Ansible modules.
 
 Note: I will use my own APIC in my lab. If you don’t have one available, have a look here from Cisco Devnet. This is an always-on sandbox environment which you can use if you want to follow along with this blog post.
 
