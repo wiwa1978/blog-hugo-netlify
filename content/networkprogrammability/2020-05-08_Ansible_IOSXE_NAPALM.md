@@ -43,6 +43,14 @@ stdout_callback = skippy
 connect_timeout = 100
 command_timeout = 80
 ```
+### NAPALM-Ansible functions
+
+NAPALM-Ansible module primarily works with 3 functions:
+
+- napalm_get_facts: wrapper around the NAPALM getter methods, it users a filter to select only the items that you are interested in
+- napalm_install_config: wrapper around all the NAPLM configuration options such as merging and replacing a configuration, getting the diff of a change and commit/roll back of a change
+- napalm_validate: uses a YAML or JSON file (with intended configuration) to compare against the actual configuration
+
 
 ### Retrieve information from IOSXE device
 
@@ -191,7 +199,7 @@ ios-xe-mgmt-latest.cisco.com : ok=2    changed=0    unreachable=0    failed=0   
 
 ### Create loopback interfaces
 
-In this section, we will focus on adding some Loopback interfaces. We will use NAPALM's merge function for that. Again, a similar example was discussed in an earlier [post](http://localhost:1313/networkprogrammability/2020-04-07_napalm_introduction_part2/) although this was done through Python. Here we will use the ansbible-napalm module.
+In this section, we will focus on adding some Loopback interfaces. We will use NAPALM's merge function for that. Again, a similar example was discussed in an earlier [post](https://blog.wimwauters.com:1313/networkprogrammability/2020-04-07_napalm_introduction_part2/) although this was done through Python. Here we will use the ansbible-napalm module.
 
 Let's create a loopbacks.txt file. This file contains the configuration for the interfaces:
 
@@ -275,7 +283,7 @@ And also, you'll notice a diff file has been created (in the current directory) 
 
 ### NAPALM Validation
 
-We discussed NAPALM validation already in [this](http://localhost:1313/networkprogrammability/2020-04-07_napalm_introduction_part2/) post. The idea is to check or validate the configuration on our device. We learned that we need to create a validation file which contains the proper values. In our case, we would want to validate whether the device is running a particular software version and we would like to validate the IP address of the loopback interface. Let's do this first, the validation file looks as follows:
+We discussed NAPALM validation already in [this](https://blog.wimwauters.com/networkprogrammability/2020-04-07_napalm_introduction_part2/) post. The idea is to check or validate the configuration on our device. We learned that we need to create a validation file which contains the proper values. In our case, we would want to validate whether the device is running a particular software version and we would like to validate the IP address of the loopback interface. Let's do this first, the validation file looks as follows:
 
 ```yaml
 ---

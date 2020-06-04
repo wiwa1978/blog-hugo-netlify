@@ -11,9 +11,15 @@ tags:
   - Napalm
 ---
 ### Introduction
-NAPALM stands for 'Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)' and is a Python library that can be used to automate and interavt with networking devices and OSs using a unified API. So if you have multiple vendors in your network and don't want to write a dedicated automation script per vendor device, then NAPALM is exactly what you are looking for.
+NAPALM stands for 'Network Automation and Programmability Abstraction Layer with Multivendor support (NAPALM)' and is a Python library that can be used to automate and interact with networking devices and OS'es using a unified API. So if you have multiple vendors in your network and don't want to write a dedicated automation script per vendor device, then NAPALM is exactly what you are looking for.
 
->Disclaimer: the code in this post is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+>Disclaimer: the code in this post is not production-grade code. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
+NAPALM primarily focuses on the following:
+
+- configuration management: configurations can be replaced or merged with existing configurations
+- Gather operational state: NAPALM allows you to retrieve operational data using a consistent interface and data model
+- Validate operational state: NAPALM compares an intended operational state against an actual state so we can validate a network before and after a change
 
 ### Installing the library
 Installing NAPALM is very straightforward and is described very well in the online [documentation](https://napalm.readthedocs.io/en/latest/installation/). 

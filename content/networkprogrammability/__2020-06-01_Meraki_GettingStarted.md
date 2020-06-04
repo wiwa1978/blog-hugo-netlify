@@ -1,6 +1,6 @@
 ---
 title: Cisco Meraki - Getting Started
-date: 2020-06-01T08:32:50+01:00
+date: 2020-05-25T08:32:50+01:00
 draft: true
 categories:
   - Network Programming
@@ -12,6 +12,13 @@ tags:
 ---
 ### Introduction
 
+Cisco Meraki offers 5 types of API:
+
+- **Dashboard API**: allows you to interact directly with the Cisco Meraki cloud platform and devices (organizations, networks, devices...)
+- **Location Scanning API**: allows you to detect and aggregate real-time data for custom applications
+- **External Captive Portal API**: allows you to control the content and authentication process of splash pages
+- **MV Sense API**: allows you to interact with Meraki's cameras and zones
+- **Wireless Health API**: allows you to retrieve wireless health information
 
 ### Credits
 
@@ -24,7 +31,13 @@ You can authorize by passing the `X-Cisco-Meraki-API-Key` in the header of your 
 
 ### Dashboard API
 
-For the official documentation, please check [this](https://developer.cisco.com/meraki/api/#/rest/guides/rest-api-quick-start) link.
+For the official documentation, please check [this](https://developer.cisco.com/meraki/api/#/rest/guides/rest-api-quick-start) link. Important note: in order to be able to query the Dashboard API, you need to ensure it's enabled in the Meraki Dashboard UI (Organization > Settings).
+
+![meraki](/images/2020-06-01-1a.png)
+
+Next, you will also need to create an API-key under the profile section (click on the email address in the upper right corner). The API will return a '404 Not found' if you are using the wrong API key (rather than a 401 response).
+
+The base URL is `https://api.meraki.com/api/v0` although `https://dashboard.meraki.com/api/v0` will work equally well.
 
 ##### Find organizations
 
