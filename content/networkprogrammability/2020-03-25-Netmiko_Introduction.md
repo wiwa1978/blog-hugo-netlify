@@ -100,7 +100,7 @@ print(f"Enable command: {net_connect.find_prompt()}")
 Note that in order for the `enable()` method to work, you need to pass the `secret` key in the device information. If not, you will receive an error.
 
 ```bash
-➜  Netmiko_Introduction git:(master) ✗ python3 get_prompt.py
+(base) WAUTERW-M-65P7:test wauterw$ python3 get_prompt.py
 Default prompt: csr1000v-1#
 Disable command: csr1000v-1>
 Enable command: csr1000v-1#
@@ -206,6 +206,78 @@ for device in devices:
     print(device['ip'] + " => " + output[int(begin):int(end)])
 ```
 In the Github repo, the above script can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netmiko_Introduction/show_uptime.py). Another simple and straightforward example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/Netmiko_Introduction/show_ip_int_brief.py). It's a small variant on the above script and retrieves an overview of all interfaces on both devices.
+
+### Use case: Get interface description
+In this example, we will retrieve the desciption of the various interfaces on both a Cisco XR and XE device. We will be using a slightly different method compared to above example. In below example, we will not create a list of devices, but we just define each device seperately. I'm just doing this to show the differences but I do prefer the list approach from previous example.
+
+```python
+from netmiko import ConnectHandler
+
+cisco_xr = {
+    "device_type": "cisco_xr",
+    "ip": "sbx-iosxr-mgmt.cisco.com",
+    "username": "admin",
+    "password": "C1sco12345",
+    "port": "8181",
+}
+
+cisco_xe = {
+    "device_type": "cisco_xe",
+    "ip": "ios-xe-mgmt-latest.cisco.com",
+    "username": "developer",
+    "password": "C1sco12345",
+    "port": "8181",
+}
+
+for device in (cisco_xr, cisco_xe):
+   net_connect = ConnectHandler(**device)
+   
+   output = net_connect.send_command("show interface description")
+   net_connect.disconnect()
+   print("-"*100)
+   print(output)
+   print("-"*100)
+```
+Executing this script, will - as expected- show the list of interfaces with their description:
+
+```bash
+(base) WAUTERW-M-65P7:test wauterw$ python3 show_interface_description.py 
+----------------------------------------------------------------------------------------------------
+
+Mon Jun  8 19:39:04.125 UTC
+
+Interface          Status      Protocol    Description
+--------------------------------------------------------------------------------
+Lo40               up          up          
+Lo41               up          up          
+Lo42               up          up          
+Lo43               up          up          
+Lo44               up          up          
+Lo100              up          up          ***MERGE LOOPBACK 100****
+Lo200              up          up          ***MERGE LOOPBACK 200****
+Lo300              up          up          
+Nu0                up          up          
+Mg0/RP0/CPU0/0     up          up          
+Gi0/0/0/0          admin-down  admin-down  
+Gi0/0/0/1          admin-down  admin-down  
+Gi0/0/0/2          admin-down  admin-down  
+Gi0/0/0/3          admin-down  admin-down  
+Gi0/0/0/4          admin-down  admin-down  
+Gi0/0/0/5          admin-down  admin-down  
+Gi0/0/0/6          admin-down  admin-down  
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Interface                      Status         Protocol Description
+Gi1                            up             up       Changed from Netconf
+Gi2                            up             up       Changed from Netconf
+Gi3                            admin down     down     Network Interface
+Lo901                          up             up       - config by ansible
+Lo1012                         up             up       
+Lo1013                         up             up       
+Lo1019                         up             up       
+-----------------------------------------------------------------
+```
 
 
 ### Use case: Set interface description
