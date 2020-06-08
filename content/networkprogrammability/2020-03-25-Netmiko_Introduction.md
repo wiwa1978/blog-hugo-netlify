@@ -50,10 +50,119 @@ Successfully installed bcrypt-3.1.7 cffi-1.14.0 cryptography-2.8 future-0.18.2 n
 
 For all the examples, we will use a Cisco sandbox environment delivered by [Cisco Devnet](https://developer.cisco.com). Go check out Devnet, really brilliant. To get a list of all sandboxes, check out [this](https://devnetsandbox.cisco.com/) link. For this tutorial, I'm using the IOS XE sandbox (see [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/38ded1f0-16ce-43f2-8df5-43a40ebf752e?diagramType=Topology)) and the IOS XR sandbox (see [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/e83cfd31-ade3-4e15-91d6-3118b867a0dd?diagramType=Topology)). 
 
+### Use case: get device prompt
+
+Netmiko allows us to see the device prompt.
+
+```python
+from netmiko import Netmiko
+
+device = {
+    "device_type": "cisco_xe",
+    "ip": "ios-xe-mgmt-latest.cisco.com",
+    "username": "developer",
+    "password": "C1sco12345",
+    "port": "8181",
+}
+
+net_connect = Netmiko(**device)
+print(net_connect.find_prompt())
+```
+Let's execute this very basic example:
+
+```bash
+(base) WAUTERW-M-65P7:test wauterw$ python3 get_prompt.py
+csr1000v-1#
+```
+You'll notice that we are in `enable` mode. The following example will show how to issue the `disable` command while printing out the prompt. Next, we will issue the `enable` command again and print out the prompt again.
+
+```python
+from netmiko import Netmiko
+
+device = {
+    "device_type": "cisco_xe",
+    "ip": "ios-xe-mgmt-latest.cisco.com",
+    "username": "developer",
+    "password": "C1sco12345",
+    "secret": "C1sco12345",
+    "port": "8181",
+}
+
+net_connect = Netmiko(**device)
+print(f"Default prompt: {net_connect.find_prompt()}")
+
+net_connect.send_command_timing("disable")
+print(f"Disable command: {net_connect.find_prompt()}")
+
+net_connect.enable()
+print(f"Enable command: {net_connect.find_prompt()}")
+```
+Note that in order for the `enable()` method to work, you need to pass the `secret` key in the device information. If not, you will receive an error.
+
+```bash
+➜  Netmiko_Introduction git:(master) ✗ python3 get_prompt.py
+Default prompt: csr1000v-1#
+Disable command: csr1000v-1>
+Enable command: csr1000v-1#
+```
+
+
+### Finding all supported devices
+In the above example, we were using a `"device_type": "cisco_xe"`. How do we know what device type to use and how do we know which devices are supported. Probably the easiest (albeit a little strange) method is to specify a wrong device type. In the example above, replace the following snippet:
+
+```python
+device = {
+    "device_type": "cisco_xe",
+    ...}
+```
+with
+```python
+device = {
+    "device_type": "foobar",
+    ...}
+```
+Executing this script will return a list of supported device types:
+```bash
+➜  Netmiko_Introduction git:(master) ✗ python3 get_prompt.py
+Traceback (most recent call last):
+  File "get_prompt.py", line 11, in <module>
+    net_connect = Netmiko(**device)
+  File "/usr/local/lib/python3.7/site-packages/netmiko/ssh_dispatcher.py", line 243, in ConnectHandler
+    "currently supported platforms are: {}".format(platforms_str)
+ValueError: Unsupported device_type: currently supported platforms are: 
+a10
+accedian
+alcatel_aos
+alcatel_sros
+apresia_aeos
+arista_eos
+aruba_os
+avaya_ers
+avaya_vsp
+brocade_fastiron
+brocade_netiron
+brocade_nos
+brocade_vdx
+brocade_vyos
+calix_b6
+checkpoint_gaia
+ciena_saos
+cisco_asa
+cisco_ios
+cisco_nxos
+cisco_s300
+cisco_tp
+cisco_wlc
+cisco_xe
+cisco_xr
+cloudgenix_ion
+...
+...
+```
 
 ### Use case: retrieve device uptimes
 
-Let's start with an easy example: we will write a Python script that interacts with an IOS XE device and returns the uptime of the router.
+Let's continue with another easy example: we will write a Python script that interacts with an IOS XE device and returns the uptime of the router.
 
 We store both devices (IOS XE and IOS XR) in a list of dictionaries (key:value pairs). It allows up to loop over the devices list and execute the command for each device.
 

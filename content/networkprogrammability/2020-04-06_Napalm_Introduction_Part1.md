@@ -18,7 +18,7 @@ NAPALM stands for 'Network Automation and Programmability Abstraction Layer with
 NAPALM primarily focuses on the following:
 
 - configuration management: configurations can be replaced or merged with existing configurations
-- Gather operational state: NAPALM allows you to retrieve operational data using a consistent interface and data model
+- Gather operational state: NAPALM allows you to retrieve operational data using a consistent interface and data model (e.g. NAPALM getters)
 - Validate operational state: NAPALM compares an intended operational state against an actual state so we can validate a network before and after a change
 
 ### Installing the library
@@ -33,8 +33,44 @@ Collecting napalm
 Successfully installed ciscoconfparse-1.5.1 colorama-0.4.3 dnspython-1.16.0 junos-eznc-2.2.1 napalm-2.5.0 netaddr-0.7.19 netmiko-2.4.2 nxapi-plumbing-0.5.2 passlib-1.7.2 pyIOSXR-0.53 pyYAML-5.3.1 pyeapi-0.8.3
 ```
 
+### NAPALM CLI
+Installing NAPALM will also provide a CLI command. 
+
+```bash
+(venv) WAUTERW-M-65P7:Napalm_Introduction wauterw$ napalm --help
+usage: napalm [-h] [--user USER] [--password PASSWORD] --vendor VENDOR
+              [--optional_args OPTIONAL_ARGS] [--debug]
+              hostname {configure,call,validate} ...
+
+Command line tool to handle configuration on devices using NAPALM.The script
+will print the diff on the screen
+
+positional arguments:
+  hostname              Host where you want to deploy the configuration.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --user USER, -u USER  User for authenticating to the host. Default: user
+                        running the script.
+  --password PASSWORD, -p PASSWORD
+                        Password for authenticating to the host.If you do not
+                        provide a password in the CLI you will be prompted.
+  --vendor VENDOR, -v VENDOR
+                        Host Operating System.
+  --optional_args OPTIONAL_ARGS, -o OPTIONAL_ARGS
+                        String with comma separated key=value pairs passed via
+                        optional_args to the driver.
+  --debug               Enables debug mode; more verbosity.
+
+actions:
+  {configure,call,validate}
+    configure           Perform a configuration operation
+    call                Call a napalm method
+    validate            Validate configuration/state
+```
+
 ### Getting to know NAPALM
-In this first use case, we will give some examples for you to build an understanding on how NAPALM works. First of course, we will load the NAPALM library, more in particular the `get_network_driver` method. This immmediately triggers the question what network devices (or drivers) are supported. This can be found back in the documentation, see here the [support matrix](https://napalm.readthedocs.io/en/latest/support/index.html).
+In this first use case, we will give some examples for you to build an understanding on how NAPALM works. First of course, we will load the NAPALM library, more in particular the `get_network_driver` method. This immediately triggers the question what network devices (or drivers) are supported. This can be found back in the documentation, see here the [support matrix](https://napalm.readthedocs.io/en/latest/support/index.html).
 
 I'll be testing here with an IOS XR device from Cisco DevNet. We load the correct driver using the `get_network_driver` method. Here you essentially tell NAPALM that it needs to connect to an 'IOSXR' device. As you can see in the support matrix, under the hood NAPALM used the pyIOSXR Python library.
 
