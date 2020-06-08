@@ -50,6 +50,8 @@ Successfully installed bcrypt-3.1.7 cffi-1.14.0 cryptography-2.8 future-0.18.2 n
 
 For all the examples, we will use a Cisco sandbox environment delivered by [Cisco Devnet](https://developer.cisco.com). Go check out Devnet, really brilliant. To get a list of all sandboxes, check out [this](https://devnetsandbox.cisco.com/) link. For this tutorial, I'm using the IOS XE sandbox (see [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/38ded1f0-16ce-43f2-8df5-43a40ebf752e?diagramType=Topology)) and the IOS XR sandbox (see [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/e83cfd31-ade3-4e15-91d6-3118b867a0dd?diagramType=Topology)). 
 
+>Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
+
 ### Use case: get device prompt
 
 Netmiko allows us to see the device prompt.
@@ -107,7 +109,7 @@ Enable command: csr1000v-1#
 ```
 
 
-### Finding all supported devices
+### Use Case: finding all supported devices
 In the above example, we were using a `"device_type": "cisco_xe"`. How do we know what device type to use and how do we know which devices are supported. Probably the easiest (albeit a little strange) method is to specify a wrong device type. In the example above, replace the following snippet:
 
 ```python
@@ -170,14 +172,6 @@ Within the for-loop, we first make a connection via Netmiko's connection method 
 
 Executing commands is really easy. All we need to do is pass the command we want to execute to the `send_command` method and capture the output.
 
-Important note: The ConnectHandler class is identical to the Netmiko class. This means that we can also use the ConnectHandler. If you would like to do so then couple of things would change:
-
-- the `net_connect = Netmiko(**device)` would become `net_connect = ConnectHandler(**device)` 
-- import the ConnectHandler library. `from netmiko import Netmiko` would become `from netmiko import ConnectHandler`.
-
-In the below example, we will simply use the Netmiko method.
-
->Disclaimer: this is not production-grade code obviously. One should never store the username and password in the clear, not in the source code itself. The examples in the post are merely conceptual and for informational purposes.
 
 ```python
 from netmiko import Netmiko
@@ -279,6 +273,13 @@ Lo1019                         up             up
 -----------------------------------------------------------------
 ```
 
+Important note: You will see that in this example I'm using the ConnectHandler class instead of the Netmiko class. This is no mistake. In fact, they are the same classes. This means that we can also use the ConnectHandler. Differences are:
+
+- the `net_connect = Netmiko(**device)` would become `net_connect = ConnectHandler(**device)` 
+- `from netmiko import Netmiko` would become `from netmiko import ConnectHandler`.
+
+In most examples you will see mee use the Netmiko class though, I just wanted to point out one could also use the ConnectHandler class.
+
 
 ### Use case: Set interface description
 
@@ -290,7 +291,7 @@ Important to understand is that NetMiko will already bring you in the `conf t` s
 
 
 ```python
-from netmiko import ConnectHandler
+from netmiko import Netmiko
 
 devices = [{
    "device_type": "cisco_xe",
@@ -308,7 +309,7 @@ description_config = [
 ]
 
 for device in devices:
-   net_connect = ConnectHandler(**device)
+   net_connect = Netmiko(**device)
    output = net_connect.send_config_set(description_config)
    print(output)
    net_connect.disconnect()
@@ -330,7 +331,7 @@ And then let's check again by logging into the device via our terminal. You will
 In the previous use case, we have read the various commands from a list we declared in our Python script. Netmiko also supports a method (`send_config_from_file` method) to read these commands from a file. It's pretty similar to the script we used in previous use case.
 
 ```python
-from netmiko import ConnectHandler
+from netmiko import Netmiko
 import logging
 
 devices = [{
@@ -342,7 +343,7 @@ devices = [{
 }]
 
 for device in devices:
-   net_connect = ConnectHandler(**device)
+   net_connect = Netmiko(**device)
    output = net_connect.send_config_from_file('changes.txt')
    print(output)
    net_connect.disconnect()
