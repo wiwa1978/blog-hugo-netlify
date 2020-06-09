@@ -1,6 +1,6 @@
 ---
 title: Exploring Guest Shell and Python On-box on IOS-XE
-date: 2020-06-10T10:19:50+01:00
+date: 2020-06-05T10:19:50+01:00
 draft: false
 categories:
   - Network Programming
@@ -8,6 +8,7 @@ categories:
   - All
 tags:
   - Python
+  - Guestshell
 ---
 ### What is Guest Shell?
 
@@ -175,8 +176,7 @@ Loading mirror speeds from cached hostfile
 <truncated output>
 ...
 Complete!
-```
-
+```s
 
 ### What is Python On-box
 On-Box Python is Python interpreter installed inside the Guest Shell that allows to run Python scripts on IOS XE router or switch. It is tied with Embedded Event Manager (EEM) and has direct access to IOS XE CLI commands using custom module called `cli`. It allows to react to different events directly on the device (Edge Computing), this includes additional reporting, post-configuration checks, complex troubleshooting capabilities, automation of repetitive tasks.
@@ -307,15 +307,3 @@ GigabitEthernet3       unassigned      YES NVRAM  administratively down down
 VirtualPortGroup0      192.168.1.1     YES manual up                    up
 >>>
 ```
-
-###### Execute Python script
-
-In a future update, we will install `requests` and execute a Python script.
-
-###### Perform backup to git
-
-To be added later
-
-###### EEM applet
-
-To be added later

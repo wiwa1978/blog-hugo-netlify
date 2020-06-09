@@ -278,8 +278,90 @@ Important note: You will see that in this example I'm using the ConnectHandler c
 - the `net_connect = Netmiko(**device)` would become `net_connect = ConnectHandler(**device)` 
 - `from netmiko import Netmiko` would become `from netmiko import ConnectHandler`.
 
-In most examples you will see mee use the Netmiko class though, I just wanted to point out one could also use the ConnectHandler class.
+In most examples you will see me use the Netmiko class though, I just wanted to point out one could also use the ConnectHandler class.
 
+
+### Use case: parsing with TextFSM
+
+In this example, we will use textFSM to retrieve the output in a form that makes it easier to parse. 
+In below script, we will simply print the type of the output (of the "show ip interface brief" command)
+```python
+from netmiko import Netmiko
+
+cisco_xr = {
+    "device_type": "cisco_xr",
+    "ip": "sbx-iosxr-mgmt.cisco.com",
+    "username": "admin",
+    "password": "C1sco12345",
+    "port": "8181",
+}
+
+net_connect = Netmiko(**cisco_xr)
+   
+output = net_connect.send_command("show ip interface brief")
+net_connect.disconnect()
+print(type(output))
+
+```
+You will see we get back the following:
+
+```bash
+(base) WAUTERW-M-65P7:test wauterw$ python3 textFSM.py
+<class 'str'>
+```
+The output is of type `string`. This is nice, but it's rather unpractical to parse this output. What if we could receive the output as a data structure, such as a `list`? This is possible with . TextFSM is a module that implements a template based state machine for parsing semi-formatted text (see [here](https://github.com/google/textfsm/wiki/TextFSM)). A large collection of TextFSM templates for quite some network vendors can be found [here](https://github.com/networktocode/ntc-templates).
+
+Therefore, in your current directory you need to clone this repository and also set the `NET_TEXTFSM` environment variable.
+
+```bash
+(base) WAUTERW-M-65P7:test wauterw$ git clone https://github.com/networktocode/ntc-templates
+Cloning into 'ntc-templates'...
+<Truncated>
+(base) WAUTERW-M-65P7:test wauterw$ export NET_TEXTFSM=<current_foler>/Netmiko_Introduction/ntc-templates/templates
+```
+Next, you will need to replace the following snippet:
+```python
+net_connect = Netmiko(**cisco_xr)
+   
+output = net_connect.send_command("show ip interface brief")
+net_connect.disconnect()
+print(type(output))
+```
+with the following code:
+```python
+net_connect = Netmiko(**cisco_xr)
+   
+output = net_connect.send_command("show ip interface brief", use_textfsm=True)
+net_connect.disconnect()
+print(type(output))
+
+for interface in output:
+    print(interface['intf'])
+```
+Let's now run this code:
+```bash
+ (base) WAUTERW-M-65P7:test wauterw$ python3 textFSM.py
+ <class 'list'>
+Loopback40
+Loopback41
+Loopback42
+Loopback43
+Loopback44
+Loopback100
+Loopback200
+Loopback300
+MgmtEth0/RP0/CPU0/0
+GigabitEthernet0/0/0/0
+GigabitEthernet0/0/0/1
+GigabitEthernet0/0/0/2
+GigabitEthernet0/0/0/3
+GigabitEthernet0/0/0/4
+GigabitEthernet0/0/0/5
+GigabitEthernet0/0/0/6
+```
+As you will see, we get back a `list` now, which we can easily iterate through to print for example the interface names. Pretty powerful if you ask me.
+
+This particular example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction/textFSM.py). If you decide to follow along, please note I did not upload the templats so you will need to do the `git clone` from above again on your own environment.
 
 ### Use case: Set interface description
 
@@ -326,6 +408,8 @@ And then let's check again by logging into the device via our terminal. You will
 
 ![interface](/images/2020-03-25-3.png)
 
+This particular example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction/set_description.py).
+
 ### Use case: Variant to 'Set interface description'
 
 In the previous use case, we have read the various commands from a list we declared in our Python script. Netmiko also supports a method (`send_config_from_file` method) to read these commands from a file. It's pretty similar to the script we used in previous use case.
@@ -361,6 +445,8 @@ Let's execute the script:
 And verify if things got changed indeed:
 
 ![interface](/images/2020-03-25-5.png)  
+
+This particular example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction/set_description_textfile.py).
 
 ### Use case: Add Loopback interfaces
 In this use case, we will use some things we learned in previous posts. We will do the following:
@@ -471,6 +557,8 @@ Loopback3002           200.200.200.231 YES manual up                    up
 Port-channel1          unassigned      YES unset  down                  down    
 VirtualPortGroup0      10.10.20.48     YES unset  up                    up   
 ```
+Note: Netmiko will go automatically into config mode so therefore you don't see the `conf t` command in the list of commands.
+
 This particular example can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction/loopback).
 
 That's it for this post. Hope you liked this little introduction to Netmiko. To have a view on all examples discussed in this post, you can check out the Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Netmiko_Introduction).
