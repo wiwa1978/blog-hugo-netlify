@@ -1,6 +1,6 @@
 ---
 title: Exploring Guest Shell and Python On-box on IOS-XE
-date: 2020-06-10T10:19:50+01:00
+date: 2020-06-08T10:19:50+01:00
 draft: false
 categories:
   - Network Programming
