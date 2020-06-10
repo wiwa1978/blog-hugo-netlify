@@ -1,6 +1,6 @@
 ---
 title: Ansible and IOSXE - RESTCONF
-date: 2020-05-02T10:32:50+01:00
+date: 2020-05-07T12:32:50+01:00
 draft: false
 categories:
   - Network Programming
