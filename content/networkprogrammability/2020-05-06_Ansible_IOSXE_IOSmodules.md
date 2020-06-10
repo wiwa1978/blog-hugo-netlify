@@ -137,6 +137,44 @@ In previous example, we issues both commands seperately (in a seperate tasks tha
 ```
 With the above script, you will get back a list of responses. If you would only be interested to see the output of the `show ip interface brief`, you could do this by looking at the `output["stdout_lines"][1]` output.
 
+In the above playbook, we added the commands under each other in the playbook itself. Sometimes it's preferable to read in these commands from the group_vars folder. The following script does exactly that.
+
+```yaml
+---
+- name: Getting started
+  hosts: iosxe
+  gather_facts: no
+
+  tasks:
+  - name: GATHERING FACTS
+    ios_facts:
+      gather_subset: hardware
+
+  - name: run multiple commands
+    ios_command:
+      commands: "{{ commands }}"
+    register: output
+
+  - name: display all
+    debug:
+      var: output["stdout_lines"]
+```
+You see that we use a ``{{ commands}}`` reference here. This reference in facts points to the `commands` object in the group_vars/iosxe.yaml file. So we need to add these as follows:
+
+```yaml
+ansible_connection : local
+ansible_python_interpreter : /usr/bin/python3
+host_key_checking : False
+ansible_ssh_user : developer
+ansible_ssh_pass : C1sco12345
+ansible_port: 8181
+
+commands:
+  - "show version"
+  - "show ip interface brief"
+```
+We have seen three different variations here on the same subject. Pick the one that suits you most.
+
 ### Add/Delete single interface
 Next, we will add and delete some interfaces (instead of just reading them from our device as we did in the use case above). Let's start with adding some interfaces. 
 

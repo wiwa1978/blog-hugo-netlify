@@ -137,7 +137,7 @@ m.close_session()
 
 For printing the response, we are performing some XML manipulation. The issue is that the `get_config` returns a GetReply object. If we print out the content, it would be something like:
 
-```<?xml version="1.0" encoding="UTF-8"?>
+```
 <rpc-reply xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="urn:uuid:0b1df155-ae50-432f-8293-d38dc1f66baf" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"><data><app-hosting-cfg-data xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-app-hosting-cfg"><apps><app><application-name>guestshell</application-name><application-network-resource><vnic-gateway-0>0</vnic-gateway-0><virtualportgroup-guest-interface-name-1>0</virtualportgroup-guest-interface-name-1><virtualportgroup-guest-ip-address-1>192.168.35.2</virtualportgroup-guest-i
 ```
 This huge string is difficult to read of course, but if you look inside it contains XML tags. Hence we are using `xml.dom.minidom` library to print it out more nicely.
