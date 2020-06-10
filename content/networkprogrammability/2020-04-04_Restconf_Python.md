@@ -62,8 +62,9 @@ response = requests.get(url, headers=headers, auth=(device['username'], device['
 interfaces = response['ietf-interfaces:interfaces']['interface']
 
 for interface in interfaces:
-   if (interface['name'].find('Gigabit') == 0):
+   if bool(interface['ietf-ip:ipv4']): //check if IP address is available
       print(f"{interface['name']} -- {interface['description']} -- {interface['ietf-ip:ipv4']['address'][0]['ip']}")
+
 ```
 Output is as follows:
 ```
@@ -73,6 +74,7 @@ GigabitEthernet1 -- MANAGEMENT INTERFACE - DON'T TOUCH ME -- 10.10.20.48
 GigabitEthernet2 -- Configured through NETCONF -- 10.255.255.1
 GigabitEthernet3 -- Configured by RESTCONF -- 10.255.250.2
 ```
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/get_interfaces_ietf.py). A similar example to retrieve the static routes on our IOSXE device can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/get_static_routes_ietf.py).
 
 ### Use Case 2: Adding Loopback interface (IETF YANG model)
 Next, we'll be adding an interface. Before we do so, let's login to the device via SSH and list all interfaces. We use the following URL again `https://{device['ip']}:{device['port']}/restconf/data/ietf-interfaces:interfaces`.
@@ -143,6 +145,7 @@ GigabitEthernet2       10.255.255.2    YES other  up                    up
 GigabitEthernet3       10.255.250.2    YES manual administratively down down
 Loopback10000          192.0.2.60      YES other  up                    up
 ```
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/add_interfaces_ietf.py)
 
 ### Use Case 3: Changing Loopback interface description (IETF YANG model)
 Next, we will change the description of the interface. Before we do so, let's see the current description of our loopback interface.
@@ -211,6 +214,8 @@ Gi2                            up             up       Configured through NETCON
 Gi3                            admin down     down     Configured by RESTCONF
 Lo10000                        up             up       Adding loopback10000 - changed
 
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/change_interfaces_ietf.py)
+
 ### Use Case 4: Removing Loopback interface (IETF YANG model)
 Lastly, let's remove our interface. As a reminder, this is the current list of interfaces.
 ```
@@ -264,6 +269,8 @@ GigabitEthernet2       10.255.255.2    YES other  up                    up
 GigabitEthernet3       10.255.250.2    YES manual administratively down down
 ```
 
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/delete_interfaces_ietf.py)
+
 ### Use Case 5: Retrieve information (Cisco YANG model)
 What follows is merely the same as what we did already. Instead of using the IETF models, we will be using the Cisco specific YANG models. You'll notice the scripts are exactly the same.
 
@@ -308,6 +315,7 @@ https://ios-xe-mgmt-latest.cisco.com:9443/restconf/data/Cisco-IOS-XE-native:nati
 2 -- Configured through NETCONF
 3 -- Configured by RESTCONF
 ```
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/get_interfaces_cisco.py)
 
 ### Use Case 6: Adding interface (Cisco YANG model)
 Let's also add an interface. Current interfaces are:
@@ -365,6 +373,7 @@ GigabitEthernet2       10.255.255.2    YES other  up                    up
 GigabitEthernet3       10.255.250.2    YES manual administratively down down
 BDI60                  unassigned      YES unset  down                  do
 ```
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/add_interfaces_cisco.py)
 
 ### Use Case 7: Changing interface description (Cisco YANG model)
 In this once, we'll change the description of our newly added interface. The current list of interfaces is:
@@ -425,6 +434,8 @@ Gi2                            up             up       Configured through NETCON
 Gi3                            admin down     down     Configured by RESTCONF
 BD60                           down           down     Set via RestCONF Python - changed
 ```
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/change_interfaces_cisco.py)
+
 ### Use Case 8: Remove interface description (Cisco YANG model)
 Lastly, let's remove the interface. We'll verify the current list of interfaces.
 ```
@@ -474,6 +485,7 @@ GigabitEthernet1       10.10.20.48     YES other  up                    up
 GigabitEthernet2       10.255.255.2    YES other  up                    up
 GigabitEthernet3       10.255.250.2    YES manual administratively down down
 ```
+Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/delete_interfaces_cisco.py)
 
 That's it. A post with quite some redundancy as it's mostly more of the same. Yet I wanted to provide a complete overview of the CRUD operations against a RESTCONF API.
 
