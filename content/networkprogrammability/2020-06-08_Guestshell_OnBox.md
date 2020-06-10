@@ -1,5 +1,5 @@
 ---
-title: Exploring Guest Shell and Python On-box on IOS-XE
+title: Guest Shell and Python On-box on IOS-XE
 date: 2020-06-08T10:19:50+01:00
 draft: false
 categories:
