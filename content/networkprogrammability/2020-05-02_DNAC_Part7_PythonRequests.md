@@ -17,7 +17,7 @@ This is part of a DNAC series:
 - Part 1: [Getting started](https://blog.wimwauters.com/networkprogrammability/2020-04-22_dnac_part1_gettingstarted/)
 - Part 2: [Cisco DNA Center - Devices](https://blog.wimwauters.com/networkprogrammability/2020-04-24_dnac_part2_pythonrequests/)
 - Part 3: [Cisco DNA Center - Assurance](https://blog.wimwauters.com/networkprogrammability/2020-04-25_dnac_part3_pythonrequests/)
-- Part 4: [Cisco DNA Center - Sites](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part3_pythonrequests/)
+- Part 4: [Cisco DNA Center - Sites](https://blog.wimwauters.com/networkprogrammability/2020-04-27_dnac_part4_pythonrequests/)
 - Part 5: [Cisco DNA Center - Discovery (POSTMAN)](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part5_postman_networkdiscovery/)
 - Part 6: [Cisco DNA Center - Discovery (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-01_dnac_part6_pythonrequests/)
 - Part 7 (this post): [Cisco DNA Center - CommandRunner (Python)](https://blog.wimwauters.com/networkprogrammability/2020-05-02_dnac_part7_pythonrequests/)
@@ -35,9 +35,12 @@ In this post, I'm using my own DNAC in my lab. However, if you want to follow al
 
 ### CommandRunner
 
+See also the previous [post](https://blog.wimwauters.com/networkprogrammability/2020-04-29_dnac_part5_postman_networkdiscovery/) towards the bottom to see the same flow using Postman screenshots.
 
 ###### Get list of devices
-First, we will retrieve the list of devices onto which we would like to run our command. So we will call the `/api/v1/network-device` endpoint but we'll pass it a `family` parameter as we only want to execute the command on devices in the 'switches' family. We will store all device id's in a list as we will need to pass that list in the JSON body. The command we will run against the devices in our list, will be `show ip interface brief`
+First, we will retrieve the list of devices onto which we would like to run our command. So we will call the `/api/v1/network-device` endpoint but we'll pass in a `family` parameter as we only want to execute the command on devices in the 'switches' family. We will store all device id's in a list as we will need to pass that list in the JSON body of the Command Runner API. The command we will run against the devices in our list, will be `show ip interface brief`.
+
+A quick note, in the lab DNAC I’m using I need to use /api/v1/network-device instead of /dna/intent/api/v1/network-device. Not really sure why, I think it’s a bug. In your code, you should be able to use /dna/intent/api/v1/network-device without any issue.
 
 ```python
 def main():
@@ -65,16 +68,20 @@ def main():
 
 Next, let's actually run the command. We'll need to do a POST request to the `/api/v1/network-device-poller/cli/read-request` endpoint and pass along the JSON body we created earlier. This JSON body contained the command to execute as well as the list of device (id's) to execute the command against.
 
+A quick note, in the lab DNAC I’m using I need to use /api/v1/network-device-poller/cli/read-request instead of /dna/intent/v1/network-device-poller/cli/read-request. Not really sure why, I think it’s a bug. In your code, you should be able to use /dna/intent/v1/network-device-poller/cli/read-request without any issue.
+
+We will get back a (task) url as part of the response:
+
 ```python
     command_url = url + "/api/v1/network-device-poller/cli/read-request"
     response = requests.post(command_url, headers=headers, data=json.dumps(payload), verify=False ).json()
-    task_url = response['response']['url']
 ```
 
 ###### Check task
 Also this API is asynchonous, so we will get back a response containing the `taskId` and the `url` which we can use for further processing.
 
 ```python
+    task_url = response['response']['url']
     task = waitTask(url, task_url )
     fileId = json.loads(task['response']['progress'])
 ```
