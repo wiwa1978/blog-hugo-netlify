@@ -121,13 +121,15 @@ In the `Devices` section, you will see the following API (see screenshot). As yo
 
 ![DNAC](/images/2020-04-24-1.png)
 
-In the below Python script, you notice we do the following actions:
+In the below Python script, you'll notice we do the following actions:
 
-- Query the network-device API with a family query set to "Switches and Hubs". Look at the API to verify this, you'll see the possibility to pass some query parameters, of which `family` is one example. We will get back a list of wired devices but not the access points. 
+- Query the network-device API with a family query set to "Switches and Hubs". Look at the API in the screenshot above. You'll see the possibility to pass some query parameters, of which `family` is one example. In our example, we will get back a list of wired devices but not the access points. 
 - Next, we iterate over that list of devices and store their ID into a list.
-- Next, we loop through the list of device id's and for each one, we call the `interface/network-device/{device-id}` API (see screenshot above).
+- Next, we loop through the list of device id's and for each one, we call the `interface/network-device/{device-id}` API (see screenshot below).
 - The result of the previous call is a list of interfaces belonging to that device(-id)
 - We just loop over the interfaces and print out the name and the IP address.
+
+![DNAC](/images/2020-04-24-2.png)
 
 ```python
 import requests
