@@ -298,9 +298,14 @@ cisco_xr = {
 
 net_connect = Netmiko(**cisco_xr)
    
-output = net_connect.send_command("show ip interface brief")
+output = net_connect.send_command("show ip interface brief", use_textfsm=True)
 net_connect.disconnect()
 print(type(output))
+
+for interface in output:
+    print(interface['intf'])
+
+
 
 ```
 You will see we get back the following:

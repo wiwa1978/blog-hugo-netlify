@@ -126,7 +126,9 @@ You see now an overview of all the interfaces of our device. Let's say we are in
 
 ### Use Case 3: retrieve interface information with Cisco YANG model
 
-Sometimes there are multiple YANG models to achieve the same output. In use case 2, we retrieved a list of interfaces. We can also use a Cisco YANG model for this, e.g `Cisco-IOS-XE-interfaces-oper` (also retrieved from the capabilities list). We won't go through all the details using the YANG Search website as we did that already twice in use case 1 and 2. If you follow the same procedure, you will see that the URL can be `https://{{host}}:{{port}}/restconf/data/Cisco-IOS-XE-interfaces-oper:interfaces`.
+Sometimes there are multiple YANG models to achieve the same output. In use case 2, we retrieved a list of interfaces. We can also use a Cisco YANG model for this, e.g `Cisco-IOS-XE-interfaces-oper` (also retrieved from the capabilities list). This model focuses more on operational data but when it comes to listing the interfaces, it can be used as well. 
+
+We won't go through all the details using the YANG Search website as we did that already twice in use case 1 and 2. If you follow the same procedure, you will see that the URL can be `https://{{host}}:{{port}}/restconf/data/Cisco-IOS-XE-interfaces-oper:interfaces`.
 
 ![Restconf](/images/2020-04-02-14.png)
 

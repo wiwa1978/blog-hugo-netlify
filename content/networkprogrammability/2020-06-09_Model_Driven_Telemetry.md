@@ -24,10 +24,10 @@ For all the examples in this post, we will use a Cisco sandbox environment deliv
 
 Configuration of MDT can be done either by:
 
-1) CLI (`telemetry ietf subscription`)
-2) programmatically through Netmiko (using `send_config_set`)
-3) programmatically through Netconf (using ncclient)
-4) programmatically through Restconf 
+1. CLI (`telemetry ietf subscription`)
+2. programmatically through Netmiko (using `send_config_set`)
+3. programmatically through Netconf (using ncclient)
+4. programmatically through Restconf 
 
 Below we will go in more detail for each of the above methods. We will enable 5-second CPU utilization telemetry to be pushed out every 5 seconds.
 

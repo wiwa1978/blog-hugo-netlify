@@ -59,7 +59,7 @@ ansible_httpapi_restconf_root: "/restconf"
     debug:
       var: output
 ```
-In case you want to retrieve all interface, use the followinf path `path: /data/ietf-interfaces:interfaces`
+In case you want to retrieve all interface, use the following path `path: /data/ietf-interfaces:interfaces`
 
 ```bash
 wauterw@WAUTERW-M-65P7 restconf % ansible-playbook -i hosts restconf_get.yml

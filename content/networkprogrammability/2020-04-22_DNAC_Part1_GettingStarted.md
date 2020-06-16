@@ -38,7 +38,7 @@ Cisco DNA architecture comes with a controller, which is called DNAC (Digital Ne
 
 ### Overview of the API
 
-Cisco DNAC comes with an intend API, which is a Northbound API that exposes specific capabilities of the DNA Center platform. Reading the API can be a bit overwhelming so have a look at the below categories to understand the several subsections of the API ([source](https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-platform-overview/intent-api-northbound)). Each category below corresponds to a particular section in the [API](https://developer.cisco.com/docs/dna-center/api/1-3-3-x/))
+Cisco DNAC comes with an Intent API, which is a Northbound API that exposes specific capabilities of the DNA Center platform. Reading the API can be a bit overwhelming so have a look at the below categories to understand the several subsections of the API ([source](https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-platform-overview/intent-api-northbound)). Each category below corresponds to a particular section in the [API](https://developer.cisco.com/docs/dna-center/api/1-3-3-x/))
  
 **Domain**
 - Sites 

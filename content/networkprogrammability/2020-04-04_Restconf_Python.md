@@ -207,12 +207,15 @@ else:
     
 ```
 Let's execute the code. You'll notice our changes went through successfully.
+
+```bash
 csr1000v-1#show interfaces description
 Interface                      Status         Protocol Description
 Gi1                            up             up       MANAGEMENT INTERFACE - DON'T TOUCH ME
 Gi2                            up             up       Configured through NETCONF
 Gi3                            admin down     down     Configured by RESTCONF
 Lo10000                        up             up       Adding loopback10000 - changed
+```
 
 Code for this one can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/master/RestConf_Python/change_interfaces_ietf.py)
 

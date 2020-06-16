@@ -115,13 +115,14 @@ Cisco 1140 Unified Access Point with serial number 1140K0009
 
 ### Retrieve interfaces from device using Python
 
-In the above output, you see we get a list of both wired as well as wireless devices Next, we'll write a script to retrieve the interfaces from a specific device category. This requires us to work with two different APIs. Let's look into it.
+In the above output, you see we get a list of both wired as well as wireless devices. Next, we'll write a script to retrieve the interfaces from a specific device category. This requires us to work with two different APIs. Let's look into it.
 
-In the `Devices`, you will see the following API. As you look into it, you'll see we can use it to retrieve a list of interfaces if we pass the device ID.
+In the `Devices` section, you will see the following API (see screenshot). As you look into it, you'll see we can use it to retrieve a list of interfaces if we pass the device ID.
 
 ![DNAC](/images/2020-04-24-1.png)
 
 In the below Python script, you notice we do the following actions:
+
 - Query the network-device API with a family query set to "Switches and Hubs". Look at the API to verify this, you'll see the possibility to pass some query parameters, of which `family` is one example. We will get back a list of wired devices but not the access points. 
 - Next, we iterate over that list of devices and store their ID into a list.
 - Next, we loop through the list of device id's and for each one, we call the `interface/network-device/{device-id}` API (see screenshot above).

@@ -28,7 +28,7 @@ In this use case, we'll be retrieving a list of device interfaces through the IE
 
 ![Restconf](/images/2020-04-03-1.png)
 
-The response in POSTMAN is quite lengthy, so let's also do the same through SSH (directly to the device).
+The response in POSTMAN is quite lengthy, so let's also do the same through SSH (directly to the device). You will see that (obviously) Postman returns the same interface information as through the CLI.
 ```bash
 csr1000v-1#show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
