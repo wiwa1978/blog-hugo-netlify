@@ -215,6 +215,8 @@ Sum_wireless: 64
 
 In a simular fashion, we can write a script to parse the Network health. We won't cover that now but if you understood previous example, parsing the Network health response will be very easy. The API to call is `/dna/intent/api/v1/network-health?timestamp={{$timestamp}}000`
 
+Note: the appending of `000` is because the timestamp is supposed to be in Epoch milliseconds, while we typically sypply the Epoch time in seconds. Just so you know.
+
 ![DNAC](/images/2020-04-25-2.png)
 
 
