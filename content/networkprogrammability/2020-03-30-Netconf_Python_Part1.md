@@ -35,6 +35,7 @@ An example of a YANG model (source: Cisco Live DEVNET-1721).
 ### Difference between NETCONF and YANG
 
 Both protocols combined (NETCONF/YANG) provide a standardized way to programmatically update and modify the configuration of a network device. 
+
 - YANG is the modelling language that describes the configuration changes. 
 - NETCONF is the protocol that applies the changes to the relevant datastore (i.e running, saved etc) upon the device.
 
@@ -61,7 +62,7 @@ Successfully installed bcrypt-3.1.7 cffi-1.14.0 cryptography-2.8 lxml-4.5.0 nccl
 For all the examples, we will use a Cisco sandbox environment delivered by [Cisco Devnet](https://developer.cisco.com). Go check out Devnet.. To get a list of all sandboxes, check out [this](https://devnetsandbox.cisco.com/) link. For this tutorial, I'm using the IOS XE sandbox (see [here](https://devnetsandbox.cisco.com/RM/Diagram/Index/38ded1f0-16ce-43f2-8df5-43a40ebf752e?diagramType=Topology)). 
 
 ### Netconf and Python: first steps
-Let's check if everything works. We will use the ncclient library to connect to my device in the DevNet sandbox. In the sandbox documentation, you'll notice the NETCONF port is set to 10000.
+Let's check if everything works. We will use the ncclient library to connect to my device in the DevNet sandbox. In the sandbox documentation, you'll notice the NETCONF port is set to 10000 (standard NETCONF port is 830)
 
 Below script speaks for itself. If all works well you will see that you successfully created a connection between your SSH client (ncclient) and the IOS XE NETCONF agent.
 
@@ -120,19 +121,32 @@ import xmltodict
 import xml.dom.minidom
 
 router = {
-   'ip': 'ios-xe-mgmt-latest.cisco.com',
+   'host': 'ios-xe-mgmt-latest.cisco.com',
    'port': '10000',
    'username': '***',
    'password': '***'
 }
 
-m = manager.connect(host=router['ip'], port=router['port'], username=router['username'],
+m = manager.connect(host=router['host'], port=router['port'], username=router['username'],
                     password=router['password'], device_params={'name':'iosxe'}, hostkey_verify=False)
 
 running_config = m.get_config('running')
 print(xml.dom.minidom.parseString(str(running_config)).toprettyxml())
 
 m.close_session()
+```
+Note, instead of 
+
+```python
+m = manager.connect(host=router['host'], port=router['port'], username=router['username'],
+                    password=router['password'], device_params={'name':'iosxe'}, hostkey_verify=False)
+
+```
+we could have also written something shorter:
+
+```python
+m = manager.connect(**router, device_params={'name':'iosxe'}, hostkey_verify=False)
+
 ```
 
 For printing the response, we are performing some XML manipulation. The issue is that the `get_config` returns a GetReply object. If we print out the content, it would be something like:
@@ -207,9 +221,19 @@ netconf_filter = """
 
 running_config = m.get_config("running", netconf_filter)
 
-running_config_xml = xmltodict.parse(running_config.xml)["rpc-reply"]["data"
+running_config_xml = xmltodict.parse(running_config.xml)["rpc-reply"]["data"]
 print(xml.dom.minidom.parseString(str(running_config)).toprettyxml())
 ```
+Instead of:
+
+```python
+running_config = m.get_config("running", netconf_filter)
+```
+We could have also written:
+```python
+running_config = m.get(netconf_filter)
+```
+
 Below is the output from running the above script. You can clearly see the RPC reply here. And as expected, the script returns the information related to the requested interface.
 
 ```bash
