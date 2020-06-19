@@ -284,7 +284,8 @@ In most examples you will see me use the Netmiko class though, I just wanted to 
 ### Use case: parsing with TextFSM
 
 In this example, we will use textFSM to retrieve the output in a form that makes it easier to parse. 
-In below script, we will simply print the type of the output (of the "show ip interface brief" command)
+
+First though, to stress the value of TextFSM later on, we will simply print out the type of the output (of the "show ip interface brief" command)
 ```python
 from netmiko import Netmiko
 
@@ -298,14 +299,9 @@ cisco_xr = {
 
 net_connect = Netmiko(**cisco_xr)
    
-output = net_connect.send_command("show ip interface brief", use_textfsm=True)
+output = net_connect.send_command("show ip interface brief")
 net_connect.disconnect()
 print(type(output))
-
-for interface in output:
-    print(interface['intf'])
-
-
 
 ```
 You will see we get back the following:
@@ -455,12 +451,14 @@ This particular example can be found [here](https://github.com/wiwa1978/blog-hug
 
 ### Use case: Add Loopback interfaces
 In this use case, we will use some things we learned in previous posts. We will do the following:
+
 - read device information from a YML file
 - read variables (containing loopback information) from a YML file
 - Use Jinja2 template
 - Use Netmiko to configure the loopback interfaces
 
 In case some of this is new, I recommend you to have a look at the following blog posts:
+
 - Parsing YML file: see [here](https://blog.wimwauters.com/networkprogrammability/2020-01-14-parse_yaml_python/)
 - Working with Jinja2: see [here](https://blog.wimwauters.com/networkprogrammability/2020-02-27-aci_python_requests_jinja_part1/)
 

@@ -192,7 +192,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 ###### Commands overview
 
-A) cli.cli(commands)
+A) `cli.cli(commands)`
 
 ```bash
 >>> import cli
@@ -210,7 +210,7 @@ VirtualPortGroup0      192.168.1.1     YES manual up                    up
 ```
 You will have noticed that cli.cli returns the result to a variable that you can then print. You could also directly print it to screen, but then it would essentially return everything as a single string. In that case, it's better to use the `cli.clip ` command.
 
-B) cli.clip(commands)
+B) `cli.clip(commands)`
 
 ```bash
 >>> cli.clip("show ip interface brief")
@@ -238,7 +238,7 @@ Gi1                            up             up       MANAGEMENT INTERFACE - DO
 Gi2                            admin down     down     Network Interface
 Gi3                            admin down     down     Network Interface
 ```
-C) cli.execute(command)
+C) `cli.execute(command)`
 
 This one is similar to cli.cli but only runs 1 single command
 
@@ -255,7 +255,7 @@ VirtualPortGroup0      192.168.1.1     YES manual up                    up
 ```
 Also here, you will notice that cli.execute returns the result to a variable that you can then print. You could also directly print it to screen, but then it would essentially return everything as a single string. In that case, it's better to use the `cli.executep ` command.
 
-D) cli.executep(command)
+D) `cli.executep(command)`
 Similarly, the cli.executep executes a single command but does print out the output directly to screen.
 
 ```bash
@@ -266,7 +266,7 @@ GigabitEthernet2       unassigned      YES NVRAM  administratively down down
 GigabitEthernet3       unassigned      YES NVRAM  administratively down down
 VirtualPortGroup0      192.168.1.1     YES manual up                    up
 ```
-E) cli.configure(commands)
+E) `cli.configure(commands)`
 
 ```bash
 >>> output = cli.configure(["interface Loopback5000", "description Set through cli.configure"])
@@ -294,7 +294,7 @@ You can see the loopback interface was added successfully and the description wa
 
 Note: unfortunately in this case, with `cli.configure` we need to use a `,` to seperate multiple commands. 
 
-F) cli.configurep(commands)
+F) `cli.configurep(commands)`
 Let's now use the `cli.configurep` command to remove the Loopback interface that we added previously.
 ```bash
 >>> cli.configurep("no interface Loopback5000")

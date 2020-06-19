@@ -130,8 +130,8 @@ router = {
 m = manager.connect(host=router['host'], port=router['port'], username=router['username'],
                     password=router['password'], device_params={'name':'iosxe'}, hostkey_verify=False)
 
-running_config = m.get_config('running')
-print(xml.dom.minidom.parseString(str(running_config)).toprettyxml())
+running_config = m.get_config('running').xml
+print(xml.dom.minidom.parseString(running_config).toprettyxml())
 
 m.close_session()
 ```

@@ -64,7 +64,7 @@ If we do that, you will see we get an error message.
 
 ![Restconf](/images/2020-04-02-2.png)
 
-We need to specify what we are interested in. As we are using the `device-hardware` YANG model, let's we are interested to find a list of the various hardware components in our device (with serial numbers....)
+We need to specify what we are interested in. As we are using the `device-hardware` YANG model, let's say...we are interested to find a list of the various hardware components in our device (with serial numbers....)
 
 There are multiple ways to go about. I usually go to a website called [YANG Search](https://yangcatalog.org/yang-search/). There is type in the name of the module I'm interested in. In our case that would be our module name, being `Cisco-IOS-XE-device-hardware-oper`.
 

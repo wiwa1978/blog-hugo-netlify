@@ -41,7 +41,7 @@ As a first step we need to retrieve the credentials. The credentials endpoint lo
 
 - CLI
 - SNMPV2_READ_COMMUNITY 
-- SNMPV2WRITE_COMMUNITY 
+- SNMPV2_WRITE_COMMUNITY 
 - SNMPV3
 - HTTP_WRITE
 - HTTP_READ

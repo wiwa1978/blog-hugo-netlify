@@ -252,8 +252,29 @@ When the above script executes, you will get back a list of all existing subscri
 ```
 
 ###### 3.B - create subscriptions through ncclient with XML
-Next, we will focus on creating subscriptions with Netconf. There are several possibilities, we will start with a pure XML payload that we will read in from an external XML file.
+Next, we will focus on creating subscriptions with Netconf. There are several possibilities, we will start with a pure XML payload that we will read in from an external XML file. This XML file looks as follows:
 
+```xml
+<config>
+ <mdt-config-data xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-mdt-cfg">
+  <mdt-subscription>
+   <subscription-id>{subscription}</subscription-id>
+   <base>
+    <stream>yang-push</stream>
+    <encoding>encode-kvgpb</encoding>
+    <period>{period}</period>
+    <xpath>/process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds</xpath>
+   </base>
+   <mdt-receivers>
+    <address>10.10.20.50</address>
+    <port>57500</port>
+    <protocol>grpc-tcp</protocol>
+   </mdt-receivers>
+  </mdt-subscription>
+ </mdt-config-data>
+</config>
+```
+Next, let's look at the Python script:
 ```bash
 from ncclient import manager
 
