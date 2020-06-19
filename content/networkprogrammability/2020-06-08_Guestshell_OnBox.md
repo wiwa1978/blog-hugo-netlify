@@ -176,7 +176,7 @@ Loading mirror speeds from cached hostfile
 <truncated output>
 ...
 Complete!
-```s
+```
 
 ### What is Python On-box
 On-Box Python is Python interpreter installed inside the Guest Shell that allows to run Python scripts on IOS XE router or switch. It is tied with Embedded Event Manager (EEM) and has direct access to IOS XE CLI commands using custom module called `cli`. It allows to react to different events directly on the device (Edge Computing), this includes additional reporting, post-configuration checks, complex troubleshooting capabilities, automation of repetitive tasks.
