@@ -5,6 +5,8 @@ cisco@wauterw-k8s-master:~$ sudo apt-get remove docker docker-engine docker.io c
 
 cisco@wauterw-k8s-master:~$ sudo swapoff -a
 
+Note: this needs to be done permanently so a better approach would be to comment out the swap line in your /etc/fstab file and reboot your VM.
+
 
 
 cisco@wauterw-k8s-master:~$ sudo apt-get update
@@ -66,32 +68,33 @@ and check to make sure that only the key(s) you wanted were added.
 
 
 wauterw@WAUTERW-M-65P7 Ansible % ansible-playbook -i hosts initial.yml -k -K
+➜  Ansible git:(master) ✗ ansible-playbook -i hosts -i hosts initial.yml -k -K 
 SSH password: 
 BECOME password[defaults to SSH password]: 
 
-PLAY [all] *********************************************************************************************************************************************************************
+PLAY [all] ***********************************************************************************************************************************************************************************************************
 
-TASK [Gathering Facts] *********************************************************************************************************************************************************
-ok: [master]
+TASK [Gathering Facts] ***********************************************************************************************************************************************************************************************
 ok: [worker1]
 ok: [worker2]
-
-TASK [create the 'wim' user] ***************************************************************************************************************************************************
-ok: [worker2]
 ok: [master]
+
+TASK [create the 'wim' user] *****************************************************************************************************************************************************************************************
+ok: [master]
+ok: [worker2]
 ok: [worker1]
 
-TASK [allow 'wim' to have passwordless sudo] ***********************************************************************************************************************************
+TASK [allow 'wim' to have passwordless sudo] *************************************************************************************************************************************************************************
+changed: [worker2]
 changed: [master]
 changed: [worker1]
-changed: [worker2]
 
-TASK [set up authorized keys for the ubuntu user] ******************************************************************************************************************************
+TASK [set up authorized keys for the ubuntu user] ********************************************************************************************************************************************************************
 ok: [worker1] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDC9FjfJgM87InjdJe6hWncxjafmC0+5Yo68bgnMwheV131MF7z6u1RiePSYTWD8ySttz488CVhh3EE9+tu3E2PFu1RZLdfofRSssRuPo5hG4npHPn9BCO8x2as/XEVaLzvGIpUodyXN82a+wjitJkJI3LRoc3tB1ltQdPlmF3VHLa2goz5yt/A0gc1anax2Z4Z4q4ga9DCaBIx9RcNOuHD5yAl/prWumBgGJ3bth4QRsxo2nIsAkT+v5pkH/Phdpg5crCfEknyYy/BER95UUoJpeetg8dZVGTeGan4ZUcpANpBPXnFiDwkcRIvMFgRMG0zaIPPfG7qSI9+RUhDm9AgBL3wcyXCjsI75Lyi0mhgh8h/7ee/HEg1FojL3FF656jQ0NXdkc44K0wDpN/TBw1pNbxN/CZCL7vafZ7v5C1VftvGvpQSjtO4zNRiiYjUpcEvkoGeljR25DHRpfZbv0Byjv9NFIBL3RUAy/s0+da3y9jg0f/N6bDBs6izJMrzCVMGfDRUOTGKVhYiXTJF6G7afcZpYl5t6oL6mao62sOUV+9AkrYMCegGRWDYXvzxcU9wFYsIOOYUNJ5cO09vQCGzn+wGJ6sMJHc6NDTwXIEzyFYk+RPeC6Nero1EeKkPEj1U2qwWFgAA+d1FSOazHQt0x9x6VBuEYIeu5ta25rWTJQ== Homelab_Wim)
 ok: [master] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDC9FjfJgM87InjdJe6hWncxjafmC0+5Yo68bgnMwheV131MF7z6u1RiePSYTWD8ySttz488CVhh3EE9+tu3E2PFu1RZLdfofRSssRuPo5hG4npHPn9BCO8x2as/XEVaLzvGIpUodyXN82a+wjitJkJI3LRoc3tB1ltQdPlmF3VHLa2goz5yt/A0gc1anax2Z4Z4q4ga9DCaBIx9RcNOuHD5yAl/prWumBgGJ3bth4QRsxo2nIsAkT+v5pkH/Phdpg5crCfEknyYy/BER95UUoJpeetg8dZVGTeGan4ZUcpANpBPXnFiDwkcRIvMFgRMG0zaIPPfG7qSI9+RUhDm9AgBL3wcyXCjsI75Lyi0mhgh8h/7ee/HEg1FojL3FF656jQ0NXdkc44K0wDpN/TBw1pNbxN/CZCL7vafZ7v5C1VftvGvpQSjtO4zNRiiYjUpcEvkoGeljR25DHRpfZbv0Byjv9NFIBL3RUAy/s0+da3y9jg0f/N6bDBs6izJMrzCVMGfDRUOTGKVhYiXTJF6G7afcZpYl5t6oL6mao62sOUV+9AkrYMCegGRWDYXvzxcU9wFYsIOOYUNJ5cO09vQCGzn+wGJ6sMJHc6NDTwXIEzyFYk+RPeC6Nero1EeKkPEj1U2qwWFgAA+d1FSOazHQt0x9x6VBuEYIeu5ta25rWTJQ== Homelab_Wim)
 ok: [worker2] => (item=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDC9FjfJgM87InjdJe6hWncxjafmC0+5Yo68bgnMwheV131MF7z6u1RiePSYTWD8ySttz488CVhh3EE9+tu3E2PFu1RZLdfofRSssRuPo5hG4npHPn9BCO8x2as/XEVaLzvGIpUodyXN82a+wjitJkJI3LRoc3tB1ltQdPlmF3VHLa2goz5yt/A0gc1anax2Z4Z4q4ga9DCaBIx9RcNOuHD5yAl/prWumBgGJ3bth4QRsxo2nIsAkT+v5pkH/Phdpg5crCfEknyYy/BER95UUoJpeetg8dZVGTeGan4ZUcpANpBPXnFiDwkcRIvMFgRMG0zaIPPfG7qSI9+RUhDm9AgBL3wcyXCjsI75Lyi0mhgh8h/7ee/HEg1FojL3FF656jQ0NXdkc44K0wDpN/TBw1pNbxN/CZCL7vafZ7v5C1VftvGvpQSjtO4zNRiiYjUpcEvkoGeljR25DHRpfZbv0Byjv9NFIBL3RUAy/s0+da3y9jg0f/N6bDBs6izJMrzCVMGfDRUOTGKVhYiXTJF6G7afcZpYl5t6oL6mao62sOUV+9AkrYMCegGRWDYXvzxcU9wFYsIOOYUNJ5cO09vQCGzn+wGJ6sMJHc6NDTwXIEzyFYk+RPeC6Nero1EeKkPEj1U2qwWFgAA+d1FSOazHQt0x9x6VBuEYIeu5ta25rWTJQ== Homelab_Wim)
 
-PLAY RECAP *********************************************************************************************************************************************************************
+PLAY RECAP ***********************************************************************************************************************************************************************************************************
 master                     : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 worker1                    : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 worker2                    : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
@@ -108,50 +111,53 @@ worker2                    : ok=4    changed=1    unreachable=0    failed=0    s
 
 
 wauterw@WAUTERW-M-65P7 Ansible % ansible-playbook -i hosts kube-dependencies.yml -k -K 
+➜  Ansible git:(master) ✗ 
+➜  Ansible git:(master) ✗ 
+➜  Ansible git:(master) ✗ ansible-playbook -i hosts kube-dependencies.yml -k -K 
 SSH password: 
 BECOME password[defaults to SSH password]: 
 
-PLAY [all] *********************************************************************************************************************************************************************
+PLAY [all] ***********************************************************************************************************************************************************************************************************
 
-TASK [Gathering Facts] *********************************************************************************************************************************************************
+TASK [Gathering Facts] ***********************************************************************************************************************************************************************************************
 ok: [worker1]
 ok: [worker2]
 ok: [master]
 
-TASK [install APT Transport HTTPS] *********************************************************************************************************************************************
-ok: [master]
-ok: [worker1]
+TASK [install APT Transport HTTPS] ***********************************************************************************************************************************************************************************
 ok: [worker2]
-
-TASK [add Kubernetes apt-key] **************************************************************************************************************************************************
-changed: [master]
-changed: [worker1]
-changed: [worker2]
-
-TASK [add Kubernetes' APT repository] ******************************************************************************************************************************************
-changed: [master]
-changed: [worker1]
-changed: [worker2]
-
-TASK [install kubelet] *********************************************************************************************************************************************************
-changed: [worker1]
-changed: [master]
-changed: [worker2]
-
-TASK [install kubeadm] *********************************************************************************************************************************************************
-changed: [worker1]
-changed: [master]
-changed: [worker2]
-
-PLAY [master] ******************************************************************************************************************************************************************
-
-TASK [Gathering Facts] *********************************************************************************************************************************************************
+ok: [worker1]
 ok: [master]
 
-TASK [install kubectl] *********************************************************************************************************************************************************
+TASK [add Kubernetes apt-key] ****************************************************************************************************************************************************************************************
+changed: [master]
+changed: [worker1]
+changed: [worker2]
+
+TASK [add Kubernetes' APT repository] ********************************************************************************************************************************************************************************
+changed: [master]
+changed: [worker1]
+changed: [worker2]
+
+TASK [install kubelet] ***********************************************************************************************************************************************************************************************
+changed: [master]
+changed: [worker2]
+changed: [worker1]
+
+TASK [install kubeadm] ***********************************************************************************************************************************************************************************************
+changed: [worker1]
+changed: [master]
+changed: [worker2]
+
+PLAY [master] ********************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************************************************************************
 ok: [master]
 
-PLAY RECAP *********************************************************************************************************************************************************************
+TASK [install kubectl] ***********************************************************************************************************************************************************************************************
+ok: [master]
+
+PLAY RECAP ***********************************************************************************************************************************************************************************************************
 master                     : ok=8    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 worker1                    : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 worker2                    : ok=6    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
@@ -169,30 +175,31 @@ worker2                    : ok=6    changed=4    unreachable=0    failed=0    s
 
 
 
-wauterw@WAUTERW-M-65P7 Ansible % ansible-playbook -i hosts master.yml -k -K
+
+
+➜  Ansible git:(master) ✗ ansible-playbook -i hosts master.yml -k -K
 SSH password: 
 BECOME password[defaults to SSH password]: 
 
-PLAY [master] ******************************************************************************************************************************************************************
+PLAY [master] ************************************************************************************************************************************************************************
 
-TASK [Gathering Facts] *********************************************************************************************************************************************************
+TASK [Gathering Facts] ***************************************************************************************************************************************************************
 ok: [master]
 
-TASK [initialize the cluster] **************************************************************************************************************************************************
+TASK [initialize the cluster] ********************************************************************************************************************************************************
 ok: [master]
 
-TASK [create .kube directory] **************************************************************************************************************************************************
+TASK [create .kube directory] ********************************************************************************************************************************************************
 ok: [master]
 
-TASK [copy admin.conf to user's kube config] ***********************************************************************************************************************************
-ok: [master]
-
-TASK [install Pod network] *****************************************************************************************************************************************************
+TASK [copy admin.conf to user's kube config] *****************************************************************************************************************************************
 changed: [master]
 
-PLAY RECAP *********************************************************************************************************************************************************************
-master                     : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+TASK [install Pod network] ***********************************************************************************************************************************************************
+changed: [master]
 
+PLAY RECAP ***************************************************************************************************************************************************************************
+master                     : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
 
 
@@ -204,42 +211,47 @@ master                     : ok=5    changed=1    unreachable=0    failed=0    s
 
 
 wauterw@WAUTERW-M-65P7 Ansible % ansible-playbook -i hosts workers.yml -k -K 
+➜  Ansible git:(master) ✗ ansible-playbook -i hosts workers.yml -k -K 
 SSH password: 
 BECOME password[defaults to SSH password]: 
 
-PLAY [master] ******************************************************************************************************************************************************************
+PLAY [master] ************************************************************************************************************************************************************************
 
-TASK [get join command] ********************************************************************************************************************************************************
+TASK [get join command] **************************************************************************************************************************************************************
 changed: [master]
 
-TASK [set join command] ********************************************************************************************************************************************************
+TASK [set join command] **************************************************************************************************************************************************************
 ok: [master]
 
-PLAY [workers] *****************************************************************************************************************************************************************
+PLAY [workers] ***********************************************************************************************************************************************************************
 
-TASK [Gathering Facts] *********************************************************************************************************************************************************
+TASK [Gathering Facts] ***************************************************************************************************************************************************************
 ok: [worker1]
 ok: [worker2]
 
-TASK [join cluster] ************************************************************************************************************************************************************
-changed: [worker2]
+TASK [join cluster] ******************************************************************************************************************************************************************
 changed: [worker1]
+changed: [worker2]
 
-PLAY RECAP *********************************************************************************************************************************************************************
+PLAY RECAP ***************************************************************************************************************************************************************************
 master                     : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 worker1                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-worker2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+worker2                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 
 
 
 
 
 
-wim@k8s-master:~$ kubectl get nodes
-NAME           STATUS   ROLES    AGE     VERSION
-k8s-master     Ready    master   2m22s   v1.18.3
-k8s-worker-1   Ready    <none>   45s     v1.18.3
-k8s-worker-2   Ready    <none>   45s     v1.18.3
+
+
+
+
+wim@k8s-master:/etc/kubernetes$ kubectl get nodes
+NAME          STATUS   ROLES    AGE     VERSION
+k8s-master    Ready    master   5m23s   v1.18.8
+k8s-worker1   Ready    <none>   89s     v1.18.8
+k8s-worker2   Ready    <none>   89s     v1.18.8
 
 
 
