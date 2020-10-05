@@ -3,12 +3,12 @@ title: Webex Teams Chatbot with Python
 date: 2020-06-05T17:19:50+01:00
 draft: false
 categories:
-  - Web Development
+  - Network Programming
   - Programming
+  - All
 tags:
   - Webex Teams
   - Python
-  - All
 ---
 ### Introduction
 In this post, we will create a very simple chatbot with Webex Teams API using Python. This is a basic example, just to show you the principles a bit.
