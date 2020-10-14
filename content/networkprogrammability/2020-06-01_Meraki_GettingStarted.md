@@ -1,7 +1,7 @@
 ---
 title: Cisco Meraki - Getting Started
-date: 2020-05-25T08:32:50+01:00
-draft: true
+date: 2020-06-01T08:32:50+01:00
+draft: false
 categories:
   - Network Programming
   - Programming
