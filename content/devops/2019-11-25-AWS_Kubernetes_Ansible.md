@@ -17,7 +17,7 @@ tags:
 > Quick note: the original post dates from 25-11-2019 but got updated at 01-04-2020 with latest Kubernetes version.
 ### Introduction
 
-This blog post is a follow up of a post we wrote couple of days ago where we created 3 EC2 instances on AWS. That blog post can be found here. If you want to follow along with this guide, then use that post to create 3 droplets.
+This blog post is a follow up of a post we wrote couple of days ago where we created 3 EC2 instances on AWS. That blog post can be found [here](https://blog.wimwauters.com/devops/2019-11-21-aws_terraform/). If you want to follow along with this guide, then use that post to create 3 instances.
 
 Executing the code from that post, will result in three EC2 instances on AWS:
 
