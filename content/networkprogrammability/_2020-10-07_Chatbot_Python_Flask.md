@@ -14,6 +14,8 @@ tags:
 
 ### Introduction
 
+In [this](https://blog.wimwauters.com/networkprogrammability/_2020-10-06_chatbot_python_local/) we learned how to create a Flask based chatbot that was running locally. Obviously that's nice for testing purposes but not for professional purposes. Hence, in this post, we will take the code we created in that post but deploy it to Heroku. Note though that the code we wrote in the previous post is not professional grade code, it lacks proper error handling and so on. 
+
 ### Running our code on Heroku
 
 ```

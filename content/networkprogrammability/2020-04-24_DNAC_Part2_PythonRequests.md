@@ -1,7 +1,7 @@
 ---
 title: Cisco DNA Center - Devices
 date: 2020-04-24T12:32:50+01:00
-draft: false
+draft: true
 categories:
   - Network Programming
   - Programming
