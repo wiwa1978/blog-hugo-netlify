@@ -3,6 +3,7 @@ title: Packer Introduction with AWS
 date: 2020-10-15T14:39:50+01:00
 draft: false
 categories:
+  - Cloud
   - DevOps
   - All
 tags:

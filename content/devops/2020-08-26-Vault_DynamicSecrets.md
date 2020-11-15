@@ -3,7 +3,7 @@ title: Hashicorp Vault - Dynamic Secrets
 date: 2020-08-26T16:19:50+01:00
 draft: false
 categories:
-  - Cloud Native
+  - Devops
   - All
 tags:
   - Vault

@@ -3,7 +3,7 @@ title: Hashicorp Vault - Getting Started
 date: 2020-08-24T16:19:50+01:00
 draft: false
 categories:
-  - Cloud Native
+  - Devops
   - All
 tags:
   - Vault

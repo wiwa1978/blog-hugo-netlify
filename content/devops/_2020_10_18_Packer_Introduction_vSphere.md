@@ -1,6 +1,6 @@
 ---
 title: Packer Introduction with vSphere
-date: 2020-10-10T14:39:50+01:00
+date: 2020-10-18T14:39:50+01:00
 draft: True
 categories:
   - DevOps
