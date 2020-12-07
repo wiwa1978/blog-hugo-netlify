@@ -12,7 +12,7 @@ tags:
 ---
 ### Introduction
 
-
+In [this](http://blog.wimwauters.com/devops/2020-10-15_packer_introduction_aws/), we experimented a bit with Packer in combination with AWS. To get a general intro on Packer, go ahead and read that post first. Here will will focus on DigitalOcean instead of AWS.
 
 ### Generate a DigitalOcean API token
 
