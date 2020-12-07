@@ -87,16 +87,15 @@ Let's now move on to the 'meat' of this blogpost, the Python script itself. Belo
     "targetUrl": "https://great-eel-95.loca.lt"
 }
 ```
-It's pretty self-explanatory, but essentially there is a data field which contains the data from the person who sent a message into the Webex Teams chat room as well as an identifier to the ID of the message.
-
+It's pretty self-explanatory. Essentially there is a data field which contains the data from the person who sent a message into the Webex Teams chat room as well as an identifier to the ID of the message.
 
 In the below code, chatbot.py, we do the following steps:
 
-1) We listen to GET and POST messages on the `/` route.
-2) When receiving a POST verb, we will retrieve the room_id as well as the message_id (both are available in the webhook JSON body as seen above)
-3) We only have the id of the message, but not the message itself. Therefore we have a separate class `Messenger` which is responsible for a.o getting the message based on the ID we pass in.
-4) We parse the incoming message to identify if we received the keyword we were looking for (in our case `cards`)
-5) Upon receiving a sentence that starts with `/cards` we will call the deckofcards api and finally we will send back to our Webex Teams space the ID of the deck of cards (as returned by the deckofcards API)
+1. We listen to GET and POST messages on the `/` route.
+2. When receiving a POST verb, we will retrieve the room_id as well as the message_id (both are available in the webhook JSON body as seen above)
+3. We only have the id of the message, but not the message itself. Therefore we have a separate class `Messenger` which is responsible for a.o getting the message based on the ID we pass in.
+4. We parse the incoming message to identify if we received the keyword we were looking for (in our case `cards`)
+5. Upon receiving a sentence that starts with `/cards` we will call the deckofcards api and finally we will send back to our Webex Teams space the ID of the deck of cards (as returned by the deckofcards API)
 
 ```python
 from flask import Flask, request, json
@@ -144,9 +143,9 @@ if __name__ == '__main__':
 
 and the `Messenger` class looks as below. It's a simple class that has one constructor and two methods:
 
-1) contstructor: upon creating a Messenger object, it will retrieve (and set) the bot ID. As it knows the api-key (generated in the Webex Teams bot creation page), it knows based on this api-key which bot is 'talking'.
-2) get_message: retrieves the message based on the incoming message_id
-3) post_message: allows us to send a message back to the Webex Teams room
+1. constructor: upon creating a Messenger object, it will retrieve (and set) the bot ID. As it knows the api-key (generated in the Webex Teams bot creation page), it knows based on this api-key which bot is 'talking'.
+2. get_message: retrieves the message based on the incoming message_id
+3. post_message: allows us to send a message back to the Webex Teams room
 
 ```python
 import json
@@ -187,6 +186,7 @@ class Messenger():
 
 Next step is to run the code. In our setup, it suffices to run the code locally as we are exposing our URL anyway to the external world through ngrok or localtunnel.
 
+```bash
 ~blog-hugo-netlify-code/WebexT/p/deckofcards_bot master ❯ python3 chatbot.py                                                                                
  * Serving Flask app "chatbot" (lazy loading)
  * Environment: production
@@ -194,6 +194,7 @@ Next step is to run the code. In our setup, it suffices to run the code locally 
    Use a production WSGI server instead.
  * Debug mode: off
  * Running on http://0.0.0.0:5005/ (Press CTRL+C to quit)
+```
 
 Our bot is now up and running and ready to send and receive messages so let's go ahead and test it.
 
