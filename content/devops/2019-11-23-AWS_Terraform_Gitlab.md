@@ -121,7 +121,7 @@ Eventually, your repository on Gitlab will contain all your files.
 
 ### Configure Gitlab pipeline
 
-Now that all files are in your git repository, we are going to use Gitlab’s CI/CD functionality. To do so, go to Settings > CI/CD first. Go to the variables section and add your AWS credentials over there. See below screenshot.
+Now that all files are in your git repository, we are going to use Gitlab’s CI/CD functionality. To do so, go to `Settings > CI/CD first`. Go to the variables section and add your AWS credentials over there. See below screenshot.
 
 ![AWSGitlab](/images/2019-11-23-4.png)
 
@@ -131,7 +131,7 @@ We will start with pulling the hashicorp/terraform image. In the background, Git
 
 The rest of the file is pretty self-explanatory in my view. We will validate our TF files, we will make a TF plan and we will apply the configuration. We have added the ‘when: manual’ statement to the apply stage because we want Gitlab to ask for our confirmation before deploying our infrastructure.
 
-It’s important you call the above file ‘.gitlab-ci.yml’.
+It’s important you call the below file ‘.gitlab-ci.yml’.
 
 ```python
 image:
