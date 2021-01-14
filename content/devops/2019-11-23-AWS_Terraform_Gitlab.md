@@ -14,7 +14,7 @@ tags:
   - Gitlab
 ---
 ### Introduction
-In this post, we will deploy EC2 instances on AWS using a CI/CD pipeline. If you want to follow along, it’s advised you also refer to part 1 and part 2 for getting some background information.
+In this post, we will deploy EC2 instances on AWS using a CI/CD pipeline. If you want to follow along, it’s advised you also refer to [part 1](ttps://blog.wimwauters.com/devops/2019-11-21-aws_terraform/) and [part 2](https://blog.wimwauters.com/devops/2019-11-22-aws_terraform_remotestate/) for getting some background information.
 
 ### Code
 Below are the files we are going to use. If you went through part 1 and part 2 you’ll surely know what they are doing. Won’t explain them here anymore, but will just list them.
