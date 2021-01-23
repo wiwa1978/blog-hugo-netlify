@@ -1,5 +1,5 @@
 ---
-title: VMware tools on ESXi Raspberry Pi
+title: VMware tools on ESXi Raspberry Pi 4
 date: 2020-11-01T20:19:50+01:00
 draft: false
 categories:
