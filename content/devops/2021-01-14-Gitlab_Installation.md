@@ -6,8 +6,9 @@ categories:
   - DevOps
   - All
 tags:
-  - Terraform
-  - AWS
+  - Gitlab
+  - Raspberry Pi
+  - vSphere
 ---
 
 ### Introduction
@@ -119,19 +120,19 @@ Note 2: The above did not solve it, so I decided to allocate some more memory to
 
 Next, using your browser go to the IP address of the Gitlab server. You will see the following page:
 
-![gitlab](/images/foto1.png)
+![gitlab](/images/2021-01-14-1.png)
 
 As requested, we need to change the root password. After doing this, you can login using username `root` and the password you just created in the previous step.
 
 After login, you will see the following page:
 
-![gitlab](/images/foto2.png)
+![gitlab](/images/2021-01-14-2.png)
 
 ### Configure Gitlab runners
 
 Next, go to the following URL `http://<IP_Gitlab_server>/admin`, then to  `Overview > Runners`. You will see that we don't have any runners registered just yet (obviously). However, it contains an explanation on how to setup a runner manually. 
 
-![gitlab](/images/foto3.png)
+![gitlab](/images/2021-01-14-3.png)
 
 Let's just follow the instructions we find [here](https://docs.gitlab.com/runner/install/).
 
@@ -175,25 +176,25 @@ Note that you will have to select an executor. I have both tested docker as well
 
 If all went well, you will see the runner registered in Gitlab.
 
-![gitlab](/images/foto4.png)
+![gitlab](/images/2021-01-14-4.png)
 
 ### Create regular user
 Next, let's create a regular users that we will use for our projects. Go to `http://<IP_Gitlab_server>` and just register a new user.
 
-![gitlab](/images/foto5.png)
+![gitlab](/images/2021-01-14-5.png)
 
 Upon creating the user, you will get a message that this user needs to be approved first by the administrator (root account). Hence, log into the root account and approve the user first. To do so, go to the following url `http://<IP_Gitlab_server>/admin`, then to `Overview > Dashboard`. You will see the following:
 
 
-![gitlab](/images/foto6.png)
+![gitlab](/images/2021-01-14-6.png)
 
 Next, click on the name of the user you just created. There you will get a screen to approve this user. Once approved, you will see something similar as the below screenshot.
 
-![gitlab](/images/foto7.png)
+![gitlab](/images/2021-01-14-7.png)
 
 Next, login with your regular (newly created) user and you should see the following page:
 
-![gitlab](/images/foto8.png)
+![gitlab](/images/2021-01-14-8.png)
 
 We are now ready to host some projects onto our Gitlab instance. Stay tuned for a next post where we will show how to do this.
 
