@@ -1,3 +1,17 @@
+---
+title: Install KVM on Ubuntu
+date: 2020-04-10T14:39:50+01:00
+draft: True
+categories:
+  - DevOps
+  - Private Cloud
+  - All
+tags:
+  - KVM
+  - Ubuntu
+---
+
+
 
 https://medium.com/@michael_41345/getting-started-with-hashicorp-waypoint-how-to-create-a-python-app-using-flask-docker-80b279c88b2a
 
