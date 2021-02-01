@@ -1,7 +1,7 @@
 ---
 title: Deploy Flask Application to Docker
 date: 2021-01-04T07:19:50+01:00
-draft: True
+draft: false
 categories:
   - Cloud Native
   - DevOps
