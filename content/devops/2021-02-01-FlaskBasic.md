@@ -153,10 +153,10 @@ This will is in fact the entrypoint for our application. It will be used by Guni
 [2021-01-31 11:06:07 +0100] [94187] [INFO] Using worker: sync
 [2021-01-31 11:06:07 +0100] [94190] [INFO] Booting worker with pid: 94190
 ```
-In the command, we are binding our webserver to 0.0.0.0:port and we pass it the name of the entrypoint minus the py externsion (so wsgi) with the name of the callable object within the application.
+In this command, we are binding our webserver to 0.0.0.0:port and we pass it the name of the entrypoint minus the py extension (so in our case it would be simply `wsgi`) with the name of the callable object within the application, in our case it would be `app`.
 
 Open your browser and go to `http://your_server_ip:5000` or `http://localhost:5000` and you should see exactly the same application as before now served through WSGI and Gunicorn.
 
-That's it folks for this basic introduction to Flask. In the next upcoming posts, we will explore how to run it in Heroku and Docker.
+That's it folks for a very basic introduction to Flask. In the next upcoming posts, we will explore how to run this little application on Docker or Heroku.
 
 Code can be found in my Github repository [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Flask/Flask-Basic).

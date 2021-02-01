@@ -1,7 +1,7 @@
 ---
 title: Deploy Flask Application to Heroku
 date: 2021-01-31T20:19:50+01:00
-draft: true
+draft: True
 categories:
   - Cloud Native
   - DevOps
@@ -15,68 +15,82 @@ tags:
 
 ### Introduction
 
-In [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post we have created a very basic Flask application. Now we want to deploy it onto Docker. Let's see how this can be accomplished. I'm going to assume that you have followed along that post or have done a git clone of the application.
-
-Also, if you want to follow along with this post, you should install `Docker Desktop`. You can download it [here](https://www.docker.com/products/docker-desktop).
-
+In [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post we have created a very basic Flask application. We have deployed it to Docker in [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic-Docker) post. Now we want to deploy it onto Heroku, a container based PaaS platform (hence fully managed) that allows us to build and run our applications entirely in the cloud. If you want to follow along, it would be best to also first read [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) and [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic-Docker) post. All code in this post will entirely be based on the code from these articles.
 
 ### Create Heroku account
 
+First, create an Heroku account. Head over to the [website](https://www.heroku.com/) and sign up for an account if you don't have one yet. 
+
 ![flask-basic](/images/2021-02-05-1.png)
-
-
 ### Create Heroku application
 
+Once you have an account, you should create an new application. Click the `Create new app` button. We'll call our app `flask-basic-heroku`.
 
 ![flask-basic](/images/2021-02-05-2.png)
 
-![flask-basic](/images/2021-02-05-3.png)
+Once the app has been created successfully, you will get a detailed page that allows you to operate the application. It looks similar to below screenshot.
 
+![flask-basic](/images/2021-02-05-3.png)
 
 ### Flask application
 
-~/Flask/Flask-Basic-Heroku main ?1 ❯ pip3 install flask
-~/Flask/Flask-Basic-Heroku main ?1 ❯ pip3 install gunicorn 
-~/Flask/Flask-Basic-Heroku main ?1 ❯ pip3 freeze > requirements.txt 
+Next, let's have a look at our Flask application. I won't repeate the application specific code here but you can use the code from our Flask Docker tutorial. You can find it [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Docker).
 
+Ensure that your requirements.txt file is up to date and also has a gunicorm reference. If not, you can recreate the requirements file as follows. Do make sure you are within your virtual environment though.
+```bash
+~/Flask/Flask-Basic-Heroku main ❯ pip3 install flask
+~/Flask/Flask-Basic-Heroku main ❯ pip3 install gunicorn 
+~/Flask/Flask-Basic-Heroku main ❯ pip3 freeze > requirements.txt 
+```
+Note: as mentioned, I used the code from the Flask Docker post but I made a minor change. I have put the `wsgi.py` file under the root of my project (because of Heroku). This implies I also made a change to the from line to ensure my app can be found. So the wsgi.py file should be put under the root folder and should be changed to the following:
 
-### Procfile
+```python
+from app.app import app
+
+if __name__ == "__main__":
+    app.run()
+```
+
+### Create a Procfile
+
+A Procfile is a mechanism for declaring what commands must be run by your application's dynos on the Heroku platform. It basically tells Heroku what commands to execute. To that extend, create a Procfile under the root of your folder. Note this file is case-sensitive and should have a capital P.
+
+The below command will just tell heroku to run the `gunicorn` command to execute the wsgi,py file with the app entrypoint.
 
 ```bash
 web: gunicorn wsgi:app
 ```
 
 ### Login to heroku
+Next, we need to login to Heroku through the CLI. The easiest way is to use `heroku login` and you will be authenticating through your browser. Once authenticated via your browser, a message will appear in the CLI that you are successfully logged in.
 
 ```bash
-~Flask/Flask-Basic-Heroku master !1 ❯ heroku login 
- ›   Warning: heroku update available from 7.44.0 to 7.47.11.
+~Flask/Flask-Basic-Heroku master ❯ heroku login 
 heroku: Press any key to open up the browser to login or q to exit: 
 Opening browser to https://cli-auth.heroku.com/auth/cli/browser/d06a957b-1050-48da-aacd-473e68404fbb?requestor=SFMyNTY.g2gDbQAAAA45NC4xMDQuMTE0LjEyMm4GAK4mjll3AWIAAVGA.Y99SRx68GHEp8zvLkMm-h3cp70GQkkvbtPwEM0oTtq0
 Logging in... done
 Logged in as w***@gmail.com
 ```
+### Upload code to Heroku
 
-
-### Git
+In order to upload code to Heroku, we are going to use git. In below screenshot, you can see that Heroku provides all the commands you need to use in order to upload your application to their infrastructure.
 
 ![flask-basic](/images/2021-02-05-4.png)
 
-```
-~/Flask/Flask-Basic-Heroku main !2 ?4 ❯ git init 
+First we will initialize an empty Git repository and next we configure the git remote `heroku` to point to our Heroku application.
+
+```bash
+~/Flask/Flask-Basic-Heroku main ❯ git init 
 Initialized empty Git repository in /Users/wauterw/SynologyDrive/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Heroku/.git/
 ~/Flask/Flask-Basic-Heroku master +7 !1 ❯ heroku git:remote -a flask-basic-heroku 
 set git remote heroku to https://git.heroku.com/flask-basic-heroku.git
-
 ```
-
-
-
 ### Deploy to Heroku
+Deploying the code is as simple as using the usual git commands.
 
 ```bash
-~/Flask/Flask-Basic-Heroku master +7 !1 ❯ git add .
-~/Flask/Flask-Basic-Heroku master +7 ❯ git commit -am "Initial commit" 
+~/Flask/Flask-Basic-Heroku master ❯ git add .
+~/Flask/Flask-Basic-Heroku master ❯ git commit -am "Initial commit" 
 [master (root-commit) 79f53f9] Initial commit
  7 files changed, 71 insertions(+)
  create mode 100644 .gitignore
@@ -97,6 +111,8 @@ To https://git.heroku.com/flask-basic-heroku.git
  * [new branch]      master -> master
 ```
 
+During deployment, Heroku will also build your application and provide your with a URL that points to your application. Use that URL in your browser and if all went well you should see your application.
 
 ![flask-basic](/images/2021-02-05-5.png)
 
+Thanks for following along. As usual, code can be found on my [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Heroku) repository.
