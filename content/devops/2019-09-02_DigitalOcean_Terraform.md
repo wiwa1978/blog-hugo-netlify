@@ -57,7 +57,7 @@ And the corresponding variables file.
 
 ```terraform
 variable "do_token" {
-  default = "82c33***2f56d"
+  default = "8***d"
 }
 
 variable "region" {
@@ -236,5 +236,5 @@ Destroy complete! Resources: 3 destroyed.
 ```
 As you can imagine the droplets have been destroyed successfully.
 
-You can check the files in this [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DigitalOcean_Terraform).
+You can check the files in this [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DigitalOcean_Terraform/droplet).
 

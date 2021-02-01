@@ -13,6 +13,7 @@ tags:
 
 
 
+
 ### Preparing the servers
 
 cisco@wauterw-k8s-master:~$ sudo apt-get remove docker docker-engine docker.io containerd runc
