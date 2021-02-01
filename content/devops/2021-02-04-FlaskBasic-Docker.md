@@ -14,7 +14,7 @@ tags:
 
 ### Introduction
 
-In this post we have created a very basic Flask application. Now we want to deploy it onto Docker. Let's see how this can be accomplished. I'm going to assume that you have followed along that post or have done a git clone of the application.
+In [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post we have created a very basic Flask application. Now we want to deploy it onto Docker. Let's see how this can be accomplished. I'm going to assume that you have followed along the [initial](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post or have done a git clone of my basic Flask application.
 
 Also, if you want to follow along with this post, you should install `Docker Desktop`. You can download it [here](https://www.docker.com/products/docker-desktop).
 
@@ -167,19 +167,15 @@ Removing network flask-basic-docker_default
 ```
 
 ### Change the application using Docker-Compose
-If we wanted to change the application (e.g. just change some text in our index.html template) it's pretty easy to relaunch the app using docker-compose.
+If we wanted to change the application (e.g. just change some text in our index.html template) it's pretty easy to relaunch the app using docker-compose. We'll how in a second.
 
-For reference, here's the change we made to the index.html file in the templates folder:
+For reference, here's the update we made to the index.html file in the templates folder:
 
 ```html
 <span class="block xl:inline">This is an updated version deployed through</span>
 <span class="block text-indigo-600 xl:inline">Docker Compose</span>
 ```
-
-
-
-
-
+In order to make the update appear, we can run `docker-compose up` again but provide it with the `--build` option. This will ensure our container is build again before running the container.
 
 ```bash
 ~/S/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Docker master !1 ❯ docker-compose up -d --build
@@ -190,5 +186,4 @@ Recreating flask-basic-docker_web_1 ... done
 ```
 ![flask-basic](/images/2021-02-04-8.png)
 
-
-[Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Flask/Flask-Basic-Docker)
+That's it for now. Pretty easy but we'll use the fundaments in later posts. Check out the full code in [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Flask/Flask-Basic-Docker)
