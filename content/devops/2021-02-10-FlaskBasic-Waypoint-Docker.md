@@ -1,7 +1,7 @@
 ---
 title: Deploy Flask Application with Waypoint to Docker
-date: 2021-02-10T14:39:50+01:00
-draft: True
+date: 2021-01-21T14:39:50+01:00
+draft: true
 categories:
   - Cloud Native
   - DevOps
@@ -41,7 +41,7 @@ Waypoint v0.2.0 (360b2b3a)
 As a next step, we need to install the Hashicorp Waypoint Server. This will essentially launch a container on your local PC. Here's how to do it:
 
 ```bash
-~/S/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Waypoint main !5 ?5 ❯ waypoint install --platform=docker -accept-tos
+~/S/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Waypoint main ❯ waypoint install --platform=docker -accept-tos
 ✓ Pulling image: hashicorp/waypoint:latest
 <TRUNCATED>
 ✓ Installing Waypoint server to docker
@@ -246,6 +246,6 @@ You want to see the previous version again, just go to the first version deploym
 
 Pretty impressed with Hashicorp Waypoint I must admit. Will definitely check out more features in the near future. Will try to combine it with some CICD tools to fully absorb the benefits of this tool.
 
-If you want to checkout the code, please check my Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Waypoint).
+If you want to checkout the code, please check my Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Waypoint-Docker).
 
 

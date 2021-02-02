@@ -1,6 +1,6 @@
 ---
 title: DigitalOcean - Create K8S cluster with DOCTL
-date: 2021-02-15T14:39:50+01:00
+date: 2021-02-17T14:39:50+01:00
 draft: True
 categories:
   - DevOps
@@ -14,9 +14,9 @@ tags:
 ---
 ### Introduction
 
-![k8s_terraform](/images/2021-02-09-1.png)
-![k8s_terraform](/images/2021-02-09-2.png)
-![k8s_terraform](/images/2021-02-09-3.png)
+![k8s_terraform](/images/2021-02-17-1.png)
+![k8s_terraform](/images/2021-02-17-2.png)
+![k8s_terraform](/images/2021-02-17-3.png)
 
 
 ```bash

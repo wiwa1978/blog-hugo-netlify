@@ -78,7 +78,7 @@ terraform {
 ```
 
 ### Deploy infrastructure
-As we did with AWS resources (see this post), we will follow exactly the same pattern. First we will perform ‘terraform init’. This will essentially download the ACI provider from Terraform repo.
+As we did with AWS resources (see [this](https://blog.wimwauters.com/devops/2019-11-21-aws_terraform/) post), we will follow exactly the same pattern. First we will perform ‘terraform init’. This will essentially download the ACI provider from Terraform repo.
 
 ```bash
 WAUTERW-M-65P7:ACI_Terraform wauterw$ terraform init
