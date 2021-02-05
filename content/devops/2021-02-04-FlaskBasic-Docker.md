@@ -66,7 +66,7 @@ Successfully tagged wiwa1978/docker-flask-basic:latest
 You will see now that we have a Docker image on our PC. You can check this using the `docker images` command. As expected, we have two images. One is the Ubuntu:20.04 base image, the other is our application image.
 
 ```bash
-~Flask-Basic-Docker master !2 ❯ docker images
+~Flask-Basic-Docker master ❯ docker images
 REPOSITORY                    TAG       IMAGE ID       CREATED          SIZE
 wiwa1978/docker-flask-basic   latest    7cb28ebe370e   56 seconds ago   440MB
 ubuntu                        20.04     f63181f19b2f   10 days ago      72.9MB
@@ -78,13 +78,13 @@ ubuntu                        20.04     f63181f19b2f   10 days ago      72.9MB
 Next, we can run the Docker image as follows:
 
 ```bash
-~/S/P/blog-hugo-netlify-code/Flask/Flask-Basic-Docker master !2 ❯ docker run -d -p 5000:5000 wiwa1978/docker-flask-basic:latest
+~Flask-Basic-Docker master !2 ❯ docker run -d -p 5000:5000 wiwa1978/docker-flask-basic:latest
 f5224364d5e414aff934a90554562d08c4202d86431326f01930a5105f984747
 ```
 Next, let's see if our container is running using the `docker ps` command:
 
 ```bash
-~Flask/Flask-Basic-Docker master !2 ❯ docker ps
+~Flask/Flask-Basic-Docker master ❯ docker ps
 CONTAINER ID   IMAGE                                COMMAND                  CREATED          STATUS          PORTS                    NAMES
 f5224364d5e4   wiwa1978/docker-flask-basic:latest   "gunicorn -b 0.0.0.0…"   16 seconds ago   Up 15 seconds   0.0.0.0:5000->5000/tcp   condescending_lamport
 ```
@@ -102,9 +102,9 @@ To see our application, use your browser to open `http://127.0.0.1:5000`
 Let's stop the application for now.
 
 ```bash
-~Flask/Flask-Basic-Docker master !2 ❯ docker stop condescending_lamport
+~Flask/Flask-Basic-Docker master ❯ docker stop condescending_lamport
 condescending_lamport
-~Flask/Flask-Basic-Docker master !2 ❯ docker ps
+~Flask/Flask-Basic-Docker master ❯ docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
@@ -134,7 +134,7 @@ services:
 ### Run the application using Docker-Compose
 
 ```bash
-~Flask-Basic-Docker master !2 ?1 ❯ docker-compose up
+~Flask-Basic-Docker master ❯ docker-compose up
 Creating network "flask-basic-docker_default" with the default driver
 Building web
 Step 1/10 : FROM ubuntu:20.04
@@ -160,8 +160,9 @@ To see our application, use your browser to open `http://127.0.0.1:50000` (note 
 
 ### Stop the application using Docker-Compose
 Stopping the application using docker-compose is very straigthforward. Just issue the `docker-compose down` command and the containers will be removed.
+
 ```bash
-~Flask-Basic-Docker master !2 ?1 ❯ docker-compose down
+~Flask-Basic-Docker master ❯ docker-compose down
 Removing flask-basic-docker_web_1 ... done
 Removing network flask-basic-docker_default
 ```
@@ -178,7 +179,7 @@ For reference, here's the update we made to the index.html file in the templates
 In order to make the update appear, we can run `docker-compose up` again but provide it with the `--build` option. This will ensure our container is build again before running the container.
 
 ```bash
-~/S/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Docker master !1 ❯ docker-compose up -d --build
+~Flask-Basic-Docker master ❯ docker-compose up -d --build
 Building web
 <TRUNCATED>
 Successfully tagged flask-basic-docker_web:latest
