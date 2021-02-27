@@ -1,7 +1,7 @@
 ---
 title: Deploy Flask Application with Waypoint to Docker
-date: 2021-01-21T14:39:50+01:00
-draft: true
+date: 2021-02-10T14:39:50+01:00
+draft: false
 categories:
   - Cloud Native
   - DevOps
