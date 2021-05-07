@@ -140,7 +140,7 @@ Let's just follow the instructions we find [here](https://docs.gitlab.com/runner
 ### Install Gitlab runner
 Let's install the Gitlab runner. On the Gitlab runner instance (not the Gitlab instance itself), run the following commands:
 
-```
+```bash
 wim@ubuntu-gitlab-runner:~$ curl -LO https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh
 wim@ubuntu-gitlab-runner:~$ sudo bash script.deb.sh
 <TRUNCATED>
@@ -148,6 +148,13 @@ The repository is setup! You can now install packages.
 wim@ubuntu-gitlab-runner:~$ sudo apt-get install gitlab-runner
 ```
 The Gitlab runner is now installed but not registered with the Gitlab server yet. Let's do that next!
+
+Another way to install Gitlab-runner on a Raspberry Pi is as follows:
+
+```bash
+wim@ubuntu-gitlab-runner:~$ curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_arm64.deb"
+wim@ubuntu-gitlab-runner:~$ sudo dpkg -i gitlab-runner_arm64.deb
+```
 
 ### Register Gitlab runner
 We need to let Gitlab know which Gitlab runners are available. Therefore, run the following commands. You will get some questions along the way (a.o the registration token which you could find in the admin interface under `Overview > Runners`).
