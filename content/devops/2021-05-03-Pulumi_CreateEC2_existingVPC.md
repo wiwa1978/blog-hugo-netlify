@@ -13,7 +13,7 @@ tags:
 ---
 
 ### Introduction
-In this post, we used Pulumi to create an EC2 instance in the default VPC. What follows is going to be a small variation on that post since we will create an EC2 instance but we will place it in an existing VPC that was created before already.
+In [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) post, we used Pulumi to create an EC2 instance in the default VPC. What follows is going to be a small variation on that post since we will create an EC2 instance but we will place it in an existing VPC that was created before already.
 
 ### Begin situation
 
@@ -35,7 +35,7 @@ The code for this small blog post can be found here.
 
 ### Pulumi code
 
-In terms of code, it's not so much different from what we did in this post. However, here we are using the `aws.ec2.Vpc.get` function to retrieve the VPC based on its name and id. The subnet, we retrieve by using the `aws.ec2.get_subnet` function.
+In terms of code, it's not so much different from what we did in [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) post. However, here we are using the `aws.ec2.Vpc.get` function to retrieve the VPC based on its name and id. The subnet, we retrieve by using the `aws.ec2.get_subnet` function.
 
 ```python
 import pulumi
