@@ -1,5 +1,5 @@
 ---
-title: Deploy Flask Application to Docker
+title: Deploy Flask App to Docker
 date: 2021-02-04T05:19:50+01:00
 draft: false
 categories:
@@ -27,6 +27,7 @@ We also don't have any running containers yet:
 ![flask-basic](/images/2021-02-04-2.png)
 
 ### Dockerfile
+
 We begin with creating a Dockerfile. This is just a text file that contains all the commands to be able to run the application on a Docker host.
 
 ```dockerfile
@@ -35,7 +36,7 @@ FROM ubuntu:20.04
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-RUN apt-get update -y && apt-get install -y python3-pip 
+RUN apt-get update -y && apt-get install -y python3-pip
 
 # We copy just the requirements.txt first to leverage Docker cache
 ADD requirements.txt /app/
@@ -52,6 +53,7 @@ CMD ["gunicorn", "-b", "0.0.0.0:5000", "wsgi:app"]
 ```
 
 ### Build the application using Dockerfile
+
 Docker needs a Dockerfile in order to know how to build the application. Let's do this now:
 
 ```bash
@@ -75,12 +77,14 @@ ubuntu                        20.04     f63181f19b2f   10 days ago      72.9MB
 ![flask-basic](/images/2021-02-04-3.png)
 
 ### Run the application using Dockerfile
+
 Next, we can run the Docker image as follows:
 
 ```bash
 ~Flask-Basic-Docker master !2 ❯ docker run -d -p 5000:5000 wiwa1978/docker-flask-basic:latest
 f5224364d5e414aff934a90554562d08c4202d86431326f01930a5105f984747
 ```
+
 Next, let's see if our container is running using the `docker ps` command:
 
 ```bash
@@ -97,8 +101,8 @@ To see our application, use your browser to open `http://127.0.0.1:5000`
 
 ![flask-basic](/images/2021-02-04-5.png)
 
-
 ### Stop the application
+
 Let's stop the application for now.
 
 ```bash
@@ -108,18 +112,18 @@ condescending_lamport
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
-
 ### Docker-Compose
-Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration. 
+
+Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
 
 Although docker-compose is intended to be used for multi-container applications (e.g. think an application with a database) it can also be used for single containers. I admit that there are few advantages to use docker-compose for single container applications but I wanted to add this section here for reference. We might need it anyway for future tutorials.
 
 So, let's have a look at the `docker-compose.yml` file. Create it under your root folder.
 
-
 docker-compose.yml file
+
 ```yaml
-version: '3.6'
+version: "3.6"
 
 services:
   web:
@@ -159,6 +163,7 @@ To see our application, use your browser to open `http://127.0.0.1:50000` (note 
 ![flask-basic](/images/2021-02-04-7.png)
 
 ### Stop the application using Docker-Compose
+
 Stopping the application using docker-compose is very straigthforward. Just issue the `docker-compose down` command and the containers will be removed.
 
 ```bash
@@ -168,6 +173,7 @@ Removing network flask-basic-docker_default
 ```
 
 ### Change the application using Docker-Compose
+
 If we wanted to change the application (e.g. just change some text in our index.html template) it's pretty easy to relaunch the app using docker-compose. We'll how in a second.
 
 For reference, here's the update we made to the index.html file in the templates folder:
@@ -176,6 +182,7 @@ For reference, here's the update we made to the index.html file in the templates
 <span class="block xl:inline">This is an updated version deployed through</span>
 <span class="block text-indigo-600 xl:inline">Docker Compose</span>
 ```
+
 In order to make the update appear, we can run `docker-compose up` again but provide it with the `--build` option. This will ensure our container is build again before running the container.
 
 ```bash
@@ -185,6 +192,7 @@ Building web
 Successfully tagged flask-basic-docker_web:latest
 Recreating flask-basic-docker_web_1 ... done
 ```
+
 ![flask-basic](/images/2021-02-04-8.png)
 
 That's it for now. Pretty easy but we'll use the fundaments in later posts. Check out the full code in [Github](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Flask/Flask-Basic-Docker)
