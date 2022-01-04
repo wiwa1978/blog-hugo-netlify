@@ -1,6 +1,6 @@
 ---
 title: AWS-CDK - Create AWS EC2 instance (existing VPC)
-date: 2021-05-10T14:39:50+01:00
+date: 2021-11-01T14:39:50+01:00
 draft: True
 categories:
   - DevOps
@@ -13,10 +13,10 @@ tags:
 ---
 
 ### Introduction
+
 AWS have always positioned Cloudformation as their Infrastructure as Code tool. However if you ever used Cloudformation, you'll surely have noticed that it could be quite hard at times to use the Cloudformation specification. It's not immediately the easiest framework to learn although it works pretty well. One of the disadvantages though is that you need to learn a specific Cloudformation syntax. Now, AWS have released already quite some time ago the AWS Cloud Development Kit (AWS CDK), specifically developed to allow you to use your favorite programming languag in order to provision your infrastructure.
 
 In this post, we will use AWS CDK to create an EC2 instance. In fact very similar to the work we did in this post because I wanted to get a better feel on how both Pulumi and AWS CDK are different.
-
 
 ### Installing AWS-CDK
 
@@ -65,6 +65,7 @@ Please run 'python3 -m venv .venv'!
 Executing Creating virtualenv...
 ✅ All done!
 ```
+
 As a virtual environment has been created we'll need to activate it.
 
 ```bash
@@ -78,6 +79,7 @@ And next, we'll install all the dependencies in the requirements file as follows
 ```
 
 ### Code to create an EC2 instance
+
 Next, we'll make the necessary changes to create an EC2 instance as well as the required security groups. As a first step, we'll configure some environment variables
 
 ```bash
@@ -86,6 +88,7 @@ export CDK_DEFAULT_REGION=eu-central-1
 export AWS_ACCESS_KEY_ID=******
 export AWS_SECRET_ACCESS_KEY=******
 ```
+
 We also need to make sure AWS CDK knows about these CDK specific environment variables. Hence we need to make a small change in the `app.py` file:
 
 ```python
@@ -95,7 +98,7 @@ from amazon_cdk_existing_vpc.amazon_cdk_existing_vpc_stack import AmazonCdkExist
 app = core.App()
 AmazonCdkExistingVpcStack(app, "AmazonCdkExistingVpcStack",
     env=core.Environment(
-        account=os.getenv('CDK_DEFAULT_ACCOUNT'), 
+        account=os.getenv('CDK_DEFAULT_ACCOUNT'),
         region=os.getenv('CDK_DEFAULT_REGION')
     ),
 )
@@ -116,7 +119,7 @@ As our goal is to create an EC2 instance, we need to add the following import st
 
 ```python
 from aws_cdk import (
-    core, 
+    core,
     aws_ec2 as ec2
 )
 ```
@@ -129,10 +132,10 @@ We will also need to do the following:
 
 Ths file (`aws_cdk_stack.py`) should also contain the code that defines your stack. We will perform the following actions on order to create our stack:
 
-1) Look up the VPC in which we want to create the EC2 instance: we pass the VPC Id as a variable
-2) Create a new security group
-3) Add an ingress rule to the newly created security group
-4) Create the EC2 instance: we pass the instancename, the ami name and the instanceType as variables
+1. Look up the VPC in which we want to create the EC2 instance: we pass the VPC Id as a variable
+2. Create a new security group
+3. Add an ingress rule to the newly created security group
+4. Create the EC2 instance: we pass the instancename, the ami name and the instanceType as variables
 
 ```python
 instanceName="aws-cdk-instance"
@@ -157,7 +160,7 @@ class AmazonCdkExistingVpcStack(cdk.Stack):
             "vpc",
             vpc_id=vpcID
         )
-        
+
         sec_group = ec2.SecurityGroup(
             self,
             "sec-group-allow-http",
@@ -167,7 +170,7 @@ class AmazonCdkExistingVpcStack(cdk.Stack):
 
         sec_group.add_ingress_rule(
             peer=ec2.Peer.ipv4('0.0.0.0/0'),
-            description="Allow HTTP connection", 
+            description="Allow HTTP connection",
             connection=ec2.Port.tcp(8080)
         )
 
@@ -182,6 +185,7 @@ class AmazonCdkExistingVpcStack(cdk.Stack):
             user_data=user_data
         )
 ```
+
 ### Some more explanation
 
 The above code probably requires a bit more explanation, so let's break it up in several pieces:
@@ -189,6 +193,7 @@ The above code probably requires a bit more explanation, so let's break it up in
 ```python
 vpc = ec2.Vpc.from_lookup(self, "vpc", vpc_id=vpcID)
 ```
+
 In the above snippet, we are using the `ec2.Vpc` class. The documentation for this class can be found [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/Vpc.html#vpc). There you can read that `Vpc` can be used to create a VPC. However, we don't want to create a new VPC, we want to use an existing one. Luckily, there is a static method `from_lookup` available that can be used to achieve that. The documentation for this method can be found [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/Vpc.html#aws_cdk.aws_ec2.Vpc.from_lookup). You'll read that this function only needs to be used to use VPCs not defined in your CDK application which is the case.
 
 ```python
@@ -196,7 +201,7 @@ sec_group = ec2.SecurityGroup(self,"sec-group-allow-http",vpc=vpc,allow_all_outb
 sec_group.add_ingress_rule(peer=ec2.Peer.ipv4('0.0.0.0/0'), description="Allow HTTP connection", connection=ec2.Port.tcp(8080))
 ```
 
-Next, we create a security group and we add an ingress rule to it. We are using the `ec2.SecurityGroup` class for which the documentation can be found [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/SecurityGroup.html). In order to create a security group, we pass the id (which is essentially a string), the VPC Id and the 
+Next, we create a security group and we add an ingress rule to it. We are using the `ec2.SecurityGroup` class for which the documentation can be found [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/SecurityGroup.html). In order to create a security group, we pass the id (which is essentially a string), the VPC Id and the
 allow_all_outbound parameter, which specifies whether outbound traffic is allowed or not. Next, we use the `add_ingress_rule` method to add an ingress rule to the security group, in this case to allow inbound traffic on port 8080. The documentation can be found [here](add_ingress_rule).
 
 ```python
@@ -209,6 +214,7 @@ user_data = ec2.UserData.custom(script)
 
 ec2_instance = ec2.Instance(self, "ec2-instance", instance_name=instanceName, instance_type=ec2.InstanceType(instanceType), machine_image=ec2.MachineImage().lookup(name=amiName),vpc=vpc, security_group=sec_group, user_data=user_data)
 ```
+
 Lastly, we create the EC2 instance itself. Documentation can be found [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/Instance.html). It's a pretty straightforward class to use. We are just poassing the instance name, the instance type, the AMI image, the VPC Id and the security group. One particular point to mention here is that we don't have the AMI id for the image we want to use. So we need to look it up through the ec2.MachineImage().lookup() method for which the documentation can be found [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/MachineImage.html#aws_cdk.aws_ec2.MachineImage.lookup).
 
 Another item to point out is how we handle the user data. We simply put our script in a variable called `script`. Then there is the UserData class (see [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/UserData.html)) that we can use to add the script to our object (e.g. we are using the custom method [here](https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ec2/UserData.html))
@@ -245,6 +251,7 @@ AmazonCdkStack: creating CloudFormation changeset...
 Stack ARN:
 arn:aws:cloudformation:eu-central-1:904151566226:stack/AmazonCdkExistingVpcStack/b8b44f70-d349-11eb-bce5-0610691261b8
 ```
+
 Once everything got deployed, you can see the results in your AWS console:
 
 ![awscdk](/images/2021-05-10-1.png)
@@ -261,6 +268,7 @@ We will keep things simple and just update the name of our EC2 instance. So the 
 # Change the name
 instanceName="aws-cdk-instance-updated"
 ```
+
 ```bash
 (.venv) /Webserver/AmazonCDK_existingVPC❯ cdk deploy
 AmazonCdkExistingVpcStack: deploying...
@@ -271,6 +279,7 @@ AmazonCdkExistingVpcStack: creating CloudFormation changeset...
 Stack ARN:
 arn:aws:cloudformation:eu-central-1:904151566226:stack/AmazonCdkExistingVpcStack/b8b44f70-d349-11eb-bce5-0610691261b8
 ```
+
 ### Destroy an EC2 instance
 
 ```
@@ -279,7 +288,6 @@ Are you sure you want to delete: AmazonCdkExistingVpcStack (y/n)? y
 AmazonCdkExistingVpcStack: destroying...
 
  ✅  AmazonCdkExistingVpcStack: destroyed
- ```
+```
 
 This blog post took quite a while. To be honest, AWS-CDK is not the easiest tool and it takes some time to familiarize yourself with it to be honest. If you want to experiment further, my code can be found [here]().
-

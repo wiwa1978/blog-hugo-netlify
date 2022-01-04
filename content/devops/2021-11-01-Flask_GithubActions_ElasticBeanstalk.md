@@ -1,7 +1,7 @@
 ---
 title: Deploy Flask App to Beanstalk using Github Actions
 date: 2021-10-01T10:19:50+01:00
-draft: true
+draft: false
 categories:
   - Cloud Native
   - DevOps
@@ -14,12 +14,18 @@ tags:
 
 ### Introduction
 
+In the previous [post](https://blog.wimwauters.com/devops/2021-10-29-flask_elasticbeanstalk/), we deployed a very basic Flask application to AWS Elastic Beanstalk using the CLI. This is likely not the way you would want to deploy applications. So I've been messing around with Github Actions a bit. Find below how to deploy the same application using a CICD pipeline.
+
 ### Running the application locally
+
+First off, in case you did not follow along with the previous post, let's verify if our app works locally. Next, clone the code ([here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Beanstalk)). Then create a Python virtual environment and install the requirements as follows:
 
 ```bash
 ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ python3 -m venv venv
 ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ source venv/bin/activate
 ```
+
+Next, run the application using `gunicorn`.
 
 ```bash
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ gunicorn --bind 0.0.0.0:5000 wsgi:application -w 1
@@ -29,9 +35,15 @@ tags:
 [2021-10-27 16:19:19 +0200] [47653] [INFO] Booting worker with pid: 47653
 ```
 
+I hope you'll trust me that our app is running just fine locally.
+
 ### Uploading to Github
 
+Next, let's dive into Github a bit. First action is to create a Github repository for our application. In my case, it's called `flask-basic-cicd-github-beanstalk`.
+
 ![flask-basic-beanstalk](/images/2021-11-01-1.png)
+
+Once the repo has been created, you will receive some instructions to configure you're local git repository. In the directory where you cloned the application, issue the following commands (note: since you cloned there will already be a .git folder, so you might want to remove that one first by issuing a `rm -rfv .git` command).
 
 ![flask-basic-beanstalk](/images/2021-11-01-2.png)
 
@@ -72,17 +84,23 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-beanstalk.git
  * [new branch]      main -> main
 ```
 
+If all went well, you will see that your local application folder is now also available in the remote repo on Github
+
 ![flask-basic-beanstalk](/images/2021-11-01-3.png)
 
 ### Github Actions
 
+As a next step, let's tackle the Github Actions part. You should see the screen below:
+
 ![flask-basic-beanstalk](/images/2021-11-01-4.png)
 
-Click on setup a workflow yourself. Next you will see a proposal `main.yml` file from Github Actions. Go ahead and commit that file to the main repository. You will see that this file is being put in a `.github/workflows` folder.
+The idea is that Github Actions will look for a certain file (main.yml) in a particular folder (.github/workflows) in your repo. When it finds such a file, it will automatically go ahead and execute the actions that are described in that file. So how to get that `main.yml` file?
+
+Click on setup a workflow yourself. Next you will see a proposal `main.yml` file from Github Actions. For now, it doesn't really matter what is in that file. Go ahead and commit that file (using the Github webinterface) to the main repository. You will see that this file is being put in a `.github/workflows` folder.
 
 ![flask-basic-beanstalk](/images/2021-11-01-5.png)
 
-As a next step, you need to pull the latest changes from Github to your local git repository.
+Right now, your remote git repository has a folder `.github/worklflows` that is not available in your local git repository. So as a next step, you need to pull the latest changes from Github to your local git repository. One way of doing this is as follows:
 
 ```bash
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git pull origin main
@@ -104,6 +122,9 @@ Fast-forward
 Now the file is available locally and we can edit it.
 
 ### Changing the Github actions workflow
+
+As this was just a generic `main.yml` file proposed by Github, we need to tweak it to do exactly that what we want it to do (which is deploying the application to Beanstalk of course).
+To start off with, we will checkout the application in a certain workspace. Then we install the dependencies and test the application. You'll surely notice that after each `RUN` command, we just provide a list of commands we want to execute.
 
 ```yml
 # This is a basic workflow to help you get started with Actions
@@ -148,7 +169,7 @@ jobs:
           python test_application.py
 ```
 
-Upload the file to Github:
+Next, as this file is now only available in our local repository, we need to upload it to Github:
 
 ```bash
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git add .
@@ -157,7 +178,8 @@ Upload the file to Github:
  3 files changed, 14 insertions(+), 10 deletions(-)
  create mode 100644 __pycache__/application.cpython-39.pyc
  create mode 100644 __pycache__/wsgi.cpython-39.pyc
-(venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯  git push origin mainEnumerating objects: 12, done.
+(venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯  git push origin main
+Enumerating objects: 12, done.
 Counting objects: 100% (12/12), done.
 Delta compression using up to 12 threads
 Compressing objects: 100% (6/6), done.
@@ -168,21 +190,25 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-beanstalk.git
    0d2e0a9..8528605  main -> main
 ```
 
-You will see that automatically a Github workflow will be executed:
+As we mentioned before, once Github detects this file, it will start automatically the Github workflow. After a while, if all went well, you will see that the workflow got executed successfully.
 
 ![flask-basic-beanstalk](/images/2021-11-01-6.png)
 
-If you cleck on the workflow you will be able to see some details, exactly the steps that we defined in the workflow file.
+If you click on the workflow you will be able to see some details, exactly the steps that we defined in the workflow file.
 
 ![flask-basic-beanstalk](/images/2021-11-01-7.png)
 
 ### Adding AWS secrets to Github
 
+It's about time now to focus on the deployment of the application to Elastic Beanstalk. We need to supply Github with our AWS credentials. Obviously it's a bad idea to hardcode them into our application or into the Github workflow file. The proper way to achieve this is to create secret variables in Github itself. Go to settings and secrets and create the variables (see screenshot for the variable names).
+
 ![flask-basic-beanstalk](/images/2021-11-01-8.png)
 
 ### Deploy the application
 
-Next, we will deploy the application.
+Next, we will deploy the application. To do so, we can modify the `main.yml` file by providing the commands that we want to execute. In below file you'll notice we start off with an ubuntu image (running as a container). Obviously that image does not have the Elastic Beanstalk CLI installed by default so we start off with the installation of the CLI.
+
+Next, we read out the AWS environment variables so they are available within our container. And then finally, we issue the EBS commands to deploy the application.
 
 ```yml
 deploy:
@@ -230,6 +256,8 @@ deploy:
         (eb use test-environment && eb status test-environment && eb deploy) || eb create test-environment
 ```
 
+Once our workflow file is ready, add it to the Github repository as follows:
+
 ```bash
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git add .
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git commit -m "Adding deploy step"
@@ -247,11 +275,11 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-beanstalk.git
    8528605..2e8921c  main -> main
 ```
 
-You will see that Github automatically started executing the workflow:
+Again, you will see that Github automatically started executing the workflow:
 
 ![flask-basic-beanstalk](/images/2021-11-01-9.png)
 
-Again, click on the workflow run to see more details:
+Click on the workflow run to see more details:
 
 ![flask-basic-beanstalk](/images/2021-11-01-10.png)
 
@@ -259,7 +287,10 @@ If all goes well, after some time you will see a green indication that everythin
 
 ![flask-basic-beanstalk](/images/2021-11-01-11.png)
 
-Now we need to know what the URL is. You will find that in the details of the `Create test environment & deploy` step. In my case, it appears to be: http://test-environment.eba-mg8ypbdj.eu-central-1.elasticbeanstalk.com/. See also the screenshot below:
+Our application is now deployed onto Elastic Beanstalk. But where to find it, what URL has been created for us?
+
+You will find that in the details of the `Create test environment & deploy` step. In my case, it appears to be: http://test-environment.eba-mg8ypbdj.eu-central-1.elasticbeanstalk.com/.
+See also the screenshot below. BTW: clicking on this URL will not work as I deleted the Beanstalk environment after creating this blog post).
 
 ![flask-basic-beanstalk](/images/2021-11-01-12.png)
 
@@ -269,7 +300,7 @@ Visiting that link results in our application being shown:
 
 ### Updating the application
 
-We will update our application. In my case, I updated the index.html file by adding the words `version 2` to the tagline text under the title:
+As we did in previous posts, we will update our application. In my case, I updated the index.html file by adding the words `version 2` to the tagline text under the title. As we made a change to our application, we need to sync it to our remote Git repo.
 
 ```bash
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git add .
