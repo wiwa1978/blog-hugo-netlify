@@ -1,5 +1,5 @@
 ---
-title: Deploy Flask App to AWS EBS using Github Actions
+title: Deploy Flask App to EBS using Github Actions
 date: 2021-11-01T10:19:50+01:00
 draft: false
 categories:

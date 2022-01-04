@@ -1,5 +1,5 @@
 ---
-title: Deploy Flask App to AWS EBS using CLI
+title: Deploy Flask App to EBS using CLI
 date: 2021-10-29T10:19:50+01:00
 draft: false
 categories:
