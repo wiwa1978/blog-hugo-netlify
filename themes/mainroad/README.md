@@ -1,31 +1,24 @@
 # Mainroad
 
 **Mainroad** is a responsive, simple, clean and content-focused [Hugo](https://gohugo.io/) theme based on the
-[MH Magazine lite](https://wordpress.org/themes/mh-magazine-lite/) WordPress theme by
-[MH Themes](https://www.mhthemes.com/).
+[MH Magazine lite](https://wordpress.org/themes/mh-magazine-lite/) WordPress theme.
 
-**[Demo (Fast update)](https://hugothemes.gitlab.io/mainroad/)** |
-[Standart Demo](https://themes.gohugo.io/theme/mainroad/)
+**[Demo](https://mainroad-demo.netlify.app/)**
 
-![screenshot](https://github.com/Vimux/mainroad/blob/master/images/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/Vimux/Mainroad/master/images/screenshot.png)
 
 **Features:**
 
-+ Hugo internal templates (Open Graph, Twitter Cards, Disqus, Google Analytics)
-+ Responsive menu
-+ Secondary menus
-+ SVG icons
-+ Theme options (Sidebar position, Author Box, Post Navigation, highlight color) available through config.toml file
-parameters
-+ Table of Contents
-+ MathJax
-
-**Browser support:**
-
-+ **Desktop:** IE11+, Chrome, Firefox, Safari
-+ **Mobile:** Android browser (on Android 4.4+), Safari (on iOS 7+), Google Chrome, Opera mini
-
-Other browsers (like Opera on Blink engine) are also supported, but not tested.
++ Responsive design
++ Main & secondary menus
++ Widgetized sidebar
++ Translations. Over 15 languages and counting
++ Configurable theme settings (sidebar position, author box, post navigation, highlight color) via `config.toml`
++ Hugo internal templates (Open Graph, Schema, Twitter Cards, Disqus, Google Analytics)
++ Wide cross-browser compatibility
+  + *Desktop: IE11+, Chrome, Firefox, Safari*
+  + *Mobile: Android browser (on Android 4.4+), Safari (on iOS 7+), Google Chrome, Opera mini*
++ Custom Google Fonts support, MathJax, Table of Contents, SVG icons and much more…
 
 ## Installation
 
@@ -74,24 +67,44 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   avatar = "img/avatar.png"
 
 [Params]
-  subtitle = "Just another site" # Subtitle of your site. Used in site header
   description = "John Doe's Personal blog about everything" # Site description. Used in meta description
   copyright = "John Doe" # Footer copyright holder, otherwise will use site title
   opengraph = true # Enable OpenGraph if true
+  schema = true # Enable Schema
   twitter_cards = true # Enable Twitter Cards if true
   readmore = false # Show "Read more" button in list if true
   authorbox = true # Show authorbox at bottom of pages if true
   toc = true # Enable Table of Contents
-  post_navigation = true # Show post navigation at bottom of pages if true
-  post_meta = ["date", "categories", "translations"] # Order of post meta information
+  pager = true # Show pager navigation (prev/next links) at the bottom of pages if true
+  post_meta = ["author", "date", "categories", "translations"] # Order of post meta information
   mainSections = ["post", "blog", "news"] # Specify section pages to show on home page and the "Recent articles" widget
   dateformat = "2006-01-02" # Change the format of dates
   mathjax = true # Enable MathJax
   mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js" # Specify MathJax path
   mathjaxConfig = "TeX-AMS-MML_HTMLorMML" # Specify MathJax config
-  highlightColor = "#e22d30" # Override highlight color
+  googleFontsLink = "https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700" # Load Google Fonts
   customCSS = ["css/custom.css"] # Include custom CSS files
   customJS = ["js/custom.js"] # Include custom JS files
+
+  # DEPRECATED PARAMS
+  subtitle = "" # Deprecated in favor of .Site.Params.logo.subtitle
+  highlightColor = "" # Deprecated in favor of .Site.Params.style.vars.highlightColor
+
+[Params.style.vars]
+  highlightColor = "#e22d30" # Override highlight color
+
+  # Override font-family sets. Secondary font-family set responsible for pre, code, kbd, and samp tags font
+  # Take care of different quotes OR escaping symbols in these params if necessary
+  fontFamilyPrimary = "'Open Sans', Helvetica, Arial, sans-serif"
+  fontFamilySecondary = "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+
+[Params.logo]
+  image = "img/placeholder.png" # Logo image. Path relative to "static"
+  title = "Mainroad" # Logo title, otherwise will use site title
+  subtitle = "Just another site" # Logo subtitle
+
+[Params.thumbnail]
+  visibility = ["list", "post"] # Control thumbnail visibility
 
 [Params.sidebar]
   home = "right" # Configure layout for home page
@@ -99,9 +112,12 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
   single = false # Configure layout for single pages
   # Enable widgets in given order
   widgets = ["search", "recent", "categories", "taglist", "social", "languages"]
+  # alternatively "ddg-search" can be used, to search via DuckDuckGo
+  # widgets = ["ddg-search", "recent", "categories", "taglist", "social", "languages"]
 
 [Params.widgets]
   recent_num = 5 # Set the number of articles in the "Recent articles" widget
+  categories_counter = false # Enable counter for each category in "Categories" widget
   tags_counter = false # Enable counter for each tag in "Tags" widget
 
 [Params.widgets.social]
@@ -124,7 +140,7 @@ googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 
 [[Params.widgets.social.custom]]
   title = "My Home Page"
-  url = "http://example.com"
+  url = "https://example.com"
 ```
 
 A good idea is not to copy all these settings without understanding how it works. Use only those parameters that you
@@ -150,17 +166,61 @@ tags:
 menu: main # Optional, add page to a menu. Options: main, side, footer
 
 # Theme-Defined params
-thumbnail: "img/placeholder.jpg" # Thumbnail image
+thumbnail: "img/placeholder.png" # Thumbnail image
 lead: "Example lead - highlighted near the title" # Lead text
 comments: false # Enable Disqus comments for specific page
 authorbox: true # Enable authorbox for specific page
+pager: true # Enable pager navigation (prev/next) for specific page
 toc: true # Enable Table of Contents for specific page
 mathjax: true # Enable MathJax for specific page
+sidebar: "right" # Enable sidebar (on the right side) per page
+widgets: # Enable sidebar widgets in given order per page
+  - "search"
+  - "recent"
+  - "taglist"
 ---
 ```
 
 For more information about front matter variables read
 [Hugo Front Matter](https://gohugo.io/content-management/front-matter) from Hugo official documentation.
+
+### Logo
+
+**Mainroad** allows you to set a custom logo in the site header. You may use text, or image, or both. Use the following
+options in your site config:
+
+```toml
+[Params.logo]
+  image = "img/placeholder.png"
+  title = "Mainroad"
+  subtitle = "Just another site"
+```
+
+Please be noted that the logo image will display at a maximum width of 128 pixels and a maximum height of 128 pixels
+when you use text and image simultaneously. When the only logo image is active, it will display at a maximum height of
+256 pixels. Ideally, your image should be SVG.
+
+### Thumbnail visibility
+
+By default, a thumbnail image has shown for a list and single pages simultaneously. In some cases, you may want to show
+a thumbnail for list-like pages only and hide it on single pages (or vice versa). Control global thumbnail visibility
+via config.
+
+```toml
+[Params.thumbnail]
+  visibility = ["list"]
+```
+
+Besides global configuration, you can change thumbnail visibility individually with extended thumbnail notation via
+front matter.
+
+```yaml
+thumbnail:
+  src: "img/placeholder.png"
+  visibility:
+    - list
+    - post
+```
 
 ### Sidebar
 
