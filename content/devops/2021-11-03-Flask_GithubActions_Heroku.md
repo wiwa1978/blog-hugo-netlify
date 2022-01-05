@@ -1,20 +1,24 @@
 ---
 title: Deploy Flask App to Heroku using Github Actions
-date: 2021-10-03T10:19:50+01:00
-draft: true
+date: 2021-11-03T10:19:50+01:00
+draft: false
 categories:
   - Cloud Native
   - DevOps
   - All
 tags:
   - Flask
-  - Elastic Beanstalk
+  - Heroku
   - Github Actions
 ---
 
 ### Introduction
 
+In some earlier blogposts, we experimented a bit with deplouments to various different platforms. We deployed our basic Flask Application to [Docker directly](https://blog.wimwauters.com/devops/2021-02-04-flaskbasic-docker/) or [Docker via Hashicorp Waypoint](https://blog.wimwauters.com/devops/2021-02-10-flaskbasic-waypoint-docker/) or even to [Elastic Beanstalk](https://blog.wimwauters.com/devops/2021-10-29-flask_elasticbeanstalk/). We also deployed to [Heroku](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) before. In this post, we will focus again on deployment of our app to Heroku but rather through making use of Github Actions (as opposed to using Heroku git as we did in that earlier Heroku post).
+
 ### Running the application locally
+
+I always like to make sure my application is working on my local dev environment. No point in deploying an app that is failing already locally. If you have been following along earlier posts, you know the drill. In case you are new, just clone the code ([here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Heroku)). Then create a Python virtual environment and install the requirements as follows:
 
 ```bash
 ~/Flask-Basic-CICD-GithubActions-Heroku ❯ python3 -m venv venv
@@ -27,15 +31,18 @@ tags:
 [2021-10-28 08:48:36 +0200] [83788] [INFO] Booting worker with pid: 83788
 ```
 
+If all is well, you should see our application on http://localhost:5000
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-1.png)
-
-```bash
-
-```
 
 ### Uploading to Github
 
+Next we will create a Github repository for our application. In my case, it’s called flask-basic-cicd-github-heroku.
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-2.png)
+
+You will find also some instructions to configure git and upload the code to the repository.
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-3.png)
 
 ```bash
@@ -69,11 +76,14 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-heroku.git
 
 ### Github Actions
 
+Next, let's focus on the Github Actions part a bit.
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-4.png)
 
 Click on setup a workflow yourself. Next you will see a proposal `main.yml` file from Github Actions. Go ahead and commit that file to the main repository. You will see that this file is being put in a `.github/workflows` folder.
 
 ![flask-basic-githubactions-heroku](/images/2021-11-03-5.png)
+
 As a next step, you need to pull the latest changes from Github to your local git repository.
 
 ```bash
@@ -97,17 +107,19 @@ Now the file is available locally and we can edit it.
 
 ### Changing the Github actions workflow
 
-Explain concept of Github Marketplace
+As we mentioned in a previous post we can just edit the main.yml and add the instructions we want to see executed. This sometimes can be a bit cumbersome. Luckily there is Github Marketplace. Essentially it allows you to broiwse through prepared workflows build by other developers. You could then use these as a basis and/or extend them.
 
-More info about this plugin can be found [here](https://github.com/marketplace/actions/deploy-to-heroku)
-
-![flask-basic-githubactions-heroku](/images/2021-11-03-6.png)
-
-As a minimum, we need to supply three parameters:
+In our case, we will be using a specific Github Actions workflow to deploy easily to Heroku. More info about this plugin can be found [here](https://github.com/marketplace/actions/deploy-to-heroku). In the documentation, you'll notice that all we need to provide is:
 
 - heroku_api_key
 - heroku_app_name
 - heroku_email
+
+These parameters/secrets will be configuered in one of the next sections.
+
+![flask-basic-githubactions-heroku](/images/2021-11-03-6.png)
+
+Below is the entire Github Actions workflow file.
 
 ```yml
 # This is a basic workflow to help you get started with Actions
@@ -142,9 +154,9 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
 ```
 
-Let's create an application on Heroku and retrieve the correct values for each of the above mentioned parameters.
-
 ### Setting up Heroku
+
+Let's create an application on Heroku and retrieve the correct values for each of the above mentioned parameters.
 
 ![flask-basic-githubactions-heroku](/images/2021-11-03-7.png)
 
@@ -154,11 +166,13 @@ Next, go to `Account Settings` and scroll down to API Key and generate a new key
 
 ### Configuring Github Actions
 
-Go to `Settings > Secrets` and add the parameters we mentioned in the previous section.
+As we mentioned above, we need to supply these parameters/secrets to our Github Actions workflow in the form of environment variables. Therefore, go to `Settings > Secrets` and add the parameters we mentioned in the previous section.
 
 ![flask-basic-githubactions-heroku](/images/2021-11-03-9.png)
 
 ### Deploy application
+
+Now it's time to finally deploy our application. We will just sync our local Git repo with the repository on Github.
 
 ```bash
 (venv) ~/Flask-Basic-CICD-GithubActions-Heroku ❯ git add .
@@ -177,17 +191,25 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-heroku.git
    59d309e..3e93db3  main -> main
 ```
 
+As it contains a .workflows/main.yml file, we expect Github Actions to trigger that automatically.
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-10.png)
+
+And in the detailed view you see exactly an overview of the tasks that were executed.
 
 ![flask-basic-githubactions-heroku](/images/2021-11-03-11.png)
 
+Also in your Heroku account, you will get an overview of what has happened:
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-12.png)
+
+And finally, after the application has been deployed at Heroku, you can open the browser directly from Heroku. It will show our application.
 
 ![flask-basic-githubactions-heroku](/images/2021-11-03-13.png)
 
 ### Update application
 
-Update the index.html file, really doesn't matter as we just want to see that the update works fine. In my case, I have changed the titel to `This app is deployed through Github Actions to Heroku` (instead of `This *will* be deployed...`) and I added `version 2` to the tagline under the title.
+Update the index.html file. It really doesn't matter what change you make as we just want to see that an update is also handled properly by our workflow. In my case, I have changed the titel to `This app is deployed through Github Actions to Heroku` (instead of `This *will* be deployed...`) and I added `version 2` to the tagline under the title.
 
 ```bash
 (venv) ~/Flask-Basic-CICD-GithubActions-Heroku ❯  git add .
@@ -206,10 +228,16 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-heroku.git
    3e93db3..136019c  main -> main
 ```
 
+Again, our workflow will be executed automatically as indicated in below screenshot.
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-14.png)
+
+And verify one again in your Heroku account that the app is currently being deployed.
 
 ![flask-basic-githubactions-heroku](/images/2021-11-03-15.png)
 
+And when finished...indeed you will see an updated version of the application.
+
 ![flask-basic-githubactions-heroku](/images/2021-11-03-16.png)
 
-Code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Heroku)
+Heroku is a really powerful platform, I like it a lot. And also the close integration with Github makes it very straightforward to deploy applications. As always, hope you enjoyed this post. The code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Heroku).
