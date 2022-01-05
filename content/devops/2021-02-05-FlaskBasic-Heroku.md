@@ -1,5 +1,5 @@
 ---
-title: Deploy Flask App to Heroku
+title: Deploy Flask App to Heroku using Heroku git
 date: 2021-02-05T10:19:50+01:00
 draft: False
 categories:
