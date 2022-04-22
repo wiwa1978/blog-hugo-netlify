@@ -53,9 +53,11 @@ Since we cloned the repository, we can run the application locally first to veri
 
 ![flask-basic-beanstalk](/images/2021-10-29-1.png)
 
+Obviously the app is at this moment still running on our local environment, so note the words `will be deployed`.
+
 ### Create Beanstalk environment
 
-Next, let's focus on the AWS Beanstalk environment. To do so, add your AWS credentials to the `~/.aws/credentials` file:
+Next, let's focus on the AWS Beanstalk environment. To do so, create a user in IAM and attach the `AdministratorAccess-AWSElasticBeanstalk` policy to the user you just created. Next, add your AWS credentials to the `~/.aws/credentials` file:
 
 ```bash
 [elasticbeanstalk]
@@ -70,11 +72,13 @@ Run the following command in your project folder to initialize the application a
 Application Flask_Example_EB has been created.
 ```
 
-You will see that an Elastic Beanstalk environment has been created for us.
+Note: the `--profile elasticbeanstalk` refers to the entry you created in the `~/.aws/credentials` file.
+
+Ensure you go to `Applications` on the UI and you will see that an Elastic Beanstalk environment has been created for us.
 
 ![flask-basic-beanstalk](/images/2021-10-29-2.png)
 
-Next we need to create an environment.
+Next we need to create an environment (which takes a while to get created)
 
 ```bash
 ~/Flask/Flask-Basic-Beanstalk ❯ eb create test-environment
@@ -109,7 +113,7 @@ Printing Status:
 2021-10-27 13:28:42    INFO    Successfully launched environment: test-environment
 ```
 
-In your AWS console, you will find the created environment:
+In your AWS console, under the `Environments` tab you will find the created environment:
 
 ![flask-basic-beanstalk](/images/2021-10-29-3.png)
 
@@ -179,4 +183,4 @@ You will see that the application and environment is still visible despite the `
 
 ![flask-basic-beanstalk](/images/2021-10-29-9.png)
 
-Code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Beanstalk)
+Code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Beanstalk).

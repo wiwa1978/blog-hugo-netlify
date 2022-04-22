@@ -14,7 +14,7 @@ tags:
 
 ### Introduction
 
-In some earlier blogposts, we experimented a bit with deplouments to various different platforms. We deployed our basic Flask Application to [Docker directly](https://blog.wimwauters.com/devops/2021-02-04-flaskbasic-docker/) or [Docker via Hashicorp Waypoint](https://blog.wimwauters.com/devops/2021-02-10-flaskbasic-waypoint-docker/) or even to [Elastic Beanstalk](https://blog.wimwauters.com/devops/2021-10-29-flask_elasticbeanstalk/). We also deployed to [Heroku](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) before. In this post, we will focus again on deployment of our app to Heroku but rather through making use of Github Actions (as opposed to using Heroku git as we did in that earlier Heroku post).
+In some earlier blogposts, we experimented a bit with deployments to various different platforms. We deployed our basic Flask Application to [Docker directly](https://blog.wimwauters.com/devops/2021-02-04-flaskbasic-docker/) or [Docker via Hashicorp Waypoint](https://blog.wimwauters.com/devops/2021-02-10-flaskbasic-waypoint-docker/) or even to [Elastic Beanstalk](https://blog.wimwauters.com/devops/2021-10-29-flask_elasticbeanstalk/). We also deployed to [Heroku](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) before. In this post, we will focus again on deployment of our app to Heroku but rather through making use of Github Actions (as opposed to using Heroku git as we did in that earlier Heroku post).
 
 ### Running the application locally
 

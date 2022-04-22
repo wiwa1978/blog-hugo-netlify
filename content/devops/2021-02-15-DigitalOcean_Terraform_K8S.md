@@ -12,6 +12,7 @@ tags:
   - DigitalOcean
   - Kubernetes
 ---
+
 ### Introduction
 
 In this post, we are going to create a Kubernetes cluster on DigitalOcean using Terraform. Something I wanted to do already for quite some time but never got to it really. In the past we have used already some different methods to install a Kubernetes cluster. He's an overview:
@@ -42,7 +43,7 @@ resource "digitalocean_kubernetes_cluster" "kubernetes_cluster" {
   # This default node pool is mandatory
   node_pool {
     name       = var.k8s_poolname
-    size       = "s-2vcpu-2gb" 
+    size       = "s-2vcpu-2gb"
     auto_scale = false
     node_count = var.k8s_count
     tags       = ["node-pool-tag"]
@@ -88,6 +89,7 @@ variable "k8s_count" {
 The tricky part here might be to find out what are the values that can be used for e.g. the k8s_version variable, or the compute size. We can use a Digitalocean CLI tool for that called DOCTL. Installation instructions can be found [here](https://www.digitalocean.com/docs/apis-clis/doctl/how-to/install/).
 
 For the compute size:
+
 ```bash
 ~/DigitalOcean_Terraform/kubernetes master ❯ doctl compute size list
 Slug                  Memory    VCPUs    Disk    Price Monthly    Price Hourly
@@ -100,6 +102,7 @@ s-2vcpu-2gb           2048      2        60      15.00            0.022320
 ```
 
 For the regions:
+
 ```bash
 ~/DigitalOcean_Terraform/kubernetes master !3 ?5 ❯ doctl compute region list
 Slug    Name               Available
@@ -119,6 +122,7 @@ sfo3    San Francisco 3    true
 ```
 
 ### Perform Terraform deployment
+
 Next, let's get started with the Terraform part. First, run `terraform init` to download the required providers
 
 ```bash
@@ -213,11 +217,11 @@ Note: You didn't specify an "-out" parameter to save this plan, so Terraform
 can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
 ```
+
 And finally, let's apply the configuration through `terraform apply`
 
-
 ```bash
-~/DigitalOcean_Terraform/kubernetes master !3 ?5 ❯ terraform apply --auto-approve 
+~/DigitalOcean_Terraform/kubernetes master ❯ terraform apply --auto-approve
 digitalocean_kubernetes_cluster.kubernetes_cluster: Creating...
 digitalocean_kubernetes_cluster.kubernetes_cluster: Still creating... [10s elapsed]
 digitalocean_kubernetes_cluster.kubernetes_cluster: Still creating... [20s elapsed]
@@ -237,6 +241,7 @@ Outputs:
 
 cluster-id = 02b7c276-b262-4a32-8178-26d812a1623b
 ```
+
 During cluster provisioning you will see the progress bar moving to the right.
 
 ![k8s_terraform](/images/2021-02-15-2.png)
@@ -254,13 +259,13 @@ And it will tell you to download the config file:
 Next we will connect to our Kubernetes cluster. To achieve that, we need to download the kubeconfig file. We can use CURL to do this. First, let's create an environment variable with our cluster ID.
 
 ```bash
-~DigitalOcean_Terraform/kubernetes master ❯ export CLUSTER_ID=02b7c276-b262-4a32-8178-26d812a1623b  
+~DigitalOcean_Terraform/kubernetes master ❯ export CLUSTER_ID=02b7c276-b262-4a32-8178-26d812a1623b
 ```
 
 Next, let's go ahead and download the kubectl config file
 
 ```bash
-~DigitalOcean_Terraform/kubernetes master ❯ curl -X GET \ 
+~DigitalOcean_Terraform/kubernetes master ❯ curl -X GET \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer 2c5****95e8f6b9b75714dd5" \
 "https://api.digitalocean.com/v2/kubernetes/clusters/$CLUSTER_ID/kubeconfig" \
@@ -269,27 +274,31 @@ Next, let's go ahead and download the kubectl config file
                                  Dload  Upload   Total   Spent    Left  Speed
 100  2020    0  2020    0     0    952      0 --:--:--  0:00:02 --:--:--   952
 ```
+
 This will download a config file in your current repository. Now we need to set the `KUBECONFIG` environment variable to point to the download config file in our folder. We can do this as follows:
 
 ```bash
 ~DigitalOcean_T/kubernetes master ❯export KUBECONFIG=$(pwd)/config
 ```
+
 Let's now see if everything works as expected:
 
 ```bash
-~DigitalOcean_T/kubernetes master !3 ?5 ❯ kubectl cluster-info 
+~DigitalOcean_T/kubernetes master ❯ kubectl cluster-info
 Kubernetes master is running at https://02b7c276-b262-4a32-8178-26d812a1623b.k8s.ondigitalocean.com
 CoreDNS is running at https://02b7c276-b262-4a32-8178-26d812a1623b.k8s.ondigitalocean.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 ```
+
 This gives back indeed information related to our DigitalOcean Kubernetes cluster. Let's see our nodes:
 
 ```bash
-~/S/P/blog-hugo-netlify-code/DigitalOcean_T/kubernetes master !3 ?5 ❯ kubectl get nodes
+~DigitalOcean_T/kubernetes master ❯ kubectl get nodes
 NAME                STATUS   ROLES    AGE     VERSION
 worker-pool-39dfa   Ready    <none>   6m53s   v1.19.3
 worker-pool-39dfe   Ready    <none>   6m50s   v1.19.3
 worker-pool-39dfg   Ready    <none>   7m3s    v1.19.3
 ```
+
 And indeed, also here we get the workers from our Kubernetes cluster. All works, have fun deploying some applications onto the K8S cluster. Code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/DigitalOcean_Terraform/kubernetes).

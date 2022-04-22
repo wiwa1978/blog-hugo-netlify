@@ -15,7 +15,7 @@ tags:
 
 ### Introduction
 
-In [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post we have created a very basic Flask application. We have deployed it to Docker in [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic-Docker) post. Now we want to deploy it onto Heroku, a container based PaaS platform (hence fully managed) that allows us to build and run our applications entirely in the cloud. If you want to follow along, it would be best to also first read [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) and [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic-Docker) post. All code in this post will entirely be based on the code from these articles.
+In [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post we have created a very basic Flask application. We then created a Docker container and ran it locally in [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic-Docker) post. Now we want to deploy it onto Heroku, which is essentially a container based PaaS platform (and hence fully managed) that allows us to build and run our applications entirely in the cloud. All code in this post will entirely be based on the code from the articles I referred to above.
 
 ### Create Heroku account
 
@@ -35,7 +35,7 @@ Once the app has been created successfully, you will get a detailed page that al
 
 ### Flask application
 
-Next, let's have a look at our Flask application. I won't repeate the application specific code here but you can use the code from our Flask Docker tutorial. You can find it [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Docker).
+Next, let's have a look at our Flask application. I won't repeat the application specific code here but you can use the code from our [Flask Docker tutorial](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Docker).
 
 Ensure that your requirements.txt file is up to date and also has a gunicorm reference. If not, you can recreate the requirements file as follows. Do make sure you are within your virtual environment though.
 
@@ -45,7 +45,7 @@ Ensure that your requirements.txt file is up to date and also has a gunicorm ref
 ~/Flask/Flask-Basic-Heroku main ❯ pip3 freeze > requirements.txt
 ```
 
-Note: as mentioned, I used the code from the Flask Docker post but I made a minor change. I have put the `wsgi.py` file under the root of my project (because of Heroku). This implies I also made a change to the from line to ensure my app can be found. So the wsgi.py file should be put under the root folder and should be changed to the following:
+Note: as mentioned, I used the code from the Flask Docker post but I made a minor change. I have put the `wsgi.py` file under the root of my project (because of Heroku). This implies I also made a change to the `from` line to ensure my app can be found. It looks like the below:
 
 ```python
 from app.app import app
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
 ### Create a Procfile
 
-A Procfile is a mechanism for declaring what commands must be run by your application's dynos on the Heroku platform. It basically tells Heroku what commands to execute. To that extend, create a Procfile under the root of your folder. Note this file is case-sensitive and should have a capital P.
+A Procfile is a mechanism for declaring what commands must be run by your application's dynos on the Heroku platform. Dyno's are small and lightweight containers that execute the code. So the procfile in fact tells Heroku what commands to execute. To that extend, create a Procfile under the root of your folder. Note this file is case-sensitive and should have a capital `P`.
 
 The below command will just tell heroku to run the `gunicorn` command to execute the wsgi,py file with the app entrypoint.
 
@@ -117,6 +117,8 @@ remote: Verifying deploy... done.
 To https://git.heroku.com/flask-basic-heroku.git
  * [new branch]      master -> master
 ```
+
+Note: depending on when you follow this tutorial it might be that heroku switched from `master` to `main` branches. Hence, the line `git push heroku master` becomes `git push heroku main`.
 
 During deployment, Heroku will also build your application and provide your with a URL that points to your application. Use that URL in your browser and if all went well you should see your application.
 
