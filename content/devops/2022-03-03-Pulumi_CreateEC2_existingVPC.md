@@ -1,7 +1,7 @@
 ---
 title: Pulumi - Create AWS EC2 instance (existing VPC)
-date: 2021-05-03T14:39:50+01:00
-draft: False
+date: 2022-03-03T14:39:50+01:00
+draft: True
 categories:
   - DevOps
   - Infrastructure As Code
@@ -13,6 +13,7 @@ tags:
 ---
 
 ### Introduction
+
 In [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) post, we used Pulumi to create an EC2 instance in the default VPC. What follows is going to be a small variation on that post since we will create an EC2 instance but we will place it in an existing VPC that was created before already.
 
 ### Begin situation
@@ -25,11 +26,11 @@ We have created manually already a VPC and some subnets. Here we have:
 
 Below is a screenshot of the VPC:
 
-![pulumi](/images/2021-05-03-1.png)
+![pulumi](/images/2022-03-03-1.png)
 
 And here is a screenshot of the subnets:
 
-![pulumi](/images/2021-05-03-2.png)
+![pulumi](/images/2022-03-03-2.png)
 
 The code for this small blog post can be found here.
 
@@ -69,13 +70,13 @@ group = aws.ec2.SecurityGroup('pulumi_allow_8080',
 
 server = aws.ec2.Instance('webserver',
     instance_type=size,
-    vpc_security_group_ids=[group.id], 
+    vpc_security_group_ids=[group.id],
     ami=ami.id,
     subnet_id=my_subnet.id,
     user_data = user_data,
     tags = { "Name": "Pulumi" },
     )
-    
+
 pulumi.export('publicIp', server.public_ip)
 pulumi.export('publicHostName', server.public_dns)
 ```
@@ -83,17 +84,17 @@ pulumi.export('publicHostName', server.public_dns)
 In order to run the script, we can simply use the `pulumi up` command:
 
 ```bash
-/Webserver/Pulumi_existingVPC❯ pulumi up 
+/Webserver/Pulumi_existingVPC❯ pulumi up
 Please choose a stack, or create a new one: dev
 Previewing update (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2_wim/dev/previews/72afd6c3-ba80-44dd-bdc0-05d895d45a28
 
-     Type                      Name               Plan       
- +   pulumi:pulumi:Stack       aws_ec2_wim-dev    create     
- +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  create     
- +   └─ aws:ec2:Instance       webserver          create     
- 
+     Type                      Name               Plan
+ +   pulumi:pulumi:Stack       aws_ec2_wim-dev    create
+ +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  create
+ +   └─ aws:ec2:Instance       webserver          create
+
 Resources:
     + 3 to create
 
@@ -102,11 +103,11 @@ Updating (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2_wim/dev/updates/20
 
-     Type                      Name               Status      
- +   pulumi:pulumi:Stack       aws_ec2_wim-dev    created     
- +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  created     
- +   └─ aws:ec2:Instance       webserver          created     
- 
+     Type                      Name               Status
+ +   pulumi:pulumi:Stack       aws_ec2_wim-dev    created
+ +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  created
+ +   └─ aws:ec2:Instance       webserver          created
+
 Outputs:
     publicHostName: "ec2-3-120-158-193.eu-central-1.compute.amazonaws.com"
     publicIp      : "3.120.158.193"
@@ -119,6 +120,6 @@ Duration: 23s
 
 The final result can be seen below:
 
-![pulumi](/images/2021-05-03-3.png)
+![pulumi](/images/2022-03-03-3.png)
 
 Code for this small variant can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_existingVPC).

@@ -141,4 +141,4 @@ And if all went well you should see the updated application.
 
 ![flask-basic-github-heroku](/images/2021-11-07-11.png)
 
-Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-Heroku)
+Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-Heroku).

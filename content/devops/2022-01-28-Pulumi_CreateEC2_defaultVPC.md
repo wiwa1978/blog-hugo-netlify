@@ -1,7 +1,7 @@
 ---
 title: Pulumi - Create AWS EC2 instance (default VPC)
-date: 2021-04-28T14:39:50+01:00
-draft: False
+date: 2022-01-28T14:39:50+01:00
+draft: True
 categories:
   - DevOps
   - Infrastructure As Code
@@ -13,7 +13,8 @@ tags:
 ---
 
 ### Introduction
-People who follow this blog probably know I'm a big fan of Infrastructure as Code. So far though, I only worked with Terraform quite extensively. Playing around with Pulumi has been on my to do list for a long time. 
+
+People who follow this blog probably know I'm a big fan of Infrastructure as Code. So far though, I only worked with Terraform quite extensively. Playing around with Pulumi has been on my to do list for a long time.
 
 Unlike Terraform, which has its own language (Hasicorp Configuration Language) and syntax for defining infrastructure as code, Pulumi uses real programming languages. This means that you can write your configuration languages in languages like Python, Javascript, Typescript, Go or .NET languages like C# and F#.
 
@@ -24,7 +25,7 @@ So let's try out some fairly simple examples. In this post, we will be creating 
 The `pulumi new` command is creating a new Pulumi project. It provides essentially some scaffolding based on the language you want to use.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi new aws-python --name aws_ec2    
+/Webserver/Pulumi_defaultVPC❯ pulumi new aws-python --name aws_ec2
 This command will walk you through creating a new Pulumi project.
 
 Enter a value or leave blank to accept the (default), and press <ENTER>.
@@ -56,6 +57,7 @@ To perform an initial deployment, run 'pulumi up'
 ```
 
 ### Create EC2 instance
+
 Note that in this post we will create an EC2 instance in the default VPC. In other posts, we will show you how to create an EC2 instance in an existing (non-default) VPC or even to create an EC2 instance in an entirely new VPC.
 
 You will see there is a file called `__main___.py`. That file contains some scaffolded code to create an S3 bucket. We will replace the contents of that file in order to create an EC2 instance.
@@ -92,7 +94,7 @@ group = aws.ec2.SecurityGroup('pulumi_allow_8080',
 
 server = aws.ec2.Instance('webserver',
     instance_type=size,
-    vpc_security_group_ids=[group.id], 
+    vpc_security_group_ids=[group.id],
     ami=ami.id,
     user_data = user_data,
     tags = { "Name": "Pulumi" },
@@ -103,18 +105,20 @@ pulumi.export('publicHostName', server.public_dns)
 ```
 
 ### Deploy resources
+
 Once you have finalized your code, Pulumi makes it very straigthforward to run it. Just use `pulumi up` to provision the resources on AWS.
+
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi up     
+/Webserver/Pulumi_defaultVPC❯ pulumi up
 Previewing update (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/previews/13148a28-5857-41ef-b018-73e7b81b7860
 
-     Type                      Name               Plan       
- +   pulumi:pulumi:Stack       aws_ec2-dev        create     
- +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  create     
- +   └─ aws:ec2:Instance       webserver          create     
- 
+     Type                      Name               Plan
+ +   pulumi:pulumi:Stack       aws_ec2-dev        create
+ +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  create
+ +   └─ aws:ec2:Instance       webserver          create
+
 Resources:
     + 3 to create
 
@@ -123,11 +127,11 @@ Updating (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/updates/3
 
-     Type                      Name               Status      
- +   pulumi:pulumi:Stack       aws_ec2-dev        created     
- +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  created     
- +   └─ aws:ec2:Instance       webserver          created     
- 
+     Type                      Name               Status
+ +   pulumi:pulumi:Stack       aws_ec2-dev        created
+ +   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  created
+ +   └─ aws:ec2:Instance       webserver          created
+
 Outputs:
     publicHostName: "ec2-3-123-142-84.eu-central-1.compute.amazonaws.com"
     publicIp      : "3.123.142.84"
@@ -139,7 +143,6 @@ Duration: 22s
 ```
 
 ### View resources
-
 
 ```bash
 /Webserver/Pulumi_defaultVPC❯ pulumi stack
@@ -164,17 +167,18 @@ More information at: https://app.pulumi.com/wiwa1978/aws_ec2/dev
 
 Use `pulumi stack select` to change stack; `pulumi stack ls` lists known ones
 ```
+
 In the AWS console, you'll see the EC2 instance created successfully:
 
-![pulumi](/images/2021-04-28-1.png)
+![pulumi](/images/2022-01-28-1.png)
 
 Also, the security group is available:
 
-![pulumi](/images/2021-04-28-2.png)
+![pulumi](/images/2022-01-28-2.png)
 
 And finally, let's test whether the webserver is indeed working well:
 
-![pulumi](/images/2021-04-28-3.png)
+![pulumi](/images/2022-01-28-3.png)
 
 ### Update the resources
 
@@ -205,12 +209,12 @@ group = aws.ec2.SecurityGroup('pulumi_allow_8080',
 
 server = aws.ec2.Instance('webserver',
     instance_type=size,
-    vpc_security_group_ids=[group.id], 
+    vpc_security_group_ids=[group.id],
     ami=ami.id,
     user_data = user_data,
     tags = { "Name": "Pulumi-updated" },
     )
-    
+
 pulumi.export('publicIp', server.public_ip)
 pulumi.export('publicHostName', server.public_dns)
 ```
@@ -218,16 +222,16 @@ pulumi.export('publicHostName', server.public_dns)
 Next, we'll run the `pulumi up` command once again. You will notice that Pulumi recognized this is an update.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi up 
+/Webserver/Pulumi_defaultVPC❯ pulumi up
 Previewing update (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/previews/973c470c-5c75-4146-bf89-ab66f8ba81e9
 
      Type                      Name               Plan       Info
-     pulumi:pulumi:Stack       aws_ec2-dev                   
+     pulumi:pulumi:Stack       aws_ec2-dev
  ~   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  update     [diff: ~ingress]
  ~   └─ aws:ec2:Instance       webserver          update     [diff: ~tags]
- 
+
 Resources:
     ~ 2 to update
     1 unchanged
@@ -238,10 +242,10 @@ Updating (dev)
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/updates/4
 
      Type                      Name               Status      Info
-     pulumi:pulumi:Stack       aws_ec2-dev                    
+     pulumi:pulumi:Stack       aws_ec2-dev
  ~   ├─ aws:ec2:SecurityGroup  pulumi_allow_8080  updated     [diff: ~ingress]
  ~   └─ aws:ec2:Instance       webserver          updated     [diff: ~tags]
- 
+
 Outputs:
     publicHostName: "ec2-3-123-142-84.eu-central-1.compute.amazonaws.com"
     publicIp      : "3.123.142.84"
@@ -253,29 +257,30 @@ Resources:
 Duration: 6s
 
 ```
+
 And let's check again in the AWS console. You'll see the EC2 instance being renamed.
 
-![pulumi](/images/2021-04-28-4.png)
+![pulumi](/images/2022-01-28-4.png)
 
 And also the security group we provisioned earlier now has port 22 open as well.
 
-![pulumi](/images/2021-04-28-5.png)
+![pulumi](/images/2022-01-28-5.png)
 
 ### Destroy the resources
 
 We can run `pulumi destroy` to tear down all the provisioned resources. You'll be prompted to make sure you really want to delete these resources. A destroy operation may take some time, since Pulumi waits for the resources to finish shutting down before it considers the destroy operation to be complete.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯  pulumi destroy 
+/Webserver/Pulumi_defaultVPC❯  pulumi destroy
 Previewing destroy (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/previews/9e172e03-9650-41fb-a851-fbdc51f5f453
 
-     Type                      Name               Plan       
- -   pulumi:pulumi:Stack       aws_ec2-dev        delete     
- -   ├─ aws:ec2:Instance       webserver          delete     
- -   └─ aws:ec2:SecurityGroup  pulumi_allow_8080  delete     
- 
+     Type                      Name               Plan
+ -   pulumi:pulumi:Stack       aws_ec2-dev        delete
+ -   ├─ aws:ec2:Instance       webserver          delete
+ -   └─ aws:ec2:SecurityGroup  pulumi_allow_8080  delete
+
 Outputs:
   - publicHostName: "ec2-3-123-142-84.eu-central-1.compute.amazonaws.com"
   - publicIp      : "3.123.142.84"
@@ -288,11 +293,11 @@ Destroying (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/updates/5
 
-     Type                      Name               Status      
- -   pulumi:pulumi:Stack       aws_ec2-dev        deleted     
- -   ├─ aws:ec2:Instance       webserver          deleted     
- -   └─ aws:ec2:SecurityGroup  pulumi_allow_8080  deleted     
- 
+     Type                      Name               Status
+ -   pulumi:pulumi:Stack       aws_ec2-dev        deleted
+ -   ├─ aws:ec2:Instance       webserver          deleted
+ -   └─ aws:ec2:SecurityGroup  pulumi_allow_8080  deleted
+
 Outputs:
   - publicHostName: "ec2-3-123-142-84.eu-central-1.compute.amazonaws.com"
   - publicIp      : "3.123.142.84"
@@ -302,14 +307,14 @@ Resources:
 
 Duration: 36s
 
-The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained. 
+The resources in the stack have been deleted, but the history and configuration associated with the stack are still maintained.
 If you want to remove the stack completely, run 'pulumi stack rm dev'.
 ```
 
 To delete the stack itself, run pulumi stack rm. Note that this command deletes all deployment history from the Pulumi Console.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi stack rm dev 
+/Webserver/Pulumi_defaultVPC❯ pulumi stack rm dev
 This will permanently remove the 'dev' stack!
 Please confirm that this is what you'd like to do by typing ("dev"): dev
 Stack 'dev' has been removed!
