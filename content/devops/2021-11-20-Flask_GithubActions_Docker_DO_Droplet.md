@@ -229,4 +229,4 @@ script: |
 As soon as you push these changes to your Git repo, you will notice a new Github Actions workflow will be triggered. Once that workflow completes successfully, open the browser again and you will see the updated version of our app.
 
 ![flask-basic-github-docker-droplet](/images/2021-11-20-12a.png)
-Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-Heroku).
+Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-DigitalOcean-Droplet).
