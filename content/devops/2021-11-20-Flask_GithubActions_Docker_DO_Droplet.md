@@ -20,7 +20,7 @@ In previous posts, we have created a basic Flask application (see [here](https:/
 
 First we create a new Github repisotory.
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-1a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-1.png)
 
 When successfull, some instructions will be shown how to push your application to your repository.
 
@@ -38,7 +38,7 @@ We will use the same Flask application we have been using before. We will be usi
 
 Your remote repository will now contain the source code of your application.
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-2a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-2.png)
 
 ### Configure DigitalOcean Access token
 
@@ -50,7 +50,7 @@ Next we need to care of some DigitalOcean specifics. We will do the following:
 
 First, to be able to interact with the DigitalOcean API you need to create a new token.
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-3a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-3.png)
 
 Make a copy of the token as we will need to create a secret in our Github repository (later section).
 
@@ -64,17 +64,17 @@ Next, create a Droplet on DigitalOcean. You could do this through the console (u
 
 If all goes well, you will receive an email with the username and password for this droplet. You will need to login to the droplet using ssh. Just use `ssh root@IPaddress` to login through SSH. Use the password that you received in the email. Next change your password using the console and store this as a secret in your Github repository (later section).
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-4a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-4.png)
 
 ### Create container registry
 
 On the DigitalOcean user interface, go to `Container Registry` and create a private container registry as follows:
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-5a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-5.png)
 
 Once the container registry is created, you will see the following:
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-6a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-6.png)
 
 ### Create secrets on Github repo
 
@@ -87,7 +87,7 @@ As we mentioned already before, there are some secrets we need to configure in o
 - USERNAME: username of your droplet (e.g usually this is root)
 - PASSWORD: the password you created for the root user on your droplet
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-7a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-7.png)
 
 ### Add Github actions workflow
 
@@ -189,19 +189,19 @@ To https://github.com/wiwa1978/Flask-Basic-CICD-GithubActions-DigitalOcean-Dropl
 Branch 'main' set up to track remote branch 'main' from 'origin'.
 ```
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-8a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-8.png)
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-9a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-9.png)
 
 You will see that the image got uploaded to the DigitalOcean registry:
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-10a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-10.png)
 
 ### Showing off the result
 
 As a result of all this, we will have a container running inside the Droplet we created in an earlier session. Feel free to login to your Droplet using SSH and verify with the command `docker ps`. In any case, open a browser and use the IP address from your droplet. If all went well, you will see our Flask app.
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-11a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-11.png)
 
 ### Updating our app
 
@@ -228,5 +228,5 @@ script: |
 
 As soon as you push these changes to your Git repo, you will notice a new Github Actions workflow will be triggered. Once that workflow completes successfully, open the browser again and you will see the updated version of our app.
 
-![flask-basic-github-docker-droplet](/images/2021-11-20-12a.png)
+![flask-basic-github-docker-droplet](/images/2021-11-20-12.png)
 Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-DigitalOcean-Droplet).

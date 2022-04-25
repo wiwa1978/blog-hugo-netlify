@@ -23,7 +23,7 @@ In this blog post, we will deploy our app to DigitalOcean's app platform. In cas
 
 First of all, let's create a Github repository that will contain our application code:
 
-![flask-basic-github-docker-apps](/images/2021-11-25-1a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-1.png)
 
 When successfull, some instructions will be shown how to push your application to your repository.
 
@@ -45,21 +45,21 @@ Right now, our application will be available on the remote Github repository.
 
 In the DigitalOcean console, go to the DigitalOceans's App management consolde by clicking on the `Apps` button in the sidebar.
 
-![flask-basic-github-docker-apps](/images/2021-11-25-2a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-2.png)
 
 Click the `Create App` button. You will be presented with the following screen:
 
-![flask-basic-github-docker-apps](/images/2021-11-25-3a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-3.png)
 
 Choose Github and select your repository and click the next button. In case you don't see your repositories you need to modify the repository permissions on Github.
 
 You will get to the following screen.
 
-![flask-basic-github-docker-apps](/images/2021-11-25-4a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-4.png)
 
 Click on the small pencil in the webservice section (under the Scale All button). That allows us to modify the webservice. You will see the following screen:
 
-![flask-basic-github-docker-apps](/images/2021-11-25-5a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-5.png)
 
 Change the `Run Command`
 
@@ -69,15 +69,15 @@ gunicorn --worker-tmp-dir /dev/shm app:app
 
 And change the port as well from 8080 to 5000. Why port 5000? Well, because we are running our small Flask app on port 5000, you can see that [here](https://github.com/wiwa1978/blog-hugo-netlify-code/blob/main/Flask/Flask-Basic-CICD-GithubActions-DigitalOcean-Apps/gunicorn_config.py). You should see something similar to below screenshot.
 
-![flask-basic-github-docker-apps](/images/2021-11-25-6a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-6.png)
 
 Skip the `Environments` section and go to the `Info` section. Give the app a name. You should see the following:
 
-![flask-basic-github-docker-apps](/images/2021-11-25-7a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-7.png)
 
 Next, review the settings. In my case, I have the following:
 
-![flask-basic-github-docker-apps](/images/2021-11-25-8a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-8.png)
 
 Click on `Create Resources` button.
 
@@ -85,11 +85,11 @@ Click on `Create Resources` button.
 
 Next, you will see that DigitalOcean started deploying our application:
 
-![flask-basic-github-docker-apps](/images/2021-11-25-9a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-9.png)
 
 This might take some time but eventually you will see a success message, indicating the deployment was successfull.
 
-![flask-basic-github-docker-apps](/images/2021-11-25-11a.png)
+![flask-basic-github-docker-apps](/images/2021-11-25-11.png)
 
 Click the `Live App` button and that will show the app in your default browser.
 
