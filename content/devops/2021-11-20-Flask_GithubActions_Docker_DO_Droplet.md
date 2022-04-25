@@ -42,7 +42,11 @@ Your remote repository will now contain the source code of your application.
 
 ### Configure DigitalOcean Access token
 
-Next we need to care of some DigitalOcean specifics.
+Next we need to care of some DigitalOcean specifics. We will do the following:
+
+- Create an access token to interact with the API
+- Create a droplet that will run our application
+- Create a container registry to store our container image
 
 First, to be able to interact with the DigitalOcean API you need to create a new token.
 
