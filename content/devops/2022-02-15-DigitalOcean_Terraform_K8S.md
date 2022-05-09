@@ -1,6 +1,6 @@
 ---
 title: DigitalOcean - Create K8S cluster with Terraform
-date: 2021-02-15T14:39:50+01:00
+date: 2022-02-15T14:39:50+01:00
 draft: False
 categories:
   - DevOps
