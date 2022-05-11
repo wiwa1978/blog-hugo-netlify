@@ -1,7 +1,7 @@
 ---
 title: Pulumi - Create AWS EC2 instance (default VPC)
 date: 2022-03-28T14:39:50+01:00
-draft: True
+draft: False
 categories:
   - DevOps
   - Infrastructure As Code

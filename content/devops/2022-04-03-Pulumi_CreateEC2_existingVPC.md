@@ -1,7 +1,7 @@
 ---
 title: Pulumi - Create AWS EC2 instance (existing VPC)
 date: 2022-04-03T14:39:50+01:00
-draft: True
+draft: False
 categories:
   - DevOps
   - Infrastructure As Code
@@ -31,7 +31,6 @@ Below is a screenshot of the VPC:
 And here is a screenshot of the subnets:
 
 ![pulumi](/images/2022-04-03-2.png)
-
 
 ### Pulumi code
 
