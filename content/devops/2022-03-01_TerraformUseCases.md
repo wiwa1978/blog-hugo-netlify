@@ -1,6 +1,6 @@
 ---
 title: Terraform use cases complex variables
-date: 2022-02-10T14:39:50+01:00
+date: 2022-03-01T14:39:50+01:00
 draft: False
 categories:
   - DevOps

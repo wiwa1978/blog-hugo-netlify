@@ -1,6 +1,6 @@
 ---
 title: Pulumi - Create AWS EC2 instance (default VPC)
-date: 2022-01-28T14:39:50+01:00
+date: 2022-03-28T14:39:50+01:00
 draft: True
 categories:
   - DevOps
@@ -16,16 +16,16 @@ tags:
 
 People who follow this blog probably know I'm a big fan of Infrastructure as Code. So far though, I only worked with Terraform quite extensively. Playing around with Pulumi has been on my to do list for a long time.
 
-Unlike Terraform, which has its own language (Hasicorp Configuration Language) and syntax for defining infrastructure as code, Pulumi uses real programming languages. This means that you can write your configuration languages in languages like Python, Javascript, Typescript, Go or .NET languages like C# and F#.
+Unlike Terraform, which has its own language (Hashicorp Configuration Language) and syntax for defining infrastructure as code, Pulumi uses real programming languages. This means that you can write your configuration languages in languages like Python, Javascript, Typescript, Go or .NET languages like C# and F#.
 
-So let's try out some fairly simple examples. In this post, we will be creating a couple of AWS resources, update them and delete them again, all using Python. We will not touch in the installation process for Pulumi as it's fairly well documented on their website, see [here](https://www.pulumi.com/docs/get-started/aws/begin/). Also, as we are going to work with AWS, ensure you have an `Access Key` and a `Secret Key` and make them available using environment variables (see [here](https://www.pulumi.com/docs/get-started/aws/begin/#configure-pulumi-to-access-your-aws-account)).
+So let's try out some fairly simple examples to get familiar with Pulumi in the first place. In this post, we will be creating a couple of AWS resources, update them and delete them again, all using Python. We will not touch on the installation process for Pulumi as it's fairly well documented on their website, see [here](https://www.pulumi.com/docs/get-started/aws/begin/). Also, as we are going to work with AWS, ensure you have an `Access Key` and a `Secret Key` and make them available using environment variables (see [here](https://www.pulumi.com/docs/get-started/aws/begin/#configure-pulumi-to-access-your-aws-account)).
 
 ### Create new project
 
-The `pulumi new` command is creating a new Pulumi project. It provides essentially some scaffolding based on the language you want to use.
+The `pulumi new` command creates a new Pulumi project. It provides essentially some scaffolding based on the language you want to use. In our case we will use Python but not that other languages are also supported (e.g. Typescript, Go...)
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi new aws-python --name aws_ec2
+~/Pulumi_defaultVPC❯ pulumi new aws-python --name aws_ec2
 This command will walk you through creating a new Pulumi project.
 
 Enter a value or leave blank to accept the (default), and press <ENTER>.
@@ -144,8 +144,15 @@ Duration: 22s
 
 ### View resources
 
+Every Pulumi program is deployed to a stack, commonly used to denote different environments (e.g. development, staging, production...). Pulumi allows us to view details of the currently selected stack (we only have one at the moment) by using the `pulumi stack` command.
+
+In our case, we see the two AWS constructs we defined in our Python file:
+
+- Security Group
+- Instance
+
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi stack
+~/Pulumi_defaultVPC❯ pulumi stack
 Current stack is dev:
     Owner: wiwa1978
     Last updated: 5 minutes ago (2021-06-21 10:14:19.250068 +0200 CEST)
@@ -170,19 +177,19 @@ Use `pulumi stack select` to change stack; `pulumi stack ls` lists known ones
 
 In the AWS console, you'll see the EC2 instance created successfully:
 
-![pulumi](/images/2022-01-28-1.png)
+![pulumi](/images/2022-03-28-1.png)
 
 Also, the security group is available:
 
-![pulumi](/images/2022-01-28-2.png)
+![pulumi](/images/2022-03-28-2.png)
 
 And finally, let's test whether the webserver is indeed working well:
 
-![pulumi](/images/2022-01-28-3.png)
+![pulumi](/images/2022-03-28-3.png)
 
 ### Update the resources
 
-Pulumi also allows us to update the provisioned resources as well. In the below, we are adding port 22 to the security group and we are also renaming the server from `Pulumi` to `Pulumi-updated`
+Pulumi also allows us to update the provisioned resources as well. In the below snippet, we are adding port 22 to the security group and we are also renaming the server from `Pulumi` to `Pulumi-updated`
 
 ```python
 import pulumi
@@ -222,7 +229,7 @@ pulumi.export('publicHostName', server.public_dns)
 Next, we'll run the `pulumi up` command once again. You will notice that Pulumi recognized this is an update.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi up
+~/Pulumi_defaultVPC❯ pulumi up
 Previewing update (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/previews/973c470c-5c75-4146-bf89-ab66f8ba81e9
@@ -260,18 +267,18 @@ Duration: 6s
 
 And let's check again in the AWS console. You'll see the EC2 instance being renamed.
 
-![pulumi](/images/2022-01-28-4.png)
+![pulumi](/images/2022-03-28-4.png)
 
 And also the security group we provisioned earlier now has port 22 open as well.
 
-![pulumi](/images/2022-01-28-5.png)
+![pulumi](/images/2022-03-28-5.png)
 
 ### Destroy the resources
 
 We can run `pulumi destroy` to tear down all the provisioned resources. You'll be prompted to make sure you really want to delete these resources. A destroy operation may take some time, since Pulumi waits for the resources to finish shutting down before it considers the destroy operation to be complete.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯  pulumi destroy
+~/Pulumi_defaultVPC❯ pulumi destroy
 Previewing destroy (dev)
 
 View Live: https://app.pulumi.com/wiwa1978/aws_ec2/dev/previews/9e172e03-9650-41fb-a851-fbdc51f5f453
@@ -314,10 +321,10 @@ If you want to remove the stack completely, run 'pulumi stack rm dev'.
 To delete the stack itself, run pulumi stack rm. Note that this command deletes all deployment history from the Pulumi Console.
 
 ```bash
-/Webserver/Pulumi_defaultVPC❯ pulumi stack rm dev
+~/Pulumi_defaultVPC❯ pulumi stack rm dev
 This will permanently remove the 'dev' stack!
 Please confirm that this is what you'd like to do by typing ("dev"): dev
 Stack 'dev' has been removed!
 ```
 
-The code for this blog post can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_defaultVPC).
+This was of course only a very first exploration of Pulumi but we'll experiment a bit more in upcoming posts. The code for this blog post can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_defaultVPC).

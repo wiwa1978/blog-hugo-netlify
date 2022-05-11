@@ -1,6 +1,6 @@
 ---
 title: Pulumi - Create AWS EC2 instance (existing VPC)
-date: 2022-03-03T14:39:50+01:00
+date: 2022-04-03T14:39:50+01:00
 draft: True
 categories:
   - DevOps
@@ -18,25 +18,24 @@ In [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_default
 
 ### Begin situation
 
-We have created manually already a VPC and some subnets. Here we have:
+We have created manually already a VPC and some subnets. Apologies guys, I'll carve out some time later to also have this automated. Here we have:
 
 - VPC: pulumi-vpc with CIDR 10.0.0.0/16
-- Subnet 1: pulumi-subnet 1 with CIDR 10.0.24.0/20
-- Subnet 2: pulumi-subnet 2 with CIDR 10.0.32.0/20
+- Subnet 1: pulumi-subnet-1 with CIDR 10.0.24.0/20
+- Subnet 2: pulumi-subnet-2 with CIDR 10.0.32.0/20
 
 Below is a screenshot of the VPC:
 
-![pulumi](/images/2022-03-03-1.png)
+![pulumi](/images/2022-04-03-1.png)
 
 And here is a screenshot of the subnets:
 
-![pulumi](/images/2022-03-03-2.png)
+![pulumi](/images/2022-04-03-2.png)
 
-The code for this small blog post can be found here.
 
 ### Pulumi code
 
-In terms of code, it's not so much different from what we did in [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) post. However, here we are using the `aws.ec2.Vpc.get` function to retrieve the VPC based on its name and id. The subnet, we retrieve by using the `aws.ec2.get_subnet` function.
+In terms of code, it's not so much different from what we did in [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) post. However, here we are using the `aws.ec2.Vpc.get` function to retrieve the VPC based on its name and id. The subnet we retrieve by using the `aws.ec2.get_subnet` function.
 
 ```python
 import pulumi
@@ -118,8 +117,8 @@ Resources:
 Duration: 23s
 ```
 
-The final result can be seen below:
+The final result can be seen below. We have created indeed an EC2 instance but rather than placing this into the default VPC, we have placed it in a VPC which was existing already before.
 
-![pulumi](/images/2022-03-03-3.png)
+![pulumi](/images/2022-04-03-3.png)
 
 Code for this small variant can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_existingVPC).

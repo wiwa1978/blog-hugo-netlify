@@ -1,6 +1,6 @@
 ---
 title: DigitalOcean - Create K8S cluster with Terraform
-date: 2022-02-15T14:39:50+01:00
+date: 2022-02-25T14:39:50+01:00
 draft: False
 categories:
   - DevOps
@@ -22,7 +22,7 @@ In this post, we are going to create a Kubernetes cluster on DigitalOcean using 
 - [On vSphere using Ansible](https://blog.wimwauters.com/devops/2019-12-02_vsphere_kubernetes_ansible/)
 - [On Raspberry Pi 4 ESXi host](https://blog.wimwauters.com/devops/2020-11-13-ha_microk8s/)
 
-![k8s_terraform](/images/2021-02-15-1.png)
+![k8s_terraform](/images/2022-02-25-1.png)
 
 ### Terraform script
 
@@ -244,15 +244,15 @@ cluster-id = 02b7c276-b262-4a32-8178-26d812a1623b
 
 During cluster provisioning you will see the progress bar moving to the right.
 
-![k8s_terraform](/images/2021-02-15-2.png)
+![k8s_terraform](/images/2022-02-25-2.png)
 
 Once finished, you will see the K8S cluster available:
 
-![k8s_terraform](/images/2021-02-15-3.png)
+![k8s_terraform](/images/2022-02-25-3.png)
 
 And it will tell you to download the config file:
 
-![k8s_terraform](/images/2021-02-15-4.png)
+![k8s_terraform](/images/2022-02-25-4.png)
 
 ### Connect to the Kubernetes cluster
 

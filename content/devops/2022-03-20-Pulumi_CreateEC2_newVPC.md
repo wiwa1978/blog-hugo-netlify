@@ -1,6 +1,6 @@
 ---
 title: Pulumi - Create AWS EC2 instance (new VPC)
-date: 2022-03-20T14:39:50+01:00
+date: 2022-04-06T14:39:50+01:00
 draft: True
 categories:
   - DevOps
@@ -22,11 +22,11 @@ Let's have a look at the begin situation. In the AWS console, you see the curren
 
 VPCs:
 
-![pulumi](/images/2022-03-20-1.png)
+![pulumi](/images/2022-04-06-1.png)
 
 Subnets:
 
-![pulumi](/images/2022-03-20-2.png)
+![pulumi](/images/2022-04-06-2.png)
 
 ### Pulumi Code
 
@@ -133,14 +133,14 @@ Duration: 34s
 
 In the next screenshot, you will see that the VPC has been created:
 
-![pulumi](/images/2022-03-20-3.png)
+![pulumi](/images/2022-04-06-3.png)
 
 Also the subnet has been created successfully:
 
-![pulumi](/images/2022-03-20-4.png)
+![pulumi](/images/2022-04-06-4.png)
 
 And finally the EC2 instance is created and is located in the correct subnet and VPC.
 
-![pulumi](/images/2022-03-20-5.png)
+![pulumi](/images/2022-04-06-5.png)
 
 Hope you enjoyed this little blog post. You can find the code [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_newVPC).
