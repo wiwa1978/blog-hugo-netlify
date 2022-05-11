@@ -14,7 +14,7 @@ tags:
 
 ### Introduction
 
-In [this](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) post, we used Pulumi to create an EC2 instance in the default VPC. Then, in [this](https://blog.wimwauters.com/devops/2021-05-03-pulumi_createec2_existingvpc/) post, we created a small variation in which we launched an EC2 instance in a pre-existing VPC and subnet. In this post, we will create yet another variant in which we will launch an EC2 instance in a VPC and subnet that we will also create through Pulumi.
+In [this](https://blog.wimwauters.com/devops/2022-03-28-pulumi_createec2_defaultvpc/) post, we used Pulumi to create an EC2 instance in the default VPC. Then, in [this](https://blog.wimwauters.com/devops/2022-04-03-pulumi_createec2_existingvpc/) post, we created a small variation in which we launched an EC2 instance in a pre-existing VPC and subnet. In this post, we will create yet another variant in which we will launch an EC2 instance in a VPC and subnet that we will also create through Pulumi.
 
 ### Begin situation
 
@@ -30,7 +30,7 @@ Subnets:
 
 ### Pulumi Code
 
-Next, let's have a look at the code. It's fairly similar to the previous posts, see [here](https://blog.wimwauters.com/devops/2021-04-28-pulumi_createec2_defaultvpc/) and [here](https://blog.wimwauters.com/devops/2021-05-03-pulumi_createec2_existingvpc/). Few things are different though:
+Next, let's have a look at the code. It's fairly similar to the previous posts, see [here](https://blog.wimwauters.com/devops/2022-03-28-pulumi_createec2_defaultvpc/) and [here](https://blog.wimwauters.com/devops/2022-04-03-pulumi_createec2_existingvpc/). Few things are different though:
 
 1. We create a new VPC through the `aws.ec2.Vpc` function (see documentation [here](https://www.pulumi.com/docs/reference/pkg/aws/ec2/vpc/))
 2. We create a subnet under that VPC using the `aws.ec2.Subnet` function (see documentation [here](https://www.pulumi.com/docs/reference/pkg/aws/ec2/subnet/))

@@ -14,7 +14,7 @@ tags:
 
 ### Introduction
 
-In this post, we described how to create a droplet, project, tag and DNS record on DigitalOcean using Terraform. We've shown a regular Terraform script and we have also show how to do this using modules. However in that post, we limited ourselves to creating a single droplet, assigned it to a single project and created a single DNS record for that droplet. In this post, we'll see how to make it work if we want to create multiple droplets.
+In [this](https://blog.wimwauters.com/devops/2022-02-12_terraformmodules_singleserver/) post, we described how to create a droplet, project, tag and DNS record on DigitalOcean using Terraform. We've shown a regular Terraform script (cfr. Create a single droplet) and we have also show how to do this using modules (cfr. Create a single droplet using Terraform modules). However in that post, we limited ourselves to creating a single droplet, assigned it to a single project and created a single DNS record for that droplet. In the upcoming post, we'll see how to make it work if we want to create multiple droplets.
 
 ### Create multiple droplets using regular Terraform files
 
@@ -119,7 +119,8 @@ host        = digitalocean_droplet.server[each.key].ipv4_address
 ```
 
 ### Create multiple droplets using modules
-Let's now see how we can achieve the same using Terraform modules. We have covered this already in part 1 of course but in what follows we will focus on creating multiple droplets (rather than a single droplet as we did in part 1).
+
+Let's now see how we can achieve the same using Terraform modules. We have covered this already in part 1 of course but in what follows we will focus on creating multiple droplets (rather than a single droplet as we did in [part 1](https://blog.wimwauters.com/devops/2022-02-12_terraformmodules_singleserver/)).
 
 In essence, we just have to call the module multiple times. We can do this using a `for_each` loop (see example below) or using a `count` variable. In below example, we are simply looping over the servers variable while assigning the values to the attributes using the `each.value` construct.
 
@@ -157,5 +158,3 @@ module "server-record" {
     value          =       values(module.ubuntu-server)[count.index].droplet_ip_address
 }
 ```
-
-
