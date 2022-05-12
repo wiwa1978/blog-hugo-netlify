@@ -327,4 +327,4 @@ Please confirm that this is what you'd like to do by typing ("dev"): dev
 Stack 'dev' has been removed!
 ```
 
-This was of course only a very first exploration of Pulumi but we'll experiment a bit more in upcoming posts. The code for this blog post can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_defaultVPC).
+This was of course only a very first exploration of Pulumi but we'll experiment a bit more in upcoming posts. The code for this blog post can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_AWS_defaultVPC).
