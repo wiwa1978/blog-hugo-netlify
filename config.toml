@@ -83,6 +83,6 @@ googleAnalytics="UA-83351442-2"
 [Params.widgets.social]
   # Enable parts of social widget
   twitter = "@Wauters_Wim"
-  linkedin = "https://www.linkedin.com/in/wim-wauters"
-  github = "https://github.com/wiwa1978"
+  linkedin = "wim-wauters"
+  github = "wiwa1978"
   email = "blogwimwauters@gmail.com"
