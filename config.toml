@@ -77,7 +77,7 @@ googleAnalytics="UA-83351442-2"
   widgets = ["recent", "categories", "taglist", "social"]
 
 [Params.widgets]
-  recent_num = 20 # Set the number of articles in the "Recent articles" widget
+  recent_num = 15 # Set the number of articles in the "Recent articles" widget
   tags_counter = true
 
 [Params.widgets.social]
