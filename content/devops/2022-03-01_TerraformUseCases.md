@@ -11,7 +11,7 @@ tags:
 
 ### Introduction
 
-As much as I like Terraform, it can be sometimes a nightmare to work with complex variables and loops etc. In this extensive blog post, I have defined a number of use cases to show how some of these more difficult concepts work. They are all based on DigitalOcean but can be easily applied to other cloud providers as well.
+As much as I like Terraform, it can be sometimes a nightmare to work with complex variables and loops etc. In this extensive blog post, I have defined a number of use cases to show how some of these more difficult concepts work. They are all based on DigitalOcean but can be easily applied to other cloud providers as well. Most of the inspiration for the use cases can be found in [this](https://blog.wimwauters.com/devops/2022-02-12_terraformmodules_singleserver/) and [this](https://blog.wimwauters.com/devops/2022-02-14_terraformmodules_multipleservers/) post.
 
 ### Use Case 1: list of objects with count
 

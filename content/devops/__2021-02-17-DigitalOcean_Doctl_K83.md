@@ -1,6 +1,6 @@
 ---
 title: DigitalOcean - Create K8S cluster with DOCTL
-date: 2021-02-17T14:39:50+01:00
+date: 2022-02-17T14:39:50+01:00
 draft: True
 categories:
   - DevOps
@@ -12,12 +12,12 @@ tags:
   - DigitalOcean
   - Kubernetes
 ---
+
 ### Introduction
 
-![k8s_terraform](/images/2021-02-17-1.png)
-![k8s_terraform](/images/2021-02-17-2.png)
-![k8s_terraform](/images/2021-02-17-3.png)
-
+![k8s_terraform](/images/2022-02-17-1.png)
+![k8s_terraform](/images/2022-02-17-2.png)
+![k8s_terraform](/images/2022 -02-17-3.png)
 
 ```bash
 ~/S/Programming/blog-hugo-netlify-code/DigitalOcean_Terraform/kubernetes master !3 ?5 ❯ doctl kubernetes cluster create k8swim --count 3 --region ams3 --size s-2vcpu-2gb --version 1.19.3-do.3        Notice: Cluster is provisioning, waiting for cluster to be running
@@ -30,7 +30,6 @@ a0eae8bb-8bb0-452e-8417-7bfa5347d1cb    k8swim    ams3      1.19.3-do.3    false
 
 ```
 
-
 ```bash
 ~/S/Programming/blog-hugo-netlify-code/DigitalOcean_Terraform/kubernetes master !3 ?5 ❯ doctl k8s cluster kubeconfig save a0eae8bb-8bb0-452e-8417-7bfa5347d1cb                                 12:41:01
 W0130 12:41:28.556296   64770 loader.go:223] Config not found: /Users/wauterw/SynologyDrive/Programming/blog-hugo-netlify-code/DigitalOcean_Terraform/kubernetes/config
@@ -40,14 +39,11 @@ W0130 12:41:28.556574   64770 loader.go:223] Config not found: /Users/wauterw/Sy
 W0130 12:41:28.556633   64770 loader.go:223] Config not found: /Users/wauterw/SynologyDrive/Programming/blog-hugo-netlify-code/DigitalOcean_Terraform/kubernetes/config
 ```
 
-
 ```bash
 ~/S/P/blog-hugo-netlify-code/DigitalOcean_T/kubernetes master !3 ?5 ❯ kubectl cluster-info
 Kubernetes master is running at https://a0eae8bb-8bb0-452e-8417-7bfa5347d1cb.k8s.ondigitalocean.com
 CoreDNS is running at https://a0eae8bb-8bb0-452e-8417-7bfa5347d1cb.k8s.ondigitalocean.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 ```
-
-
 
 ```bash
 
@@ -58,13 +54,11 @@ k8swim-default-pool-39dxd   Ready    <none>   4m20s   v1.19.3
 k8swim-default-pool-39dxv   Ready    <none>   4m16s   v1.19.3
 ```
 
-
 ```bash
 ~/SynologyDrive/Programming/blog-hugo-netlify-code master !3 ?5 ❯ doctl kubernetes cluster get a0eae8bb-8bb0-452e-8417-7bfa5347d1cb                                                         7s 12:45:27
 ID                                      Name      Region    Version        Auto Upgrade    Status     Endpoint                                                               IPv4              Cluster Subnet    Service Subnet    Tags                                            Created At                       Updated At                       Node Pools
 a0eae8bb-8bb0-452e-8417-7bfa5347d1cb    k8swim    ams3      1.19.3-do.3    false           running    https://a0eae8bb-8bb0-452e-8417-7bfa5347d1cb.k8s.ondigitalocean.com    104.248.198.89    10.244.0.0/16     10.245.0.0/16     k8s,k8s:a0eae8bb-8bb0-452e-8417-7bfa5347d1cb    2021-01-30 11:33:46 +0000 UTC    2021-01-30 11:39:02 +0000 UTC    k8swim-default-pool
 ```
-
 
 ```bash
 
