@@ -14,7 +14,13 @@ tags:
 
 ### Introduction
 
-In [this](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) post, we deployed a basic Flask application to Heroku by making use of Heroku git. In [this](https://blog.wimwauters.com/devops/2021-11-03-flask_githubactions_heroku/) post, we used Github and Github Actions to deploy our application. There's a different way still I want to touch on. It's not so much different compared to previous posts but well worth to dedicate a seperate post to it. In this post, we will make use of the existing Heroku - Git integration. Let's get started!
+Yet another post on deploying a Flask App? Again on the Heroku platform? Yes, but using again a slightly different method. Let's recap a bit....
+
+In [this](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) post, we deployed a basic Flask application to Heroku by making use of the built in git functionality. In fact, we simply committed our code directly to Heroku git. In [this](https://blog.wimwauters.com/devops/2021-11-03-flask_githubactions_heroku/) post, we used Github and Github Actions to deploy our application onto Heroku.
+
+But there's a different way still I want to touch on. It's not so much different compared to previous posts but well worth to dedicate a seperate post to it. In this post, we will make use of the existing Heroku - Github integration (not Heroku git). With heroku git, we commit our code directly to Heroku git. With the Heroku-Github integration, we commit our code to Github which will trigger a deployment onto the Heroku platform.
+
+Let's get started!
 
 ### Configure Github repository
 
@@ -96,7 +102,7 @@ You'll see the files in your Github repository.
 
 ### Check Heroku Deployment
 
-Next, login to your Heroku account, In the Overview tab you will see that your app is being deployed. So I imagine that Git sends a Webhook to Heroku to trigger the deployment (remember we set it to auto-deploy from the main branch).
+Next, login to your Heroku account, In the Overview tab you will see that your app is being deployed. It's not documented anywhere, at least I could not find it, but I imagine that Github sends a Webhook to Heroku to trigger the deployment (remember we set it to auto-deploy from the main branch).
 
 ![flask-basic-github-heroku](/images/2021-11-07-8.png)
 
@@ -135,4 +141,4 @@ And if all went well you should see the updated application.
 
 ![flask-basic-github-heroku](/images/2021-11-07-11.png)
 
-Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-Heroku)
+Hope you enjoyed this post. As always, code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-Heroku).

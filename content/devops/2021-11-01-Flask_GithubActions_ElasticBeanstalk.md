@@ -18,11 +18,12 @@ In the previous [post](https://blog.wimwauters.com/devops/2021-10-29-flask_elast
 
 ### Running the application locally
 
-First off, in case you did not follow along with the previous post, let's verify if our app works locally. Next, clone the code ([here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Beanstalk)). Then create a Python virtual environment and install the requirements as follows:
+First off, in case you did not follow along with the previous post, let's verify our app works locally. So therefore clone the code you find [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Beanstalk). Then create a Python virtual environment and install the requirements as follows:
 
 ```bash
 ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ python3 -m venv venv
 ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ source venv/bin/activate
+~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ pip3 install -r requirements.txt
 ```
 
 Next, run the application using `gunicorn`.
@@ -49,34 +50,13 @@ Once the repo has been created, you will receive some instructions to configure 
 
 ```bash
 (venv)  ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git init
-
-hint: Using 'master' as the name for the initial branch. This default branch name
-hint: is subject to change. To configure the initial branch name to use in all
-hint: of your new repositories, which will suppress this warning, call:
-hint:
-hint:   git config --global init.defaultBranch <name>
-hint:
-hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-hint: 'development'. The just-created branch can be renamed via this command:
-hint:
-hint:   git branch -m <name>
 Initialized empty Git repository in ...Flask/Flask-Basic-CICD-GithubActions-Beanstalk/.git/
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git branch -m main
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git add .
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git commit -m "Initial commit"
 [main (root-commit) cee8310] Initial commit
- 6 files changed, 65 insertions(+)
- create mode 100644 .gitignore
- create mode 100644 application.py
- create mode 100644 requirements.txt
- create mode 100644 templates/index.html
- create mode 100644 test_application.py
- create mode 100644 wsgi.py
-(venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git remote add origin https://github.com/wiwa1978/flask-basic-cicd-github-beanstalk.git
-(venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯ git push origin main
-Enumerating objects: 9, done.
-Counting objects: 100% (9/9), done.
-Delta compression using up to 12 threads
+...
+...
 Compressing objects: 100% (8/8), done.
 Writing objects: 100% (9/9), 1.47 KiB | 500.00 KiB/s, done.
 Total 9 (delta 0), reused 0 (delta 0), pack-reused 0
@@ -84,13 +64,13 @@ To https://github.com/wiwa1978/flask-basic-cicd-github-beanstalk.git
  * [new branch]      main -> main
 ```
 
-If all went well, you will see that your local application folder is now also available in the remote repo on Github
+You will notice that your local application folder is now also available in the remote repo on Github:
 
 ![flask-basic-beanstalk](/images/2021-11-01-3.png)
 
 ### Github Actions
 
-As a next step, let's tackle the Github Actions part. You should see the screen below:
+As a next step, let's tackle the Github Actions part. Click on `Actions` tab and you should see the screen below:
 
 ![flask-basic-beanstalk](/images/2021-11-01-4.png)
 
@@ -152,7 +132,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-        # Set up Python 3.6 environment
+        # Set up Python 3.9 environment
       - name: Set up Python 3.9
         uses: actions/setup-python@v1
         with:
@@ -176,16 +156,8 @@ Next, as this file is now only available in our local repository, we need to upl
 (venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯  git commit -m "Changing workflow file"
 [main 8528605] Changing workflow file
  3 files changed, 14 insertions(+), 10 deletions(-)
- create mode 100644 __pycache__/application.cpython-39.pyc
- create mode 100644 __pycache__/wsgi.cpython-39.pyc
-(venv) ~/Flask/Flask-Basic-CICD-GithubActions-Beanstalk ❯  git push origin main
-Enumerating objects: 12, done.
-Counting objects: 100% (12/12), done.
-Delta compression using up to 12 threads
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (8/8), 1.33 KiB | 1.33 MiB/s, done.
-Total 8 (delta 2), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+...
+...
 To https://github.com/wiwa1978/flask-basic-cicd-github-beanstalk.git
    0d2e0a9..8528605  main -> main
 ```
@@ -200,9 +172,11 @@ If you click on the workflow you will be able to see some details, exactly the s
 
 ### Adding AWS secrets to Github
 
-It's about time now to focus on the deployment of the application to Elastic Beanstalk. We need to supply Github with our AWS credentials. Obviously it's a bad idea to hardcode them into our application or into the Github workflow file. The proper way to achieve this is to create secret variables in Github itself. Go to settings and secrets and create the variables (see screenshot for the variable names).
+It's about time now to focus on the deployment of the application to Elastic Beanstalk. We need to supply Github with our AWS credentials. Obviously it's a bad idea to hardcode them into our application or into the Github workflow file. The proper way to achieve this is to create secret variables in Github. Go to settings and secrets and create the variables (see screenshot for the variable names).
 
 ![flask-basic-beanstalk](/images/2021-11-01-8.png)
+
+Note: in case you don't have these AWS credentials, go to the AWS console and create a user in IAM and attach the `AdministratorAccess-AWSElasticBeanstalk` policy to the user you just created. Use these values as the secret (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY)
 
 ### Deploy the application
 
@@ -222,7 +196,7 @@ deploy:
     # Checks-out your repository under $GITHUB_WORKSPACE
     - uses: actions/checkout@v2
 
-    # Set up Python 3.6 environment
+    # Set up Python 3.9 environment
     - name: Set up Python 3.9
       uses: actions/setup-python@v1
       with:
@@ -327,4 +301,4 @@ And as expected, the application is updated:
 
 ![flask-basic-beanstalk](/images/2021-11-01-15.png)
 
-Code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Beanstalk)
+Code can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Beanstalk)!

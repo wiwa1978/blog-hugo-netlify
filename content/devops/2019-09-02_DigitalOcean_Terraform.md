@@ -11,11 +11,13 @@ tags:
   - Terraform
   - DigitalOcean
 ---
+
 ### Introduction
 
 In this post, we are going to create a server (aka droplets) on DigitalOcean. They will be running Ubuntu. There’s plenty of ways doing it but for this post I decided to give Terraform a try.
 
 ### Pre-requisites
+
 I’m assuming you have already a DigitalOcean account and have access to its webinterface. In order to create droplets via Terraform, you will need to get API access. On DigitalOcean’s webinterface, go to API and click “Generate Token”.
 
 ![DigitalOceanToken](/images/2019-09-02-1.png)
@@ -46,13 +48,14 @@ resource "digitalocean_droplet" "myserver" {
    ssh_keys = [
         var.ssh_fingerprint
    ]
-   tags   = ["${digitalocean_tag.webserver.id}"]  
+   tags   = ["${digitalocean_tag.webserver.id}"]
 }
 
 resource "digitalocean_tag" "webserver" {
     name = "webserver"
 }
 ```
+
 And the corresponding variables file.
 
 ```terraform
@@ -72,6 +75,7 @@ variable "number_servers" {
   default = "2"
 }
 ```
+
 Then execute the command ‘terraform init’. This will essentially download the DigitalOcean plugin and initialise it.
 
 ```
@@ -84,6 +88,7 @@ Initializing the backend...
 Terraform has been successfully initialized!
 ***Truncated***
 ```
+
 Next, perform a `terraform plan` as follows.
 
 ```terraform
@@ -94,6 +99,7 @@ Refreshing Terraform state in-memory prior to plan...
 
 Plan: 3 to add, 0 to change, 0 to destroy.
 ```
+
 So we can see that the plan is to add three resources, essentially these are the two droplets themselves and then also the tag.
 
 ```terraform
@@ -116,11 +122,12 @@ digitalocean_droplet.myserver[0]: Creation complete after 34s [id=186893059]
 
 Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 ```
+
 As indicated in the output, the servers were created successfully and also the tag was applied properly (hence 3 resources: 2 servers and 1 tag resource)
 
 ![DigitalOceanToken](/images/2019-09-02-3.png)
 
-### *.tfstate file
+### \*.tfstate file
 
 The tfstate file contains the state of the infrastructure on the DigitalOcean platform. Terraform keeps this statefile to make it easy to modify or delete resources at a later moment.
 
@@ -143,15 +150,15 @@ The tfstate file contains the state of the infrastructure on the DigitalOcean pl
           "index_key": 0,
           "schema_version": 1,
          ***Truncated***
-         
+
         {
           "index_key": 1,
           "schema_version": 1,
           "attributes": {
             "backups": false,
             "created_at": "2020-03-31T19:18:38Z",
-        
-         ***Truncated*** 
+
+         ***Truncated***
 
             "volume_ids": []
           },
@@ -162,7 +169,7 @@ The tfstate file contains the state of the infrastructure on the DigitalOcean pl
         }
       ]
     },
-    
+
     ***Truncated***
 }
 ```
@@ -200,7 +207,7 @@ individual files in /usr/share/doc/*/copyright.
 Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
 applicable law.
 
-root@server-0:~# 
+root@server-0:~#
 ```
 
 ### Deleting the server
@@ -234,7 +241,7 @@ digitalocean_tag.webserver: Destruction complete after 0s
 
 Destroy complete! Resources: 3 destroyed.
 ```
+
 As you can imagine the droplets have been destroyed successfully.
 
-You can check the files in this [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/DigitalOcean_Terraform/droplet).
-
+You can check the files in this [repo](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Terraform/DigitalOcean_SingleDroplet).

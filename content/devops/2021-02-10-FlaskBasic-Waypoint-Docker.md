@@ -91,7 +91,7 @@ Next step is to authenticate to Hashicorp Waypoint. To achieve this, you need to
 Hence, let's generate a new token through the Waypoint CLI:
 
 ```bash
-~Flask/Flask-Basic-Waypoint main !5 ?5 ❯ waypoint token new
+~Flask/Flask-Basic-Waypoint main ❯ waypoint token new
 bM152PWkXxfoy4vA51JFhR7Lpg7vWC9xW2TVPhK8ZgC4uNHJMJuigncPwRDLWAUhxfjcw9o67mBwh2vE3oENeKResfrHDpttweoo6
 ```
 
@@ -229,8 +229,7 @@ To:
 Next, let's run `waypoint run` again:
 
 ```bash
-~/S/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Waypoint main !5 ?5 ❯ waypoint up                                                                                              1m 21s 10:03:18
-
+~/S/Programming/blog-hugo-netlify-code/Flask/Flask-Basic-Waypoint main ❯ waypoint up
 » Building...
 ✓ Initializing Docker client...
 ✓ Building image...
@@ -262,6 +261,6 @@ You want to see the previous version again, just go to the first version deploym
 
 ![flask-basic](/images/2021-02-10-10.png)
 
-Pretty impressed with Hashicorp Waypoint I must admit. Will definitely check out more features in the near future. Will try to combine it with some CICD tools to fully absorb the benefits of this tool.
+Pretty impressed with Hashicorp Waypoint I must admit. Will definitely check out more features in the future. Will try to combine it with some CICD tools to fully absorb the benefits of this tool.
 
 If you want to checkout the code, please check my Github repo [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-Waypoint-Docker).

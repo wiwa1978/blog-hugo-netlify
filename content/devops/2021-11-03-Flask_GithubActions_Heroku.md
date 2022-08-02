@@ -14,11 +14,13 @@ tags:
 
 ### Introduction
 
-In some earlier blogposts, we experimented a bit with deplouments to various different platforms. We deployed our basic Flask Application to [Docker directly](https://blog.wimwauters.com/devops/2021-02-04-flaskbasic-docker/) or [Docker via Hashicorp Waypoint](https://blog.wimwauters.com/devops/2021-02-10-flaskbasic-waypoint-docker/) or even to [Elastic Beanstalk](https://blog.wimwauters.com/devops/2021-10-29-flask_elasticbeanstalk/). We also deployed to [Heroku](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) before. In this post, we will focus again on deployment of our app to Heroku but rather through making use of Github Actions (as opposed to using Heroku git as we did in that earlier Heroku post).
+In some earlier blogposts, we experimented a bit with deploying the same Flask app to various different platforms. We deployed the app to [Docker directly](https://blog.wimwauters.com/devops/2021-02-04-flaskbasic-docker/) or to [Docker via Hashicorp Waypoint](https://blog.wimwauters.com/devops/2021-02-10-flaskbasic-waypoint-docker/) or even to [Elastic Beanstalk](https://blog.wimwauters.com/devops/2021-10-29-flask_elasticbeanstalk/). We also deployed the app to [Heroku](https://blog.wimwauters.com/devops/2021-02-05-flaskbasic-heroku/) before using the built in GIT functionality within Heroku.
+
+In this post, we will focus again on deployment of our app to Heroku but rather through making use of Github Actions instead of using the Heroku git implementation.
 
 ### Running the application locally
 
-I always like to make sure my application is working on my local dev environment. No point in deploying an app that is failing already locally. If you have been following along earlier posts, you know the drill. In case you are new, just clone the code ([here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Heroku)). Then create a Python virtual environment and install the requirements as follows:
+I always like to make sure my application works on my local dev environment. No point in deploying an app that is failing already locally. If you have been following along earlier posts, you know the drill. In case you are new, just clone the code ([here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/Flask/Flask-Basic-CICD-GithubActions-Heroku)). Then create a Python virtual environment and install the requirements as follows:
 
 ```bash
 ~/Flask-Basic-CICD-GithubActions-Heroku ❯ python3 -m venv venv

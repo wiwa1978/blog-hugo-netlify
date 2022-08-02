@@ -18,7 +18,7 @@ In [this](https://blog.wimwauters.com/devops/2021-02-01-FlaskBasic) post we have
 
 Also, if you want to follow along with this post, you should install `Docker Desktop`. You can download it [here](https://www.docker.com/products/docker-desktop).
 
-Here are some screenshots of Docker Desktop right after installation. You will see we have no local images.
+Here are some screenshots of Docker Desktop right after installation. You'll notice in the screenshot below we don't have local images.
 
 ![flask-basic](/images/2021-02-04-1.png)
 

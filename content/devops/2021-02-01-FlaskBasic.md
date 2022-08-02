@@ -12,14 +12,16 @@ tags:
 
 ### Introduction
 
-In this post we will create a very basic Flask application. I know there's probably tons of similar posts out there on the internet but I always want to explore things myself in order to better understand it. Been working with Flask for quite some time already, nothing spectacular though. But I wanted to document some examples here for future reference. Future reference? Well yeah, we will use some Flask applications in upcoming blog posts as well. Thinking about writing some posts on how to deploy Flask apps to Heroku, deploy them to Kubernetes, deploy them through CICD tools ...So just a small handy basic application in orde to explore these other tools as well.
+In this post we will create a very basic Flask application. I know there's probably tons of similar posts out there on the internet but I always want to explore things myself in order to better understand it. Been working with Flask for quite some time already, although I did not create anything spectacular yet. But I wanted to document some examples here for future reference. Future reference? Well yeah, we will use some Flask applications in upcoming blog posts as well. Thinking about writing some posts on how to deploy Flask apps to Heroku, deploy the apps to Kubernetes, deploy them through CICD tools ...
+
+So don't expect a fancy Flask app as the focus is here to experiment with deploying Flask apps to various systems/providers/tools/platforms. So we'll be looking at a very small (but handy) basic application in order to explore these other systems/providers/tools/platforms as well.
 
 ### Setting up a virtual environment
 
 Let's start from scratch. I always use Python virtual environments to keep a clean environment. Let's create a virtual environment first.
 
 ```bash
-~Flask/Flask-Basic ❯ python3 -m venv venv  
+~Flask/Flask-Basic ❯ python3 -m venv venv
 ~Flask/Flask-Basic ❯ source venv/bin/activate
 ```
 
@@ -28,12 +30,13 @@ Let's start from scratch. I always use Python virtual environments to keep a cle
 Now that we are in the virtual environment, we can install Flask.
 
 ```bash
-~/Flask-Basic master❯ pip3 install Flask 
+~/Flask-Basic master❯ pip3 install Flask
 Collecting Flask
  <TRUNCATED>
 Installing collected packages: MarkupSafe, Jinja2, Werkzeug, itsdangerous, click, Flask
 Successfully installed Flask-1.1.2 Jinja2-2.11.2 MarkupSafe-1.1.1 Werkzeug-1.0.1 click-7.1.2 itsdangerous-1.1.0
 ```
+
 You will see Flask installs some other dependencies as well.
 
 Next, let's document these requirements into a requirements.txt file. A requirements file is documenting what Python packages are required to run the project. It will later on be used by Docker for instance to install these dependencies and ensure our application will run smoothly upon deployement. We don't want to create this requirements file by hand, although we could. But a better approach is to use Python freeze tool.
@@ -41,6 +44,7 @@ Next, let's document these requirements into a requirements.txt file. A requirem
 ```bash
 ~/Flask-Basic master❯ pip3 freeze > requirements.txt
 ```
+
 You will notice there is now a `requirements.txt` file in the root directory of your applications which contains an overview of all the packages we installed previously. Note: if we would not have used a virtual environment, you would likely have a much larger requirements file as all the packages available on your development PC would have been mentioned.
 
 For now, our requirements file looks as follows:
@@ -54,7 +58,7 @@ MarkupSafe==1.1.1
 Werkzeug==1.0.1
 ```
 
-### Application code 
+### Application code
 
 Next, let's write a simple Flask application. First, create a subfolder `app` under the root of your project. This is not strictly necessary but I like it as I can seperate my backend and frontend that way. Later on, if we would use Docker to run our application, we could have a seperate Dockerfile in each folder. So it makes it easy.
 
@@ -74,6 +78,7 @@ def index():
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
 ```
+
 As we reference a template, we also need to define a folder called `templates` under the root directory. That `templates` folder would hold all the html template files we create. For this example, we just have a simple `index.html` template that looks as follows:
 
 ```html
@@ -106,21 +111,26 @@ As we reference a template, we also need to define a folder called `templates` u
   </body>
 </html>
 ```
+
 Although it is not strictly required, I have used [Tailwind](https://tailwindcss.com/). It's by far my favorite CSS framework to give some styling to the application.
 
 ### Run the application
+
 We run the application as follows.
 
-```bash        
+```bash
 ~/Flask/Flask-Basic master❯ cd app
-~/Flask/Flask-Basic/app master❯ python3 app.py 
+~/Flask/Flask-Basic/app master❯ python3 app.py
  * Serving Flask app "app" (lazy loading)
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
  * Debug mode: off
 ```
+
 Next, open your browser and go to `http://your_server_ip:5000` or `http://localhost:5000` if you are running the application locally. You should see the following:
+
+Note: if you want to use a different port than 5000 (e.g. maybe something is running already on port 5000), you could change the line `app.run(host='0.0.0.0')` to `app.run(host='0.0.0.0', port='5001')`. This will launch the app on a different port (5001 in my case).
 
 ![flask-basic](/images/2021-02-01-1.png)
 
@@ -144,6 +154,7 @@ from app import app
 if __name__ == "__main__":
     app.run()
 ```
+
 This will is in fact the entrypoint for our application. It will be used by Gunircorn to serve our application. We can pass this entrypoint to Gunicorn. Run the following command:
 
 ```bash
@@ -153,10 +164,11 @@ This will is in fact the entrypoint for our application. It will be used by Guni
 [2021-01-31 11:06:07 +0100] [94187] [INFO] Using worker: sync
 [2021-01-31 11:06:07 +0100] [94190] [INFO] Booting worker with pid: 94190
 ```
+
 In this command, we are binding our webserver to 0.0.0.0:port and we pass it the name of the entrypoint minus the py extension (so in our case it would be simply `wsgi`) with the name of the callable object within the application, in our case it would be `app`.
 
 Open your browser and go to `http://your_server_ip:5000` or `http://localhost:5000` and you should see exactly the same application as before now served through WSGI and Gunicorn.
 
-That's it folks for a very basic introduction to Flask. In the next upcoming posts, we will explore how to run this little application on Docker or Heroku.
+That's it folks for a very basic introduction to Flask. In the upcoming posts, we will explore how to run this little application on Docker or Heroku.
 
 Code can be found in my Github repository [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/master/Flask/Flask-Basic).
