@@ -143,4 +143,4 @@ And finally the EC2 instance is created and is located in the correct subnet and
 
 ![pulumi](/images/2022-04-06-5.png)
 
-Hope you enjoyed this little blog post. You can find the code [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Pulumi_AWS_newVPC).
+Hope you enjoyed this little blog post. You can find the code [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode//Pulumi_AWS_newVPC).

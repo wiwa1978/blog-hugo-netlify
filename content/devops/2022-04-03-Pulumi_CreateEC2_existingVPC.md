@@ -120,4 +120,4 @@ The final result can be seen below. We have created indeed an EC2 instance but r
 
 ![pulumi](/images/2022-04-03-3.png)
 
-Code for this small variant can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Pulumi_AWS_existingVPC).
+Code for this small variant can be found [here](https://github.com/wiwa1978/blog-hugo-netlify-code/tree/main/InfraAsCode/Webserver/Pulumi_AWS_existingVPC).
